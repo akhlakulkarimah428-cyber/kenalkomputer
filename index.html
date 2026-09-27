@@ -1,0 +1,2275 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Kenal Komputer - Ruang Belajarmu</title>
+  <meta name="description" content="Ruang belajar komputer dari nol dengan materi interaktif, video, dan game." />
+  <meta property="og:title" content="Kenal Komputer - Ruang Belajarmu" />
+  <meta property="og:description" content="Ruang belajar komputer dari nol dengan materi interaktif, video, dan game." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Goldman:wght@400;700&family=Montserrat:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <style>
+    /* ════════════════════════════════════════════
+   TOKENS
+════════════════════════════════════════════ */
+    :root {
+      --navy: #080D1A;
+      --navy-2: #0D1326;
+      --navy-3: #131929;
+      --indigo: #4F1FD4;
+      --indigo-lt: #7C4FF6;
+      --mint: #00E5A0;
+      --mint-dim: rgba(0, 229, 160, 0.12);
+      --mint-glow: rgba(0, 229, 160, 0.25);
+      --amber: #F59E0B;
+      --amber-dim: rgba(245, 158, 11, 0.14);
+      --ivory: #F5F1EB;
+      --ivory-2: #EDE8DF;
+      --white: #FFFFFF;
+      --ink: #0A0E1A;
+      --text-p: rgba(255, 255, 255, 0.72);
+      --text-d: rgba(255, 255, 255, 0.38);
+      --border: rgba(255, 255, 255, 0.07);
+      --border-lt: rgba(255, 255, 255, 0.12);
+      --r-s: 8px;
+      --r-m: 14px;
+      --r-l: 22px;
+      --r-xl: 32px;
+      --ease: cubic-bezier(.25, .1, .25, 1);
+      --spring: cubic-bezier(.34, 1.56, .64, 1);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth
+    }
+
+    body {
+      font-family: 'Montserrat', system-ui, sans-serif;
+      background: var(--navy);
+      color: var(--white);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit
+    }
+
+    ul,
+    ol {
+      list-style: none
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+      background: none
+    }
+
+    img {
+      max-width: 100%;
+      display: block
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 28px
+    }
+
+    h1,
+    h2,
+    h3,
+    .display {
+      font-family: 'Goldman', sans-serif;
+      letter-spacing: -0.01em
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--mint);
+      outline-offset: 3px;
+      border-radius: 4px
+    }
+
+    /* ════════════════════════════════════════════
+   NOISE TEXTURE OVERLAY
+════════════════════════════════════════════ */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: 0.35;
+    }
+
+    /* ════════════════════════════════════════════
+   NAVBAR
+════════════════════════════════════════════ */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 900;
+      height: 60px;
+      transition: background .3s var(--ease);
+    }
+
+    .nav-inner {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 28px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav.stuck {
+      background: rgba(8, 13, 26, 0.90);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Goldman', sans-serif;
+      font-weight: 800;
+      font-size: 0.95rem;
+      letter-spacing: -0.01em;
+    }
+
+    .logo-gem {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--indigo), var(--indigo-lt));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 18px rgba(79, 31, 212, 0.55);
+      flex-shrink: 0;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 4px
+    }
+
+    .nav-a {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-p);
+      padding: 6px 12px;
+      border-radius: var(--r-s);
+      transition: color .18s, background .18s;
+    }
+
+    .nav-a:hover {
+      color: var(--white);
+      background: rgba(255, 255, 255, 0.06)
+    }
+
+    .nav-cta {
+      font-size: 0.80rem;
+      font-weight: 700;
+      background: var(--mint);
+      color: var(--ink);
+      padding: 7px 18px;
+      border-radius: 100px;
+      transition: box-shadow .2s, transform .2s;
+    }
+
+    .nav-cta:hover {
+      box-shadow: 0 0 24px var(--mint-glow);
+      transform: translateY(-1px)
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      padding: 8px;
+      border-radius: var(--r-s)
+    }
+
+    .hamburger span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: transform .22s, opacity .22s
+    }
+
+    .hamburger[aria-expanded="true"] span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg)
+    }
+
+    .hamburger[aria-expanded="true"] span:nth-child(2) {
+      opacity: 0
+    }
+
+    .hamburger[aria-expanded="true"] span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg)
+    }
+
+    .mob-menu {
+      display: none;
+      position: fixed;
+      top: 60px;
+      left: 0;
+      right: 0;
+      z-index: 899;
+      background: rgba(8, 13, 26, 0.97);
+      backdrop-filter: blur(24px);
+      padding: 12px 28px 24px;
+      border-bottom: 1px solid var(--border);
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .mob-menu.open {
+      display: flex
+    }
+
+    .mob-a {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-p);
+      padding: 11px 12px;
+      border-radius: var(--r-s);
+      transition: background .15s, color .15s
+    }
+
+    .mob-a:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--white)
+    }
+
+    /* ════════════════════════════════════════════
+   HERO (FULL SCREEN VIDEO)
+════════════════════════════════════════════ */
+    .hero {
+      min-height: 100svh;
+      height: 100svh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 90px 24px 38px;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    /* full page video background */
+    .hero-video-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      overflow: hidden;
+      background: var(--navy);
+    }
+
+    .hero-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(8, 13, 26, 0.58) 0%,
+        rgba(8, 13, 26, 0.12) 35%,
+        rgba(8, 13, 26, 0.45) 70%,
+        rgba(8, 13, 26, 0.92) 100%
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 860px;
+      width: 100%;
+      margin-bottom: 8px;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+
+    .btn-main {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--mint);
+      color: var(--ink);
+      font-family: 'Goldman', sans-serif;
+      font-weight: 700;
+      font-size: 0.92rem;
+      padding: 13px 28px;
+      border-radius: 100px;
+      box-shadow: 0 0 0 0 var(--mint-glow);
+      transition: box-shadow .25s, transform .25s;
+    }
+
+    .btn-main:hover {
+      box-shadow: 0 0 40px var(--mint-glow), 0 0 80px rgba(0, 229, 160, 0.12);
+      transform: translateY(-2px)
+    }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--white);
+      font-weight: 600;
+      font-size: 0.90rem;
+      padding: 13px 24px;
+      border-radius: 100px;
+      border: 1.5px solid var(--border-lt);
+      transition: border-color .2s, background .2s, transform .2s;
+    }
+
+    .btn-outline:hover {
+      border-color: rgba(255, 255, 255, 0.30);
+      background: rgba(255, 255, 255, 0.06);
+      transform: translateY(-1px)
+    }
+
+    /* hero stats strip */
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      max-width: 380px;
+      margin: 0 auto;
+      border: 1px solid var(--border-lt);
+      border-radius: var(--r-l);
+      overflow: hidden;
+      background: rgba(8, 13, 26, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .hs {
+      flex: 1;
+      padding: 20px 12px;
+      text-align: center;
+      border-right: 1px solid var(--border)
+    }
+
+    .hs:last-child {
+      border-right: none
+    }
+
+    .hs-n {
+      display: block;
+      font-family: 'Goldman', sans-serif;
+      font-size: 1.9rem;
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1
+    }
+
+    .hs-n.mint {
+      color: var(--mint)
+    }
+
+    .hs-l {
+      display: block;
+      font-size: 0.69rem;
+      font-weight: 600;
+      color: var(--text-d);
+      margin-top: 5px
+    }
+
+    /* scroll cue */
+    .scroll-cue {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0.45;
+      animation: fadeInUp 1s .8s both;
+    }
+
+    .scroll-cue span {
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--text-d);
+      letter-spacing: .05em
+    }
+
+    .scroll-mouse {
+      width: 22px;
+      height: 34px;
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      border-radius: 11px;
+      display: flex;
+      justify-content: center;
+      padding-top: 6px;
+    }
+
+    .scroll-wheel {
+      width: 3px;
+      height: 7px;
+      background: var(--mint);
+      border-radius: 2px;
+      animation: scrollWheel 1.8s ease-in-out infinite
+    }
+
+    @keyframes scrollWheel {
+      0% {
+        transform: translateY(0);
+        opacity: 1
+      }
+
+      100% {
+        transform: translateY(10px);
+        opacity: 0
+      }
+    }
+
+    /* ════════════════════════════════════════════
+   PROGRESS BANNER
+════════════════════════════════════════════ */
+    .progress-sec {
+      padding: 72px 0 0;
+      position: relative;
+      z-index: 1
+    }
+
+    .pcard {
+      background: linear-gradient(135deg, var(--navy-3) 0%, rgba(79, 31, 212, 0.12) 100%);
+      border: 1px solid var(--border-lt);
+      border-radius: var(--r-xl);
+      padding: 40px 44px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 36px;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pcard::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(79, 31, 212, 0.3), transparent 70%);
+      pointer-events: none;
+    }
+
+    .pcard-wave {
+      font-size: 2rem;
+      display: inline-block;
+      animation: wave 3s ease-in-out infinite
+    }
+
+    @keyframes wave {
+
+      0%,
+      60%,
+      100% {
+        transform: rotate(0)
+      }
+
+      10%,
+      30% {
+        transform: rotate(-14deg)
+      }
+
+      20% {
+        transform: rotate(12deg)
+      }
+
+      40% {
+        transform: rotate(-4deg)
+      }
+
+      50% {
+        transform: rotate(8deg)
+      }
+    }
+
+    .pcard-greet {
+      font-family: 'Goldman', sans-serif;
+      font-size: 1.7rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin: 8px 0 6px;
+    }
+
+    .pcard-name {
+      color: var(--mint)
+    }
+
+    .pcard-msg {
+      font-size: 0.88rem;
+      color: var(--text-p);
+      line-height: 1.65
+    }
+
+    .pcard-stats {
+      display: flex;
+      gap: 12px;
+      flex-shrink: 0
+    }
+
+    .pstat {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: var(--r-m);
+      padding: 16px 22px;
+      text-align: center;
+      min-width: 80px;
+    }
+
+    .pstat.hi {
+      background: rgba(0, 229, 160, 0.08);
+      border-color: rgba(0, 229, 160, 0.18)
+    }
+
+    .pstat-n {
+      display: block;
+      font-family: 'Goldman', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1
+    }
+
+    .pstat.hi .pstat-n {
+      color: var(--mint)
+    }
+
+    .pstat-l {
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--text-d);
+      margin-top: 4px;
+      display: block
+    }
+
+    /* xp bar */
+    .xp-wrap {
+      margin-top: 28px
+    }
+
+    .xp-head {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-p)
+    }
+
+    .xp-label-left {
+      display: flex;
+      align-items: center;
+      gap: 6px
+    }
+
+    .xp-tag {
+      background: rgba(0, 229, 160, 0.12);
+      border: 1px solid rgba(0, 229, 160, 0.20);
+      color: var(--mint);
+      font-size: 0.66rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 100px;
+    }
+
+    .xp-track {
+      height: 10px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 100px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .xp-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 100px;
+      background: linear-gradient(90deg, var(--indigo-lt), var(--mint));
+      transition: width 1.2s cubic-bezier(.4, 0, .2, 1);
+      position: relative;
+    }
+
+    .xp-fill::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--mint);
+      border: 2px solid var(--navy);
+      box-shadow: 0 0 12px var(--mint-glow);
+    }
+
+    /* ════════════════════════════════════════════
+   SEARCH
+════════════════════════════════════════════ */
+    .search-sec {
+      padding: 36px 0 0
+    }
+
+    .search-box {
+      max-width: 440px;
+      margin: 0 auto;
+      position: relative
+    }
+
+    .search-ico {
+      position: absolute;
+      left: 17px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-d);
+      pointer-events: none
+    }
+
+    .search-inp {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1.5px solid var(--border);
+      border-radius: 100px;
+      padding: 12px 44px 12px 48px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.88rem;
+      color: var(--white);
+      outline: none;
+      transition: border-color .2s, background .2s, box-shadow .2s;
+    }
+
+    .search-inp::placeholder {
+      color: var(--text-d)
+    }
+
+    .search-inp:focus {
+      border-color: rgba(0, 229, 160, 0.45);
+      background: rgba(0, 229, 160, 0.04);
+      box-shadow: 0 0 0 4px rgba(0, 229, 160, 0.08)
+    }
+
+    .search-x {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-d);
+      padding: 4px;
+      border-radius: 50%;
+      transition: color .15s
+    }
+
+    .search-x:hover {
+      color: var(--white)
+    }
+
+    .search-hint {
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--text-d);
+      margin-top: 8px;
+      min-height: 18px
+    }
+
+    /* ════════════════════════════════════════════
+   FEATURED GAME
+════════════════════════════════════════════ */
+    .game-sec {
+      padding: 56px 0 0;
+      position: relative;
+      z-index: 1
+    }
+
+    .game-sec-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--amber);
+      letter-spacing: .06em;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .game-sec-label::before {
+      content: '';
+      width: 20px;
+      height: 1.5px;
+      background: var(--amber);
+      border-radius: 2px
+    }
+
+    .game-card {
+      border-radius: var(--r-xl);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      border: 1px solid rgba(245, 158, 11, 0.18);
+      position: relative;
+      background: var(--navy-2);
+    }
+
+    .game-card-body {
+      padding: 48px 48px;
+      position: relative;
+      z-index: 1
+    }
+
+    .game-glow-bg {
+      position: absolute;
+      top: -80px;
+      left: -80px;
+      width: 380px;
+      height: 380px;
+      border-radius: 50%;
+      background: rgba(79, 31, 212, 0.4);
+      filter: blur(100px);
+      pointer-events: none;
+    }
+
+    .game-glow-bg-2 {
+      position: absolute;
+      bottom: -60px;
+      left: 200px;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: rgba(245, 158, 11, 0.25);
+      filter: blur(80px);
+      pointer-events: none;
+    }
+
+    .game-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      color: var(--amber);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: .05em;
+      padding: 3px 11px;
+      border-radius: 100px;
+      margin-bottom: 18px;
+    }
+
+    .game-h {
+      font-family: 'Goldman', sans-serif;
+      font-size: 2.6rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.03;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+
+    .game-sub {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--indigo-lt);
+      margin-bottom: 16px
+    }
+
+    .game-desc {
+      font-size: 0.85rem;
+      color: var(--text-p);
+      line-height: 1.72;
+      max-width: 360px;
+      margin-bottom: 32px
+    }
+
+    .btn-play {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      background: var(--amber);
+      color: var(--ink);
+      font-family: 'Goldman', sans-serif;
+      font-weight: 800;
+      font-size: 0.90rem;
+      padding: 13px 26px;
+      border-radius: 100px;
+      box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.3);
+      transition: box-shadow .25s, transform .25s;
+    }
+
+    .btn-play:hover {
+      box-shadow: 0 0 32px rgba(245, 158, 11, 0.4);
+      transform: translateY(-2px)
+    }
+
+    /* right panel — game art */
+    .game-art {
+      background: linear-gradient(135deg, rgba(79, 31, 212, 0.15), rgba(0, 229, 160, 0.06));
+      border-left: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 32px;
+      gap: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .game-art::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(79, 31, 212, 0.2), transparent 70%);
+    }
+
+    .game-art-icons {
+      font-size: 3.5rem;
+      display: flex;
+      gap: 16px;
+      position: relative;
+      z-index: 1;
+      filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.4))
+    }
+
+    .game-art-icons span {
+      display: block;
+      animation: floatIcon 3s ease-in-out infinite
+    }
+
+    .game-art-icons span:nth-child(2) {
+      animation-delay: .5s;
+      animation-duration: 3.5s
+    }
+
+    .game-art-icons span:nth-child(3) {
+      animation-delay: 1s;
+      animation-duration: 2.8s
+    }
+
+    @keyframes floatIcon {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(-10px)
+      }
+    }
+
+    .game-art-score {
+      position: relative;
+      z-index: 1;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--border);
+      border-radius: var(--r-m);
+      padding: 14px 22px;
+      text-align: center;
+    }
+
+    .game-art-score-lbl {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--amber);
+      letter-spacing: .06em;
+      margin-bottom: 4px
+    }
+
+    .game-art-score-n {
+      font-family: 'Goldman', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--white)
+    }
+
+    /* ════════════════════════════════════════════
+   SESSIONS — LEVEL MAP LAYOUT
+════════════════════════════════════════════ */
+    .sessions-sec {
+      padding: 72px 0 0;
+      position: relative;
+      z-index: 1
+    }
+
+    .sessions-head {
+      margin-bottom: 44px
+    }
+
+    .sec-eyebrow {
+      font-size: 0.70rem;
+      font-weight: 700;
+      color: var(--mint);
+      letter-spacing: .07em;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sec-eyebrow::before {
+      content: '';
+      width: 16px;
+      height: 1.5px;
+      background: var(--mint);
+      border-radius: 2px
+    }
+
+    .sec-h {
+      font-family: 'Goldman', sans-serif;
+      font-size: clamp(1.6rem, 3vw, 2.1rem);
+      font-weight: 800;
+      margin-bottom: 8px
+    }
+
+    .sec-p {
+      font-size: 0.88rem;
+      color: var(--text-p);
+      max-width: 480px;
+      line-height: 1.7
+    }
+
+    /* map track */
+    .level-map {
+      display: flex;
+      flex-direction: column;
+      gap: 0
+    }
+
+    .level-row {
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      gap: 0;
+      align-items: stretch;
+    }
+
+    /* connector */
+    .level-connector {
+      display: flex;
+      flex-direction: column;
+      align-items: center
+    }
+
+    .level-node {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Goldman', sans-serif;
+      font-weight: 800;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 2;
+      transition: transform .2s var(--spring);
+    }
+
+    .level-node.done {
+      background: var(--mint);
+      color: var(--ink);
+      box-shadow: 0 0 20px var(--mint-glow);
+    }
+
+    .level-node.active {
+      background: linear-gradient(135deg, var(--indigo), var(--indigo-lt));
+      color: var(--white);
+      box-shadow: 0 0 28px rgba(79, 31, 212, 0.55);
+      animation: nodePulse 2.5s ease-in-out infinite;
+    }
+
+    .level-node.locked {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-d);
+      border: 1.5px solid var(--border);
+    }
+
+    @keyframes nodePulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 28px rgba(79, 31, 212, 0.55)
+      }
+
+      50% {
+        box-shadow: 0 0 44px rgba(79, 31, 212, 0.80)
+      }
+    }
+
+    .level-line {
+      width: 2px;
+      flex: 1;
+      background: var(--border);
+      margin: 0 auto;
+      min-height: 24px
+    }
+
+    .level-line.done-line {
+      background: linear-gradient(180deg, var(--mint), var(--mint))
+    }
+
+    .level-card {
+      margin: 0 0 20px 16px;
+      background: var(--navy-2);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-l);
+      padding: 26px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      transition: border-color .2s, transform .2s, box-shadow .2s;
+      cursor: default;
+      opacity: 0;
+      transform: translateX(-16px);
+    }
+
+    .level-card.reveal {
+      opacity: 1;
+      transform: translateX(0);
+      transition: opacity .4s var(--ease), transform .4s var(--ease), border-color .2s, box-shadow .2s
+    }
+
+    .level-card.st-done {
+      border-color: rgba(0, 229, 160, 0.20)
+    }
+
+    .level-card.st-done:hover {
+      border-color: rgba(0, 229, 160, 0.40);
+      transform: translateX(4px);
+      box-shadow: 0 8px 32px rgba(0, 229, 160, 0.08)
+    }
+
+    .level-card.st-active {
+      border-color: rgba(79, 31, 212, 0.35);
+      background: linear-gradient(135deg, rgba(79, 31, 212, 0.08), var(--navy-2))
+    }
+
+    .level-card.st-active:hover {
+      border-color: rgba(79, 31, 212, 0.55);
+      transform: translateX(4px);
+      box-shadow: 0 8px 32px rgba(79, 31, 212, 0.14)
+    }
+
+    .level-card.st-locked {
+      opacity: 0.45
+    }
+
+    .level-card.st-locked.reveal {
+      opacity: 0.45
+    }
+
+    .level-card:not(.st-locked):hover {
+      cursor: default
+    }
+
+    .lc-left {
+      flex: 1;
+      min-width: 0
+    }
+
+    .lc-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px
+    }
+
+    .lc-badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+      padding: 3px 9px;
+      border-radius: 100px;
+    }
+
+    .badge-done {
+      background: rgba(0, 229, 160, 0.12);
+      color: var(--mint);
+      border: 1px solid rgba(0, 229, 160, 0.20)
+    }
+
+    .badge-active {
+      background: rgba(79, 31, 212, 0.20);
+      color: var(--indigo-lt);
+      border: 1px solid rgba(79, 31, 212, 0.30);
+      animation: badgePulse 2.5s ease-in-out infinite
+    }
+
+    @keyframes badgePulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(79, 31, 212, .2)
+      }
+
+      50% {
+        box-shadow: 0 0 0 4px transparent
+      }
+    }
+
+    .badge-locked {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-d);
+      border: 1px solid var(--border)
+    }
+
+    .lc-sesh {
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: var(--text-d)
+    }
+
+    .lc-title {
+      font-family: 'Goldman', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 6px;
+      line-height: 1.3
+    }
+
+    .level-card.st-locked .lc-title {
+      color: var(--text-d)
+    }
+
+    .lc-desc {
+      font-size: 0.80rem;
+      color: var(--text-p);
+      line-height: 1.62
+    }
+
+    .level-card.st-locked .lc-desc {
+      color: var(--text-d)
+    }
+
+    .lc-right {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+      align-items: center
+    }
+
+    .lc-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 8px 14px;
+      border-radius: var(--r-s);
+      transition: background .18s, transform .18s, box-shadow .18s;
+      white-space: nowrap;
+    }
+
+    .lc-btn-mat {
+      background: rgba(255, 255, 255, 0.07);
+      color: var(--white);
+      border: 1px solid var(--border)
+    }
+
+    .lc-btn-mat:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: var(--border-lt);
+      transform: translateY(-1px)
+    }
+
+    .lc-btn-game {
+      background: rgba(245, 158, 11, 0.12);
+      color: var(--amber);
+      border: 1px solid rgba(245, 158, 11, 0.22)
+    }
+
+    .lc-btn-game:hover {
+      background: rgba(245, 158, 11, 0.20);
+      border-color: rgba(245, 158, 11, 0.40);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.18)
+    }
+
+    .level-card.st-locked .lc-btn {
+      opacity: 0.35;
+      pointer-events: none
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 60px 20px;
+      display: none;
+      color: var(--text-d);
+      font-size: 0.9rem;
+    }
+
+    .no-results em {
+      font-style: normal;
+      font-size: 2.5rem;
+      display: block;
+      margin-bottom: 12px
+    }
+
+    /* ════════════════════════════════════════════
+   ABOUT
+════════════════════════════════════════════ */
+    .about-sec {
+      padding: 80px 0 72px;
+      position: relative;
+      z-index: 1
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: center;
+      background: var(--navy-2);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      padding: 56px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-grid::before {
+      content: '';
+      position: absolute;
+      bottom: -100px;
+      right: -100px;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: rgba(0, 229, 160, 0.06);
+      filter: blur(80px);
+      pointer-events: none;
+    }
+
+    .about-h {
+      font-family: 'Goldman', sans-serif;
+      font-size: 1.9rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.2;
+      margin-bottom: 18px
+    }
+
+    .about-p {
+      font-size: 0.86rem;
+      color: var(--text-p);
+      line-height: 1.78;
+      margin-bottom: 14px
+    }
+
+    .about-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 24px
+    }
+
+    .about-tag {
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--text-p);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      padding: 6px 13px;
+      border-radius: 100px;
+      transition: border-color .18s, color .18s;
+    }
+
+    .about-tag:hover {
+      border-color: rgba(0, 229, 160, 0.3);
+      color: var(--mint)
+    }
+
+    .about-feats {
+      display: flex;
+      flex-direction: column;
+      gap: 14px
+    }
+
+    .afeat {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: var(--r-m);
+      padding: 20px 22px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      transition: border-color .2s, background .2s;
+    }
+
+    .afeat:hover {
+      border-color: rgba(0, 229, 160, 0.20);
+      background: rgba(0, 229, 160, 0.03)
+    }
+
+    .afeat-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: rgba(0, 229, 160, 0.08);
+      border: 1px solid rgba(0, 229, 160, 0.14);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .afeat-title {
+      font-family: 'Goldman', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 4px
+    }
+
+    .afeat-desc {
+      font-size: 0.78rem;
+      color: var(--text-p);
+      line-height: 1.55
+    }
+
+    /* ════════════════════════════════════════════
+   FOOTER
+════════════════════════════════════════════ */
+    .footer {
+      background: var(--navy-2);
+      border-top: 1px solid var(--border);
+      padding: 48px 0 28px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 0.7fr;
+      gap: 48px;
+      padding-bottom: 44px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 28px;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px
+    }
+
+    .footer-logo-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 11px;
+      background: linear-gradient(135deg, var(--indigo), var(--indigo-lt));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 16px rgba(79, 31, 212, 0.40);
+    }
+
+    .footer-logo-name {
+      font-family: 'Goldman', sans-serif;
+      font-weight: 800;
+      font-size: 0.95rem
+    }
+
+    .footer-tagline {
+      font-size: 0.78rem;
+      color: var(--text-d);
+      font-style: italic;
+      margin-bottom: 16px
+    }
+
+    .footer-desc {
+      font-size: 0.80rem;
+      color: var(--text-p);
+      line-height: 1.72
+    }
+
+    .footer-col-h {
+      font-family: 'Goldman', sans-serif;
+      font-size: 0.80rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 14px
+    }
+
+    .footer-links-col {
+      display: flex;
+      flex-direction: column;
+      gap: 8px
+    }
+
+    .footer-link {
+      font-size: 0.80rem;
+      color: var(--text-d);
+      transition: color .15s
+    }
+
+    .footer-link:hover {
+      color: var(--mint)
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px
+    }
+
+    .footer-copy {
+      font-size: 0.75rem;
+      color: var(--text-d)
+    }
+
+    .footer-status {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.73rem;
+      color: var(--text-d)
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--mint);
+      box-shadow: 0 0 8px var(--mint-glow);
+      animation: blink 1.6s ease-in-out infinite
+    }
+
+    /* ════════════════════════════════════════════
+   ANIMATIONS & UTILITIES
+════════════════════════════════════════════ */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(16px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .fade-up {
+      animation: fadeInUp .7s var(--ease) both
+    }
+
+    .d1 {
+      animation-delay: .1s
+    }
+
+    .d2 {
+      animation-delay: .22s
+    }
+
+    .d3 {
+      animation-delay: .34s
+    }
+
+    .d4 {
+      animation-delay: .46s
+    }
+
+    /* ════════════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════════════ */
+    @media(max-width:860px) {
+
+      .nav-links,
+      .nav-cta {
+        display: none
+      }
+
+      .hamburger {
+        display: flex
+      }
+
+      .game-card {
+        grid-template-columns: 1fr
+      }
+
+      .game-art {
+        display: none
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 36px;
+        padding: 36px 28px
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 32px
+      }
+
+      .pcard {
+        grid-template-columns: 1fr;
+        gap: 24px
+      }
+
+      .pcard-stats {
+        justify-content: flex-start
+      }
+    }
+
+    @media(max-width:600px) {
+      .wrap {
+        padding: 0 18px
+      }
+
+      .hero {
+        padding: 76px 16px 28px;
+      }
+
+      .hero-btns {
+        flex-direction: column;
+        width: 100%
+      }
+
+      .btn-main,
+      .btn-outline {
+        width: 100%;
+        justify-content: center
+      }
+
+      .level-row {
+        grid-template-columns: 50px 1fr
+      }
+
+      .level-node {
+        width: 40px;
+        height: 40px;
+        font-size: 0.78rem
+      }
+
+      .lc-right {
+        display: none
+      }
+
+      .game-card-body {
+        padding: 32px 24px
+      }
+
+      .game-h {
+        font-size: 2rem
+      }
+    }
+
+    @media(prefers-reduced-motion:reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .1ms !important
+      }
+
+      html {
+        scroll-behavior: auto
+      }
+
+      .xp-fill {
+        transition: none
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ═══ NAV ═══ -->
+  <nav class="nav" id="nav" aria-label="Navigasi utama">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo">
+        <div class="logo-gem" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M8 1.5L2 4.5V8C2 11.14 4.63 14.03 8 15C11.37 14.03 14 11.14 14 8V4.5L8 1.5Z" fill="white"
+              opacity=".25" />
+            <path d="M8 1.5L2 4.5V8C2 11.14 4.63 14.03 8 15C11.37 14.03 14 11.14 14 8V4.5L8 1.5Z" stroke="white"
+              stroke-width="1.2" stroke-linejoin="round" />
+            <path d="M5.5 8L7 9.5L10.5 6.5" stroke="#00E5A0" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </div>
+        Kenal Komputer
+      </a>
+      <ul class="nav-links" role="list">
+        <li><a href="#hero" class="nav-a">Beranda</a></li>
+        <li><a href="#sessions" class="nav-a">Pertemuan</a></li>
+        <li><a href="#game-center" class="nav-a">Game</a></li>
+        <li><a href="#about" class="nav-a">Tentang</a></li>
+      </ul>
+      <a href="#sessions" class="nav-cta">Buka Pertemuan</a>
+      <button class="hamburger" id="hamburger" aria-label="Buka menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  <div class="mob-menu" id="mob-menu" aria-hidden="true">
+    <a href="#hero" class="mob-a">Beranda</a>
+    <a href="#sessions" class="mob-a">Pertemuan</a>
+    <a href="#game-center" class="mob-a">Game</a>
+    <a href="#about" class="mob-a">Tentang</a>
+  </div>
+
+  <!-- ═══ HERO (FULL 1 HALAMAN VIDEO) ═══ -->
+  <section class="hero" id="hero" aria-label="Hero Video">
+    <div class="hero-video-bg">
+      <video class="hero-video" id="hero-video" autoplay loop muted playsinline preload="auto">
+        <source src="hero_section.mp4" type="video/mp4" />
+        Browser Anda tidak mendukung tag video.
+      </video>
+      <div class="hero-overlay" aria-hidden="true"></div>
+    </div>
+
+    <div class="hero-inner">
+      <div class="hero-btns fade-up d1">
+        <a href="#sessions" class="btn-main">
+          Lihat Pertemuanku
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
+            <path d="M7.5 3L12 7.5L7.5 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+            <line x1="3" y1="7.5" x2="12" y2="7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </a>
+        <a href="#game-center" class="btn-outline">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <rect x="1" y="3.5" width="12" height="7.5" rx="2" stroke="currentColor" stroke-width="1.3" />
+            <line x1="4.5" y1="6.5" x2="4.5" y2="8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
+            <line x1="3.75" y1="7.25" x2="5.25" y2="7.25" stroke="currentColor" stroke-width="1.3"
+              stroke-linecap="round" />
+            <circle cx="8.75" cy="6.6" r=".7" fill="currentColor" />
+            <circle cx="10" cy="7.85" r=".7" fill="currentColor" />
+          </svg>
+          Coba Game Dulu
+        </a>
+      </div>
+
+      <div class="hero-stats" aria-label="Ringkasan program">
+        <div class="hs">
+          <span class="hs-n">10</span>
+          <span class="hs-l">Pertemuan</span>
+        </div>
+        <div class="hs">
+          <span class="hs-n">10</span>
+          <span class="hs-l">Mini Game</span>
+        </div>
+        <div class="hs">
+          <span class="hs-n mint" id="hero-pct">30%</span>
+          <span class="hs-l">Sudah Selesai</span>
+        </div>
+      </div>
+    </div>
+
+
+  </section>
+
+  <!-- ═══ MAIN ═══ -->
+  <main>
+
+    <!-- PROGRESS -->
+    <section class="progress-sec" aria-labelledby="prog-h">
+      <div class="wrap">
+        <div class="pcard">
+          <div class="pcard-left">
+            <span class="pcard-wave" aria-hidden="true">👋</span>
+            <p class="pcard-greet" id="prog-h">Halo, <span class="pcard-name" id="pcard-name">Student</span>!</p>
+            <p class="pcard-msg">Lanjutkan di mana kamu berhenti kemarin.<br>Kamu sudah lebih jauh dari yang kamu kira!
+              🚀</p>
+          </div>
+          <div class="pcard-stats">
+            <div class="pstat">
+              <span class="pstat-n" id="stat-meetings">10</span>
+              <span class="pstat-l">Pertemuan</span>
+            </div>
+            <div class="pstat">
+              <span class="pstat-n" id="stat-games">10</span>
+              <span class="pstat-l">Game</span>
+            </div>
+            <div class="pstat hi">
+              <span class="pstat-n" id="stat-prog">30%</span>
+              <span class="pstat-l">Selesai</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="xp-wrap">
+          <div class="xp-head">
+            <span class="xp-label-left">
+              <span class="xp-tag">XP Progress</span>
+              Progress belajar
+            </span>
+            <span id="xp-text">3 / 10 selesai</span>
+          </div>
+          <div class="xp-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="xp-aria">
+            <div class="xp-fill" id="xp-fill"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEARCH -->
+    <section class="search-sec" aria-label="Cari materi">
+      <div class="wrap">
+        <div class="search-box">
+          <label for="search-inp" class="sr-only">Cari pertemuan atau materi</label>
+          <svg class="search-ico" width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+            <circle cx="7.5" cy="7.5" r="5" stroke="currentColor" stroke-width="1.4" />
+            <path d="M11 11L15 15" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+          </svg>
+          <input type="search" id="search-inp" class="search-inp" placeholder="Cari pertemuan, topik…"
+            autocomplete="off" />
+          <button class="search-x" id="search-x" aria-label="Hapus pencarian" hidden>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M1 1L11 11M11 1L1 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+            </svg>
+          </button>
+        </div>
+        <p class="search-hint" id="search-hint" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <!-- GAME BANNER -->
+    <section class="game-sec" id="game-center" aria-labelledby="game-h">
+      <div class="wrap">
+        <p class="game-sec-label">Game Center</p>
+        <div class="game-card">
+          <div class="game-glow-bg" aria-hidden="true"></div>
+          <div class="game-glow-bg-2" aria-hidden="true"></div>
+          <div class="game-card-body">
+            <div class="game-pill">★ Featured Game</div>
+            <h2 class="game-h" id="game-h">Digital Hero</h2>
+            <p class="game-sub">The Lost Document</p>
+            <p class="game-desc">
+              Petualangan seru menyelamatkan dokumen yang hilang. Kuasai Microsoft Word lewat misi nyata; bukan hapalan,
+              tapi pengalaman langsung yang bikin nagih.
+            </p>
+            <a href="https://kenalkomputer.vercel.app" id="featured-game-btn" class="btn-play"
+              rel="noopener noreferrer">
+              Main Sekarang
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+                <polygon points="3,1.5 11.5,6.5 3,11.5" fill="currentColor" />
+              </svg>
+            </a>
+          </div>
+          <div class="game-art" aria-hidden="true">
+            <div class="game-art-icons">
+              <span>🗡️</span>
+              <span>💾</span>
+              <span>🏆</span>
+            </div>
+            <div class="game-art-score">
+              <p class="game-art-score-lbl">HIGH SCORE</p>
+              <p class="game-art-score-n">9,450</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SESSIONS / LEVEL MAP -->
+    <section class="sessions-sec" id="sessions" aria-labelledby="sessions-h">
+      <div class="wrap">
+        <div class="sessions-head">
+          <p class="sec-eyebrow">Perjalanan Belajar</p>
+          <h2 class="sec-h" id="sessions-h">10 Level, 10 Langkah Maju</h2>
+          <p class="sec-p">Setiap pertemuan membuka level berikutnya. Selesaikan satu per satu dan kamu akan terkejut
+            seberapa jauh kamu bisa pergi.</p>
+        </div>
+
+        <div class="level-map" id="level-map" role="list">
+          <!-- rendered by JS -->
+        </div>
+        <div class="no-results" id="no-results" role="alert">
+          <em>🔍</em>Tidak ada hasil yang cocok.
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about-sec" id="about" aria-labelledby="about-h">
+      <div class="wrap">
+        <div class="about-grid">
+          <div>
+            <p class="sec-eyebrow">Tentang Program</p>
+            <h2 class="about-h" id="about-h">Belajar komputer, dengan cara yang paling mudah!</h2>
+            <p class="about-p">Kenal Komputer bukan sekadar kursus. Ini ruang belajar yang dirancang agar kamu
+              benar-benar paham, bukan cuma hafal tombol-tombolnya.</p>
+            <p class="about-p">Mulai dari mengenal perangkat, mengetik, mengolah dokumen, kirim email, sampai
+              memanfaatkan AI. Pelan tapi pasti, satu sesi demi satu sesi.</p>
+            <div class="about-tags">
+              <span class="about-tag">💻 Dasar Komputer</span>
+              <span class="about-tag">⌨️ Mengetik 10 Jari</span>
+              <span class="about-tag">📄 Microsoft Word</span>
+              <span class="about-tag">📊 Microsoft Excel</span>
+              <span class="about-tag">🎨 PowerPoint</span>
+              <span class="about-tag">📧 Email</span>
+              <span class="about-tag">🤖 AI Tools</span>
+              <span class="about-tag">💡 Coding Dasar</span>
+            </div>
+          </div>
+          <div class="about-feats">
+            <div class="afeat">
+              <div class="afeat-icon">📝</div>
+              <div>
+                <p class="afeat-title">Materi yang jelas dan ringkas</p>
+                <p class="afeat-desc">Setiap topik disajikan tanpa basa-basi dan langsung ke intinya agar mudah dicerna.
+                </p>
+              </div>
+            </div>
+            <div class="afeat">
+              <div class="afeat-icon">🎮</div>
+              <div>
+                <p class="afeat-title">Belajar lewat game</p>
+                <p class="afeat-desc">Game bukan sekadar hadiah, tapi cara belajar yang lebih efektif dari menghafal.
+                </p>
+              </div>
+            </div>
+            <div class="afeat">
+              <div class="afeat-icon">🗂️</div>
+              <div>
+                <p class="afeat-title">Semua tersimpan rapi</p>
+                <p class="afeat-desc">Materi dan game tiap pertemuan bisa kamu buka ulang kapan saja, tanpa batas.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">
+            <div class="footer-logo-mark" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M9 2L3 5.25V9.4C3 12.82 5.84 16.03 9 17C12.16 16.03 15 12.82 15 9.4V5.25L9 2Z" fill="white"
+                  opacity=".15" />
+                <path d="M9 2L3 5.25V9.4C3 12.82 5.84 16.03 9 17C12.16 16.03 15 12.82 15 9.4V5.25L9 2Z" stroke="white"
+                  stroke-width="1.3" stroke-linejoin="round" />
+                <path d="M6 9.5L8 11.5L12 7.5" stroke="#00E5A0" stroke-width="1.6" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            <span class="footer-logo-name">Kenal Komputer</span>
+          </div>
+          <p class="footer-tagline">Belajar. Bermain. Jadi Bisa.</p>
+          <p class="footer-desc">Ruang belajar pribadi untuk mengenal komputer dan berkembang sedikit demi sedikit
+            melalui pengalaman belajar yang seru.</p>
+        </div>
+        <div>
+          <p class="footer-col-h">Jelajahi</p>
+          <div class="footer-links-col">
+            <a href="#about" class="footer-link">Tentang Program</a>
+            <a href="#sessions" class="footer-link">Semua Pertemuan</a>
+            <a href="#game-center" class="footer-link">Game Center</a>
+          </div>
+        </div>
+        <div>
+          <p class="footer-col-h">Topik</p>
+          <div class="footer-links-col">
+            <a href="#" class="footer-link">Dasar Komputer</a>
+            <a href="#" class="footer-link">Microsoft Office</a>
+            <a href="#" class="footer-link">AI Tools</a>
+            <a href="#" class="footer-link">Coding Dasar</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">© 2026 <strong>Kenal Komputer</strong>. Dibuat untuk menemanimu dalam perjalanan belajar.
+        </p>
+        <div class="footer-status">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span>Keep learning, keep exploring.</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ── CONFIG ── */
+    const STUDENT = "Student";
+    const FEATURED_GAME_URL = "https://game-pertemuan3.vercel.app/";
+    const meetings = [
+      {
+        n: 1, title: "Kenalan dengan Laptop",
+        desc: "Kenali komponen laptop dan cara kerjanya. Latihan: klik, scroll, dan ketik pertamamu.",
+        matUrl: "https://kenalkomputer1.vercel.app", gameUrl: "https://game-pertemuan1.vercel.app", status: "completed"
+      },
+      {
+        n: 2, title: "Desktop, File Explorer & Mengetik 10 Jari",
+        desc: "Buat folder, simpan file, dan mulai latihan mengetik dengan cara yang benar.",
+        matUrl: "https://kenalkomputer2.vercel.app", gameUrl: "https://game-pertemuan2.vercel.app", status: "completed"
+      },
+      {
+        n: 3, title: "Microsoft Word — Dasar",
+        desc: "Ketik, format, dan simpan dokumenmu sendiri. Kenali bold, italic, dan pengaturan teks.",
+        matUrl: "https://kenalkomputer3.vercel.app", gameUrl: "https://game-pertemuan3.vercel.app", status: "completed"
+      },
+      {
+        n: 4, title: "Microsoft Word — Lanjutan",
+        desc: "Masukkan gambar, buat tabel, dan hasilkan dokumen yang siap cetak.",
+        matUrl: "https://kenalkomputer4.vercel.app", gameUrl: "https://game-pertemuan4.vercel.app", status: "current"
+      },
+      {
+        n: 5, title: "Email & Komunikasi Digital",
+        desc: "Kirim email pertamamu, balas dengan benar, dan pahami etika komunikasi digital.",
+        matUrl: "#", gameUrl: "#", status: "locked"
+      },
+      {
+        n: 6, title: "Segera Hadir",
+        desc: "Materi dan game sedang disiapkan dengan penuh semangat.",
+        matUrl: "#", gameUrl: "#", status: "locked"
+      },
+      {
+        n: 7, title: "Segera Hadir",
+        desc: "Materi dan game sedang disiapkan dengan penuh semangat.",
+        matUrl: "#", gameUrl: "#", status: "locked"
+      },
+      {
+        n: 8, title: "Segera Hadir",
+        desc: "Materi dan game sedang disiapkan dengan penuh semangat.",
+        matUrl: "#", gameUrl: "#", status: "locked"
+      },
+      {
+        n: 9, title: "Segera Hadir",
+        desc: "Materi dan game sedang disiapkan dengan penuh semangat.",
+        matUrl: "#", gameUrl: "#", status: "locked"
+      },
+      {
+        n: 10, title: "Segera Hadir",
+        desc: "Materi dan game sedang disiapkan dengan penuh semangat.",
+        matUrl: "#", gameUrl: "#", status: "locked"
+      }
+    ];
+
+    /* ── BOOT ── */
+    document.addEventListener("DOMContentLoaded", () => {
+      setStudentName();
+      renderProgress();
+      renderLevelMap(meetings);
+      initSearch();
+      initNav();
+      initMobMenu();
+      initTyping();
+      initHeroVideoObserver();
+    });
+
+    /* ── HERO VIDEO AUTOPLAY ON INTERSECTION ── */
+    function initHeroVideoObserver() {
+      const vid = document.getElementById("hero-video");
+      const heroSec = document.getElementById("hero");
+      if (!vid || !heroSec) return;
+
+      // Pastikan muted agar kebijakan autoplay browser selalu mengizinkan play otomatis
+      vid.muted = true;
+
+      const playVideo = () => {
+        if (vid.paused) {
+          const prom = vid.play();
+          if (prom && typeof prom.catch === "function") {
+            prom.catch(() => {});
+          }
+        }
+      };
+
+      const pauseVideo = () => {
+        if (!vid.paused) {
+          vid.pause();
+        }
+      };
+
+      if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            // Jika section hero terlihat atau mulai mendekati layar
+            if (entry.isIntersecting) {
+              playVideo();
+            } else {
+              // Jika sudah tidak termuat di viewport (scrolled away)
+              pauseVideo();
+            }
+          });
+        }, {
+          root: null,
+          rootMargin: "100px 0px 100px 0px", // Trigger saat mendekati atau di dalam viewport
+          threshold: [0, 0.05, 0.2]
+        });
+
+        observer.observe(heroSec);
+      } else {
+        // Fallback untuk browser tanpa IntersectionObserver
+        const checkScroll = () => {
+          const rect = heroSec.getBoundingClientRect();
+          const inView = (rect.bottom > -100 && rect.top < window.innerHeight + 100);
+          if (inView) {
+            playVideo();
+          } else {
+            pauseVideo();
+          }
+        };
+        window.addEventListener("scroll", checkScroll, { passive: true });
+        checkScroll();
+      }
+
+      // Jeda jika tab browser diminimalkan / tidak aktif
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+          pauseVideo();
+        } else {
+          const rect = heroSec.getBoundingClientRect();
+          if (rect.bottom > 0 && rect.top < window.innerHeight) {
+            playVideo();
+          }
+        }
+      });
+    }
+
+    /* ── TYPING EFFECT (Safe Guard) ── */
+    function initTyping() {
+      const el = document.getElementById("typing-text");
+      if (!el) return;
+      const msgs = ["Les Privat Komputer Dasar", "Belajar dari Nol ✓", "10 Sesi · 10 Game"];
+      let mi = 0, ci = 0, del = false;
+      function tick() {
+        const m = msgs[mi];
+        if (!del) {
+          ci++;
+          el.textContent = m.slice(0, ci);
+          if (ci === m.length) { del = true; setTimeout(tick, 1800); return; }
+        } else {
+          ci--;
+          el.textContent = m.slice(0, ci);
+          if (ci === 0) { del = false; mi = (mi + 1) % msgs.length; }
+        }
+        setTimeout(tick, del ? 45 : 65);
+      }
+      tick();
+    }
+
+    /* ── STUDENT NAME ── */
+    function setStudentName() {
+      const el = document.getElementById("pcard-name");
+      if (el) el.textContent = STUDENT;
+      const btn = document.getElementById("featured-game-btn");
+      if (btn) btn.href = FEATURED_GAME_URL;
+    }
+
+    /* ── PROGRESS ── */
+    function renderProgress() {
+      const total = meetings.length;
+      const done = meetings.filter(m => m.status === "completed").length;
+      const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+      set("stat-prog", pct + "%");
+      set("hero-pct", pct + "%");
+      set("xp-text", `${done} / ${total} selesai`);
+      const aria = document.getElementById("xp-aria");
+      if (aria) aria.setAttribute("aria-valuenow", pct);
+      requestAnimationFrame(() => setTimeout(() => {
+        const fill = document.getElementById("xp-fill");
+        if (fill) fill.style.width = pct + "%";
+      }, 300));
+    }
+    function set(id, v) { const el = document.getElementById(id); if (el) el.textContent = v; }
+
+    /* ── LEVEL MAP ── */
+    function renderLevelMap(data) {
+      const map = document.getElementById("level-map");
+      const none = document.getElementById("no-results");
+      if (!map) return;
+      map.innerHTML = "";
+      if (!data.length) { if (none) none.style.display = "block"; return; }
+      if (none) none.style.display = "none";
+
+      data.forEach((m, i) => {
+        const isLast = i === data.length - 1;
+        const statCls = m.status === "completed" ? "done" : m.status === "current" ? "active" : "locked";
+        const cardCls = m.status === "completed" ? "st-done" : m.status === "current" ? "st-active" : "st-locked";
+        const badgeCls = m.status === "completed" ? "badge-done" : m.status === "current" ? "badge-active" : "badge-locked";
+        const badgeTxt = m.status === "completed" ? "✓ Selesai" : m.status === "current" ? "◉ Sedang Dipelajari" : "🔒 Belum Dibuka";
+        const locked = m.status === "locked";
+        const nodeInner = m.status === "completed" ? "✓" : m.status === "current" ?
+          `<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polygon points="3,1 11,7 3,13" fill="white"/></svg>` : m.n;
+        const lineCls = m.status === "completed" ? "level-line done-line" : "level-line";
+        const tgt = `target="_blank" rel="noopener noreferrer"`;
+        const dis = `aria-disabled="true" tabindex="-1"`;
+
+        const row = document.createElement("div");
+        row.className = "level-row";
+        row.setAttribute("role", "listitem");
+        row.innerHTML = `
+      <div class="level-connector" aria-hidden="true">
+        <div class="level-node ${statCls}">${nodeInner}</div>
+        ${isLast ? "" : `<div class="${lineCls}"></div>`}
+      </div>
+      <div class="level-card ${cardCls}" style="transition-delay:${i * 60}ms">
+        <div class="lc-left">
+          <div class="lc-top">
+            <span class="lc-badge ${badgeCls}">${badgeTxt}</span>
+            <span class="lc-sesh">Sesi ${m.n}</span>
+          </div>
+          <h3 class="lc-title">${esc(m.title)}</h3>
+          <p class="lc-desc">${esc(m.desc)}</p>
+        </div>
+        <div class="lc-right">
+          <a href="${locked ? "javascript:void(0)" : m.matUrl}" ${locked ? dis : tgt}
+             class="lc-btn lc-btn-mat" aria-label="Buka materi ${esc(m.title)}">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 1.5H8.5L10 3.5V10.5H2V1.5Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><line x1="4" y1="5.5" x2="8" y2="5.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><line x1="4" y1="7.5" x2="6.5" y2="7.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
+            Materi
+          </a>
+          <a href="${locked ? "javascript:void(0)" : m.gameUrl}" ${locked ? dis : tgt}
+             class="lc-btn lc-btn-game" aria-label="Main game ${esc(m.title)}">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><rect x="1" y="3" width="10" height="6.5" rx="2" stroke="currentColor" stroke-width="1.2"/><line x1="3.8" y1="5.8" x2="3.8" y2="7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="3.2" y1="6.4" x2="4.4" y2="6.4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="7.8" cy="5.8" r=".55" fill="currentColor"/><circle cx="8.8" cy="6.8" r=".55" fill="currentColor"/></svg>
+            Game
+          </a>
+        </div>
+      </div>
+    `;
+        map.appendChild(row);
+      });
+
+      // reveal on scroll
+      const cards = map.querySelectorAll(".level-card");
+      if (window.matchMedia("(prefers-reduced-motion:reduce)").matches) {
+        cards.forEach(c => c.classList.add("reveal")); return;
+      }
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("reveal"); obs.unobserve(e.target); } });
+      }, { threshold: 0.05, rootMargin: "0px 0px -20px 0px" });
+      cards.forEach(c => obs.observe(c));
+    }
+
+    /* ── SEARCH ── */
+    function initSearch() {
+      const inp = document.getElementById("search-inp");
+      const clr = document.getElementById("search-x");
+      const hint = document.getElementById("search-hint");
+      if (!inp) return;
+      inp.addEventListener("input", () => {
+        const q = inp.value.trim().toLowerCase();
+        if (clr) clr.hidden = !q;
+        if (!q) { if (hint) hint.textContent = ""; renderLevelMap(meetings); return; }
+        const res = meetings.filter(m =>
+          m.title.toLowerCase().includes(q) ||
+          m.desc.toLowerCase().includes(q) ||
+          String(m.n).includes(q)
+        );
+        if (hint) {
+          hint.textContent = res.length
+            ? `${res.length} pertemuan ditemukan`
+            : `Tidak ada hasil untuk "${inp.value}"`;
+        }
+        renderLevelMap(res);
+      });
+      if (clr) {
+        clr.addEventListener("click", () => {
+          inp.value = ""; clr.hidden = true; if (hint) hint.textContent = "";
+          renderLevelMap(meetings); inp.focus();
+        });
+      }
+    }
+
+    /* ── NAVBAR ── */
+    function initNav() {
+      const nav = document.getElementById("nav");
+      if (!nav) return;
+      window.addEventListener("scroll", () => nav.classList.toggle("stuck", window.scrollY > 32), { passive: true });
+    }
+
+    /* ── MOBILE MENU ── */
+    function initMobMenu() {
+      const btn = document.getElementById("hamburger");
+      const menu = document.getElementById("mob-menu");
+      if (!btn || !menu) return;
+      btn.addEventListener("click", () => {
+        const open = menu.classList.toggle("open");
+        btn.setAttribute("aria-expanded", open);
+        menu.setAttribute("aria-hidden", !open);
+      });
+      menu.querySelectorAll(".mob-a").forEach(a => a.addEventListener("click", close));
+      document.addEventListener("click", e => { if (!btn.contains(e.target) && !menu.contains(e.target)) close(); });
+      function close() { menu.classList.remove("open"); btn.setAttribute("aria-expanded", "false"); menu.setAttribute("aria-hidden", "true"); }
+    }
+
+    /* ── UTIL ── */
+    function esc(s) { const d = document.createElement("div"); d.appendChild(document.createTextNode(String(s))); return d.innerHTML; }
+  </script>
+</body>
+
+</html>
