@@ -1,0 +1,2071 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Digital Hero: The Lost Document</title>
+  <meta name="description" content="Game petualangan edukasi 2D belajar Microsoft Word: Dunia 1 (Lembah Word) dan Dunia 2 (Hutan Font) mempelajari shortcut, format teks, font family, dan tata letak dokumen." />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap');
+    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+    body {
+      width: 100vw; height: 100vh; overflow: hidden; background: #0f172a;
+      font-family: 'Fredoka', sans-serif; color: #1e293b;
+      display: flex; justify-content: center; align-items: center;
+    }
+    #game-container {
+      position: relative; width: 100%; height: 100%; max-width: 1920px; max-height: 1080px;
+      background: #000; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7);
+    }
+    canvas#game-canvas { display: block; width: 100%; height: 100%; background: #60a5fa; }
+    #ui-overlay {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none; display: flex; flex-direction: column;
+      justify-content: space-between; padding: 14px; z-index: 10;
+    }
+    .interactive { pointer-events: auto; }
+    .hud-header { display: flex; justify-content: space-between; align-items: flex-start; width: 100%; }
+    .hud-left {
+      display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.95);
+      padding: 8px 16px; border-radius: 18px; border: 3px solid #3b82f6; box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+    .player-badge {
+      position: relative; width: 48px; height: 48px; background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px;
+      border: 2px solid #fff;
+    }
+    .player-level {
+      position: absolute; bottom: -5px; right: -5px; background: #f59e0b; color: #fff;
+      font-size: 10px; font-weight: 700; padding: 1px 5px; border-radius: 8px; border: 2px solid #fff;
+    }
+    .bars-container { display: flex; flex-direction: column; gap: 4px; min-width: 170px; }
+    .bar-wrap { display: flex; align-items: center; gap: 6px; }
+    .bar-label { font-size: 11px; font-weight: 700; color: #475569; width: 20px; }
+    .bar-bg { flex: 1; height: 13px; background: #e2e8f0; border-radius: 7px; overflow: hidden; border: 1px solid #cbd5e1; }
+    .bar-fill-hp { height: 100%; width: 100%; background: linear-gradient(90deg, #ef4444, #f87171); transition: width 0.2s; }
+    .bar-fill-xp { height: 100%; width: 0%; background: linear-gradient(90deg, #0284c7, #38bdf8); transition: width 0.2s; }
+    .bar-text { font-size: 11px; font-weight: 700; color: #334155; font-family: 'JetBrains Mono', monospace; width: 48px; text-align: right; }
+    .hud-right { display: flex; align-items: center; gap: 8px; }
+    .hud-pill {
+      background: rgba(255,255,255,0.95); padding: 7px 14px; border-radius: 14px;
+      border: 2px solid #cbd5e1; font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 6px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .pill-world { border-color: #3b82f6; color: #1d4ed8; }
+    .pill-coins { border-color: #f59e0b; color: #b45309; }
+    .btn-icon {
+      background: rgba(255,255,255,0.95); border: 2px solid #cbd5e1; border-radius: 12px;
+      width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+      font-size: 18px; cursor: pointer; transition: 0.15s;
+    }
+    .btn-icon:hover { transform: translateY(-2px); border-color: #3b82f6; background: #fff; }
+    .quest-tracker-card {
+      position: absolute; top: 85px; right: 14px; width: 270px; background: rgba(255,255,255,0.96);
+      border: 3px solid #3b82f6; border-radius: 16px; padding: 12px 14px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    .quest-header { display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 2px dashed #e2e8f0; padding-bottom: 4px; }
+    .quest-title-tag { font-size: 11px; font-weight: 700; color: #2563eb; text-transform: uppercase; }
+    .quest-name { font-size: 14px; font-weight: 700; color: #1e293b; margin-bottom: 4px; }
+    .quest-desc { font-size: 12px; color: #475569; line-height: 1.4; }
+    .hud-bottom { display: flex; justify-content: space-between; align-items: flex-end; width: 100%; }
+    .skill-dock {
+      display: flex; gap: 10px; background: rgba(255,255,255,0.95); padding: 8px 12px;
+      border-radius: 18px; border: 3px solid #3b82f6; box-shadow: 0 10px 25px rgba(0,0,0,0.25); margin: 0 auto;
+    }
+    .skill-slot {
+      position: relative; width: 54px; height: 54px; background: #f1f5f9; border-radius: 12px;
+      border: 2px solid #cbd5e1; display: flex; flex-direction: column; align-items: center;
+      justify-content: center; cursor: pointer; overflow: hidden; transition: 0.15s;
+    }
+    .skill-slot.locked { opacity: 0.5; filter: grayscale(90%); }
+    .skill-slot.ready { border-color: #3b82f6; background: #fff; }
+    .skill-slot.ready:hover { transform: translateY(-2px); }
+    .skill-icon { font-size: 20px; line-height: 1; }
+    .skill-name-tag { font-size: 8px; font-weight: 700; color: #475569; margin-top: 2px; text-transform: uppercase; }
+    .skill-hotkey { position: absolute; top: 2px; left: 4px; font-size: 10px; font-weight: 700; color: #64748b; font-family: monospace; }
+    .skill-cooldown-overlay { position: absolute; bottom: 0; left: 0; width: 100%; height: 0%; background: rgba(15,23,42,0.65); pointer-events: none; }
+    .controls-hint {
+      background: rgba(255,255,255,0.9); border-radius: 10px; padding: 6px 10px;
+      font-size: 11px; font-weight: 600; color: #475569; border: 1px solid #cbd5e1; display: flex; gap: 8px;
+    }
+    kbd { background: #e2e8f0; border: 1px solid #94a3b8; border-radius: 4px; padding: 1px 4px; font-family: monospace; font-size: 10px; }
+    #boss-bar-container {
+      position: absolute; top: 80px; left: 50%; transform: translateX(-50%);
+      width: 400px; background: rgba(15,23,42,0.92); padding: 10px 16px; border-radius: 14px;
+      border: 3px solid #ef4444; box-shadow: 0 10px 30px rgba(239,68,68,0.4); display: none;
+      flex-direction: column; gap: 4px; z-index: 20;
+    }
+    .boss-bar-bg { width: 100%; height: 14px; background: #334155; border-radius: 7px; overflow: hidden; }
+    .boss-bar-fill { width: 100%; height: 100%; background: linear-gradient(90deg, #dc2626, #f87171); transition: width 0.15s; }
+    #dialog-container {
+      position: absolute; bottom: 100px; left: 50%; transform: translateX(-50%);
+      width: 90%; max-width: 640px; background: rgba(255,255,255,0.98); border: 4px solid #3b82f6;
+      border-radius: 18px; padding: 16px 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.35); display: none; z-index: 30;
+    }
+    .dialog-speaker { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 15px; color: #1d4ed8; margin-bottom: 6px; }
+    .dialog-text { font-size: 15px; line-height: 1.5; color: #1e293b; min-height: 40px; }
+    .dialog-btn {
+      background: #3b82f6; color: #fff; border: none; border-radius: 8px; padding: 6px 16px;
+      font-family: inherit; font-weight: 700; font-size: 13px; cursor: pointer; float: right; margin-top: 10px;
+    }
+    .modal-overlay {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,23,42,0.75);
+      backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 50; pointer-events: auto;
+    }
+    .modal-card {
+      background: #fff; border-radius: 20px; border: 4px solid #3b82f6; width: 90%; max-width: 560px;
+      padding: 20px; box-shadow: 0 25px 50px rgba(0,0,0,0.4); max-height: 85vh; display: flex; flex-direction: column;
+    }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 12px; }
+    .modal-title { font-size: 18px; font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 6px; }
+    .modal-close-btn { background: #f1f5f9; border: none; font-size: 18px; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; }
+    .inventory-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 12px; }
+    .inv-slot {
+      aspect-ratio: 1; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 12px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; padding: 4px;
+    }
+    .inv-slot.selected { border-color: #2563eb; background: #dbeafe; }
+    .item-details-box { background: #f1f5f9; border-radius: 12px; padding: 12px; border: 1px solid #e2e8f0; }
+    .item-details-wordtip { margin-top: 6px; padding: 6px 10px; background: #e0f2fe; border-left: 4px solid #0284c7; border-radius: 4px; font-size: 12px; color: #0369a1; font-weight: 600; }
+    .document-sheet-view { background: #fff; border: 1px solid #cbd5e1; padding: 20px; border-radius: 4px; max-height: 340px; overflow-y: auto; line-height: 1.5; font-family: 'Calibri', serif; }
+    .doc-fragment-slot { padding: 10px; margin-bottom: 10px; border-radius: 6px; border: 1px dashed #cbd5e1; }
+    .doc-fragment-slot.found { background: #f0fdf4; border-color: #22c55e; color: #15803d; }
+    .doc-fragment-slot.missing { background: #fef2f2; border-color: #f87171; color: #991b1b; font-style: italic; }
+    #main-menu-overlay {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(circle at center, #1e3a8a 0%, #0f172a 100%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 100;
+    }
+    .game-logo-badge {
+      display: inline-flex; align-items: center; gap: 6px; background: rgba(59,130,246,0.2);
+      border: 2px solid #60a5fa; color: #93c5fd; padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; margin-bottom: 12px;
+    }
+    .game-main-title { font-size: 48px; font-weight: 700; color: #fff; text-shadow: 0 4px 20px rgba(59,130,246,0.6); line-height: 1.1; text-align: center; }
+    .game-sub-title { font-size: 22px; font-weight: 600; color: #f59e0b; margin-bottom: 28px; text-align: center; }
+    .menu-buttons { display: flex; flex-direction: column; gap: 12px; width: 260px; }
+    .menu-btn {
+      background: #fff; color: #1e3a8a; border: none; border-radius: 14px; padding: 12px 20px;
+      font-family: inherit; font-size: 15px; font-weight: 700; cursor: pointer; box-shadow: 0 6px 16px rgba(0,0,0,0.3); transition: 0.15s;
+    }
+    .menu-btn.primary { background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: #fff; border: 2px solid #60a5fa; }
+    .menu-btn:hover { transform: translateY(-2px); }
+    .menu-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .floating-toast {
+      position: absolute; top: 20px; left: 50%; transform: translateX(-50%) translateY(-20px);
+      background: rgba(15,23,42,0.95); color: #fff; border: 2px solid #3b82f6; border-radius: 12px;
+      padding: 8px 18px; font-weight: 700; font-size: 14px; opacity: 0; transition: 0.3s; pointer-events: none; z-index: 80;
+    }
+    .floating-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+    /* --- Mini Word Challenge & Ribbon Styles (World 1) --- */
+    .word-ribbon-toolbar {
+      background: #f1f5f9; border-radius: 12px; border: 2px solid #cbd5e1; padding: 10px;
+      display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px;
+    }
+    .ribbon-btn-group {
+      display: flex; gap: 4px; background: #fff; padding: 4px; border-radius: 8px; border: 1px solid #cbd5e1;
+    }
+    .ribbon-btn {
+      width: 32px; height: 32px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px;
+      font-weight: 800; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: 0.15s; color: #1e293b;
+    }
+    .ribbon-btn:hover { background: #e0f2fe; border-color: #3b82f6; color: #1d4ed8; }
+    .ribbon-btn.active { background: #3b82f6; color: #fff; border-color: #1d4ed8; }
+    .ribbon-select {
+      background: #fff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 6px 10px;
+      font-family: inherit; font-size: 13px; font-weight: 600; color: #1e293b; outline: none;
+    }
+    .interactive-doc-sheet {
+      background: #fff; border: 2px solid #cbd5e1; border-radius: 8px; padding: 24px;
+      min-height: 170px; max-height: 250px; overflow-y: auto; font-family: 'Calibri', sans-serif;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.05); cursor: pointer;
+    }
+    .editable-span {
+      padding: 3px 6px; border-radius: 4px; border: 1px dashed transparent; transition: 0.15s; display: inline-block;
+    }
+    .editable-span:hover {
+      background: #fef08a; border-color: #eab308;
+    }
+    .editable-span.selected {
+      background: #bfdbfe; border-color: #2563eb; outline: 2px solid #3b82f6;
+    }
+
+    /* --- Boss Quiz Styles (World 1) --- */
+    #boss-quiz-overlay {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(15,23,42,0.85); backdrop-filter: blur(5px);
+      display: none; align-items: center; justify-content: center; z-index: 60; pointer-events: auto;
+    }
+    .boss-quiz-card {
+      background: #fff; border-radius: 20px; border: 4px solid #ef4444; width: 90%; max-width: 540px;
+      padding: 22px; box-shadow: 0 25px 60px rgba(239,68,68,0.35); text-align: center;
+      animation: popIn 0.25s ease-out;
+    }
+    @keyframes popIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .boss-quiz-options {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px;
+    }
+    .boss-quiz-btn {
+      background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 12px; padding: 12px 14px;
+      font-size: 14px; font-weight: 700; color: #1e293b; cursor: pointer; transition: 0.15s;
+      text-align: left; display: flex; align-items: center; gap: 8px;
+    }
+    .boss-quiz-btn:hover { background: #fee2e2; border-color: #ef4444; transform: translateY(-2px); }
+    .boss-quiz-btn.correct { background: #d1fae5; border-color: #10b981; color: #065f46; }
+    .boss-quiz-btn.wrong { background: #fee2e2; border-color: #ef4444; color: #991b1b; }
+  </style>
+</head>
+<body>
+  <div id="game-container">
+    <canvas id="game-canvas"></canvas>
+
+    <div id="ui-overlay">
+      <header class="hud-header">
+        <div class="hud-left interactive">
+          <div class="player-badge">
+            <span>🧙‍♂️</span>
+            <div id="player-level-badge" class="player-level">LV 1</div>
+          </div>
+          <div class="bars-container">
+            <div class="bar-wrap">
+              <span class="bar-label">HP</span>
+              <div class="bar-bg"><div id="hp-fill" class="bar-fill-hp"></div></div>
+              <span id="hp-text" class="bar-text">100/100</span>
+            </div>
+            <div class="bar-wrap">
+              <span class="bar-label">XP</span>
+              <div class="bar-bg"><div id="xp-fill" class="bar-fill-xp"></div></div>
+              <span id="xp-text" class="bar-text">0/100</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hud-right interactive">
+          <div id="world-indicator" class="hud-pill pill-world">
+            <span>🗺️</span> Dunia 1: Lembah Word
+          </div>
+          <div class="hud-pill pill-coins">
+            <span>💰</span> <span id="coins-counter">0</span>
+          </div>
+          <button id="btn-challenge" class="btn-icon" title="Tantangan Editor Word" style="border-color: #3b82f6; background: #eff6ff;">✍️</button>
+          <button id="btn-word-guide" class="btn-icon" title="Buku Panduan Edukasi Word">📖</button>
+          <button id="btn-document" class="btn-icon" title="Periksa Dokumen Master">📜</button>
+          <button id="btn-inventory" class="btn-icon" title="Buka Ransel Barang">🎒</button>
+          <button id="btn-save" class="btn-icon" title="Simpan Game (Ctrl+S)">💾</button>
+          <button id="btn-audio" class="btn-icon" title="Nyalakan/Matikan Suara">🔊</button>
+          <button id="btn-settings" class="btn-icon" title="Pengaturan & Bantuan">⚙️</button>
+          <a href="/world2.html" class="btn-icon" title="Masuk ke Dunia 2 (Hutan Font)">🌲</a>
+        </div>
+      </header>
+
+      <div id="quest-tracker-card" class="quest-tracker-card interactive">
+        <div class="quest-header">
+          <span class="quest-title-tag">⭐ Misi Aktif</span>
+          <span id="quest-progress" style="font-size: 11px; font-weight: 700; color: #2563eb;">0/1</span>
+        </div>
+        <div id="quest-name" class="quest-name">Kebangkitan di Lembah Word</div>
+        <div id="quest-desc" class="quest-desc">Jelajahi bukit kertas dan bicaralah dengan Tetua Ribbon di pos bendera desa.</div>
+      </div>
+
+      <div id="boss-bar-container">
+        <div style="display: flex; justify-content: space-between; color: #fff; font-weight: 700; font-size: 13px;">
+          <span>👑 RAJA TYPO SLIME</span>
+          <span style="color: #fca5a5;">MINI BOSS</span>
+        </div>
+        <div class="boss-bar-bg"><div id="boss-bar-fill" class="boss-bar-fill"></div></div>
+      </div>
+
+      <div id="dialog-container" class="interactive">
+        <div class="dialog-speaker">
+          <span id="dialog-speaker-avatar" style="font-size: 20px;">📜</span>
+          <span id="dialog-speaker-name">Tetua Ribbon</span>
+        </div>
+        <div id="dialog-text-content" class="dialog-text">
+          Pahlawan Digital! The Corrupted Document telah menghancurkan Dokumen Master kita!
+        </div>
+        <div>
+          <button id="dialog-next-btn" class="dialog-btn">Lanjut [E] ➔</button>
+        </div>
+      </div>
+
+      <footer class="hud-bottom">
+        <div class="controls-hint">
+          <span><kbd>A</kbd><kbd>D</kbd> Gerak</span>
+          <span><kbd>Spasi</kbd> Lompat</span>
+          <span><kbd>J</kbd> Serang</span>
+          <span><kbd>E</kbd> Interaksi</span>
+          <span><kbd>Ctrl+S</kbd> Simpan</span>
+        </div>
+
+        <div class="skill-dock interactive">
+          <div id="skill-slot-bold" class="skill-slot locked" title="Skill 1: Hantaman Bold (Menghancurkan gerbang tebal & perisai bos)">
+            <span class="skill-hotkey">1</span>
+            <span class="skill-icon">💥</span>
+            <span class="skill-name-tag">BOLD</span>
+            <div id="cd-overlay-bold" class="skill-cooldown-overlay"></div>
+          </div>
+          <div id="skill-slot-italic" class="skill-slot locked" title="Skill 2: Dash Italic (Melesat miring kencang & kebal)">
+            <span class="skill-hotkey">2</span>
+            <span class="skill-icon">⚡</span>
+            <span class="skill-name-tag">ITALIC</span>
+            <div id="cd-overlay-italic" class="skill-cooldown-overlay"></div>
+          </div>
+          <div id="skill-slot-underline" class="skill-slot locked" title="Skill 3: Perisai Underline (Membentuk garis bawah pelindung)">
+            <span class="skill-hotkey">3</span>
+            <span class="skill-icon">🛡️</span>
+            <span class="skill-name-tag">GARIS BWH</span>
+            <div id="cd-overlay-underline" class="skill-cooldown-overlay"></div>
+          </div>
+        </div>
+        <div style="width: 130px;"></div>
+      </footer>
+    </div>
+
+    <div id="floating-toast" class="floating-toast">Pemberitahuan</div>
+
+    <!-- Main Menu -->
+    <div id="main-menu-overlay">
+      <div style="text-align: center; margin-bottom: 24px;">
+        <div class="game-logo-badge">🖥️ Petualangan Word World</div>
+        <h1 class="game-main-title">DIGITAL HERO</h1>
+        <h2 class="game-sub-title">THE LOST DOCUMENT</h2>
+      </div>
+      <div class="menu-buttons">
+        <button id="btn-continue" class="menu-btn primary" disabled>▶ LANJUTKAN GAME</button>
+        <button id="btn-new-game" class="menu-btn">⚔️ MULAI GAME BARU</button>
+        <button id="btn-menu-lore" class="menu-btn">📖 PETUNJUK & CERITA</button>
+      </div>
+    </div>
+
+    <!-- Inventory Modal -->
+    <div id="inventory-modal" class="modal-overlay">
+      <div class="modal-card">
+        <div class="modal-header">
+          <div class="modal-title">🎒 Ransel Pahlawan Digital</div>
+          <button class="modal-close-btn">&times;</button>
+        </div>
+        <div id="inventory-grid" class="inventory-grid"></div>
+        <div class="item-details-box">
+          <div id="inv-detail-title" style="font-weight: 700; color: #1e3a8a; margin-bottom: 4px;">Pilih Item</div>
+          <div id="inv-detail-desc" style="font-size: 13px; color: #475569;">Informasi barang dan wawasan Microsoft Word akan tampil di sini.</div>
+          <div id="inv-detail-tip" class="item-details-wordtip">💡 Tip: Huruf dan gulungan mengajarkan fungsi penting dokumen komputer!</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Document Modal -->
+    <div id="document-modal" class="modal-overlay">
+      <div class="modal-card" style="max-width: 640px;">
+        <div class="modal-header">
+          <div class="modal-title">📜 Dokumen Master (Pemeriksaan)</div>
+          <button class="modal-close-btn">&times;</button>
+        </div>
+        <div class="document-sheet-view">
+          <div style="display: flex; justify-content: space-between; font-size: 10px; color: #64748b; border-bottom: 2px dashed #94a3b8; padding-bottom: 4px; margin-bottom: 12px;">
+            <span>|··· 1 ···| Margin Kertas: Normal (1.0 inci) |··· 6.5 ···|</span>
+          </div>
+          <h3 style="text-align: center; color: #1e293b; border-bottom: 2px solid #2563eb; padding-bottom: 6px; margin-bottom: 14px;">DOKUMEN MASTER WORD WORLD</h3>
+          <div id="doc-slot-header" class="doc-fragment-slot missing">
+            <strong>[HILANG] Bagian Judul & Header Halaman:</strong><br>
+            <em>Dijaga oleh Raja Typo Slime di Lembah Word. Kalahkan bos untuk memulihkan bagian ini!</em>
+          </div>
+          <div class="doc-fragment-slot missing">
+            <strong>[KORUP] Bagian Teks Isi & Format Paragraf (Dunia 2-4):</strong><br>
+            <em>Format teks berantakan. Memerlukan penjelajahan Hutan Font dan Pabrik Format.</em>
+          </div>
+          <div class="doc-fragment-slot missing">
+            <strong>[KORUP] Gambar & Tabel Data (Dunia 5-6):</strong><br>
+            <em>Data gambar dan tabel belum ditemukan.</em>
+          </div>
+        </div>
+        <div style="margin-top: 12px; font-size: 13px; color: #64748b; text-align: center;">
+          <span id="doc-inspect-status">0 / 6 Fragmen Telah Dipulihkan</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quest Complete Modal -->
+    <div id="quest-complete-modal" class="modal-overlay">
+      <div class="modal-card" style="max-width: 440px; text-align: center;">
+        <div style="font-size: 40px; margin-bottom: 6px;">🏆</div>
+        <h2 style="font-size: 22px; color: #1e3a8a; margin-bottom: 4px;">MISI SELESAI!</h2>
+        <div id="quest-modal-title" style="font-size: 16px; font-weight: 700; color: #2563eb; margin-bottom: 12px;">Nama Misi</div>
+        <div style="display: flex; justify-content: center; gap: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px;">
+          <span id="quest-modal-xp" style="color: #0284c7;">+100 XP</span>
+          <span id="quest-modal-coins" style="color: #d97706;">+50 Koin</span>
+        </div>
+        <div id="quest-modal-unlock" style="font-size: 15px; font-weight: 700; color: #16a34a;"></div>
+      </div>
+    </div>
+
+    <!-- Victory Modal -->
+    <div id="victory-modal" class="modal-overlay">
+      <div class="modal-card" style="text-align: center; max-width: 500px;">
+        <div style="font-size: 50px; margin-bottom: 8px;">👑</div>
+        <h2 style="font-size: 24px; color: #1e3a8a; margin-bottom: 6px;">DUNIA 1 BERHASIL DITAKLUKKAN!</h2>
+        <p style="font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 14px;">
+          Kamu berhasil mengalahkan <strong>Raja Typo Slime</strong> dan merebut kembali <strong>Fragmen Pertama Dokumen Master</strong>! Bagian Judul dan Header halaman kini telah kembali rapi!
+        </p>
+        <div style="background: #f0fdf4; border: 2px solid #86efac; border-radius: 10px; padding: 10px; margin-bottom: 16px; font-size: 13px; color: #166534; text-align: left;">
+          ✨ <strong>Materi Microsoft Word yang Dipelajari:</strong><br>
+          • Cara Menyimpan Dokumen (Ctrl+S)<br>
+          • Konsep Huruf & Karakter Teks Dasar<br>
+          • Format <strong>Bold (Tebal)</strong> memberi tekanan kuat pada teks penting!
+        </div>
+        <button id="victory-continue-btn" class="menu-btn primary" style="width: 100%;">
+          MASUK KE DUNIA 2: HUTAN FONT ➔
+        </button>
+      </div>
+    </div>
+
+    <!-- Lore Modal -->
+    <div id="lore-modal" class="modal-overlay">
+      <div class="modal-card">
+        <div class="modal-header">
+          <div class="modal-title">📖 Petunjuk & Cerita Game</div>
+          <button class="modal-close-btn">&times;</button>
+        </div>
+        <div style="font-size: 13px; line-height: 1.6; color: #334155;">
+          <p><strong>Cerita:</strong></p>
+          <p style="margin-bottom: 10px;">
+            Dunia komputer <strong>Word World</strong> hancur akibat serangan monster <strong>The Corrupted Document</strong>. Dokumen suci <strong>The Master Document</strong> pecah berkeping-keping! Sebagai Pahlawan Digital, misimu menjelajahi dunia, mengumpulkan huruf, mempelajari skill pengolah kata, dan mengalahkan monster salah ketik.
+          </p>
+          <p><strong>Tombol Kontrol Keyboard:</strong></p>
+          <ul style="margin-left: 20px; margin-bottom: 10px;">
+            <li><strong>A / D atau Panah Kiri / Kanan:</strong> Berjalan</li>
+            <li><strong>Spasi / W / Panah Atas:</strong> Melompat</li>
+            <li><strong>J:</strong> Menyerang dengan Pedang Kursor Digital</li>
+            <li><strong>E:</strong> Berinteraksi dengan NPC, Papan, dan Tugu Disket</li>
+            <li><strong>1:</strong> 💥 Skill Hantaman Bold (hancurkan gerbang & perisai)</li>
+            <li><strong>Ctrl + S:</strong> Simpan Cepat (Quick Save) game ke browser</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Word Guide Modal -->
+    <div id="word-guide-modal" class="modal-overlay">
+      <div class="modal-card" style="max-width: 600px;">
+        <div class="modal-header">
+          <div class="modal-title">📖 Buku Panduan Edukasi Microsoft Word</div>
+          <button class="modal-close-btn">&times;</button>
+        </div>
+        <div style="font-size: 13px; line-height: 1.6; color: #334155; overflow-y: auto; max-height: 420px; padding-right: 6px;">
+          <div style="background: #eff6ff; border-left: 4px solid #3b82f6; padding: 10px 14px; border-radius: 8px; margin-bottom: 12px;">
+            <strong style="color: #1e40af;">1. Kursor & Lembar Kerja Baru:</strong>
+            <p>Garis tegak yang berkedip-kedip (<code>|</code>) disebut <strong>Kursor (Insertion Point)</strong>. Posisi kursor menandakan di mana huruf atau simbol berikutnya akan muncul ketika kamu mengetik. Tombol <strong>Enter</strong> digunakan untuk membuat paragraf baru, dan <strong>Backspace</strong> untuk menghapus karakter di sebelah kiri kursor.</p>
+          </div>
+          <div style="background: #fefce8; border-left: 4px solid #eab308; padding: 10px 14px; border-radius: 8px; margin-bottom: 12px;">
+            <strong style="color: #854d0e;">2. Jurus Sakti Menyimpan Dokumen (Ctrl + S):</strong>
+            <p>Kombinasi tombol <strong>Ctrl + S</strong> adalah shortcut universal di Word untuk menyimpan (Save) dokumenmu secara cepat. Selalu tekan <em>Ctrl + S</em> setiap beberapa menit agar hasil tulisanmu aman dari mati lampu atau komputer restart tiba-tiba!</p>
+          </div>
+          <div style="background: #fdf2f8; border-left: 4px solid #ec4899; padding: 10px 14px; border-radius: 8px; margin-bottom: 12px;">
+            <strong style="color: #9d174d;">3. Format Teks BOLD (Ctrl + B):</strong>
+            <p>Format <strong>Bold (Tebal)</strong> mengubah bobot huruf menjadi lebih tebal dan mencolok. Sangat dianjurkan untuk judul bab, subjudul, atau istilah penting agar pembaca langsung memahami inti informasi dengan cepat.</p>
+          </div>
+          <div style="background: #f0fdf4; border-left: 4px solid #22c55e; padding: 10px 14px; border-radius: 8px; margin-bottom: 12px;">
+            <strong style="color: #166534;">4. Header & Margin Kertas:</strong>
+            <p><strong>Margin</strong> adalah jarak kosong antara tepi kertas dengan teks isi (standar: 1 inci / 2.54 cm). <strong>Header</strong> adalah area di margin atas tempat mencantumkan judul dokumen, nomor halaman, atau nama penulis secara konsisten di seluruh lembar kerja.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Word Challenge Modal (Mini Word Editor in World 1) -->
+    <div id="word-challenge-modal" class="modal-overlay">
+      <div class="modal-card" style="max-width: 640px;">
+        <div class="modal-header">
+          <div class="modal-title">✍️ Tantangan Editor Word: Surat Titah Lembah</div>
+          <button class="modal-close-btn">&times;</button>
+        </div>
+        
+        <div style="font-size: 13px; color: #475569; margin-bottom: 10px; background: #eff6ff; padding: 8px 12px; border-radius: 8px; border-left: 4px solid #3b82f6;">
+          🎯 <strong>Misi Tetua Ribbon:</strong> Klik kata di bawah, lalu gunakan tombol ribbon Word untuk memformat:
+          <br>1. Tebalkan kata <strong>"PAHLAWAN"</strong> (Bold / [B])
+          <br>2. Miringkan kata <strong>"DOKUMEN"</strong> (Italic / [I])
+          <br>3. Garis bawahi kata <strong>"RAHASIA"</strong> (Underline / [U])
+          <br>4. Ubah font kata <strong>"LEMBAH"</strong> menjadi <strong>Arial</strong>
+        </div>
+
+        <!-- Word Ribbon Toolbar -->
+        <div class="word-ribbon-toolbar">
+          <div class="ribbon-btn-group">
+            <button id="editor-btn-bold" class="ribbon-btn" title="Bold (Ctrl+B)">B</button>
+            <button id="editor-btn-italic" class="ribbon-btn" style="font-style: italic;" title="Italic (Ctrl+I)">I</button>
+            <button id="editor-btn-underline" class="ribbon-btn" style="text-decoration: underline;" title="Underline (Ctrl+U)">U</button>
+          </div>
+
+          <div style="display: flex; gap: 6px;">
+            <select id="editor-font-family" class="ribbon-select">
+              <option value="Calibri">Calibri</option>
+              <option value="Arial">Arial</option>
+              <option value="Times New Roman">Times New Roman</option>
+              <option value="Courier New">Courier New</option>
+            </select>
+
+            <select id="editor-font-size" class="ribbon-select">
+              <option value="11pt">11 pt</option>
+              <option value="12pt" selected>12 pt</option>
+              <option value="14pt">14 pt</option>
+              <option value="16pt">16 pt</option>
+            </select>
+          </div>
+
+          <button id="editor-btn-reset" class="menu-btn" style="padding: 6px 12px; font-size: 12px; background: #f1f5f9; color: #475569;">Reset</button>
+        </div>
+
+        <!-- Interactive Document Sheet -->
+        <div id="interactive-doc-canvas" class="interactive-doc-sheet"></div>
+
+        <div style="margin-top: 12px; display: flex; justify-content: space-between; align-items: center;">
+          <span id="challenge-status-text" style="font-size: 13px; font-weight: 700; color: #1e3a8a;">Pilih kata yang ingin diubah...</span>
+          <button id="btn-submit-formatting" class="menu-btn primary" style="padding: 8px 18px; font-size: 14px;">✅ Verifikasi Format</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Boss Quiz Overlay (World 1: Raja Typo Slime Shield) -->
+    <div id="boss-quiz-overlay">
+      <div class="boss-quiz-card">
+        <div style="font-size: 32px; margin-bottom: 6px;">🛡️⚡</div>
+        <h3 style="color: #b91c1c; font-size: 20px; font-weight: 800; margin-bottom: 6px;">PERISAI SALAH KETIK AKTIF!</h3>
+        <p style="font-size: 13px; color: #475569; margin-bottom: 12px;">
+          Raja Typo Slime kebal dari pukulan! Jawab pertanyaan Word dari Tetua Ribbon untuk menghancurkan perisainya:
+        </p>
+        <div id="boss-quiz-question" style="background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 12px; padding: 14px; font-size: 15px; font-weight: 700; color: #0f172a; margin-bottom: 10px;">
+          ...
+        </div>
+        <div id="boss-quiz-box" class="boss-quiz-options"></div>
+        <div id="boss-quiz-feedback" style="margin-top: 10px; font-weight: 700; font-size: 13px; min-height: 20px;"></div>
+      </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal-overlay">
+      <div class="modal-card" style="max-width: 440px;">
+        <div class="modal-header">
+          <div class="modal-title">⚙️ Pengaturan Game</div>
+          <button class="modal-close-btn">&times;</button>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 12px; font-size: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span>Musik & Efek Suara</span>
+            <button onclick="document.getElementById('btn-audio').click()" class="menu-btn" style="padding: 6px 12px; font-size: 13px;">Ganti Suara</button>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span>Simpan Progress Game</span>
+            <button onclick="document.getElementById('btn-save').click()" class="menu-btn primary" style="padding: 6px 12px; font-size: 13px;">Simpan (Ctrl+S)</button>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span>Reset Data Game</span>
+            <button onclick="localStorage.clear(); location.reload();" class="menu-btn" style="padding: 6px 12px; font-size: 13px; color: #dc2626;">Hapus Data</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SINGLE FILE INLINE SCRIPT: Digital Hero Engine -->
+  <script>
+    // --- 1. AUDIO ENGINE (Web Audio API) ---
+    class SoundSystem {
+      constructor() {
+        this.ctx = null; this.isMuted = false; this.bgmPlaying = false; this.bgmTimer = null; this.bgmStep = 0;
+      }
+      init() {
+        if (!this.ctx) {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (AudioCtx) this.ctx = new AudioCtx();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume();
+      }
+      toggleMute() {
+        this.isMuted = !this.isMuted;
+        if (this.isMuted) this.stopBGM(); else this.startBGM();
+        return this.isMuted;
+      }
+      playTone(freq, dur, type = 'sine', vol = 0.15, bend = 0) {
+        if (this.isMuted) return;
+        this.init();
+        if (!this.ctx) return;
+        try {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+          if (bend !== 0) osc.frequency.exponentialRampToValueAtTime(Math.max(20, freq + bend), this.ctx.currentTime + dur);
+          gain.gain.setValueAtTime(vol, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + dur);
+          osc.connect(gain); gain.connect(this.ctx.destination);
+          osc.start(); osc.stop(this.ctx.currentTime + dur);
+        } catch(e) {}
+      }
+      playJump() { this.playTone(180, 0.15, 'square', 0.12, 220); }
+      playAttack() { this.playTone(320, 0.12, 'triangle', 0.18, -180); }
+      playHit() { this.playTone(110, 0.12, 'sawtooth', 0.2, -60); }
+      playCoin() { this.playTone(988, 0.08, 'sine', 0.15); setTimeout(() => this.playTone(1318, 0.18, 'sine', 0.15), 60); }
+      playBold() { this.playTone(85, 0.35, 'sawtooth', 0.25, -45); setTimeout(() => this.playTone(60, 0.4, 'triangle', 0.2), 50); }
+      playDash() { this.playTone(450, 0.16, 'triangle', 0.16, 350); }
+      playShield() { this.playTone(523, 0.2, 'sine', 0.15); setTimeout(() => this.playTone(659, 0.2, 'sine', 0.15), 50); }
+      playLevelUp() { [262, 330, 392, 523, 659, 784].forEach((f, i) => setTimeout(() => this.playTone(f, 0.18, 'triangle', 0.2), i * 60)); }
+      playQuestComplete() { [392, 440, 494, 587].forEach((f, i) => setTimeout(() => this.playTone(f, 0.14, 'triangle', 0.2), i * 80)); setTimeout(() => this.playTone(784, 0.4, 'square', 0.18), 380); }
+      playSave() { this.playTone(659, 0.1, 'sine', 0.15); setTimeout(() => this.playTone(880, 0.2, 'sine', 0.18), 90); }
+      playBossWarning() { this.playTone(75, 0.6, 'sawtooth', 0.3, -30); }
+      playVictory() { [392, 523, 659, 784, 1046].forEach((n, i) => setTimeout(() => this.playTone(n, 0.25, 'triangle', 0.25), i * 110)); }
+      startBGM() {
+        if (this.bgmPlaying || this.isMuted) return;
+        this.init(); this.bgmPlaying = true; this.bgmStep = 0;
+        const melody = [262, 294, 330, 392, 330, 262, 220, 247, 262, 330, 392, 523, 440, 392, 330, 294];
+        const bass = [131, 131, 165, 165, 110, 110, 123, 123];
+        this.bgmTimer = setInterval(() => {
+          if (this.isMuted || !this.bgmPlaying) return;
+          this.playTone(melody[this.bgmStep % melody.length], 0.12, 'sine', 0.04);
+          if (this.bgmStep % 2 === 0) this.playTone(bass[Math.floor((this.bgmStep / 2) % bass.length)], 0.2, 'triangle', 0.06);
+          this.bgmStep++;
+        }, 240);
+      }
+      stopBGM() { this.bgmPlaying = false; if (this.bgmTimer) { clearInterval(this.bgmTimer); this.bgmTimer = null; } }
+    }
+    const audio = new SoundSystem();
+
+    // --- 2. STORAGE SYSTEM ---
+    const SAVE_KEY = 'digital_hero_save_id';
+    class StorageSystem {
+      static hasSave() { try { return localStorage.getItem(SAVE_KEY) !== null; } catch { return false; } }
+      static getSave() { try { const d = localStorage.getItem(SAVE_KEY); return d ? JSON.parse(d) : null; } catch { return null; } }
+      static saveGame(data) { try { localStorage.setItem(SAVE_KEY, JSON.stringify(data)); return true; } catch { return false; } }
+      static clearSave() { try { localStorage.removeItem(SAVE_KEY); } catch {} }
+    }
+
+    // --- 3. INVENTORY SYSTEM ---
+    class Inventory {
+      constructor() { this.items = []; }
+      load(saved = []) { this.items = saved; }
+      addItem(item) {
+        const exist = this.items.find(i => i.id === item.id);
+        if (exist) exist.count = (exist.count || 1) + (item.count || 1);
+        else this.items.push({ id: item.id, name: item.name, icon: item.icon, count: item.count || 1, desc: item.desc, wordTip: item.wordTip });
+      }
+      hasItem(id) { const i = this.items.find(it => it.id === id); return i && i.count > 0; }
+      getAll() { return this.items; }
+    }
+
+    // --- 4. QUEST SYSTEM (Bahasa Indonesia) ---
+    class QuestManager {
+      constructor(game) {
+        this.game = game; this.activeQuest = null; this.completedQuests = [];
+        this.quests = {
+          quest_welcome: {
+            id: 'quest_welcome', title: 'Kebangkitan di Lembah Word',
+            desc: 'Jelajahi bukit kertas dan bicaralah dengan Tetua Ribbon di pos desa.',
+            targetType: 'talk_npc', targetId: 'mr_ribbon', current: 0, required: 1,
+            rewardXp: 50, rewardCoins: 20, nextQuest: 'quest_formatting'
+          },
+          quest_formatting: {
+            id: 'quest_formatting', title: 'Tantangan Format Tetua Ribbon',
+            desc: 'Bicaralah dengan Tetua Ribbon [E] dan selesaikan tantangan Surat Titah Lembah pada editor pita Word!',
+            targetType: 'complete_challenge', targetId: 'word_editor_puzzle', current: 0, required: 1,
+            rewardXp: 120, rewardCoins: 40, nextQuest: 'quest_letters'
+          },
+          quest_letters: {
+            id: 'quest_letters', title: 'Kumpulkan Huruf yang Hilang',
+            desc: 'Monster menceraiberaikan teks! Temukan 3 Huruf Emas (W, O, R) di tebing bukit.',
+            targetType: 'collect_item', targetId: 'golden_letter', current: 0, required: 3,
+            rewardXp: 100, rewardCoins: 50, rewardSkill: 'bold_blast', nextQuest: 'quest_bold_barrier'
+          },
+          quest_bold_barrier: {
+            id: 'quest_bold_barrier', title: 'Hancurkan Gerbang Bold',
+            desc: 'Gunakan skill Hantaman Bold [Tombol 1] untuk meremukkan gerbang tebal di depan!',
+            targetType: 'break_barrier', targetId: 'bold_gate', current: 0, required: 1,
+            rewardXp: 100, rewardCoins: 30, nextQuest: 'quest_typo_king'
+          },
+          quest_typo_king: {
+            id: 'quest_typo_king', title: 'Kalahkan Raja Typo Slime',
+            desc: 'Taklukkan Raja Typo! Pecahkan perisai salah ketiknya dengan menjawab kuis Word Tetua Ribbon!',
+            targetType: 'defeat_boss', targetId: 'typo_king', current: 0, required: 1,
+            rewardXp: 250, rewardCoins: 100, rewardFragment: 'fragment_header', nextQuest: null
+          }
+        };
+      }
+      load(savedActiveId, completed = []) {
+        this.completedQuests = [...completed];
+        if (savedActiveId && this.quests[savedActiveId]) this.activeQuest = { ...this.quests[savedActiveId] };
+        else if (!this.completedQuests.includes('quest_welcome')) this.activeQuest = { ...this.quests.quest_welcome };
+      }
+      startQuest(id) {
+        if (this.quests[id] && !this.completedQuests.includes(id)) {
+          this.activeQuest = { ...this.quests[id], current: 0 };
+          this.game.ui.updateQuestUI(this.activeQuest);
+          this.game.ui.showToast(`📜 Misi Baru: ${this.activeQuest.title}`);
+        }
+      }
+      updateProgress(type, id, amt = 1) {
+        if (!this.activeQuest) return;
+        if (this.activeQuest.targetType === type && (!this.activeQuest.targetId || this.activeQuest.targetId === id)) {
+          this.activeQuest.current = Math.min(this.activeQuest.required, this.activeQuest.current + amt);
+          this.game.ui.updateQuestUI(this.activeQuest);
+          if (this.activeQuest.current >= this.activeQuest.required) this.completeActiveQuest();
+        }
+      }
+      completeActiveQuest() {
+        if (!this.activeQuest) return;
+        const q = this.activeQuest;
+        this.completedQuests.push(q.id);
+        audio.playQuestComplete();
+        this.game.player.addXp(q.rewardXp);
+        this.game.player.addCoins(q.rewardCoins);
+
+        let unlockMsg = '';
+        if (q.rewardSkill) {
+          this.game.player.unlockSkill(q.rewardSkill);
+          unlockMsg = '✨ SKILL TERBUKA: HANTAMAN BOLD [1]!';
+        }
+        if (q.rewardFragment) {
+          this.game.inventory.addItem({
+            id: 'fragment_header', name: 'Fragmen Header Dokumen', icon: '📜',
+            desc: 'Bagian header resmi Dokumen Master. Mengatur judul dan penataan format atas.',
+            wordTip: 'Fungsi Word: Header berada di bagian teratas setiap lembar untuk memberi judul resmi!'
+          });
+          unlockMsg = '🌟 FRAGMEN PERTAMA DOKUMEN MASTER TELAH PULIH!';
+          this.game.onWorldComplete();
+        }
+
+        this.game.ui.showQuestCompleteModal(q, unlockMsg);
+        if (q.nextQuest) this.startQuest(q.nextQuest);
+        else { this.activeQuest = null; this.game.ui.updateQuestUI(null); }
+      }
+    }
+
+    // --- 5. NPC & DIALOG ---
+    class NPC {
+      constructor({ id, name, avatar, x, y, width = 48, height = 64, dialogs = [], role = 'npc' }) {
+        this.id = id; this.name = name; this.avatar = avatar; this.x = x; this.y = y;
+        this.width = width; this.height = height; this.dialogs = dialogs; this.dialogIndex = 0;
+        this.role = role; this.animTimer = 0;
+      }
+      update(dt) { this.animTimer += dt; }
+      draw(ctx, cam) {
+        const rx = this.x - cam.x; const ry = this.y - cam.y;
+        if (rx + this.width < -50 || rx > ctx.canvas.width + 50) return;
+        ctx.save();
+        const bounce = Math.sin(this.animTimer * 4) * 3;
+
+        if (this.role === 'signpost') {
+          ctx.fillStyle = '#b45309'; ctx.fillRect(rx + 20, ry + 16, 8, 48);
+          ctx.fillStyle = '#fef3c7'; ctx.strokeStyle = '#92400e'; ctx.lineWidth = 2;
+          ctx.beginPath(); ctx.roundRect(rx + 4, ry + 4, 40, 28, 4); ctx.fill(); ctx.stroke();
+          ctx.fillStyle = '#78350f'; ctx.font = 'bold 16px monospace'; ctx.textAlign = 'center';
+          ctx.fillText('?', rx + 24, ry + 24);
+        } else {
+          ctx.fillStyle = 'rgba(0,0,0,0.2)'; ctx.beginPath(); ctx.ellipse(rx + 24, ry + 60, 18, 6, 0, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = this.id === 'mr_ribbon' ? '#2563eb' : '#059669';
+          ctx.beginPath(); ctx.roundRect(rx + 8, ry + 20 + bounce, 32, 38, 8); ctx.fill();
+          ctx.fillStyle = '#fde047'; ctx.beginPath(); ctx.arc(rx + 24, ry + 16 + bounce, 14, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = '#1e293b'; ctx.beginPath(); ctx.arc(rx + 20, ry + 14 + bounce, 2, 0, Math.PI * 2); ctx.arc(rx + 28, ry + 14 + bounce, 2, 0, Math.PI * 2); ctx.fill();
+
+          ctx.fillStyle = '#fff'; ctx.strokeStyle = '#3b82f6'; ctx.lineWidth = 1.5;
+          ctx.beginPath(); ctx.roundRect(rx - 8, ry - 14 + bounce, 64, 18, 6); ctx.fill(); ctx.stroke();
+          ctx.fillStyle = '#1e3a8a'; ctx.font = 'bold 10px sans-serif'; ctx.textAlign = 'center';
+          ctx.fillText(this.name, rx + 24, ry - 1 + bounce);
+
+          ctx.fillStyle = '#f59e0b'; ctx.beginPath(); ctx.arc(rx + 24, ry - 22 + bounce, 7, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = '#fff'; ctx.font = 'bold 9px sans-serif'; ctx.fillText('E', rx + 24, ry - 19 + bounce);
+        }
+        ctx.restore();
+      }
+      getCurrentDialog(game) {
+        if (this.id === 'mr_ribbon') {
+          if (game.questManager.completedQuests.includes('quest_letters')) {
+            return "Luar biasa, Pahlawan! Gunakan skill Hantaman Bold [1] untuk menghancurkan Gerbang Bold di depan, lalu kalahkan Raja Typo Slime!";
+          } else if (game.questManager.activeQuest?.id === 'quest_letters') {
+            return `Tantangan formatmu selesai dengan sempurna! Sekarang carilah 3 Huruf Emas (W, O, R) di tebing bukit! (${game.questManager.activeQuest.current}/${game.questManager.activeQuest.required})`;
+          } else if (game.questManager.activeQuest?.id === 'quest_formatting') {
+            return "Pahlawan Digital! Aku memiliki tantangan dokumen untukmu: Format 'Surat Titah Lembah' dengan toolbar Word! Aku buka editornya sekarang!";
+          }
+          return "Salam, Pahlawan Digital! Dokumen Master telah dipecah monster Typo! Aku, Tetua Ribbon, memegang kunci panduan dan tantangan pengolah kata!";
+        }
+        if (this.id === 'miss_margin') {
+          return "Perhatian! Gerbang ini berformat BOLD 900pt yang amat tebal! Hanya Hantaman Bold (Tombol 1) yang bisa meremukkannya!";
+        }
+        if (this.id === 'sign_cursor') {
+          return "💡 [EDUKASI WORD - KURSOR]: Garis berkedip '|' adalah Kursor teks tempat huruf baru akan muncul saat kamu mengetik. Tekan [J] untuk mengayunkan Pedang Kursor!";
+        }
+        if (this.id === 'sign_save') {
+          return "💡 [EDUKASI WORD - SAVE (Ctrl+S)]: Simpan pekerjaanmu dengan shortcut [Ctrl + S]! Jangan biarkan tugas atau dokumen kantormu hilang karena lupa simpan!";
+        }
+        if (this.id === 'sign_letters') {
+          return "💡 [EDUKASI WORD - KARAKTER]: Huruf membentuk kata, tombol Spasi memberi jarak antar kata, dan tombol Enter membuat paragraf baru. Kumpulkan huruf emas W, O, R!";
+        }
+        if (this.id === 'sign_bold') {
+          return "💡 [EDUKASI WORD - BOLD (Ctrl+B)]: Format Bold menebalkan teks untuk memberi penekanan pada judul atau kata kunci penting agar pembaca langsung paham!";
+        }
+        return this.dialogs[this.dialogIndex % this.dialogs.length] || "...";
+      }
+    }
+
+    // --- 6. ENEMIES & BOSS ---
+    class Enemy {
+      constructor({ id, type, x, y, width = 36, height = 32, hp = 30, patrolDist = 120, isBoss = false }) {
+        this.id = id; this.type = type; this.startX = x; this.x = x; this.y = y;
+        this.vx = 1.2; this.vy = 0; this.width = width; this.height = height;
+        this.hp = hp; this.maxHp = hp; this.patrolDist = patrolDist; this.isBoss = isBoss;
+        this.isDead = false; this.hurtTimer = 0; this.animTimer = 0; this.direction = 1;
+        this.bossState = 'idle'; this.bossTimer = 0; this.isShielded = false; this.stunTimer = 0;
+        this.hasTriggeredPhase1Shield = false;
+        this.hasTriggeredPhase2Shield = false;
+      }
+      breakShield(game) {
+        this.isShielded = false;
+        this.bossState = 'stunned';
+        this.stunTimer = 4.0;
+        this.hurtTimer = 0.4;
+        this.hp = Math.max(1, this.hp - 35);
+        game.createScreenShake(8);
+        game.world.spawnParticles(this.x + this.width/2, this.y + this.height/2, '#22c55e', 24);
+        game.world.spawnFloatingText('PERISAI HANCUR! STUN 4 DETIK!', this.x, this.y - 30, '#22c55e', 18);
+        game.ui.showToast('💥 Kuis Terjawab Benar! Raja Typo Slime Terkapar Stun!');
+      }
+      takeDamage(amt, isBold = false) {
+        if (this.isDead) return false;
+        if (this.isBoss && this.isShielded) {
+          if (isBold) {
+            this.breakShield(this.game || window.game);
+            return 'broken_shield';
+          }
+          return 'deflected';
+        }
+        this.hp -= amt; this.hurtTimer = 0.25;
+        if (this.hp <= 0) { this.hp = 0; this.isDead = true; return 'killed'; }
+        return 'damaged';
+      }
+      update(dt, player, world, game) {
+        if (this.isDead) return;
+        this.animTimer += dt;
+        if (this.hurtTimer > 0) this.hurtTimer -= dt;
+        this.vy += 22 * dt; this.y += this.vy;
+        world.handleEntityGround(this);
+
+        if (this.isBoss) {
+          this.updateBoss(dt, player, world, game);
+        } else {
+          const dist = Math.hypot((player.x + player.width/2) - (this.x + this.width/2), (player.y + player.height/2) - (this.y + this.height/2));
+          if (dist < 220) {
+            this.direction = player.x > this.x ? 1 : -1; this.vx = this.direction * 2.2;
+            if (this.onGround && Math.random() < 0.02) { this.vy = -6; this.onGround = false; }
+          } else {
+            if (Math.abs(this.x - this.startX) > this.patrolDist) this.direction = this.x > this.startX ? -1 : 1;
+            this.vx = this.direction * 1.2;
+          }
+          this.x += this.vx;
+        }
+      }
+      updateBoss(dt, player, world, game) {
+        this.bossTimer += dt;
+        if (this.bossState === 'stunned') {
+          this.stunTimer -= dt; this.vx = 0;
+          if (this.stunTimer <= 0) { this.bossState = 'idle'; this.bossTimer = 0; }
+          return;
+        }
+
+        // Trigger boss shield & quiz at 65% and 30% HP
+        const hpRatio = this.hp / this.maxHp;
+        if (!this.hasTriggeredPhase1Shield && hpRatio <= 0.65) {
+          this.hasTriggeredPhase1Shield = true;
+          this.isShielded = true;
+          this.bossState = 'shielded';
+          game.ui.triggerBossQuiz(this);
+          return;
+        }
+        if (!this.hasTriggeredPhase2Shield && hpRatio <= 0.30) {
+          this.hasTriggeredPhase2Shield = true;
+          this.isShielded = true;
+          this.bossState = 'shielded';
+          game.ui.triggerBossQuiz(this);
+          return;
+        }
+
+        this.direction = player.x > this.x ? 1 : -1;
+        if (this.bossState === 'idle') {
+          this.vx = this.direction * 1.0;
+          if (this.bossTimer > 3.0) {
+            this.bossTimer = 0;
+            const r = Math.random();
+            if (r < 0.5) { this.bossState = 'jump'; this.vy = -13; this.onGround = false; }
+            else { this.bossState = 'barrage'; this.spit(player, game); }
+          }
+        } else if (this.bossState === 'jump') {
+          this.x += this.direction * 3.5;
+          if (this.onGround && this.vy >= 0) {
+            this.bossState = 'idle'; this.bossTimer = 0;
+            game.createScreenShake(6); audio.playHit();
+            world.spawnShockwave(this.x - 20, this.y + this.height - 10, -1);
+            world.spawnShockwave(this.x + this.width + 10, this.y + this.height - 10, 1);
+          }
+        } else if (this.bossState === 'barrage') {
+          this.vx = 0; if (this.bossTimer > 1.2) { this.bossState = 'idle'; this.bossTimer = 0; }
+        } else if (this.bossState === 'shielded') {
+          this.vx = 0;
+        }
+      }
+      spit(player, game) {
+        audio.playAttack();
+        const letters = ['@', '#', '!', '?', '%'];
+        for (let i = 0; i < 3; i++) {
+          setTimeout(() => {
+            if (this.isDead) return;
+            const angle = Math.atan2((player.y + player.height/2) - (this.y + 20), (player.x + player.width/2) - (this.x + this.width/2)) + (i - 1) * 0.22;
+            game.world.projectiles.push({
+              x: this.x + this.width/2 - 9,
+              y: this.y + 16,
+              width: 18,
+              height: 18,
+              vx: Math.cos(angle) * 5.2,
+              vy: Math.sin(angle) * 5.2,
+              symbol: letters[Math.floor(Math.random() * letters.length)],
+              isEnemy: true,
+              damage: 12,
+              life: 3.5
+            });
+          }, i * 200);
+        }
+      }
+      draw(ctx, cam) {
+        if (this.isDead) return;
+        const rx = this.x - cam.x; const ry = this.y - cam.y;
+        if (rx + this.width < -60 || rx > ctx.canvas.width + 60) return;
+        ctx.save();
+        if (this.hurtTimer > 0) ctx.filter = 'brightness(2.2)';
+
+        if (this.isBoss) {
+          const sq = Math.sin(this.animTimer * 6) * 4;
+          if (this.isShielded) {
+            ctx.strokeStyle = '#c026d3'; ctx.lineWidth = 4; ctx.setLineDash([8, 6]);
+            ctx.beginPath(); ctx.arc(rx + this.width/2, ry + this.height/2, this.width * 0.62, 0, Math.PI * 2); ctx.stroke();
+            ctx.setLineDash([]); ctx.fillStyle = '#d946ef'; ctx.font = '900 12px sans-serif'; ctx.textAlign = 'center';
+            ctx.fillText('PERISAI BOLD', rx + this.width/2, ry - 14);
+          }
+          if (this.bossState === 'stunned') {
+            ctx.fillStyle = '#eab308'; ctx.font = 'bold 16px sans-serif'; ctx.textAlign = 'center';
+            ctx.fillText('⭐ PUSING ⭐', rx + this.width/2, ry - 10);
+          }
+          ctx.fillStyle = this.isShielded ? '#581c87' : '#991b1b';
+          ctx.beginPath(); ctx.ellipse(rx + this.width/2, ry + this.height/2 + sq/2, this.width/2 + sq, this.height/2 - sq, 0, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = '#eab308'; ctx.beginPath();
+          const cx = rx + this.width/2; const cy = ry - 10;
+          ctx.moveTo(cx - 20, cy + 10); ctx.lineTo(cx - 24, cy - 6); ctx.lineTo(cx, cy - 12); ctx.lineTo(cx + 24, cy - 6); ctx.lineTo(cx + 20, cy + 10); ctx.fill();
+          ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(rx + 50, ry + 36, 9, 0, Math.PI * 2); ctx.arc(rx + 28, ry + 36, 7, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = '#b91c1c'; ctx.beginPath(); ctx.arc(rx + 52, ry + 36, 4, 0, Math.PI * 2); ctx.arc(rx + 30, ry + 36, 3, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = '#fca5a5'; ctx.font = 'bold 12px monospace'; ctx.textAlign = 'center';
+          ctx.fillText('#SALAH_KETIK!', rx + this.width/2, ry + this.height/2 + 18);
+        } else {
+          const sq = Math.sin(this.animTimer * 8) * 3;
+          ctx.fillStyle = this.type === 'bug' ? '#ea580c' : '#dc2626';
+          ctx.beginPath(); ctx.ellipse(rx + this.width/2, ry + this.height/2 + sq/2, this.width/2 + sq, this.height/2 - sq, 0, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = '#fff'; ctx.font = 'bold 10px monospace'; ctx.textAlign = 'center';
+          ctx.fillText(this.type === 'bug' ? '~err~' : 'typo', rx + this.width/2, ry + this.height/2 + 4);
+        }
+        ctx.restore();
+      }
+    }
+
+    // --- 7. PLAYER CHARACTER ---
+    class Player {
+      constructor(game) {
+        this.game = game; this.x = 100; this.y = 400; this.vx = 0; this.vy = 0;
+        this.width = 36; this.height = 52; this.direction = 1; this.speed = 4.8;
+        this.jumpForce = -12.2; this.onGround = false; this.coyoteTimer = 0; this.jumpBufferTimer = 0;
+        this.hp = 100; this.maxHp = 100; this.xp = 0; this.maxXp = 100; this.level = 1; this.coins = 0;
+        this.unlockedSkills = [];
+        this.cooldowns = { bold_blast: 0, italic_dash: 0, underline_shield: 0 };
+        this.maxCooldowns = { bold_blast: 3.0, italic_dash: 4.0, underline_shield: 6.0 };
+        this.isAttacking = false; this.attackTimer = 0; this.attackDuration = 0.22;
+        this.isDashing = false; this.dashTimer = 0; this.dashDuration = 0.25;
+        this.shieldCharges = 0; this.invulnTimer = 0; this.animTimer = 0; this.isMoving = false;
+        this.lastSafeX = 100; this.lastSafeY = 400; this.isRespawning = false;
+      }
+      load(saved) {
+        if (!saved) return;
+        this.level = saved.level || 1; this.xp = saved.xp || 0; this.maxXp = saved.maxXp || 100;
+        this.hp = saved.hp || 100; this.maxHp = saved.maxHp || 100; this.coins = saved.coins || 0;
+        this.unlockedSkills = saved.unlockedSkills || [];
+        if (saved.x) { this.x = saved.x; this.y = saved.y; this.lastSafeX = saved.x; this.lastSafeY = saved.y; }
+      }
+      addXp(amt) {
+        this.xp += amt;
+        while (this.xp >= this.maxXp) {
+          this.xp -= this.maxXp; this.level++; this.maxHp += 15; this.hp = this.maxHp;
+          this.maxXp = Math.floor(this.maxXp * 1.35);
+          audio.playLevelUp();
+          this.game.ui.showToast(`🎉 NAIK LEVEL! Kamu mencapai Level ${this.level}!`);
+        }
+        this.game.ui.updateStatsUI(this);
+      }
+      addCoins(amt) { this.coins += amt; audio.playCoin(); this.game.ui.updateCoinsUI(this.coins); }
+      unlockSkill(id) { if (!this.unlockedSkills.includes(id)) { this.unlockedSkills.push(id); this.game.ui.updateSkillBar(this); } }
+      takeDamage(amt) {
+        if (this.invulnTimer > 0 || this.isDashing) return false;
+        // User invulnerability when in challenge, quiz, dialogue, or modal
+        if (this.game && this.game.isUserInChallengeOrModal()) return false;
+        if (this.shieldCharges > 0) {
+          this.shieldCharges--; audio.playHit(); this.game.ui.showToast('🛡️ Perisai Underline menahan serangan!');
+          this.invulnTimer = 0.5; return false;
+        }
+        this.hp = Math.max(0, this.hp - amt); this.invulnTimer = 1.0;
+        this.game.createScreenShake(5); audio.playHit(); this.game.ui.updateStatsUI(this);
+        if (this.hp <= 0) {
+          this.isRespawning = true; this.vx = 0; this.vy = 0;
+          this.game.ui.showToast('💀 Kamu tumbang! Memulihkan di pos awal...');
+          setTimeout(() => {
+            this.hp = this.maxHp; this.x = 100; this.y = 350; this.vx = 0; this.vy = 0;
+            this.lastSafeX = 100; this.lastSafeY = 400; this.onGround = true; this.invulnTimer = 1.5;
+            this.isRespawning = false; this.game.ui.updateStatsUI(this);
+          }, 1200);
+        }
+        return true;
+      }
+      handleFallRespawn() {
+        if (this.isRespawning) return;
+        this.isRespawning = true;
+        this.takeDamage(15);
+        audio.playHit();
+        this.game.createScreenShake(6);
+        this.game.ui.showToast('⚠️ Terjatuh ke jurang! Kembali ke pijakan aman...');
+        this.vx = 0; this.vy = 0;
+        setTimeout(() => {
+          this.x = Math.max(80, this.lastSafeX || 100);
+          this.y = Math.min(480, (this.lastSafeY || 400) - 20);
+          this.vx = 0; this.vy = 0; this.onGround = true; this.invulnTimer = 1.2;
+          this.isRespawning = false;
+        }, 320);
+      }
+      heal(amt) { this.hp = Math.min(this.maxHp, this.hp + amt); this.game.ui.updateStatsUI(this); }
+      attack() {
+        if (this.isAttacking) return;
+        this.isAttacking = true; this.attackTimer = this.attackDuration; audio.playAttack();
+        this.checkAttackCollision();
+      }
+      useSkill(key) {
+        if (!this.unlockedSkills.includes(key)) { this.game.ui.showToast('🔒 Skill masih terkunci! Selesaikan misi dahulu.'); return; }
+        if (this.cooldowns[key] > 0) return;
+        if (key === 'bold_blast') {
+          this.cooldowns.bold_blast = this.maxCooldowns.bold_blast; audio.playBold();
+          this.game.createScreenShake(7); this.game.world.triggerBoldBlast(this);
+        } else if (key === 'italic_dash') {
+          this.cooldowns.italic_dash = this.maxCooldowns.italic_dash; this.isDashing = true;
+          this.dashTimer = this.dashDuration; this.vx = this.direction * 12; audio.playDash();
+        } else if (key === 'underline_shield') {
+          this.cooldowns.underline_shield = this.maxCooldowns.underline_shield; this.shieldCharges = 2;
+          audio.playShield(); this.game.ui.showToast('🛡️ Perisai Garis Bawah Aktif! Tahan 2 pukulan.');
+        }
+      }
+      checkAttackCollision() {
+        const box = { x: this.direction > 0 ? this.x + this.width : this.x - 34, y: this.y + 4, width: 34, height: 44 };
+        this.game.world.enemies.forEach(e => {
+          if (!e.isDead && this.game.world.checkOverlap(box, e)) {
+            const res = e.takeDamage(20, false);
+            if (res === 'deflected') { audio.playHit(); this.game.ui.showToast('⚠️ Kebal! Gunakan Hantaman Bold [1]!'); }
+            else if (res === 'killed') {
+              audio.playHit(); this.addXp(e.isBoss ? 200 : 25); this.addCoins(e.isBoss ? 50 : 8);
+              this.game.world.spawnParticles(e.x + e.width/2, e.y + e.height/2, '#ef4444', 12);
+              if (e.isBoss) this.game.questManager.updateProgress('defeat_boss', 'typo_king', 1);
+            } else {
+              audio.playHit(); this.game.world.spawnParticles(e.x + e.width/2, e.y + e.height/2, '#ef4444', 6);
+            }
+          }
+        });
+        this.game.world.breakables.forEach(b => {
+          if (!b.broken && this.game.world.checkOverlap(box, b)) {
+            b.broken = true; audio.playHit(); this.game.world.spawnParticles(b.x + b.width/2, b.y + b.height/2, '#f59e0b', 10);
+            this.addCoins(4);
+          }
+        });
+      }
+      update(dt, input, world) {
+        if (this.isRespawning) {
+          this.vx = 0;
+          this.vy = 0;
+          return;
+        }
+        this.animTimer += dt;
+        Object.keys(this.cooldowns).forEach(k => { if (this.cooldowns[k] > 0) this.cooldowns[k] = Math.max(0, this.cooldowns[k] - dt); });
+        if (this.invulnTimer > 0) this.invulnTimer -= dt;
+        if (this.isAttacking) { this.attackTimer -= dt; if (this.attackTimer <= 0) this.isAttacking = false; }
+        if (this.isDashing) {
+          this.dashTimer -= dt; this.x += this.vx; world.handleEntityHorizontal(this);
+          if (this.dashTimer <= 0) this.isDashing = false;
+          return;
+        }
+
+        this.isMoving = false;
+        if (input.left) { this.vx = -this.speed; this.direction = -1; this.isMoving = true; }
+        else if (input.right) { this.vx = this.speed; this.direction = 1; this.isMoving = true; }
+        else { this.vx *= 0.78; if (Math.abs(this.vx) < 0.1) this.vx = 0; }
+
+        if (this.onGround) this.coyoteTimer = 0.12; else this.coyoteTimer -= dt;
+        if (input.jumpPressed) this.jumpBufferTimer = 0.12; else this.jumpBufferTimer -= dt;
+        if (this.jumpBufferTimer > 0 && this.coyoteTimer > 0) {
+          this.vy = this.jumpForce; this.onGround = false; this.coyoteTimer = 0; this.jumpBufferTimer = 0;
+          audio.playJump();
+        }
+        if (!input.jump && this.vy < -3) this.vy += 28 * dt;
+        this.vy += 25 * dt; if (this.vy > 15) this.vy = 15;
+
+        this.x += this.vx; world.handleEntityHorizontal(this);
+        this.y += this.vy; world.handleEntityGround(this);
+
+        if (this.onGround && this.y <= 540) {
+          this.lastSafeX = this.x;
+          this.lastSafeY = this.y;
+        }
+
+        if (this.y > 610) {
+          this.handleFallRespawn();
+        }
+      }
+      draw(ctx, cam) {
+        const rx = this.x - cam.x; const ry = this.y - cam.y;
+        ctx.save();
+        if (this.invulnTimer > 0 && Math.floor(this.animTimer * 15) % 2 === 0) ctx.globalAlpha = 0.4;
+        if (this.isDashing) {
+          ctx.transform(1, 0, -0.25 * this.direction, 1, 0, 0);
+          ctx.fillStyle = 'rgba(59,130,246,0.4)'; ctx.fillRect(rx - 15 * this.direction, ry, this.width, this.height);
+        }
+        ctx.fillStyle = 'rgba(0,0,0,0.25)'; ctx.beginPath(); ctx.ellipse(rx + this.width/2, ry + this.height, 16, 5, 0, 0, Math.PI * 2); ctx.fill();
+
+        if (this.shieldCharges > 0) {
+          ctx.strokeStyle = '#06b6d4'; ctx.lineWidth = 3; ctx.beginPath();
+          ctx.arc(rx + this.width/2, ry + this.height/2, 30, 0, Math.PI * 2); ctx.stroke();
+          ctx.fillStyle = '#0891b2'; ctx.fillRect(rx - 6, ry + this.height + 4, this.width + 12, 4);
+        }
+
+        if (this.game && this.game.isUserInChallengeOrModal && this.game.isUserInChallengeOrModal()) {
+          ctx.strokeStyle = '#eab308'; ctx.lineWidth = 2; ctx.setLineDash([4, 4]);
+          ctx.beginPath();
+          ctx.arc(rx + this.width/2, ry + this.height/2, 32, 0, Math.PI * 2);
+          ctx.stroke(); ctx.setLineDash([]);
+          ctx.fillStyle = '#fef08a'; ctx.font = 'bold 9px sans-serif'; ctx.textAlign = 'center';
+          ctx.fillText('🛡️ KEBAL (TANTANGAN)', rx + this.width/2, ry - 14);
+        }
+
+        const flutter = this.isMoving ? Math.sin(this.animTimer * 14) * 6 : 0;
+        ctx.fillStyle = '#1d4ed8'; ctx.beginPath();
+        const cx = this.direction > 0 ? rx + 6 : rx + this.width - 6;
+        ctx.moveTo(cx, ry + 18); ctx.lineTo(cx - (16 * this.direction), ry + 44 + flutter); ctx.lineTo(cx, ry + 36); ctx.fill();
+
+        ctx.fillStyle = '#0f172a';
+        ctx.fillRect(rx + 8, ry + 36, 7, 16); ctx.fillRect(rx + 21, ry + 36, 7, 16);
+
+        ctx.fillStyle = '#2563eb'; ctx.beginPath(); ctx.roundRect(rx + 6, ry + 16, 24, 24, 6); ctx.fill();
+        ctx.fillStyle = '#fff'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center'; ctx.fillText('W', rx + 18, ry + 32);
+
+        ctx.fillStyle = '#fde047'; ctx.beginPath(); ctx.arc(rx + 18, ry + 12, 12, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#3b82f6'; ctx.beginPath(); ctx.arc(rx + 18, ry + 8, 12, Math.PI, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#0f172a'; ctx.fillRect(this.direction > 0 ? rx + 22 : rx + 14, ry + 10, 3, 4);
+
+        if (this.isAttacking) {
+          const ratio = this.attackTimer / this.attackDuration;
+          const bladeAngle = (1 - ratio) * Math.PI * 0.9 * this.direction;
+          ctx.save(); ctx.translate(rx + 18, ry + 26); ctx.rotate(bladeAngle);
+          ctx.fillStyle = '#38bdf8'; ctx.strokeStyle = '#fff'; ctx.lineWidth = 2;
+          ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(28 * this.direction, -16); ctx.lineTo(24 * this.direction, 8); ctx.closePath(); ctx.fill(); ctx.stroke();
+          ctx.restore();
+        }
+        ctx.restore();
+      }
+    }
+
+    // --- 8. WORLD & ENVIRONMENT ---
+    class World {
+      constructor(game) {
+        this.game = game; this.width = 3200; this.height = 720;
+        this.platforms = [
+          { x: 0, y: 560, width: 850, height: 160, type: 'ground' },
+          { x: 420, y: 460, width: 140, height: 28 }, { x: 600, y: 380, width: 140, height: 28 },
+          { x: 780, y: 300, width: 160, height: 28, type: 'clipboard' },
+          { x: 920, y: 560, width: 680, height: 160, type: 'ground' },
+          { x: 1040, y: 440, width: 120, height: 26 }, { x: 1220, y: 360, width: 130, height: 26 },
+          { x: 1400, y: 290, width: 140, height: 26, type: 'clipboard' },
+          { x: 1100, y: 220, width: 220, height: 26 },
+          { x: 1680, y: 560, width: 500, height: 160, type: 'ground' },
+          { x: 1820, y: 450, width: 130, height: 26 }, { x: 2000, y: 380, width: 140, height: 26 },
+          { x: 2240, y: 560, width: 960, height: 160, type: 'boss_ground' },
+          { x: 2360, y: 440, width: 130, height: 26 }, { x: 2840, y: 440, width: 130, height: 26 }
+        ];
+        this.boldGate = { x: 2160, y: 380, width: 44, height: 180, broken: false };
+        this.saveStation = { x: 340, y: 496, width: 48, height: 64 };
+        this.springs = [{ x: 970, y: 536, width: 36, height: 24, force: -16.5 }, { x: 1720, y: 536, width: 36, height: 24, force: -16.0 }];
+        this.collectibles = [
+          { id: 'w', type: 'golden_letter', letter: 'W', x: 840, y: 240, width: 32, height: 32, collected: false },
+          { id: 'o', type: 'golden_letter', letter: 'O', x: 1190, y: 160, width: 32, height: 32, collected: false },
+          { id: 'r', type: 'golden_letter', letter: 'R', x: 1450, y: 230, width: 32, height: 32, collected: false },
+          { id: 'c1', type: 'coin', x: 450, y: 410, width: 22, height: 22, collected: false },
+          { id: 'c2', type: 'coin', x: 630, y: 330, width: 22, height: 22, collected: false },
+          { id: 'c3', type: 'coin', x: 1060, y: 390, width: 22, height: 22, collected: false },
+          { id: 'c4', type: 'coin', x: 1850, y: 400, width: 22, height: 22, collected: false },
+          { id: 'hp1', type: 'potion', x: 1280, y: 520, width: 24, height: 24, collected: false }
+        ];
+        this.breakables = [{ x: 520, y: 512, width: 44, height: 48, broken: false }, { x: 1350, y: 512, width: 44, height: 48, broken: false }, { x: 1950, y: 512, width: 44, height: 48, broken: false }];
+        this.npcs = [
+          new NPC({ id: 'mr_ribbon', name: 'Tetua Ribbon', avatar: '📜', x: 220, y: 496 }),
+          new NPC({ id: 'miss_margin', name: 'Nona Margin', avatar: '📐', x: 2080, y: 496 }),
+          new NPC({ id: 'sign_cursor', name: 'Papan Kursor', avatar: '🪧', x: 80, y: 504, role: 'signpost' }),
+          new NPC({ id: 'sign_save', name: 'Papan Simpan (Ctrl+S)', avatar: '🪧', x: 420, y: 504, role: 'signpost' }),
+          new NPC({ id: 'sign_letters', name: 'Papan Huruf & Teks', avatar: '🪧', x: 920, y: 504, role: 'signpost' }),
+          new NPC({ id: 'sign_bold', name: 'Papan Format Bold', avatar: '🪧', x: 2000, y: 504, role: 'signpost' })
+        ];
+        this.enemies = [
+          new Enemy({ id: 's1', type: 'slime', x: 620, y: 520, hp: 30 }),
+          new Enemy({ id: 'b1', type: 'bug', x: 1120, y: 520, hp: 45 }),
+          new Enemy({ id: 's2', type: 'slime', x: 1460, y: 520, hp: 35 })
+        ];
+        this.boss = new Enemy({ id: 'typo_king', type: 'boss', x: 2700, y: 450, width: 78, height: 72, hp: 260, isBoss: true });
+        this.enemies.push(this.boss);
+        this.worldGate = { x: 3050, y: 440, width: 60, height: 120, isOpen: false };
+        this.projectiles = []; this.particles = []; this.shockwaves = []; this.floatingTexts = [];
+        this.bossStarted = false;
+      }
+      checkOverlap(r1, r2) {
+        if (!r1 || !r2) return false;
+        const w1 = r1.width !== undefined ? r1.width : (r1.radius ? r1.radius * 2 : 0);
+        const h1 = r1.height !== undefined ? r1.height : (r1.radius ? r1.radius * 2 : 0);
+        const w2 = r2.width !== undefined ? r2.width : (r2.radius ? r2.radius * 2 : 0);
+        const h2 = r2.height !== undefined ? r2.height : (r2.radius ? r2.radius * 2 : 0);
+        if (w1 <= 0 || h1 <= 0 || w2 <= 0 || h2 <= 0) return false;
+        const x1 = r1.radius && r1.width === undefined ? r1.x - r1.radius : r1.x;
+        const y1 = r1.radius && r1.height === undefined ? r1.y - r1.radius : r1.y;
+        const x2 = r2.radius && r2.width === undefined ? r2.x - r2.radius : r2.x;
+        const y2 = r2.radius && r2.height === undefined ? r2.y - r2.radius : r2.y;
+        return x1 < x2 + w2 && x1 + w1 > x2 && y1 < y2 + h2 && y1 + h1 > y2;
+      }
+      handleEntityHorizontal(e) {
+        if (e.x < 0) e.x = 0;
+        if (e.x + e.width > this.width) e.x = this.width - e.width;
+        if (this.boldGate && !this.boldGate.broken && this.checkOverlap(e, this.boldGate)) {
+          if (e.vx > 0) e.x = this.boldGate.x - e.width; else if (e.vx < 0) e.x = this.boldGate.x + this.boldGate.width;
+          e.vx = 0;
+        }
+        if (this.bossStarted && !this.boss.isDead && e.x < 2250) { e.x = 2250; e.vx = 0; }
+      }
+      handleEntityGround(e) {
+        e.onGround = false;
+        for (const p of this.platforms) {
+          const prevY = e.y - e.vy;
+          if (e.x + e.width > p.x && e.x < p.x + p.width && prevY + e.height <= p.y + 12 && e.y + e.height >= p.y) {
+            e.y = p.y - e.height; e.vy = 0; e.onGround = true; break;
+          }
+        }
+        for (const b of this.breakables) {
+          if (!b.broken && this.checkOverlap(e, b) && e.y + e.height - e.vy <= b.y + 10) {
+            e.y = b.y - e.height; e.vy = 0; e.onGround = true;
+          }
+        }
+      }
+      triggerBoldBlast(player) {
+        const bx = player.direction > 0 ? player.x + player.width + 10 : player.x - 60;
+        const by = player.y + player.height/2;
+        this.spawnParticles(bx + 25, by, '#f59e0b', 24);
+        this.spawnFloatingText('HANTAMAN BOLD!', bx, by - 20, '#f59e0b', 18);
+        if (this.boldGate && !this.boldGate.broken) {
+          const d = Math.hypot((this.boldGate.x + 22) - bx, (this.boldGate.y + 90) - by);
+          if (d < 150) {
+            this.boldGate.broken = true; this.spawnParticles(this.boldGate.x + 20, this.boldGate.y + 80, '#3b82f6', 30);
+            this.spawnFloatingText('GERBANG HANCUR!', this.boldGate.x, this.boldGate.y, '#22c55e', 18);
+            this.game.questManager.updateProgress('break_barrier', 'bold_gate', 1);
+          }
+        }
+        this.enemies.forEach(e => {
+          if (!e.isDead && Math.hypot((e.x + e.width/2) - bx, (e.y + e.height/2) - by) < 120) {
+            const res = e.takeDamage(45, true);
+            if (res === 'broken_shield') this.spawnFloatingText('PERISAI BOLD PECAH!', e.x, e.y - 30, '#ec4899', 16);
+            else if (res === 'killed') {
+              player.addXp(e.isBoss ? 250 : 30); player.addCoins(e.isBoss ? 60 : 10);
+              if (e.isBoss) this.game.questManager.updateProgress('defeat_boss', 'typo_king', 1);
+            }
+          }
+        });
+      }
+      spawnShockwave(x, y, dir) {
+        this.shockwaves.push({
+          x: x - 12,
+          y: y - 10,
+          width: 28,
+          height: 22,
+          vx: dir * 4.5,
+          life: 1.2,
+          damage: 15
+        });
+      }
+      spawnParticles(x, y, color, count = 8) {
+        for (let i = 0; i < count; i++) {
+          const a = Math.random() * Math.PI * 2; const sp = 1.5 + Math.random() * 4.5;
+          this.particles.push({ x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - 1.5, color, size: 3 + Math.random() * 4, life: 0.6 + Math.random() * 0.4, maxLife: 1.0 });
+        }
+      }
+      spawnFloatingText(text, x, y, color = '#fff', fontSize = 14) { this.floatingTexts.push({ text, x, y, color, fontSize, life: 1.4, vy: -1.2 }); }
+      update(dt, player, game) {
+        this.springs.forEach(s => {
+          if (this.checkOverlap(player, s) && player.vy >= 0) { player.vy = s.force; player.onGround = false; audio.playJump(); }
+        });
+        this.collectibles.forEach(c => {
+          if (!c.collected && this.checkOverlap(player, c)) {
+            c.collected = true; this.spawnParticles(c.x + 16, c.y + 16, '#f59e0b', 12);
+            if (c.type === 'golden_letter') {
+              audio.playCoin(); player.addXp(35);
+              game.inventory.addItem({
+                id: `huruf_${c.letter.toLowerCase()}`, name: `Huruf Emas '${c.letter}'`, icon: '🔤',
+                desc: `Huruf suci pengolah kata dari Lembah Word.`,
+                wordTip: `Ketikkan: Huruf '${c.letter}' adalah blok dasar pembentuk kata di Microsoft Word!`
+              });
+              this.spawnFloatingText(`+ Huruf ${c.letter}!`, c.x, c.y - 15, '#facc15', 16);
+              game.questManager.updateProgress('collect_item', 'golden_letter', 1);
+            } else if (c.type === 'coin') { player.addCoins(5); this.spawnFloatingText('+5 Koin', c.x, c.y - 10, '#f59e0b', 13); }
+            else if (c.type === 'potion') { player.heal(30); audio.playCoin(); this.spawnFloatingText('+30 HP', c.x, c.y - 10, '#22c55e', 14); }
+          }
+        });
+        this.enemies.forEach(e => {
+          e.update(dt, player, this, game);
+          if (!e.isDead) {
+            // Boss shouldn't deal contact damage while stunned, shielded, or recovering from hit
+            if (e.isBoss && (e.bossState === 'stunned' || e.isShielded || e.hurtTimer > 0)) return;
+            if (e.hurtTimer > 0) return;
+
+            // Inset boss/enemy collision hitbox slightly so visual contact feels fair and melee hits don't punish player
+            const enemyHitbox = {
+              x: e.x + (e.isBoss ? 16 : 4),
+              y: e.y + (e.isBoss ? 14 : 4),
+              width: e.width - (e.isBoss ? 32 : 8),
+              height: e.height - (e.isBoss ? 20 : 8)
+            };
+            if (this.checkOverlap(player, enemyHitbox)) {
+              player.takeDamage(e.isBoss ? 18 : 12);
+            }
+          }
+        });
+        if (player.x > 2280 && !this.bossStarted && !this.boss.isDead) {
+          this.bossStarted = true; game.ui.showBossBar(this.boss); audio.playBossWarning();
+          game.ui.showToast('⚔️ RAJA TYPO SLIME BANGKIT!');
+        }
+        if (this.boss && this.boss.isDead && !this.worldGate.isOpen) {
+          this.worldGate.isOpen = true; game.ui.hideBossBar(); game.ui.showToast('✨ GERBANG DUNIA 2: HUTAN FONT TERBUKA!');
+        }
+        for (let i = this.projectiles.length - 1; i >= 0; i--) {
+          const p = this.projectiles[i]; p.x += p.vx; p.y += p.vy; p.life -= dt;
+          if (p.isEnemy && this.checkOverlap(p, player)) { player.takeDamage(p.damage); this.projectiles.splice(i, 1); continue; }
+          if (p.life <= 0) this.projectiles.splice(i, 1);
+        }
+        for (let i = this.shockwaves.length - 1; i >= 0; i--) {
+          const sw = this.shockwaves[i]; sw.x += sw.vx; sw.life -= dt;
+          if (this.checkOverlap(sw, player)) { player.takeDamage(sw.damage); this.shockwaves.splice(i, 1); continue; }
+          if (sw.life <= 0) this.shockwaves.splice(i, 1);
+        }
+        for (let i = this.particles.length - 1; i >= 0; i--) {
+          const pt = this.particles[i]; pt.x += pt.vx; pt.y += pt.vy; pt.vy += 6 * dt; pt.life -= dt;
+          if (pt.life <= 0) this.particles.splice(i, 1);
+        }
+        for (let i = this.floatingTexts.length - 1; i >= 0; i--) {
+          const ft = this.floatingTexts[i]; ft.y += ft.vy; ft.life -= dt;
+          if (ft.life <= 0) this.floatingTexts.splice(i, 1);
+        }
+        this.npcs.forEach(n => n.update(dt));
+      }
+      draw(ctx, cam) {
+        const cw = ctx.canvas.width; const ch = ctx.canvas.height;
+        // Sky
+        const sky = ctx.createLinearGradient(0, 0, 0, ch); sky.addColorStop(0, '#60a5fa'); sky.addColorStop(1, '#bfdbfe');
+        ctx.fillStyle = sky; ctx.fillRect(0, 0, cw, ch);
+        // Ruled paper lines
+        ctx.strokeStyle = 'rgba(255,255,255,0.25)'; ctx.lineWidth = 1;
+        for (let ly = 40; ly < ch; ly += 40) { ctx.beginPath(); ctx.moveTo(0, ly); ctx.lineTo(cw, ly); ctx.stroke(); }
+        // Distant mountains
+        const px = -(cam.x * 0.1) % 600;
+        ctx.fillStyle = 'rgba(255,255,255,0.4)';
+        for (let i = -1; i < 4; i++) {
+          const mx = px + i * 500;
+          ctx.beginPath(); ctx.moveTo(mx, ch - 80); ctx.lineTo(mx + 250, ch - 340); ctx.lineTo(mx + 500, ch - 80); ctx.fill();
+        }
+
+        // Platforms
+        this.platforms.forEach(p => {
+          const rx = p.x - cam.x; const ry = p.y - cam.y;
+          if (rx + p.width < -50 || rx > cw + 50) return;
+          if (p.type === 'ground' || p.type === 'boss_ground') {
+            ctx.fillStyle = p.type === 'boss_ground' ? '#334155' : '#15803d'; ctx.fillRect(rx, ry, p.width, 16);
+            ctx.fillStyle = p.type === 'boss_ground' ? '#1e293b' : '#166534'; ctx.fillRect(rx, ry + 16, p.width, p.height - 16);
+            ctx.strokeStyle = 'rgba(255,255,255,0.4)'; ctx.lineWidth = 1.5;
+            for (let ix = 0; ix < p.width; ix += 60) { ctx.beginPath(); ctx.moveTo(rx + ix, ry); ctx.lineTo(rx + ix, ry + 8); ctx.stroke(); }
+          } else {
+            ctx.fillStyle = '#fff'; ctx.strokeStyle = '#3b82f6'; ctx.lineWidth = 2;
+            ctx.beginPath(); ctx.roundRect(rx, ry, p.width, p.height, 6); ctx.fill(); ctx.stroke();
+          }
+        });
+
+        // Springs
+        this.springs.forEach(s => {
+          const rx = s.x - cam.x; const ry = s.y - cam.y;
+          ctx.fillStyle = '#0284c7'; ctx.beginPath(); ctx.roundRect(rx, ry, s.width, s.height, 4); ctx.fill();
+          ctx.fillStyle = '#fff'; ctx.font = 'bold 12px sans-serif'; ctx.textAlign = 'center'; ctx.fillText('A^', rx + s.width/2, ry + 16);
+        });
+
+        // Save Station
+        if (this.saveStation) {
+          const rx = this.saveStation.x - cam.x; const ry = this.saveStation.y - cam.y;
+          ctx.fillStyle = '#1e3a8a'; ctx.beginPath(); ctx.roundRect(rx, ry, 48, 64, 8); ctx.fill();
+          ctx.fillStyle = '#cbd5e1'; ctx.fillRect(rx + 8, ry + 4, 32, 22);
+          ctx.fillStyle = '#f8fafc'; ctx.fillRect(rx + 6, ry + 32, 36, 26);
+          ctx.fillStyle = '#1e293b'; ctx.font = 'bold 9px sans-serif'; ctx.textAlign = 'center';
+          ctx.fillText('SIMPAN', rx + 24, ry + 46); ctx.fillText('Ctrl+S', rx + 24, ry + 54);
+        }
+
+        // Bold Gate
+        if (this.boldGate && !this.boldGate.broken) {
+          const rx = this.boldGate.x - cam.x; const ry = this.boldGate.y - cam.y;
+          ctx.fillStyle = '#1e293b'; ctx.fillRect(rx, ry, 44, 180);
+          ctx.strokeStyle = '#f59e0b'; ctx.lineWidth = 4; ctx.strokeRect(rx, ry, 44, 180);
+          ctx.fillStyle = '#f59e0b'; ctx.font = '900 28px sans-serif'; ctx.textAlign = 'center'; ctx.fillText('B', rx + 22, ry + 60);
+          ctx.fillStyle = '#fff'; ctx.font = 'bold 10px sans-serif'; ctx.fillText('KUNCI', rx + 22, ry + 88); ctx.fillText('BOLD', rx + 22, ry + 102);
+        }
+
+        // World Gate
+        if (this.worldGate) {
+          const rx = this.worldGate.x - cam.x; const ry = this.worldGate.y - cam.y;
+          ctx.fillStyle = this.worldGate.isOpen ? '#059669' : '#475569';
+          ctx.beginPath(); ctx.roundRect(rx, ry, 60, 120, 12); ctx.fill();
+          ctx.fillStyle = '#fff'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center';
+          ctx.fillText('GERBANG', rx + 30, ry + 30); ctx.fillText('DUNIA 2', rx + 30, ry + 50);
+          ctx.fillText(this.worldGate.isOpen ? 'BUKA [E]' : 'KUNCI', rx + 30, ry + 80);
+        }
+
+        // Crates
+        this.breakables.forEach(b => {
+          if (b.broken) return;
+          const rx = b.x - cam.x; const ry = b.y - cam.y;
+          ctx.fillStyle = '#b45309'; ctx.fillRect(rx, ry, b.width, b.height);
+          ctx.fillStyle = '#fef3c7'; ctx.font = 'bold 16px monospace'; ctx.textAlign = 'center'; ctx.fillText('#!?', rx + 22, ry + 30);
+        });
+
+        // Collectibles
+        this.collectibles.forEach(c => {
+          if (c.collected) return;
+          const rx = c.x - cam.x; const ry = c.y - cam.y;
+          const fy = Math.sin(Date.now() * 0.005 + c.x) * 4;
+          if (c.type === 'golden_letter') {
+            ctx.fillStyle = '#fef08a'; ctx.strokeStyle = '#eab308'; ctx.lineWidth = 2.5;
+            ctx.beginPath(); ctx.arc(rx + 16, ry + 16 + fy, 18, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+            ctx.fillStyle = '#854d0e'; ctx.font = '900 20px serif'; ctx.textAlign = 'center'; ctx.fillText(c.letter, rx + 16, ry + 23 + fy);
+          } else if (c.type === 'coin') {
+            ctx.fillStyle = '#f59e0b'; ctx.beginPath(); ctx.arc(rx + 11, ry + 11 + fy, 10, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = '#78350f'; ctx.font = 'bold 10px monospace'; ctx.textAlign = 'center'; ctx.fillText('$', rx + 11, ry + 14 + fy);
+          } else if (c.type === 'potion') {
+            ctx.fillStyle = '#ef4444'; ctx.beginPath(); ctx.roundRect(rx + 4, ry + 6 + fy, 16, 18, 4); ctx.fill();
+          }
+        });
+
+        this.npcs.forEach(n => n.draw(ctx, cam));
+        this.enemies.forEach(e => e.draw(ctx, cam));
+
+        this.projectiles.forEach(p => {
+          const px = p.x + (p.width ? p.width/2 : 0) - cam.x;
+          const py = p.y + (p.height ? p.height/2 : 0) - cam.y;
+          ctx.fillStyle = '#ef4444'; ctx.font = 'bold 18px monospace'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+          ctx.fillText(p.symbol, px, py);
+          ctx.textBaseline = 'alphabetic';
+        });
+        this.shockwaves.forEach(sw => {
+          const sx = sw.x + (sw.width ? sw.width/2 : 0) - cam.x;
+          const sy = sw.y + (sw.height ? sw.height/2 : 0) - cam.y;
+          ctx.fillStyle = '#f87171'; ctx.beginPath(); ctx.arc(sx, sy, 14, 0, Math.PI * 2); ctx.fill();
+        });
+        this.particles.forEach(pt => {
+          ctx.fillStyle = pt.color; ctx.globalAlpha = Math.max(0, pt.life / pt.maxLife);
+          ctx.fillRect(pt.x - cam.x, pt.y - cam.y, pt.size, pt.size); ctx.globalAlpha = 1.0;
+        });
+        this.floatingTexts.forEach(ft => {
+          ctx.fillStyle = ft.color; ctx.font = `bold ${ft.fontSize}px sans-serif`; ctx.textAlign = 'center';
+          ctx.fillText(ft.text, ft.x - cam.x, ft.y - cam.y);
+        });
+      }
+    }
+
+    // --- 9. UI MANAGER ---
+    class UIManager {
+      constructor(game) {
+        this.game = game;
+        this.hpFill = document.getElementById('hp-fill');
+        this.hpText = document.getElementById('hp-text');
+        this.xpFill = document.getElementById('xp-fill');
+        this.xpText = document.getElementById('xp-text');
+        this.levelBadge = document.getElementById('player-level-badge');
+        this.coinsText = document.getElementById('coins-counter');
+        this.questName = document.getElementById('quest-name');
+        this.questDesc = document.getElementById('quest-desc');
+        this.questProgress = document.getElementById('quest-progress');
+        this.dialogBox = document.getElementById('dialog-container');
+        this.dialogSpeaker = document.getElementById('dialog-speaker-name');
+        this.dialogAvatar = document.getElementById('dialog-speaker-avatar');
+        this.dialogText = document.getElementById('dialog-text-content');
+        this.bossBar = document.getElementById('boss-bar-container');
+        this.bossFill = document.getElementById('boss-bar-fill');
+        this.toast = document.getElementById('floating-toast');
+        this.activeBoss = null; this.toastTimer = null;
+
+        // Mini Word Editor State (World 1)
+        this.activeEditorWord = null;
+        this.challengeWords = [
+          { id: 'w_pahlawan', text: 'PAHLAWAN', font: 'Calibri', size: '12pt', bold: false, italic: false, underline: false, targetBold: true },
+          { id: 'w_t1', text: 'digital tiba di', font: 'Calibri', size: '12pt', bold: false, italic: false, underline: false },
+          { id: 'w_lembah', text: 'LEMBAH', font: 'Calibri', size: '12pt', bold: false, italic: false, underline: false, targetFont: 'Arial' },
+          { id: 'w_t2', text: 'untuk memulihkan', font: 'Calibri', size: '12pt', bold: false, italic: false, underline: false },
+          { id: 'w_dokumen', text: 'DOKUMEN', font: 'Calibri', size: '12pt', bold: false, italic: false, underline: false, targetItalic: true },
+          { id: 'w_t3', text: 'suci yang memuat berkas', font: 'Calibri', size: '12pt', bold: false, italic: false, underline: false },
+          { id: 'w_rahasia', text: 'RAHASIA', font: 'Calibri', size: '12pt', bold: false, italic: false, underline: false, targetUnderline: true },
+          { id: 'w_t4', text: 'pengolah kata kerajaan!', font: 'Calibri', size: '12pt', bold: false, italic: false, underline: false }
+        ];
+
+        // Boss Quiz State (World 1: Tetua Ribbon's Questions for Raja Typo Slime)
+        this.activeQuizBoss = null;
+        this.bossQuizQuestions = [
+          {
+            q: "Shortcut keyboard apa di Microsoft Word yang digunakan untuk MENYIMPAN (Save) dokumen?",
+            options: [
+              { label: "A. Ctrl + C", correct: false, explain: "Ctrl+C adalah untuk Copy (Menyalin)." },
+              { label: "B. Ctrl + S", correct: true, explain: "Benar! Ctrl + S untuk Save dokumen agar tidak hilang!" },
+              { label: "C. Ctrl + V", correct: false, explain: "Ctrl+V adalah untuk Paste (Menempel)." },
+              { label: "D. Ctrl + P", correct: false, explain: "Ctrl+P adalah untuk Print (Mencetak)." }
+            ]
+          },
+          {
+            q: "Apa nama garis tegak berkedip '|' pada lembar Word tempat huruf baru akan muncul?",
+            options: [
+              { label: "A. Margin", correct: false, explain: "Margin adalah batas tepi kertas." },
+              { label: "B. Ribbon", correct: false, explain: "Ribbon adalah bilah menu atas Word." },
+              { label: "C. Kursor (Insertion Point)", correct: true, explain: "Tepat sekali! Kursor menunjukkan titik ketikan baru!" },
+              { label: "D. Header", correct: false, explain: "Header adalah bagian kepala halaman." }
+            ]
+          },
+          {
+            q: "Shortcut keyboard apa yang digunakan untuk membuat teks menjadi TEBAL (Bold)?",
+            options: [
+              { label: "A. Ctrl + B", correct: true, explain: "Tepat! Ctrl + B adalah shortcut Bold di Word!" },
+              { label: "B. Ctrl + U", correct: false, explain: "Ctrl+U adalah Underline." },
+              { label: "C. Ctrl + I", correct: false, explain: "Ctrl+I adalah Italic." },
+              { label: "D. Ctrl + Z", correct: false, explain: "Ctrl+Z adalah Undo." }
+            ]
+          }
+        ];
+
+        this.initEvents();
+        this.initWordEditorUI();
+      }
+      initWordEditorUI() {
+        const canvas = document.getElementById('interactive-doc-canvas');
+        if (!canvas) return;
+
+        this.renderEditorDoc();
+
+        const btnBold = document.getElementById('editor-btn-bold');
+        const btnItalic = document.getElementById('editor-btn-italic');
+        const btnUnderline = document.getElementById('editor-btn-underline');
+        const selectFont = document.getElementById('editor-font-family');
+        const selectSize = document.getElementById('editor-font-size');
+        const btnReset = document.getElementById('editor-btn-reset');
+        const btnSubmit = document.getElementById('btn-submit-formatting');
+
+        if (btnBold) {
+          btnBold.addEventListener('click', () => {
+            if (!this.activeEditorWord) {
+              this.showToast('Pilih salah satu kata dalam dokumen terlebih dahulu!');
+              return;
+            }
+            this.activeEditorWord.bold = !this.activeEditorWord.bold;
+            audio.playBold();
+            this.renderEditorDoc();
+          });
+        }
+
+        if (btnItalic) {
+          btnItalic.addEventListener('click', () => {
+            if (!this.activeEditorWord) {
+              this.showToast('Pilih salah satu kata dalam dokumen terlebih dahulu!');
+              return;
+            }
+            this.activeEditorWord.italic = !this.activeEditorWord.italic;
+            audio.playDash();
+            this.renderEditorDoc();
+          });
+        }
+
+        if (btnUnderline) {
+          btnUnderline.addEventListener('click', () => {
+            if (!this.activeEditorWord) {
+              this.showToast('Pilih salah satu kata dalam dokumen terlebih dahulu!');
+              return;
+            }
+            this.activeEditorWord.underline = !this.activeEditorWord.underline;
+            audio.playShield();
+            this.renderEditorDoc();
+          });
+        }
+
+        if (selectFont) {
+          selectFont.addEventListener('change', (e) => {
+            if (!this.activeEditorWord) return;
+            this.activeEditorWord.font = e.target.value;
+            audio.playCoin();
+            this.renderEditorDoc();
+          });
+        }
+
+        if (selectSize) {
+          selectSize.addEventListener('change', (e) => {
+            if (!this.activeEditorWord) return;
+            this.activeEditorWord.size = e.target.value;
+            audio.playCoin();
+            this.renderEditorDoc();
+          });
+        }
+
+        if (btnReset) {
+          btnReset.addEventListener('click', () => {
+            this.challengeWords.forEach(w => {
+              w.font = 'Calibri';
+              w.size = '12pt';
+              w.bold = false;
+              w.italic = false;
+              w.underline = false;
+            });
+            this.activeEditorWord = null;
+            audio.playHit();
+            this.renderEditorDoc();
+            document.getElementById('challenge-status-text').textContent = 'Format dokumen direset!';
+          });
+        }
+
+        if (btnSubmit) {
+          btnSubmit.addEventListener('click', () => {
+            this.validateWordChallenge();
+          });
+        }
+      }
+      renderEditorDoc() {
+        const canvas = document.getElementById('interactive-doc-canvas');
+        if (!canvas) return;
+        canvas.innerHTML = '';
+
+        const titleDiv = document.createElement('div');
+        titleDiv.style.fontWeight = 'bold';
+        titleDiv.style.marginBottom = '12px';
+        titleDiv.style.borderBottom = '1px solid #cbd5e1';
+        titleDiv.style.paddingBottom = '6px';
+        titleDiv.style.fontSize = '14px';
+        titleDiv.style.color = '#1e3a8a';
+        titleDiv.textContent = 'SURAT TITAH RESMI TETUA RIBBON';
+        canvas.appendChild(titleDiv);
+
+        const p = document.createElement('p');
+        p.style.lineHeight = '2.2';
+        p.style.fontSize = '14px';
+        p.style.margin = '0';
+
+        this.challengeWords.forEach((wordObj) => {
+          const span = document.createElement('span');
+          span.textContent = wordObj.text + ' ';
+          span.className = 'editable-span' + (this.activeEditorWord === wordObj ? ' selected' : '');
+          
+          span.style.fontFamily = wordObj.font;
+          span.style.fontWeight = wordObj.bold ? 'bold' : 'normal';
+          span.style.fontStyle = wordObj.italic ? 'italic' : 'normal';
+          span.style.textDecoration = wordObj.underline ? 'underline' : 'none';
+
+          span.addEventListener('click', () => {
+            this.activeEditorWord = wordObj;
+            document.getElementById('challenge-status-text').innerHTML = `Kata terpilih: <strong>"${wordObj.text}"</strong> (Font: ${wordObj.font})`;
+            
+            const sf = document.getElementById('editor-font-family');
+            if (sf) sf.value = wordObj.font;
+            const ss = document.getElementById('editor-font-size');
+            if (ss) ss.value = wordObj.size;
+
+            this.renderEditorDoc();
+          });
+
+          p.appendChild(span);
+        });
+
+        canvas.appendChild(p);
+      }
+      validateWordChallenge() {
+        const wPahlawan = this.challengeWords.find(w => w.id === 'w_pahlawan');
+        const wDokumen = this.challengeWords.find(w => w.id === 'w_dokumen');
+        const wRahasia = this.challengeWords.find(w => w.id === 'w_rahasia');
+        const wLembah = this.challengeWords.find(w => w.id === 'w_lembah');
+
+        const errors = [];
+        if (!wPahlawan.bold) errors.push('Kata "PAHLAWAN" belum ditebalkan (Bold)');
+        if (!wDokumen.italic) errors.push('Kata "DOKUMEN" belum dimiringkan (Italic)');
+        if (!wRahasia.underline) errors.push('Kata "RAHASIA" belum digarisbawahi (Underline)');
+        if (!wLembah.font.includes('Arial')) errors.push('Font kata "LEMBAH" belum diubah ke Arial');
+
+        const statusEl = document.getElementById('challenge-status-text');
+
+        if (errors.length === 0) {
+          audio.playQuestComplete();
+          statusEl.innerHTML = '🎉 <strong style="color: #10b981;">SEMPURNA! Format Surat Titah Sesuai Standar Word!</strong>';
+          this.showToast('✅ TANTANGAN FORMAT TETUA RIBBON BERHASIL!');
+          this.game.questManager.updateProgress('complete_challenge', 'word_editor_puzzle', 1);
+          setTimeout(() => {
+            document.getElementById('word-challenge-modal').style.display = 'none';
+          }, 1400);
+        } else {
+          audio.playHit();
+          statusEl.innerHTML = `❌ <span style="color: #ef4444;">${errors[0]}</span>`;
+          this.showToast(`Format Belum Tepat: ${errors[0]}`);
+        }
+      }
+      triggerBossQuiz(boss) {
+        this.activeQuizBoss = boss;
+        const overlay = document.getElementById('boss-quiz-overlay');
+        const qText = document.getElementById('boss-quiz-question');
+        const box = document.getElementById('boss-quiz-box');
+        const feedback = document.getElementById('boss-quiz-feedback');
+
+        if (!overlay || !box) return;
+
+        const qObj = this.bossQuizQuestions[Math.floor(Math.random() * this.bossQuizQuestions.length)];
+        qText.textContent = qObj.q;
+        box.innerHTML = '';
+        feedback.textContent = '';
+
+        qObj.options.forEach(opt => {
+          const btn = document.createElement('button');
+          btn.className = 'boss-quiz-btn';
+          btn.textContent = opt.label;
+          btn.addEventListener('click', () => {
+            if (opt.correct) {
+              btn.classList.add('correct');
+              feedback.style.color = '#15803d';
+              feedback.textContent = '✅ ' + opt.explain;
+              audio.playQuestComplete();
+              setTimeout(() => {
+                overlay.style.display = 'none';
+                if (this.activeQuizBoss) {
+                  this.activeQuizBoss.breakShield(this.game);
+                }
+              }, 1100);
+            } else {
+              btn.classList.add('wrong');
+              feedback.style.color = '#b91c1c';
+              feedback.textContent = '❌ ' + opt.explain + ' Coba lagi!';
+              audio.playHit();
+              this.game.createScreenShake(6);
+            }
+          });
+          box.appendChild(btn);
+        });
+
+        overlay.style.display = 'flex';
+      }
+      openWordChallengeModal() {
+        const m = document.getElementById('word-challenge-modal');
+        if (m) m.style.display = 'flex';
+      }
+      initEvents() {
+        const btnChallenge = document.getElementById('btn-challenge');
+        if (btnChallenge) {
+          btnChallenge.onclick = () => this.openWordChallengeModal();
+        }
+        document.getElementById('btn-word-guide').onclick = () => document.getElementById('word-guide-modal').style.display = 'flex';
+        document.getElementById('btn-inventory').onclick = () => this.openInventory();
+        document.getElementById('btn-document').onclick = () => this.openDoc();
+        document.getElementById('btn-settings').onclick = () => document.getElementById('settings-modal').style.display = 'flex';
+        document.getElementById('btn-audio').onclick = () => {
+          const m = audio.toggleMute();
+          document.getElementById('btn-audio').textContent = m ? '🔇' : '🔊';
+          this.showToast(m ? 'Suara Dimatikan' : 'Suara Dinyalakan');
+        };
+        document.getElementById('btn-save').onclick = () => this.game.saveGame();
+        document.querySelectorAll('.modal-close-btn').forEach(b => {
+          b.onclick = (e) => e.target.closest('.modal-overlay').style.display = 'none';
+        });
+        document.getElementById('dialog-next-btn').onclick = () => this.game.advanceDialog();
+        document.getElementById('victory-continue-btn').onclick = () => {
+          document.getElementById('victory-modal').style.display = 'none';
+          this.game.saveGame();
+          this.showToast('🚀 Berpindah ke Dunia 2: Hutan Font...');
+          setTimeout(() => { window.location.href = '/world2.html'; }, 400);
+        };
+        document.getElementById('skill-slot-bold').onclick = () => this.game.player.useSkill('bold_blast');
+        document.getElementById('skill-slot-italic').onclick = () => this.game.player.useSkill('italic_dash');
+        document.getElementById('skill-slot-underline').onclick = () => this.game.player.useSkill('underline_shield');
+      }
+      updateStatsUI(player) {
+        this.hpFill.style.width = `${Math.max(0, Math.min(100, (player.hp / player.maxHp) * 100))}%`;
+        this.hpText.textContent = `${Math.ceil(player.hp)}/${player.maxHp}`;
+        this.xpFill.style.width = `${Math.max(0, Math.min(100, (player.xp / player.maxXp) * 100))}%`;
+        this.xpText.textContent = `${player.xp}/${player.maxXp}`;
+        this.levelBadge.textContent = `LV ${player.level}`;
+        this.updateSkillBar(player);
+      }
+      updateCoinsUI(coins) { this.coinsText.textContent = coins; }
+      updateSkillBar(player) {
+        ['bold_blast', 'italic_dash', 'underline_shield'].forEach(sk => {
+          const slot = document.getElementById(sk === 'bold_blast' ? 'skill-slot-bold' : (sk === 'italic_dash' ? 'skill-slot-italic' : 'skill-slot-underline'));
+          const ov = document.getElementById(sk === 'bold_blast' ? 'cd-overlay-bold' : (sk === 'italic_dash' ? 'cd-overlay-italic' : 'cd-overlay-underline'));
+          if (!slot) return;
+          if (player.unlockedSkills.includes(sk)) { slot.classList.remove('locked'); slot.classList.add('ready'); }
+          else { slot.classList.add('locked'); slot.classList.remove('ready'); }
+          if (ov) {
+            const cd = player.cooldowns[sk] || 0; const max = player.maxCooldowns[sk] || 1;
+            ov.style.height = cd > 0 ? `${(cd / max) * 100}%` : '0%';
+          }
+        });
+      }
+      updateQuestUI(quest) {
+        if (!quest) {
+          this.questName.textContent = 'Semua Misi Selesai!';
+          this.questDesc.textContent = 'Jelajahi lembah atau masuk ke Gerbang Dunia 2!';
+          this.questProgress.textContent = '100%'; return;
+        }
+        this.questName.textContent = quest.title;
+        this.questDesc.textContent = quest.desc;
+        this.questProgress.textContent = `${quest.current} / ${quest.required}`;
+      }
+      showDialog(speaker, avatar, text) {
+        this.dialogSpeaker.textContent = speaker; this.dialogAvatar.textContent = avatar;
+        this.dialogText.textContent = text; this.dialogBox.style.display = 'block';
+      }
+      hideDialog() { this.dialogBox.style.display = 'none'; }
+      showToast(msg) {
+        this.toast.textContent = msg; this.toast.classList.add('show');
+        if (this.toastTimer) clearTimeout(this.toastTimer);
+        this.toastTimer = setTimeout(() => this.toast.classList.remove('show'), 2600);
+      }
+      showBossBar(boss) { this.activeBoss = boss; this.bossBar.style.display = 'flex'; this.updateBossBar(); }
+      updateBossBar() {
+        if (this.activeBoss) {
+          this.bossFill.style.width = `${Math.max(0, (this.activeBoss.hp / this.activeBoss.maxHp) * 100)}%`;
+          if (this.activeBoss.isDead) this.hideBossBar();
+        }
+      }
+      hideBossBar() { this.bossBar.style.display = 'none'; this.activeBoss = null; }
+      openInventory() {
+        const grid = document.getElementById('inventory-grid');
+        const title = document.getElementById('inv-detail-title');
+        const desc = document.getElementById('inv-detail-desc');
+        const tip = document.getElementById('inv-detail-tip');
+        grid.innerHTML = ''; const items = this.game.inventory.getAll();
+        if (items.length === 0) {
+          grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #94a3b8; padding: 16px;">Ransel masih kosong. Kumpulkan item di bukit!</p>';
+        } else {
+          items.forEach((it, idx) => {
+            const slot = document.createElement('div');
+            slot.className = `inv-slot ${idx === 0 ? 'selected' : ''}`;
+            slot.innerHTML = `<div style="font-size: 24px;">${it.icon}</div><div style="font-size: 10px; font-weight: 700; color: #2563eb;">x${it.count}</div><div style="font-size: 10px; color: #475569; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%;">${it.name}</div>`;
+            slot.onclick = () => {
+              document.querySelectorAll('.inv-slot').forEach(s => s.classList.remove('selected'));
+              slot.classList.add('selected');
+              title.textContent = it.name; desc.textContent = it.desc;
+              tip.textContent = `💡 ${it.wordTip || 'Item pengolah kata berharga.'}`;
+            };
+            grid.appendChild(slot);
+          });
+          title.textContent = items[0].name; desc.textContent = items[0].desc; tip.textContent = `💡 ${items[0].wordTip || ''}`;
+        }
+        document.getElementById('inventory-modal').style.display = 'flex';
+      }
+      openDoc() {
+        const hasHeader = this.game.inventory.hasItem('fragment_header');
+        const slot = document.getElementById('doc-slot-header');
+        const status = document.getElementById('doc-inspect-status');
+        if (hasHeader) {
+          slot.className = 'doc-fragment-slot found';
+          slot.innerHTML = '<strong>[DITEMUKAN] Bagian Judul & Header Halaman:</strong><br><em>"DOKUMEN MASTER — CATATAN WORD WORLD"</em><br><span style="font-size: 11px; color: #166534;">✓ Format pulih: Judul 24pt, Margin Header 1.0 inci.</span>';
+          status.textContent = '1 / 6 Fragmen Telah Dipulihkan! Kerja bagus, Pahlawan!';
+        } else {
+          slot.className = 'doc-fragment-slot missing';
+          slot.innerHTML = '<strong>[HILANG] Bagian Judul & Header Halaman:</strong><br><em>Dijaga oleh Raja Typo Slime. Kalahkan bos untuk memulihkan bagian ini!</em>';
+          status.textContent = '0 / 6 Fragmen Dipulihkan. Cari Fragmen Header di Lembah Word!';
+        }
+        document.getElementById('document-modal').style.display = 'flex';
+      }
+      showQuestCompleteModal(quest, extra) {
+        document.getElementById('quest-modal-title').textContent = quest.title;
+        document.getElementById('quest-modal-xp').textContent = `+${quest.rewardXp} XP`;
+        document.getElementById('quest-modal-coins').textContent = `+${quest.rewardCoins} Koin`;
+        document.getElementById('quest-modal-unlock').textContent = extra || '';
+        document.getElementById('quest-complete-modal').style.display = 'flex';
+        setTimeout(() => document.getElementById('quest-complete-modal').style.display = 'none', 3500);
+      }
+    }
+
+    // --- 10. MAIN GAME ENGINE ---
+    class Game {
+      constructor() {
+        this.canvas = document.getElementById('game-canvas');
+        this.ctx = this.canvas.getContext('2d');
+        this.inventory = new Inventory();
+        this.questManager = new QuestManager(this);
+        this.player = new Player(this);
+        this.world = new World(this);
+        this.ui = new UIManager(this);
+        this.camera = { x: 0, y: 0 };
+        this.screenShake = 0;
+        this.input = { left: false, right: false, jump: false, jumpPressed: false };
+        this.lastTime = 0;
+        this.isRunning = false;
+        this.activeNPC = null;
+
+        this.initCanvas();
+        this.initInputs();
+        this.initMenu();
+      }
+      initCanvas() {
+        const resize = () => { this.canvas.width = 1280; this.canvas.height = 720; };
+        window.addEventListener('resize', resize); resize();
+      }
+      initInputs() {
+        window.addEventListener('keydown', e => {
+          if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') { e.preventDefault(); this.saveGame(); return; }
+          const k = e.key.toLowerCase();
+          if (k === 'escape') {
+            document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
+            this.ui.hideDialog();
+            return;
+          }
+          if (this.isUserInChallengeOrModal()) {
+            this.input.left = false; this.input.right = false; this.input.jump = false; this.input.jumpPressed = false;
+            return;
+          }
+          if (k === 'a' || k === 'arrowleft') this.input.left = true;
+          if (k === 'd' || k === 'arrowright') this.input.right = true;
+          if (k === 'w' || k === ' ' || k === 'arrowup') { if (!this.input.jump) this.input.jumpPressed = true; this.input.jump = true; }
+          if (k === 'j') this.player.attack();
+          if (k === 'e') this.handleInteraction();
+          if (k === '1') this.player.useSkill('bold_blast');
+          if (k === '2') this.player.useSkill('italic_dash');
+          if (k === '3') this.player.useSkill('underline_shield');
+        });
+        window.addEventListener('keyup', e => {
+          const k = e.key.toLowerCase();
+          if (k === 'a' || k === 'arrowleft') this.input.left = false;
+          if (k === 'd' || k === 'arrowright') this.input.right = false;
+          if (k === 'w' || k === ' ' || k === 'arrowup') { this.input.jump = false; this.input.jumpPressed = false; }
+        });
+        this.canvas.addEventListener('mousedown', e => { if (e.button === 0 && this.isRunning) this.player.attack(); });
+      }
+      initMenu() {
+        const menu = document.getElementById('main-menu-overlay');
+        const cont = document.getElementById('btn-continue');
+        const newg = document.getElementById('btn-new-game');
+        const lore = document.getElementById('btn-menu-lore');
+        if (StorageSystem.hasSave()) cont.disabled = false;
+        newg.onclick = () => {
+          StorageSystem.clearSave(); this.startNewGame(); menu.style.display = 'none'; audio.startBGM();
+        };
+        cont.onclick = () => {
+          this.loadGame(); menu.style.display = 'none'; audio.startBGM();
+        };
+        lore.onclick = () => document.getElementById('lore-modal').style.display = 'flex';
+      }
+      startNewGame() {
+        this.player = new Player(this); this.inventory = new Inventory();
+        this.world = new World(this); this.questManager = new QuestManager(this);
+        this.questManager.startQuest('quest_welcome');
+        this.ui.updateStatsUI(this.player); this.ui.updateCoinsUI(this.player.coins);
+        this.isRunning = true; this.lastTime = performance.now();
+        requestAnimationFrame(this.loop.bind(this));
+        this.ui.showToast('✨ Selamat Datang di Word World! Bicaralah dengan Tetua Ribbon.');
+      }
+      loadGame() {
+        const d = StorageSystem.getSave();
+        if (!d) { this.startNewGame(); return; }
+        this.player = new Player(this); this.player.load(d.player);
+        this.inventory = new Inventory(); this.inventory.load(d.inventory || []);
+        this.world = new World(this);
+        this.questManager = new QuestManager(this);
+        this.questManager.load(d.activeQuestId, d.completedQuestIds);
+        this.ui.updateStatsUI(this.player); this.ui.updateCoinsUI(this.player.coins);
+        if (this.questManager.activeQuest) this.ui.updateQuestUI(this.questManager.activeQuest);
+        this.isRunning = true; this.lastTime = performance.now();
+        requestAnimationFrame(this.loop.bind(this));
+        this.ui.showToast('💾 Data Petualangan Berhasil Dimuat!');
+      }
+      saveGame() {
+        StorageSystem.saveGame({
+          player: { level: this.player.level, xp: this.player.xp, maxXp: this.player.maxXp, hp: this.player.hp, maxHp: this.player.maxHp, coins: this.player.coins, unlockedSkills: this.player.unlockedSkills, x: this.player.x, y: this.player.y },
+          inventory: this.inventory.getAll(),
+          activeQuestId: this.questManager.activeQuest?.id || null,
+          completedQuestIds: this.questManager.completedQuests
+        });
+        audio.playSave(); this.ui.showToast('💾 Dokumen Tersimpan! (Ctrl+S)');
+      }
+      handleInteraction() {
+        if (this.world.saveStation && Math.hypot((this.world.saveStation.x + 24) - (this.player.x + 18), (this.world.saveStation.y + 32) - (this.player.y + 26)) < 70) {
+          this.saveGame(); return;
+        }
+        if (this.world.worldGate && this.world.worldGate.isOpen && Math.hypot((this.world.worldGate.x + 30) - (this.player.x + 18), (this.world.worldGate.y + 60) - (this.player.y + 26)) < 80) {
+          this.onWorldComplete(); return;
+        }
+        for (const n of this.world.npcs) {
+          if (Math.hypot((n.x + n.width/2) - (this.player.x + 18), (n.y + n.height/2) - (this.player.y + 26)) < 85) {
+            this.activeNPC = n; this.ui.showDialog(n.name, n.avatar, n.getCurrentDialog(this));
+            if (n.id === 'mr_ribbon') {
+              this.questManager.updateProgress('talk_npc', 'mr_ribbon', 1);
+              // Consolidation: Tetua Ribbon is the single person offering questions and word formatting challenges
+              setTimeout(() => {
+                this.ui.openWordChallengeModal();
+              }, 700);
+            }
+            return;
+          }
+        }
+        if (this.ui.dialogBox.style.display === 'block') this.advanceDialog();
+      }
+      advanceDialog() {
+        if (this.activeNPC) { this.activeNPC.dialogIndex++; this.ui.hideDialog(); this.activeNPC = null; }
+        else this.ui.hideDialog();
+      }
+      createScreenShake(amt = 6) { this.screenShake = amt; }
+      isUserInChallengeOrModal() {
+        const quizOverlay = document.getElementById('boss-quiz-overlay');
+        if (quizOverlay && quizOverlay.style.display === 'flex') return true;
+        const challengeModal = document.getElementById('word-challenge-modal');
+        if (challengeModal && challengeModal.style.display === 'flex') return true;
+        if (this.ui && this.ui.dialogBox && this.ui.dialogBox.style.display === 'block') return true;
+        const anyModal = Array.from(document.querySelectorAll('.modal-overlay')).some(m => m.style.display === 'flex');
+        return anyModal;
+      }
+      onWorldComplete() { audio.playVictory(); document.getElementById('victory-modal').style.display = 'flex'; }
+      loop(time) {
+        if (!this.isRunning) return;
+        const dt = Math.min((time - this.lastTime) / 1000, 0.05); this.lastTime = time;
+        if (this.screenShake > 0) { this.screenShake -= dt * 14; if (this.screenShake < 0) this.screenShake = 0; }
+        this.player.update(dt, this.input, this.world);
+        this.world.update(dt, this.player, this);
+        this.ui.updateBossBar();
+
+        const targetX = this.player.x - this.canvas.width / 2 + this.player.width / 2;
+        this.camera.x += (targetX - this.camera.x) * 0.09;
+        if (this.camera.x < 0) this.camera.x = 0;
+        if (this.camera.x > this.world.width - this.canvas.width) this.camera.x = this.world.width - this.canvas.width;
+
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.save();
+        if (this.screenShake > 0) this.ctx.translate((Math.random() - 0.5) * this.screenShake, (Math.random() - 0.5) * this.screenShake);
+        this.world.draw(this.ctx, this.camera);
+        this.player.draw(this.ctx, this.camera);
+        this.ctx.restore();
+
+        this.input.jumpPressed = false;
+        requestAnimationFrame(this.loop.bind(this));
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => { window.game = new Game(); });
+  </script>
+</body>
+</html>

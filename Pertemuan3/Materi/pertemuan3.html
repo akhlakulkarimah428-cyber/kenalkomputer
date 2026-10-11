@@ -1,0 +1,1842 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computer Quest P3: Master of Word — Modul Belajar Lengkap</title>
+<meta name="description" content="Modul belajar interaktif Microsoft Word lengkap untuk siswa: pengantar mendalam, seleksi teks kilat, format tipografi, tata letak paragraf, detektif dokumen, dan proyek nyata." />
+<meta property="og:title" content="Computer Quest P3: Master of Word" />
+<meta property="og:description" content="Petualangan interaktif lengkap belajar Microsoft Word untuk siswa." />
+<style>
+:root {
+  --bg: #0A0D14;
+  --bg-card: #121622;
+  --bg-subtle: #192030;
+  --bg-elevated: #21293D;
+  --border: #2A344A;
+  --border-light: #3B4866;
+  --text: #F1F5F9;
+  --text-muted: #94A3B8;
+  --blue: #3B82F6;
+  --blue-hover: #2563EB;
+  --cyan: #06B6D4;
+  --green: #10B981;
+  --green-hover: #059669;
+  --yellow: #F59E0B;
+  --orange: #F97316;
+  --purple: #8B5CF6;
+  --red: #EF4444;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+  font-size: 15px;
+  overflow-x: hidden;
+}
+
+/* ── TOP NAV BAR ── */
+.top-nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(10, 13, 20, 0.96);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px;
+}
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand-badge {
+  background: linear-gradient(135deg, var(--blue), var(--cyan));
+  color: #fff; font-size: 11px; font-weight: 800;
+  padding: 4px 8px; border-radius: var(--radius-sm);
+  letter-spacing: 0.05em;
+}
+.brand-title { font-size: 14px; font-weight: 700; color: var(--text); }
+.brand-title span { color: var(--cyan); font-weight: 400; font-size: 13px; }
+.nav-actions { display: flex; align-items: center; gap: 10px; }
+.timer-chip {
+  background: var(--bg-subtle); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 5px 12px;
+  font-size: 13px; font-weight: 700; color: var(--cyan);
+  font-variant-numeric: tabular-nums; display: flex; align-items: center; gap: 6px;
+}
+.audio-btn {
+  background: var(--bg-subtle); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 5px 10px;
+  font-size: 13px; color: var(--text); cursor: pointer;
+  transition: all 0.2s;
+}
+.audio-btn:hover { border-color: var(--blue); }
+
+/* ── LAYOUT ── */
+.container { max-width: 980px; margin: 0 auto; padding: 1.25rem 1rem 5rem; }
+
+/* ── HERO PROFILE & XP BAR ── */
+.profile-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 20px;
+  margin-bottom: 1.25rem;
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+}
+.avatar-display {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: var(--bg-subtle); border: 2px solid var(--cyan);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px; cursor: pointer; transition: transform 0.2s;
+  box-shadow: 0 0 12px rgba(6, 182, 212, 0.25);
+}
+.avatar-display:hover { transform: scale(1.1); }
+.hero-info { flex: 1; min-width: 180px; }
+.hero-rank { font-size: 11px; font-weight: 800; color: var(--cyan); letter-spacing: 0.08em; }
+.hero-name { font-size: 16px; font-weight: 800; display: flex; align-items: center; gap: 6px; }
+.xp-container { flex: 2; min-width: 240px; }
+.xp-meta { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; margin-bottom: 5px; }
+.xp-bar-bg { height: 10px; background: var(--bg-subtle); border-radius: 20px; overflow: hidden; }
+.xp-bar-fill {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, var(--cyan), var(--blue), var(--purple));
+  border-radius: 20px; transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ── STAGES NAV ── */
+.stages-nav {
+  display: flex; gap: 6px; margin-bottom: 1.25rem;
+  overflow-x: auto; padding-bottom: 6px; scrollbar-width: none;
+}
+.stages-nav::-webkit-scrollbar { display: none; }
+.stage-tab {
+  background: var(--bg-card); border: 1px solid var(--border);
+  color: var(--text-muted); padding: 8px 13px; border-radius: var(--radius-sm);
+  font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap;
+  display: flex; align-items: center; gap: 6px; transition: all 0.15s; font-family: inherit;
+}
+.stage-tab:hover { border-color: var(--blue); color: var(--text); }
+.stage-tab.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+.stage-tab.completed { border-color: var(--green); color: var(--green); }
+.badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
+.stage-tab.active .badge-dot { background: #fff; }
+.stage-tab.completed .badge-dot { background: var(--green); }
+
+/* ── SECTIONS ── */
+.quest-screen { display: none; animation: fadeIn 0.3s ease-out; }
+.quest-screen.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── CARDS & COMPONENTS ── */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+.card-header-badge {
+  font-size: 11px; font-weight: 800; color: var(--cyan);
+  letter-spacing: 0.1em; margin-bottom: 4px;
+}
+.card-title {
+  font-size: 18px; font-weight: 800; color: var(--text);
+  margin-bottom: 8px; display: flex; align-items: center; gap: 8px;
+}
+.card-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 1.25rem; line-height: 1.6; }
+
+/* ── INTRO HERO HIGHLIGHT ── */
+.intro-hero {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.14) 0%, rgba(6, 182, 212, 0.08) 100%);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: var(--radius-lg);
+  padding: 2.25rem 2rem;
+  margin-bottom: 1.5rem;
+  position: relative; overflow: hidden;
+}
+.intro-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at 85% 20%, rgba(6, 182, 212, 0.18), transparent 60%);
+  pointer-events: none;
+}
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(6, 182, 212, 0.15); border: 1px solid rgba(6, 182, 212, 0.3);
+  color: var(--cyan); font-size: 11px; font-weight: 800;
+  padding: 4px 12px; border-radius: 20px; letter-spacing: 0.08em; margin-bottom: 12px;
+}
+.intro-hero h1 { font-size: 26px; font-weight: 900; margin-bottom: 8px; line-height: 1.3; }
+.intro-hero p { font-size: 14px; color: #CBD5E1; max-width: 760px; line-height: 1.7; }
+
+/* ── COMPARE GRID ── */
+.compare-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 1.5rem;
+}
+.compare-box {
+  border-radius: var(--radius-md); padding: 16px; border: 1px solid var(--border);
+  background: var(--bg-subtle);
+}
+.compare-box.notepad { border-left: 4px solid var(--text-muted); }
+.compare-box.word { border-left: 4px solid var(--blue); background: rgba(59, 130, 246, 0.06); }
+.comp-label { font-size: 11px; font-weight: 800; letter-spacing: 0.06em; margin-bottom: 6px; }
+.comp-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+.sample-paper {
+  background: #fff; color: #222; border-radius: 6px; padding: 14px 16px;
+  font-size: 13px; min-height: 140px; box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+}
+.sample-paper.raw { font-family: monospace; line-height: 1.5; color: #555; }
+.sample-paper.styled { font-family: 'Times New Roman', serif; line-height: 1.7; }
+
+/* ── 4 PILLARS ── */
+.pillars-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 12px; margin-bottom: 1.5rem;
+}
+.pillar-card {
+  background: var(--bg-subtle); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 14px; transition: transform 0.2s, border-color 0.2s;
+}
+.pillar-card:hover { transform: translateY(-3px); border-color: var(--blue); }
+.pillar-icon { font-size: 26px; margin-bottom: 6px; }
+.pillar-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; color: var(--text); }
+.pillar-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+/* ── AVATAR PICKER ── */
+.avatar-grid { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 1.25rem; }
+.avatar-choice {
+  background: var(--bg-subtle); border: 2px solid var(--border);
+  border-radius: var(--radius-md); padding: 10px 14px;
+  display: flex; align-items: center; gap: 8px; cursor: pointer;
+  font-size: 13px; font-weight: 700; transition: all 0.15s;
+}
+.avatar-choice:hover { border-color: var(--cyan); }
+.avatar-choice.selected { border-color: var(--cyan); background: rgba(6, 182, 212, 0.15); color: var(--cyan); }
+
+/* ── CHECKLIST ITEMS ── */
+.checklist { display: flex; flex-direction: column; gap: 10px; }
+.check-item {
+  background: var(--bg-subtle); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 14px 16px;
+  display: flex; align-items: center; gap: 14px;
+  cursor: pointer; transition: all 0.15s; user-select: none;
+}
+.check-item:hover { border-color: var(--blue); background: rgba(59, 130, 246, 0.05); }
+.check-item.done { border-color: var(--green); background: rgba(16, 185, 129, 0.08); }
+.check-box {
+  width: 26px; height: 26px; border-radius: 6px; flex-shrink: 0;
+  border: 2px solid var(--border); display: flex; align-items: center;
+  justify-content: center; font-size: 13px; font-weight: 800; transition: all 0.2s;
+}
+.check-item.done .check-box { background: var(--green); border-color: var(--green); color: #fff; }
+.check-info { flex: 1; }
+.check-title { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+.check-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+.check-xp { font-size: 12px; font-weight: 800; color: var(--yellow); flex-shrink: 0; }
+
+/* ── ANATOMY EXPLORER ── */
+.anatomy-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 8px; margin-bottom: 1rem;
+}
+.anatomy-btn {
+  background: var(--bg-subtle); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 10px; font-size: 12px;
+  font-weight: 700; color: var(--text); cursor: pointer; text-align: center;
+  transition: all 0.15s; font-family: inherit;
+}
+.anatomy-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+.anatomy-btn.active { background: var(--cyan); color: #fff; border-color: var(--cyan); }
+.anatomy-display-box {
+  background: #090C12; border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 16px; min-height: 90px;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.anatomy-tag { font-size: 11px; font-weight: 800; color: var(--cyan); margin-bottom: 4px; }
+.anatomy-explain { font-size: 13px; color: var(--text); line-height: 1.6; }
+
+/* ── WORD SIMULATOR ── */
+.sim-window {
+  background: #EAECEF; border-radius: var(--radius-md);
+  border: 1px solid var(--border); overflow: hidden; margin-top: 1rem;
+}
+.sim-titlebar {
+  background: #2B579A; color: #fff; padding: 7px 14px;
+  display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 600;
+}
+.sim-ribbon {
+  background: #F3F4F6; border-bottom: 2px solid #2B579A;
+  padding: 8px 12px; display: flex; gap: 5px; flex-wrap: wrap; align-items: center;
+}
+.sim-btn {
+  padding: 5px 9px; border-radius: 4px; font-size: 12px; font-weight: 700;
+  border: 1px solid #CBD5E1; background: #fff; color: #333;
+  cursor: pointer; transition: all 0.15s; font-family: inherit;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+}
+.sim-btn:hover { background: #E5E7EB; }
+.sim-btn.active { background: #2B579A; color: #fff; border-color: #2B579A; }
+.sim-sep { width: 1px; height: 22px; background: #CBD5E1; margin: 0 4px; }
+.sim-select {
+  padding: 4px 8px; border-radius: 4px; border: 1px solid #CBD5E1;
+  font-size: 12px; background: #fff; color: #333;
+}
+.sim-canvas {
+  background: #fff; color: #111; width: calc(100% - 32px); max-width: 720px;
+  margin: 16px auto; min-height: 230px; padding: 26px 32px;
+  box-shadow: 0 3px 14px rgba(0,0,0,0.12); border-radius: 2px;
+  font-family: 'Times New Roman', serif; font-size: 15px; line-height: 1.8;
+  outline: none; cursor: text;
+}
+.sim-statusbar {
+  background: #2B579A; color: rgba(255,255,255,0.9);
+  padding: 5px 14px; font-size: 11px; display: flex; gap: 16px; flex-wrap: wrap;
+}
+
+/* ── DOJO SELEKSI TEKS ── */
+.dojo-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px; margin-bottom: 1.25rem;
+}
+.dojo-card {
+  background: var(--bg-subtle); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 14px;
+}
+.dojo-badge { font-size: 11px; font-weight: 800; color: var(--yellow); margin-bottom: 4px; }
+.dojo-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+.dojo-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+/* ── DETEKTIF FORMAT INTERAKTIF ── */
+.detective-box {
+  background: #090E17; border: 1px solid var(--border);
+  border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1rem;
+}
+.detective-case {
+  background: #fff; color: #111; padding: 16px 20px; border-radius: var(--radius-sm);
+  font-family: 'Times New Roman', serif; font-size: 14px; line-height: 1.7; margin-bottom: 12px;
+}
+.case-options { display: flex; flex-direction: column; gap: 8px; }
+.case-btn {
+  background: var(--bg-subtle); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 10px 14px; font-size: 13px; font-weight: 600;
+  color: var(--text); cursor: pointer; text-align: left; transition: all 0.15s; font-family: inherit;
+}
+.case-btn:hover { border-color: var(--cyan); background: rgba(6, 182, 212, 0.08); }
+.case-btn.correct { background: rgba(16, 185, 129, 0.2); border-color: var(--green); color: var(--green); }
+.case-btn.wrong { background: rgba(239, 68, 68, 0.2); border-color: var(--red); color: var(--red); }
+
+/* ── QUIZ & CHALLENGES ── */
+.quiz-box {
+  background: var(--bg-subtle); border: 1px solid var(--border);
+  border-radius: var(--radius-md); padding: 1.5rem;
+}
+.quiz-progress { font-size: 11px; font-weight: 800; color: var(--yellow); letter-spacing: 0.08em; margin-bottom: 8px; }
+.quiz-q { font-size: 16px; font-weight: 700; margin-bottom: 14px; }
+.quiz-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+.quiz-btn {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 12px 14px; font-size: 13px; font-weight: 600;
+  color: var(--text); cursor: pointer; text-align: left; transition: all 0.15s; font-family: inherit;
+}
+.quiz-btn:hover:not(:disabled) { border-color: var(--blue); background: rgba(59, 130, 246, 0.1); }
+.quiz-btn.correct { background: rgba(16, 185, 129, 0.2); border-color: var(--green); color: var(--green); }
+.quiz-btn.wrong { background: rgba(239, 68, 68, 0.2); border-color: var(--red); color: var(--red); }
+.quiz-feedback {
+  display: none; padding: 12px 14px; border-radius: var(--radius-sm);
+  font-size: 13px; line-height: 1.5; margin-top: 10px;
+}
+.quiz-feedback.show { display: block; }
+.quiz-feedback.ok { background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--green); }
+.quiz-feedback.bad { background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.3); color: #F87171; }
+
+/* ── KEYBOARD SHORTCUT BATTLE ── */
+.keyboard-keys-preview {
+  display: flex; justify-content: center; gap: 8px; margin: 12px 0 16px;
+}
+.kb-key {
+  background: #1C2438; border: 1px solid #3E4C6D;
+  box-shadow: 0 3px 0 #141A29; border-radius: 6px;
+  padding: 8px 16px; font-size: 16px; font-weight: 800;
+  color: var(--yellow); font-family: monospace;
+}
+
+/* ── PROJECT TABS ── */
+.project-selector { display: flex; gap: 8px; margin-bottom: 1rem; flex-wrap: wrap; }
+.proj-btn {
+  padding: 8px 14px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 700;
+  background: var(--bg-subtle); border: 1px solid var(--border); color: var(--text-muted);
+  cursor: pointer; transition: all 0.15s; font-family: inherit;
+}
+.proj-btn.active { background: var(--purple); color: #fff; border-color: var(--purple); }
+
+/* ── BUTTONS & ACTIONS ── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 11px 22px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 700;
+  cursor: pointer; border: 1px solid var(--border); background: var(--bg-subtle);
+  color: var(--text); font-family: inherit; transition: all 0.15s; text-decoration: none;
+}
+.btn:hover { background: var(--bg-card); border-color: var(--blue); }
+.btn-primary { background: var(--blue); border-color: var(--blue); color: #fff; }
+.btn-primary:hover { background: var(--blue-hover); }
+.btn-cyan { background: var(--cyan); border-color: var(--cyan); color: #fff; }
+.btn-cyan:hover { background: #0891B2; }
+.btn-green { background: var(--green); border-color: var(--green); color: #fff; }
+.btn-green:hover { background: var(--green-hover); }
+.btn-yellow { background: var(--yellow); border-color: var(--yellow); color: #111; font-weight: 800; }
+.btn-yellow:hover { background: #D97706; color: #fff; }
+.btn-purple { background: var(--purple); border-color: var(--purple); color: #fff; }
+.btn-purple:hover { background: #7C3AED; }
+.btn-lg { padding: 14px 28px; font-size: 15px; }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.nav-buttons-row { display: flex; justify-content: space-between; gap: 10px; margin-top: 1.5rem; flex-wrap: wrap; }
+
+/* ── POPUPS & FEEDBACK ── */
+.xp-toast {
+  position: fixed; bottom: 30px; right: 24px; z-index: 9999;
+  background: #181F30; border: 1px solid var(--yellow);
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.25);
+  border-radius: var(--radius-sm); padding: 10px 18px;
+  font-size: 14px; font-weight: 800; color: var(--yellow);
+  pointer-events: none; animation: popIn 0.3s ease-out;
+}
+@keyframes popIn { from { opacity: 0; transform: translateY(12px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+/* ── CERTIFICATE & LEVEL COMPLETE ── */
+.cert-card {
+  background: linear-gradient(135deg, #131E35 0%, #0F1424 100%);
+  border: 2px solid var(--yellow); border-radius: var(--radius-lg);
+  padding: 2.5rem 2rem; text-align: center; position: relative; overflow: hidden;
+}
+.cert-decor { font-size: 50px; margin-bottom: 10px; }
+.cert-title { font-size: 26px; font-weight: 900; color: var(--yellow); margin-bottom: 6px; }
+.cert-badge {
+  display: inline-block; background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.4); border-radius: 20px;
+  padding: 6px 18px; font-size: 13px; font-weight: 800; color: var(--yellow);
+  margin: 12px 0 16px;
+}
+#confettiCanvas {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 99999;
+}
+
+@media (max-width: 640px) {
+  .compare-grid, .quiz-grid { grid-template-columns: 1fr; }
+  .profile-card { flex-direction: column; align-items: flex-start; }
+  .xp-container { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="confettiCanvas"></canvas>
+
+<!-- TOP NAVIGATION -->
+<header class="top-nav">
+  <div class="brand">
+    <span class="brand-badge">QUEST 3</span>
+    <span class="brand-title">Master of Word <span>· P3 Word Warrior</span></span>
+  </div>
+  <div class="nav-actions">
+    <div class="timer-chip" id="timerDisplay">⏱️ 60:00</div>
+    <button class="audio-btn" id="audioToggle" onclick="toggleAudio()" title="Suara ON/OFF">🔊 Suara: ON</button>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- HERO PROFILE & XP BAR -->
+  <section class="profile-card" id="profileCard">
+    <div class="avatar-display" id="playerAvatar" onclick="promptChangeAvatar()" title="Klik untuk ganti avatar">🦊</div>
+    <div class="hero-info">
+      <div class="hero-rank" id="rankBadge">RANK: CADET TYPIST</div>
+      <div class="hero-name" id="playerName">Petualang Kata</div>
+    </div>
+    <div class="xp-container">
+      <div class="xp-meta">
+        <span>KEMAJUAN EXP (TOTAL MISI)</span>
+        <span id="xpText">0 / 1200 XP</span>
+      </div>
+      <div class="xp-bar-bg">
+        <div class="xp-bar-fill" id="xpBarFill"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STAGES NAV (10 STAGES COMPREHENSIVE) -->
+  <nav class="stages-nav" id="stagesNav">
+    <button class="stage-tab active" onclick="switchStage(0)"><span class="badge-dot"></span> 🎒 0. Pengantar</button>
+    <button class="stage-tab" onclick="switchStage(1)"><span class="badge-dot"></span> 🖥️ 1. Boot & Anatomi</button>
+    <button class="stage-tab" onclick="switchStage(2)"><span class="badge-dot"></span> ⚡ 2. Seleksi Teks</button>
+    <button class="stage-tab" onclick="switchStage(3)"><span class="badge-dot"></span> 🎨 3. Format Lab</button>
+    <button class="stage-tab" onclick="switchStage(4)"><span class="badge-dot"></span> 📐 4. Paragraf & List</button>
+    <button class="stage-tab" onclick="switchStage(5)"><span class="badge-dot"></span> 🕵️ 5. Detektif Format</button>
+    <button class="stage-tab" onclick="switchStage(6)"><span class="badge-dot"></span> 📄 6. Proyek Studio</button>
+    <button class="stage-tab" onclick="switchStage(7)"><span class="badge-dot"></span> ⚔️ 7. Shortcut Battle</button>
+    <button class="stage-tab" onclick="switchStage(8)"><span class="badge-dot"></span> 🏆 8. Final Boss</button>
+    <button class="stage-tab" onclick="switchStage(9)"><span class="badge-dot"></span> 💭 9. Jurnal & Rumah</button>
+  </nav>
+
+  <!-- ═════════════════════════════════════════════
+       STAGE 0: PENGANTAR LENGKAP & KONSEP DASAR
+  ═════════════════════════════════════════════ -->
+  <section class="quest-screen active" id="stage0">
+    <div class="intro-hero">
+      <div class="hero-tag">🌟 MODUL LENGKAP COMPUTER QUEST 3</div>
+      <h1>Gerbang Word Warrior: Menguasai Seni Menyusun Dokumen Berharga!</h1>
+      <p>
+        Pernahkah kamu melihat buku cerita dengan judul megah, tulisan puisi yang anggun, atau surat resmi sekolah yang sangat rapi?
+        Semua karya tersebut dibuat dengan <strong>Microsoft Word</strong>! Di modul ini, kamu tidak hanya belajar memencet tombol, tetapi memahami rahasia bagaimana tulisan yang berantakan disulap menjadi dokumen bernilai tinggi.
+      </p>
+    </div>
+
+    <!-- MENGAPA DOKUMEN BISA BERANTAKAN? (PELAJARAN PENTING) -->
+    <div class="card">
+      <div class="card-header-badge">BEDAH KONSEP UTAMA</div>
+      <div class="card-title">🔍 Kenapa Kita Butuh Word? (Bukan Sekadar Ngetik Biasa)</div>
+      <div class="card-desc">Bandingkan perbedaan dokumen amatir tanpa aturan vs dokumen profesional rapi di Word:</div>
+
+      <div class="compare-grid">
+        <div class="compare-box notepad">
+          <div class="comp-label" style="color:var(--text-muted)">❌ KESALAHAN UMUM PEMULA</div>
+          <div class="comp-title">Teks Berantakan di Buku Tulis / Notepad 😵</div>
+          <div class="sample-paper raw">
+            BIODATA SAYA<br><br>
+            nama saya budi kelas 4 sd bintang hobi saya main game dan sepak bola cita cita jadi programmer.<br><br>
+            * Huruf kecil semua, tidak ada jarak baris, judul tidak menonjol, dan mata cepat lelah membacanya.
+          </div>
+        </div>
+        <div class="compare-box word">
+          <div class="comp-label" style="color:var(--blue)">✨ DOKUMEN WORD PROFESIONAL</div>
+          <div class="comp-title">Struktur Hirarki Rapi & Enak Dibaca 😍</div>
+          <div class="sample-paper styled">
+            <div style="text-align:center;font-weight:bold;font-size:16px;color:#1E3A8A;border-bottom:2px solid #1E3A8A;padding-bottom:3px;margin-bottom:8px;">
+              BIODATA DIRI SISWA
+            </div>
+            <div><b>Nama Lengkap :</b> Budi</div>
+            <div><b>Kelas Saat Ini:</b> 4 SD Bintang Cemerlang</div>
+            <div><b>Hobi Favorit  :</b> <i>Membaca Buku Sains & Coding</i></div>
+            <div><b>Cita-cita Mulia:</b> <i>Software Engineer Handal</i></div>
+            <div style="font-size:10px;color:#059669;margin-top:6px;">✓ Judul tegas di tengah, poin teratur, siap cetak ke printer!</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.25);border-radius:var(--radius-sm);padding:12px 16px;font-size:13px;color:var(--cyan);">
+        💡 <strong>Prinsip Emas Dokumen:</strong> "Tulisan yang rapi dan terformat dengan baik menunjukkan bahwa pembuatnya teliti, pintar, dan menghargai orang yang membacanya!"
+      </div>
+    </div>
+
+    <!-- 4 PILAR ILMU HARI INI -->
+    <div class="card">
+      <div class="card-header-badge">PETA JALUR BELAJAR</div>
+      <div class="card-title">🗺️ 4 Pilar Utama yang Akan Kamu Kuasai Penuh:</div>
+      <div class="pillars-grid">
+        <div class="pillar-card">
+          <div class="pillar-icon">🖥️</div>
+          <div class="pillar-title">1. Anatomi & Navigasi</div>
+          <div class="pillar-desc">Pita Ribbon, Tab Home, Ruler Penggaris, Status Bar, dan jurus geser kursor keyboard kilat.</div>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon">⚡</div>
+          <div class="pillar-title">2. Seleksi Teks Ninja</div>
+          <div class="pillar-desc">Trik klik ganda (kata), klik 3x (paragraf), seleksi baris kiri, dan Shift + panah.</div>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon">🎨</div>
+          <div class="pillar-title">3. Tipografi & Paragraf</div>
+          <div class="pillar-desc">Font family, ukuran huruf, Bold/Italic/Underline, perataan tengah/justify, dan bullet list.</div>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon">💾</div>
+          <div class="pillar-title">4. Manajemen File Aman</div>
+          <div class="pillar-desc">Perbedaan Save vs Save As, tombol darurat Undo (Ctrl+Z), dan folder Computer Quest.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NAMA SISWA -->
+    <div class="card">
+      <div class="card-header-badge">NAMA SISWA</div>
+      <div class="card-title">👤 Masukkan Nama Siswa:</div>
+      <div style="margin-bottom:1.25rem;">
+        <label style="font-size:13px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:6px;">Ketik Nama Lengkap atau Nama Panggilanmu:</label>
+        <input type="text" id="studentNameInput" placeholder="Contoh: Budi" value="Budi" oninput="updateStudentName(this.value)" style="width:100%;max-width:440px;padding:11px 16px;border-radius:var(--radius-sm);border:1px solid var(--cyan);background:var(--bg-subtle);color:var(--text);font-size:15px;font-weight:700;font-family:inherit;outline:none;">
+      </div>
+      <div style="font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:8px;">Pilih Karakter Avatar Kamu:</div>
+      <div class="avatar-grid" id="avatarPicker">
+        <div class="avatar-choice selected" onclick="chooseAvatar('🦊', 'Fox Raider')">🦊 Fox Raider</div>
+        <div class="avatar-choice" onclick="chooseAvatar('🐱', 'Cyber Cat')">🐱 Cyber Cat</div>
+        <div class="avatar-choice" onclick="chooseAvatar('⚡', 'Neon Ninja')">⚡ Neon Ninja</div>
+        <div class="avatar-choice" onclick="chooseAvatar('🤖', 'Robo Scribe')">🤖 Robo Scribe</div>
+        <div class="avatar-choice" onclick="chooseAvatar('🚀', 'Cosmic Pilot')">🚀 Cosmic Pilot</div>
+      </div>
+      <button class="btn btn-cyan btn-lg" onclick="startAdventure()">🔥 Saya Siap Belajar Maksimal! Masuk ke Misi 1 →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       STAGE 1: BOOT WORD & ANATOMI MENDALAM
+  ═════════════════════════════════════════════ -->
+  <section class="quest-screen" id="stage1">
+    <div class="card">
+      <div class="card-header-badge">MISI 1 — KENALI MEDAN TEMPUR</div>
+      <div class="card-title">🖥️ Anatomi Microsoft Word & Navigasi Kursor</div>
+      <div class="card-desc">Buka Microsoft Word di laptopmu sekarang, lalu centang langkah yang berhasil kamu buktikan:</div>
+
+      <div class="checklist" id="bootList"></div>
+    </div>
+
+    <!-- ANATOMY EXPLORER LENGKAP -->
+    <div class="card">
+      <div class="card-header-badge">SCANNER ELEMEN PENGOLAH KATA</div>
+      <div class="card-title">🔍 Klik 6 Elemen Utama Word untuk Memahaminya:</div>
+      <div class="anatomy-grid" id="anatomyGrid">
+        <button class="anatomy-btn active" onclick="inspectAnatomy('ribbon')">Pita Ribbon</button>
+        <button class="anatomy-btn" onclick="inspectAnatomy('home')">Tab Home</button>
+        <button class="anatomy-btn" onclick="inspectAnatomy('paper')">Lembar Putih</button>
+        <button class="anatomy-btn" onclick="inspectAnatomy('cursor')">Kursor Kedip</button>
+        <button class="anatomy-btn" onclick="inspectAnatomy('ruler')">Ruler (Penggaris)</button>
+        <button class="anatomy-btn" onclick="inspectAnatomy('status')">Status Bar Bawah</button>
+      </div>
+      <div class="anatomy-display-box" id="anatomyDisplay">
+        <div class="anatomy-tag" id="anatomyTag">BAGIAN: PITA RIBBON</div>
+        <div class="anatomy-explain" id="anatomyText">Ribbon adalah barisan menu di bagian atas Word tempat semua senjata pengolah kata berada (Font, Paragraf, Styles, dll).</div>
+      </div>
+    </div>
+
+    <!-- TIPS NAVIGASI KEYBOARD TANPA MOUSE -->
+    <div class="card" style="background:rgba(59,130,246,0.06);border-color:rgba(59,130,246,0.25);">
+      <div class="card-header-badge" style="color:var(--blue)">RAHASIA JARI CEPAT</div>
+      <div class="card-title">⌨️ Navigasi Kursor Kilat dengan Keyboard:</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;font-size:13px;">
+        <div style="background:var(--bg-subtle);padding:10px 12px;border-radius:6px;border:1px solid var(--border);">
+          <strong style="color:var(--yellow)">Home:</strong> Lompat langsung ke awal baris.
+        </div>
+        <div style="background:var(--bg-subtle);padding:10px 12px;border-radius:6px;border:1px solid var(--border);">
+          <strong style="color:var(--yellow)">End:</strong> Lompat langsung ke akhir baris.
+        </div>
+        <div style="background:var(--bg-subtle);padding:10px 12px;border-radius:6px;border:1px solid var(--border);">
+          <strong style="color:var(--cyan)">Ctrl + Home:</strong> Lompat ke halaman paling atas dokumen.
+        </div>
+        <div style="background:var(--bg-subtle);padding:10px 12px;border-radius:6px;border:1px solid var(--border);">
+          <strong style="color:var(--cyan)">Ctrl + End:</strong> Lompat ke kata paling terakhir dokumen.
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-buttons-row">
+      <button class="btn" onclick="switchStage(0)">← Pengantar</button>
+      <button class="btn btn-primary" onclick="switchStage(2)">Lanjut ke Jurus Seleksi Teks →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       STAGE 2: JURUS SELEKSI TEKS KILAT (NEW DOJO)
+  ═════════════════════════════════════════════ -->
+  <section class="quest-screen" id="stage2">
+    <div class="card">
+      <div class="card-header-badge">KETERAMPILAN WAJIB</div>
+      <div class="card-title">⚡ Dojo Seleksi Teks: Rahasia Memilih Kata Secepat Kilat!</div>
+      <div class="card-desc">
+        Banyak siswa kesulitan memformat karena capek menarik mouse dan sering kelewatan. Pelajari 4 teknik seleksi para profesional:
+      </div>
+
+      <div class="dojo-grid">
+        <div class="dojo-card">
+          <div class="dojo-badge">TEKNIK 1</div>
+          <div class="dojo-title">Double Click (Klik 2x Cepat)</div>
+          <div class="dojo-desc">Klik 2 kali di tengah sebuah kata = Kata tersebut langsung terseleksi rapi tanpa perlu diseret mouse!</div>
+        </div>
+        <div class="dojo-card">
+          <div class="dojo-badge">TEKNIK 2</div>
+          <div class="dojo-title">Triple Click (Klik 3x Cepat)</div>
+          <div class="dojo-desc">Klik 3 kali berturut-turut di dalam sebuah paragraf = Seluruh paragraf otomatis terpilih semua!</div>
+        </div>
+        <div class="dojo-card">
+          <div class="dojo-badge">TEKNIK 3</div>
+          <div class="dojo-title">Klik Margin Kiri (Selection Bar)</div>
+          <div class="dojo-desc">Arahkan panah mouse ke luar kertas sebelah kiri sampai panah miring ke kanan, lalu klik 1 kali = 1 Baris penuh terpilih!</div>
+        </div>
+        <div class="dojo-card">
+          <div class="dojo-badge">TEKNIK 4</div>
+          <div class="dojo-title">Ctrl + A (Select All)</div>
+          <div class="dojo-desc">Pintasan pamungkas: memilih seluruh isi dokumen dari halaman pertama sampai terakhir dalam 1 detik!</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INTERACTIVE SELECTION PLAYGROUND -->
+    <div class="card">
+      <div class="card-header-badge">ARENA UJI COBA SELEKSI</div>
+      <div class="card-title">🧪 Coba Klik Teks di Bawah Ini:</div>
+      <div class="card-desc">Coba klik ganda pada kata bertuliskan tebal di bawah ini untuk merasakan seleksi kata otomatis:</div>
+
+      <div style="background:#fff;color:#222;padding:16px 20px;border-radius:var(--radius-sm);font-size:15px;line-height:1.8;border:2px dashed var(--cyan);" id="selectionDemoArea">
+        Halo para <span style="background:#FEF08A;padding:2px 4px;border-radius:3px;">Word Warrior</span>! Pada zaman dahulu, manusia menggunakan mesin tik kuno. Jika salah ketik satu huruf saja, mereka harus mengulang mengetik seluruh halaman kertas dari awal. Namun dengan kecanggihan Microsoft Word, kesalahan dapat dibatalkan hanya dengan menekan <span style="background:#BAE6FD;padding:2px 4px;border-radius:3px;">Ctrl + Z</span>.
+      </div>
+      <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn btn-cyan" onclick="testSelectWord()">🎯 Demonstrasi Seleksi 1 Kata</button>
+        <button class="btn btn-purple" onclick="testSelectAll()">🌟 Demonstrasi Ctrl + A (Semua)</button>
+        <button class="btn" onclick="clearDemoSelection()">Hapus Seleksi</button>
+      </div>
+    </div>
+
+    <div class="nav-buttons-row">
+      <button class="btn" onclick="switchStage(1)">← Anatomi Word</button>
+      <button class="btn btn-primary" onclick="switchStage(3)">Lanjut ke Format Lab & Tipografi →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       STAGE 3: FORMAT LAB & TIPOGRAFI LENGKAP
+  ═════════════════════════════════════════════ -->
+  <section class="quest-screen" id="stage3">
+    <div class="card">
+      <div class="card-header-badge">JURUS TIPOGRAFI</div>
+      <div class="card-title">🎨 Format Lab: Kuasai Seni Menghias Huruf</div>
+      <div class="card-desc">Buka Word di komputermu, coba 5 jurus pemformatan penting ini lalu centang:</div>
+
+      <div class="checklist" id="formatList"></div>
+    </div>
+
+    <!-- ATURAN UKURAN & JENIS FONT DOKUMEN -->
+    <div class="card" style="background:rgba(245,158,11,0.06);border-color:rgba(245,158,11,0.25);">
+      <div class="card-header-badge" style="color:var(--yellow)">PANDUAN UKURAN HURUF STANDAR DUNIA</div>
+      <div class="card-title">📏 Standar Ukuran Font Dokumen Resmi:</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;font-size:13px;margin-top:8px;">
+        <div style="background:var(--bg-subtle);padding:10px 14px;border-radius:6px;border:1px solid var(--border);">
+          <div style="font-weight:800;color:var(--yellow);">JUDUL UTAMA (16 - 18 pt)</div>
+          <div style="color:var(--text-muted);">Tebal (Bold), biasanya diletakkan di tengah lembar kerja.</div>
+        </div>
+        <div style="background:var(--bg-subtle);padding:10px 14px;border-radius:6px;border:1px solid var(--border);">
+          <div style="font-weight:800;color:var(--cyan);">SUBJUDUL / BAB (13 - 14 pt)</div>
+          <div style="color:var(--text-muted);">Tebal (Bold), diletakkan di rata kiri.</div>
+        </div>
+        <div style="background:var(--bg-subtle);padding:10px 14px;border-radius:6px;border:1px solid var(--border);">
+          <div style="font-weight:800;color:var(--green);">ISI PARAGRAF (11 - 12 pt)</div>
+          <div style="color:var(--text-muted);">Font standar seperti Times New Roman, Calibri, atau Arial.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIMULATOR WORD DENGAN FITUR LENGKAP -->
+    <div class="card">
+      <div class="card-header-badge">SIMULATOR LATIHAN LANGSUNG</div>
+      <div class="card-title">📝 Kanvas Uji Coba Format Word:</div>
+      <div class="card-desc">Coba ganti font, perbesar tulisan, beri warna, atau tebalkan teks secara langsung:</div>
+
+      <div class="sim-window">
+        <div class="sim-titlebar">
+          <span>📄 Dokumen1 — Microsoft Word (Simulasi Interaktif)</span>
+          <span>✕</span>
+        </div>
+        <div class="sim-ribbon">
+          <select class="sim-select" onchange="applySimFont(this.value)">
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Calibri">Calibri</option>
+            <option value="Arial">Arial</option>
+            <option value="Comic Sans MS">Comic Sans MS</option>
+            <option value="Courier New">Courier New (Monospace)</option>
+          </select>
+          <select class="sim-select" onchange="applySimSize(this.value)">
+            <option value="12">12 pt</option>
+            <option value="14" selected>14 pt</option>
+            <option value="18">18 pt (Judul)</option>
+            <option value="24">24 pt (Banner)</option>
+          </select>
+          <div class="sim-sep"></div>
+          <button class="sim-btn" onclick="applySim('bold')" title="Tebal (Ctrl+B)"><b>B</b></button>
+          <button class="sim-btn" onclick="applySim('italic')" title="Miring (Ctrl+I)"><i>I</i></button>
+          <button class="sim-btn" onclick="applySim('underline')" title="Garis Bawah (Ctrl+U)"><u>U</u></button>
+          <button class="sim-btn" onclick="applySim('strikeThrough')" title="Coret"><s>abc</s></button>
+          <div class="sim-sep"></div>
+          <input type="color" id="simColorPicker" onchange="applySimColor(this.value)" value="#1E3A8A" title="Warna Huruf" style="width:28px;height:26px;border:none;border-radius:4px;cursor:pointer;">
+          <div class="sim-sep"></div>
+          <button class="sim-btn" onclick="applySimAlign('left')" title="Rata Kiri (Ctrl+L)">≡ Kiri</button>
+          <button class="sim-btn" onclick="applySimAlign('center')" title="Rata Tengah (Ctrl+E)">≡ Tengah</button>
+          <button class="sim-btn" onclick="applySimAlign('right')" title="Rata Kanan (Ctrl+R)">≡ Kanan</button>
+          <button class="sim-btn" onclick="applySimAlign('justify')" title="Rata Penuh (Ctrl+J)">≡ Justify</button>
+        </div>
+        <div class="sim-canvas" id="simCanvas" contenteditable="true" spellcheck="false" oninput="updateSimStats()">
+          Ketik kalimat favoritmu di sini... Sorot lalu coba ubah warna atau perbesar ukurannya!
+        </div>
+        <div class="sim-statusbar">
+          <span id="simWordCount">Kata: 12</span>
+          <span id="simCharCount">Karakter: 75</span>
+          <span>Bahasa: Indonesia</span>
+          <span>100% Zoom</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-buttons-row">
+      <button class="btn" onclick="switchStage(2)">← Seleksi Teks</button>
+      <button class="btn btn-primary" onclick="switchStage(4)">Lanjut ke Paragraf & List →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       STAGE 4: TATA LETAK PARAGRAF, SPASI & LIST
+  ═════════════════════════════════════════════ -->
+  <section class="quest-screen" id="stage4">
+    <div class="card">
+      <div class="card-header-badge">STRUKTUR DOKUMEN</div>
+      <div class="card-title">📐 Mengatur Paragraf, Spasi Baris & Daftar (List)</div>
+      <div class="card-desc">
+        Paragraf yang terlalu mepet membuat pembaca pusing. Inilah 3 rahasia mengatur kenyamanan membaca:
+      </div>
+
+      <div class="pillars-grid">
+        <div class="pillar-card">
+          <div class="pillar-icon">↔️</div>
+          <div class="pillar-title">4 Jurus Perataan (Alignment)</div>
+          <div class="pillar-desc">
+            • <b>Rata Kiri (Ctrl+L):</b> Standar surat & cerita.<br>
+            • <b>Rata Tengah (Ctrl+E):</b> Khusus judul dokumen.<br>
+            • <b>Rata Kanan (Ctrl+R):</b> Tempat tanggal surat.<br>
+            • <b>Justify (Ctrl+J):</b> Rata kanan-kiri ala koran/buku.
+          </div>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon">↕️</div>
+          <div class="pillar-title">Spasi Baris (Line Spacing)</div>
+          <div class="pillar-desc">
+            Jarak antara baris atas dan baris bawah. Standar tugas sekolah yang nyaman dibaca adalah <b>1.15</b> atau <b>1.5 spasi</b>.
+          </div>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon">🔢</div>
+          <div class="pillar-title">Bullets vs Numbering</div>
+          <div class="pillar-desc">
+            • <b>Bullets (Bulatan/Simbol):</b> Untuk daftar tanpa urutan (contoh: daftar hobi, daftar buah).<br>
+            • <b>Numbering (1, 2, 3):</b> Untuk langkah berurutan (contoh: resep kue, tata cara).
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHECKLIST MISI PARAGRAF -->
+    <div class="card">
+      <div class="card-header-badge">PRAKTIK PARAGRAF DI WORD NYATA</div>
+      <div class="card-title">🎯 Tantangan Paragraf & Daftar Poin:</div>
+      <div class="checklist" id="paragraphList"></div>
+    </div>
+
+    <div class="nav-buttons-row">
+      <button class="btn" onclick="switchStage(3)">← Format Lab</button>
+      <button class="btn btn-primary" onclick="switchStage(5)">Lanjut ke Detektif Format →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       STAGE 5: DETEKTIF FORMAT (GAME REPARASI DOKUMEN)
+  ═════════════════════════════════════════════ -->
+  <section class="quest-screen" id="stage5">
+    <div class="card">
+      <div class="card-header-badge">GAME DETEKTIF DOKUMEN</div>
+      <div class="card-title">🕵️ Detektif Format: Temukan & Perbaiki Kesalahan Dokumen!</div>
+      <div class="card-desc">
+        Seorang siswa mengirimkan dokumen di bawah ini, tetapi penampilannya aneh dan sulit dibaca. Analisis dokumennya dan pilih tindakan perbaikan yang paling tepat:
+      </div>
+
+      <div class="detective-box" id="detectiveContainer">
+        <div style="font-size:12px;font-weight:800;color:var(--yellow);margin-bottom:6px;" id="caseNumberLabel">KASUS 1 DARI 3</div>
+        <div class="detective-case" id="caseDocumentView">
+          <div style="text-align:left;font-size:12px;font-family:monospace;margin-bottom:8px;">PENGUMUMAN LIBUR SEKOLAH</div>
+          <div>Diberitahukan kepada seluruh siswa bahwa libur sekolah semester ganjil akan dimulai pada hari senin tanggal 20 desember. harap seluruh siswa menyelesaikan tugas.</div>
+        </div>
+        <div style="font-size:14px;font-weight:700;margin-bottom:10px;color:var(--cyan);" id="caseQuestion">
+          Apa kesalahan fatal pada dokumen di atas?
+        </div>
+        <div class="case-options" id="caseOptions"></div>
+        <div class="quiz-feedback" id="caseFeedback"></div>
+      </div>
+    </div>
+
+    <div class="nav-buttons-row">
+      <button class="btn" onclick="switchStage(4)">← Paragraf & List</button>
+      <button class="btn btn-primary" onclick="switchStage(6)">Lanjut ke Proyek Studio →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       STAGE 6: PROYEK STUDIO (3 PILIHAN KARYA)
+  ═════════════════════════════════════════════ -->
+  <section class="quest-screen" id="stage6">
+    <div class="card">
+      <div class="card-header-badge">STUDIO PRODUKSI KARYA</div>
+      <div class="card-title">📄 Proyek Nyata: Buat Dokumen Resmi Pertamamu!</div>
+      <div class="card-desc">
+        Pilih salah satu dari 3 proyek di bawah ini untuk kamu ketik dan format di Microsoft Word aslimu:
+      </div>
+
+      <div class="project-selector">
+        <button class="proj-btn active" onclick="selectProject('bio')">Proyek A: Biodata Diri Siswa (Mudah)</button>
+        <button class="proj-btn" onclick="selectProject('poem')">Proyek B: Cerita / Puisi Estetik (Sedang)</button>
+        <button class="proj-btn" onclick="selectProject('letter')">Proyek C: Surat Izin Resmi (Tantangan)</button>
+      </div>
+
+      <!-- PROYEK DETAIL -->
+      <div id="projectDetailArea" style="background:#fff;color:#111;padding:24px 28px;border-radius:var(--radius-sm);box-shadow:0 4px 16px rgba(0,0,0,0.25);font-family:'Times New Roman',serif;max-width:680px;margin:0 auto 1.5rem;">
+        <!-- Dynamic project preview -->
+      </div>
+
+      <div class="checklist" id="docBuilderList"></div>
+    </div>
+
+    <div class="nav-buttons-row">
+      <button class="btn" onclick="switchStage(5)">← Detektif Format</button>
+      <button class="btn btn-primary" onclick="switchStage(7)">Lanjut ke Shortcut Battle →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       STAGE 7: SHORTCUT BATTLE (ARENA CEPAT)
+  ═════════════════════════════════════════════ -->
+  <section class="quest-screen" id="stage7">
+    <div class="card">
+      <div class="card-header-badge">ARENA TANTANGAN KECEPATAN</div>
+      <div class="card-title">⚔️ Shortcut Battle: Uji Refleks Tombol Kilat (10 Soal)</div>
+      <div class="card-desc">
+        Pendekar komputer tidak selalu klik mouse — mereka memakai <strong>Shortcut Keyboard</strong> untuk bekerja secepat kilat!
+      </div>
+
+      <div style="background:#0D111A;border:1px solid var(--border);border-radius:var(--radius-md);padding:1.5rem;text-align:center;">
+        <div style="font-size:12px;font-weight:800;color:var(--yellow);margin-bottom:6px;" id="scProgress">TANTANGAN 1 DARI 10</div>
+        <div class="keyboard-keys-preview" id="scKeyVisual">
+          <span class="kb-key" id="scKeyDisplay">Ctrl + B</span>
+        </div>
+        <div style="font-size:18px;font-weight:800;margin-bottom:14px;" id="scQuestion">Fungsi kombinasi tombol ini adalah:</div>
+
+        <div class="quiz-grid" id="scChoices"></div>
+
+        <div style="display:flex;justify-content:center;gap:30px;margin-top:1rem;border-top:1px solid var(--border);padding-top:12px;">
+          <div><span style="color:var(--green);font-size:22px;font-weight:800;" id="scHitCount">0</span><br><small style="color:var(--text-muted)">Benar</small></div>
+          <div><span style="color:var(--red);font-size:22px;font-weight:800;" id="scMissCount">0</span><br><small style="color:var(--text-muted)">Salah</small></div>
+          <div><span style="color:var(--cyan);font-size:22px;font-weight:800;" id="scStreakCount">0</span><br><small style="color:var(--text-muted)">Combo Streak</small></div>
+        </div>
+
+        <div id="scResultBox" style="display:none;margin-top:1.5rem;">
+          <div style="font-size:40px;" id="scResultEmoji">⚡</div>
+          <div style="font-size:20px;font-weight:800;margin:6px 0;" id="scResultTitle">Battle Selesai!</div>
+          <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;" id="scResultSub"></p>
+          <button class="btn btn-yellow" onclick="startShortcutBattle()">🔄 Duel Ulang</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHEAT SHEET SHORTCUT LENGKAP -->
+    <div class="card" style="background:rgba(139,92,246,0.06);border-color:rgba(139,92,246,0.25);">
+      <div class="card-header-badge" style="color:var(--purple)">KARTU PANDUAN PINTASAN LENGKAP (CHEAT SHEET)</div>
+      <div class="card-title">📖 Kartu Sakti Shortcut Microsoft Word:</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px;font-size:12px;margin-top:8px;">
+        <div style="background:var(--bg-subtle);padding:8px 12px;border-radius:6px;border:1px solid var(--border);"><b>Ctrl + B:</b> Bold (Tebal)</div>
+        <div style="background:var(--bg-subtle);padding:8px 12px;border-radius:6px;border:1px solid var(--border);"><b>Ctrl + I:</b> Italic (Miring)</div>
+        <div style="background:var(--bg-subtle);padding:8px 12px;border-radius:6px;border:1px solid var(--border);"><b>Ctrl + U:</b> Underline (Garis Bawah)</div>
+        <div style="background:var(--bg-subtle);padding:8px 12px;border-radius:6px;border:1px solid var(--border);"><b>Ctrl + E:</b> Center (Tengah)</div>
+        <div style="background:var(--bg-subtle);padding:8px 12px;border-radius:6px;border:1px solid var(--border);"><b>Ctrl + L:</b> Left (Rata Kiri)</div>
+        <div style="background:var(--bg-subtle);padding:8px 12px;border-radius:6px;border:1px solid var(--border);"><b>Ctrl + R:</b> Right (Rata Kanan)</div>
+        <div style="background:var(--bg-subtle);padding:8px 12px;border-radius:6px;border:1px solid var(--border);"><b>Ctrl + J:</b> Justify (Rata Penuh)</div>
+        <div style="background:var(--bg-subtle);padding:8px 12px;border-radius:6px;border:1px solid var(--border);"><b>Ctrl + S:</b> Save (Simpan Dokumen)</div>
+        <div style="background:var(--bg-subtle);padding:8px 12px;border-radius:6px;border:1px solid var(--border);"><b>Ctrl + Z:</b> Undo (Batalkan Kesalahan)</div>
+        <div style="background:var(--bg-subtle);padding:8px 12px;border-radius:6px;border:1px solid var(--border);"><b>Ctrl + N:</b> New Document (Dokumen Baru)</div>
+      </div>
+    </div>
+
+    <div class="nav-buttons-row">
+      <button class="btn" onclick="switchStage(6)">← Proyek Studio</button>
+      <button class="btn btn-primary" onclick="switchStage(8)">Tantang Final Boss →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       STAGE 8: FINAL BOSS (TANTANGAN MANDIRI & KELULUSAN)
+  ═════════════════════════════════════════════ -->
+  <section class="quest-screen" id="stage8">
+    <div class="card">
+      <div class="card-header-badge" style="color:var(--yellow)">UJIAN KELULUSAN MANDIRI</div>
+      <div class="card-title">🏆 Misi Final Boss: Buktikan Kemandirianmu 100%!</div>
+      <div class="card-desc">
+        Di tantangan pamungkas ini, lakukan seluruh langkah tanpa meminta bantuan siapa pun. Centang saat kamu berhasil melakukannya di laptop:
+      </div>
+
+      <div class="checklist" id="finalBossList"></div>
+
+      <div style="text-align:center;margin-top:1.5rem;">
+        <button class="btn btn-yellow btn-lg" id="claimBadgeBtn" style="display:none;" onclick="triggerVictory()">
+          👑 Klaim Gelar Resmi: MASTER OF WORD!
+        </button>
+      </div>
+    </div>
+
+    <!-- CERTIFICATE OF COMPLETION -->
+    <div id="victoryBlock" style="display:none;margin-top:1.5rem;">
+      <div class="cert-card">
+        <div class="cert-decor">⚔️ 📜 🏆</div>
+        <div class="hero-tag" style="background:rgba(245,158,11,0.2);color:var(--yellow);border-color:var(--yellow);">LEVEL 3 RESMI LULUS</div>
+        <div class="cert-title">SERTIFIKAT RESMI WORD WARRIOR</div>
+        <div class="cert-badge" id="certPlayerLabel">Dianugerahkan kepada: Petualang Kata 🦊</div>
+        <p style="font-size:14px;color:#E2E8F0;max-width:640px;margin:0 auto 16px;line-height:1.7;">
+          Telah berhasil menuntaskan pelatihan menyeluruh pengolah kata: menguasai antarmuka Word, trik seleksi teks kilat, tipografi huruf, tata letak paragraf berimbang, dan manajemen penyimpanan dokumen mandiri!
+        </p>
+        <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem;">
+          <span style="background:rgba(16,185,129,0.15);border:1px solid var(--green);color:var(--green);padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;">✓ Bold / Italic / Underline</span>
+          <span style="background:rgba(16,185,129,0.15);border:1px solid var(--green);color:var(--green);padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;">✓ Perataan Tengah & Justify</span>
+          <span style="background:rgba(16,185,129,0.15);border:1px solid var(--green);color:var(--green);padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;">✓ Seleksi Teks Kilat</span>
+          <span style="background:rgba(16,185,129,0.15);border:1px solid var(--green);color:var(--green);padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;">✓ Shortcut Master</span>
+        </div>
+        <button class="btn btn-green" onclick="window.print()">🖨️ Cetak / Simpan Sertifikat (PDF)</button>
+      </div>
+    </div>
+
+    <div class="nav-buttons-row">
+      <button class="btn" onclick="switchStage(7)">← Shortcut Battle</button>
+      <button class="btn btn-primary" onclick="switchStage(9)">Jurnal Refleksi & Rumah →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       STAGE 9: JURNAL REFLEKSI & HOME QUEST
+  ═════════════════════════════════════════════ -->
+  <section class="quest-screen" id="stage9">
+    <div class="card">
+      <div class="card-header-badge">JURNAL REFLEKSI PETUALANG</div>
+      <div class="card-title">💭 Jurnal Pengalaman: Apa yang Paling Kamu Kuasai Hari Ini?</div>
+      <div class="card-desc">Tuliskan pemikiranmu agar apa yang kamu pelajari semakin menempel kuat:</div>
+
+      <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:1.25rem;">
+        <div>
+          <label style="font-size:13px;font-weight:700;display:block;margin-bottom:4px;">1. Apa pelajaran yang paling kamu ingat hari ini?</label>
+          <input type="text" id="jnlInput1" placeholder="Contoh: Dobel klik buat milih kata, Ctrl+E buat langsung ke tengah..." style="width:100%;padding:10px 14px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--bg-subtle);color:var(--text);font-family:inherit;">
+        </div>
+        <div>
+          <label style="font-size:13px;font-weight:700;display:block;margin-bottom:4px;">2. Dokumen impian apa yang ingin kamu buat sendiri di rumah?</label>
+          <input type="text" id="jnlInput2" placeholder="Contoh: Komik tulisan, resep makanan kesukaan, puisi ulang tahun ibu..." style="width:100%;padding:10px 14px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--bg-subtle);color:var(--text);font-family:inherit;">
+        </div>
+        <div>
+          <label style="font-size:13px;font-weight:700;display:block;margin-bottom:4px;">3. Nilai rasa percaya dirimu menggunakan Word sekarang: (1 - 5)</label>
+          <div style="display:flex;align-items:center;gap:14px;margin-top:6px;">
+            <span>😟 1</span>
+            <input type="range" id="jnlConfidence" min="1" max="5" value="5" oninput="document.getElementById('jnlConfEmoji').textContent = ['','😟','😐','🙂','😎','👑'][this.value]" style="flex:1;">
+            <span>5 👑</span>
+            <span id="jnlConfEmoji" style="font-size:24px;">👑</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-green" onclick="saveJournal()">💾 Simpan Jurnal Petualang (+60 XP)</button>
+      <div id="journalSavedFeedback" style="display:none;background:rgba(16,185,129,0.1);border:1px solid var(--green);color:var(--green);padding:12px;border-radius:var(--radius-sm);margin-top:12px;font-size:13px;">
+        ✨ Jurnal berhasil disimpan ke memori petualang! Catatan ini membuktikan perkembangan luar biasamu.
+      </div>
+    </div>
+
+    <!-- HOME QUEST LENGKAP -->
+    <div class="card">
+      <div class="card-header-badge">MISI RUMAH SANTAI</div>
+      <div class="card-title">🏠 Home Quest: 3 Misi Menyenangkan di Rumah</div>
+      <div class="card-desc">Cukup luangkan 10–15 menit untuk memantapkan kemampuanmu:</div>
+
+      <div class="checklist">
+        <div class="check-item">
+          <div class="check-box">1</div>
+          <div class="check-info">
+            <div class="check-title">Hias Dokumen Biodata dengan Font Baru</div>
+            <div class="check-desc">Buka kembali <code>Biodata_[Nama].docx</code> dari foldermu. Ganti jenis font isi biodata menjadi <b>Arial</b> atau <b>Calibri</b>, dan perbesar judulnya menjadi 18 pt!</div>
+          </div>
+        </div>
+        <div class="check-item">
+          <div class="check-box">2</div>
+          <div class="check-info">
+            <div class="check-title">Tantangan Mengetik Cepat 1 Paragraf</div>
+            <div class="check-desc">Ceritakan tentang makanan favoritmu dalam 3 kalimat di dokumen baru, gunakan jurus Bold pada nama makanannya, lalu simpan sebagai <code>Makanan_Favorit.docx</code>.</div>
+          </div>
+        </div>
+        <div class="check-item">
+          <div class="check-box">⭐</div>
+          <div class="check-info">
+            <div class="check-title" style="color:var(--yellow)">MISI SPESIAL: Tunjukkan ke Orang Tua</div>
+            <div class="check-desc">Tunjukkan dokumen karyamu di laptop kepada orang tua atau saudaramu. Perlihatkan bagaimana caramu membuat tulisan tebal dan rata tengah!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SNEAK PEEK P4 -->
+    <div class="card" style="background:linear-gradient(135deg,rgba(59,130,246,0.12),rgba(139,92,246,0.12));border-color:rgba(59,130,246,0.3);text-align:center;padding:2rem;">
+      <div style="font-size:36px;margin-bottom:8px;">🔒 ➔ 🔓</div>
+      <div class="card-header-badge">SNEAK PEEK PERTEMUAN 4</div>
+      <div style="font-size:20px;font-weight:900;color:var(--text);margin-bottom:6px;">Level 4: Word Pro — Jurus Tabel & Gambar Canggih!</div>
+      <p style="font-size:13px;color:var(--text-muted);max-width:540px;margin:0 auto 16px;">
+        Di level berikutnya, lembar kerja kita akan semakin hidup dengan memasukkan foto/stiker, mengatur posisi teks di sekeliling gambar (Text Wrap), serta membuat tabel jadwal pelajaran berwarna!
+      </p>
+      <button class="btn btn-yellow" onclick="switchStage(0)">🔄 Kembali ke Menu Pengantar</button>
+    </div>
+  </section>
+
+</main>
+
+<script>
+/* ── AUDIO SYNTHESIZER (NO EXTERNAL LIBS) ── */
+let audioEnabled = true;
+let audioCtx = null;
+
+function getAudioCtx() {
+  if (!audioCtx) {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (AudioContext) audioCtx = new AudioContext();
+  }
+  if (audioCtx && audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+  return audioCtx;
+}
+
+function playSound(type) {
+  if (!audioEnabled) return;
+  try {
+    const ctx = getAudioCtx();
+    if (!ctx) return;
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    if (type === 'click') {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(600, now);
+      osc.frequency.exponentialRampToValueAtTime(300, now + 0.08);
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.linearRampToValueAtTime(0.01, now + 0.08);
+      osc.start(now);
+      osc.stop(now + 0.08);
+    } else if (type === 'success') {
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(523.25, now);
+      osc.frequency.setValueAtTime(659.25, now + 0.09);
+      osc.frequency.setValueAtTime(783.99, now + 0.18);
+      gain.gain.setValueAtTime(0.15, now);
+      gain.gain.linearRampToValueAtTime(0.01, now + 0.35);
+      osc.start(now);
+      osc.stop(now + 0.35);
+    } else if (type === 'wrong') {
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(220, now);
+      osc.frequency.setValueAtTime(180, now + 0.1);
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
+      osc.start(now);
+      osc.stop(now + 0.25);
+    } else if (type === 'fanfare') {
+      const freqs = [523.25, 659.25, 783.99, 1046.50];
+      freqs.forEach((f, idx) => {
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.connect(g);
+        g.connect(ctx.destination);
+        o.type = 'triangle';
+        o.frequency.setValueAtTime(f, now + idx * 0.12);
+        g.gain.setValueAtTime(0.15, now + idx * 0.12);
+        g.gain.linearRampToValueAtTime(0.01, now + idx * 0.12 + 0.35);
+        o.start(now + idx * 0.12);
+        o.stop(now + idx * 0.12 + 0.35);
+      });
+    }
+  } catch (e) {
+    console.warn("Audio unavailable:", e);
+  }
+}
+
+function toggleAudio() {
+  audioEnabled = !audioEnabled;
+  const btn = document.getElementById('audioToggle');
+  btn.textContent = audioEnabled ? '🔊 Suara: ON' : '🔇 Suara: OFF';
+  if (audioEnabled) playSound('click');
+}
+
+/* ── GAME STATE & DATA ── */
+let currentXP = 0;
+const maxXP = 1200;
+let avatarEmoji = '🦊';
+let warriorName = 'Petualang Kata';
+const completedTasks = new Set();
+
+const bootMissionData = [
+  { id: 'b1', title: 'Buka Microsoft Word dari Start Menu', desc: 'Klik Start ➔ ketik "Word" ➔ Enter. Perhatikan animasi jendela membuka.', xp: 50 },
+  { id: 'b2', title: 'Pilih "Blank Document" (Lembar Kerja Bersih)', desc: 'Buka kertas putih baru untuk mulai menulis karyamu.', xp: 50 },
+  { id: 'b3', title: 'Uji Navigasi Keyboard Kilat', desc: 'Ketik satu kalimat, lalu tekan tombol [Home] untuk lompat ke depan, dan [End] untuk lompat ke akhir kalimat!', xp: 60 },
+  { id: 'b4', title: 'Atur Zoom Lembar Kerja ke 100%', desc: 'Perhatikan slider zoom di pojok kanan bawah, pastikan berada di angka 100% agar pas di mata.', xp: 40 }
+];
+
+const formatMissionData = [
+  { id: 'f1', title: 'Ubah Font Family (Jenis Huruf)', desc: 'Sorot teks, klik kotak Font di Ribbon Home, dan coba ubah ke Times New Roman atau Arial.', xp: 50 },
+  { id: 'f2', title: 'Atur Ukuran Font (Font Size)', desc: 'Ganti angka ukuran teks menjadi 16 untuk judul dan 12 untuk isi teks.', xp: 50 },
+  { id: 'f3', title: 'Jurus 3 Serangkai: Bold, Italic, Underline', desc: 'Gunakan pintasan Ctrl+B (Tebal), Ctrl+I (Miring), dan Ctrl+U (Garis Bawah).', xp: 60 },
+  { id: 'f4', title: 'Beri Warna Tulisan (Font Color)', desc: 'Klik tombol huruf [A] dengan garis warna di bawahnya untuk memberi warna biru tua atau hijau.', xp: 50 }
+];
+
+const paragraphMissionData = [
+  { id: 'p1', title: 'Atur Judul Menjadi Rata Tengah (Center)', desc: 'Klik di baris judul lalu tekan Ctrl + E agar pas berada di titik tengah kertas.', xp: 50 },
+  { id: 'p2', title: 'Atur Isi Paragraf Menjadi Rata Kiri (Left)', desc: 'Tekan Ctrl + L untuk mengembalikan isi teks menjadi rata kiri yang rapi.', xp: 50 },
+  { id: 'p3', title: 'Buat Daftar Poin Menggunakan Bullets', desc: 'Ketik 3 hobi favoritmu berbaris ke bawah, sorot ketiganya, lalu klik ikon Bullets di Ribbon!', xp: 60 },
+  { id: 'p4', title: 'Atur Spasi Baris Menjadi 1.15 atau 1.5', desc: 'Klik tombol Line Spacing di ribbon Home untuk memberi ruang bernapas antar kalimat.', xp: 50 }
+];
+
+const docBuilderData = [
+  { id: 'db1', title: '1. Buat Dokumen Baru Bersih (Ctrl + N)', desc: 'Siapkan lembar kertas baru tanpa coretan.', xp: 50 },
+  { id: 'db2', title: '2. Ketik & Format Judul Dokumen', desc: 'Ketik judul, perbesar ke 16 pt, tebalkan (Ctrl+B), dan posisikan di tengah (Ctrl+E).', xp: 60 },
+  { id: 'db3', title: '3. Tulis Isi Dokumen Sesuai Template Pilihan', desc: 'Ketik isi teks dengan rapi. Gunakan huruf kapital di awal kalimat dan tanda titik.', xp: 75 },
+  { id: 'db4', title: '4. Format Poin-Poin Khusus', desc: 'Berikan gaya miring (Italic) pada istilah khusus atau hobi, dan gunakan bullets bila perlu.', xp: 65 },
+  { id: 'db5', title: '5. Simpan Dokumen dengan Save As ke Folder "Computer Quest"', desc: 'Tekan F12 atau File ➔ Save As ➔ pilih folder Computer Quest ➔ Simpan!', xp: 100 }
+];
+
+const finalBossData = [
+  { id: 'fb1', title: 'Buka File Explorer Sendiri', desc: 'Buka File Explorer dan navigasi ke folder "Computer Quest" tanpa bantuan.', xp: 50 },
+  { id: 'fb2', title: 'Buka Dokumen yang Tadi Kamu Simpan', desc: 'Klik ganda dokumen untuk membukanya kembali di Microsoft Word.', xp: 50 },
+  { id: 'fb3', title: 'Tambahkan 1 Paragraf Catatan Tambahan', desc: 'Ketik 1 baris baru di bawah dokumen dan format dengan gaya Italic.', xp: 60 },
+  { id: 'fb4', title: 'Simpan Perubahan Hanya dengan Ctrl + S', desc: 'Cukup tekan tombol sakti Ctrl + S tanpa perlu Save As lagi.', xp: 75 },
+  { id: 'fb5', title: 'Tutup Word & Pastikan File Aman di Folder', desc: 'Tutup Word, lihat file di foldermu, pastikan jam update-nya bertambah baru.', xp: 75 }
+];
+
+/* ── PROYEK STUDIO PREVIEWS ── */
+const projectTemplates = {
+  bio: `
+    <div style="text-align:center;font-weight:bold;font-size:18px;letter-spacing:1px;margin-bottom:14px;border-bottom:2px solid #1E3A8A;padding-bottom:6px;color:#1E3A8A;">
+      BIODATA RESMI SISWA
+    </div>
+    <div style="line-height:1.9;font-size:14px;">
+      <div><b>Nama Lengkap  :</b> [Tulis Namamu di Sini]</div>
+      <div><b>Nama Panggilan:</b> [Nama Panggilanmu]</div>
+      <div><b>Kelas & Sekolah:</b> 4 SD Bintang Cemerlang</div>
+      <div><b>Hobi Favorit  :</b> <i>Membaca Buku Komik, Bersepeda & Koding</i></div>
+      <div><b>Makanan Idaman :</b> <i>Ayam Goreng Gurih & Nasi Uduk</i></div>
+      <div><b>Cita-cita Mulia:</b> <i>Menjadi Insinyur Komputer Masa Depan</i></div>
+    </div>
+    <div style="margin-top:14px;font-style:italic;font-size:12px;color:#555;text-align:right;">
+      "Belajar dengan tekun hari ini untuk menaklukkan dunia esok hari."
+    </div>
+  `,
+  poem: `
+    <div style="text-align:center;font-weight:bold;font-size:18px;margin-bottom:6px;color:#7C3AED;">
+      PENAKLUK SAMUDRA DIGITAL
+    </div>
+    <div style="text-align:center;font-size:12px;font-style:italic;color:#666;margin-bottom:14px;">
+      Karya: [Namamu]
+    </div>
+    <div style="text-align:center;line-height:1.8;font-size:14px;font-style:italic;">
+      Di ujung jari ada sejuta kata,<br>
+      Mengalir indah di lembar cahaya putih maya.<br>
+      Kursor berkedip memberi tanda,<br>
+      Kini giliranku menyapa dunia.<br><br>
+      Tak ada salah yang perlu ditakutkan,<br>
+      Tombol <b>Ctrl + Z</b> selalu siap membatalkan.<br>
+      Dengan ilmu dan ketekunan di dada,<br>
+      Aku siap menjadi juara!
+    </div>
+  `,
+  letter: `
+    <div style="text-align:right;font-size:13px;margin-bottom:16px;">
+      Jakarta, 21 September 2026
+    </div>
+    <div style="font-size:13px;line-height:1.6;margin-bottom:12px;">
+      Hal: <b>Permohonan Izin Tidak Masuk Sekolah</b><br>
+      Yth. Bapak/Ibu Wali Kelas 4 SD Bintang<br>
+      di Tempat
+    </div>
+    <div style="font-size:13px;line-height:1.8;text-align:justify;margin-bottom:12px;">
+      Dengan hormat,<br>
+      Saya yang bertanda tangan di bawah ini, orang tua dari <b>[Namamu]</b>, siswa kelas 4 SD Bintang, bermaksud memberitahukan bahwa ananda berhalangan mengikuti kegiatan belajar hari ini dikarenakan sedang kurang sehat.<br>
+      Demikian surat permohonan izin ini kami sampaikan dengan sebenarnya. Atas perhatian dan izin Bapak/Ibu guru, kami ucapkan terima kasih.
+    </div>
+    <div style="text-align:right;font-size:13px;margin-top:18px;">
+      Hormat kami,<br><br><br>
+      ( Orang Tua Siswa )
+    </div>
+  `
+};
+
+function selectProject(type) {
+  playSound('click');
+  document.querySelectorAll('.proj-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('onclick').includes(type));
+  });
+  document.getElementById('projectDetailArea').innerHTML = projectTemplates[type] || '';
+}
+
+/* ── DETEKTIF FORMAT CASES ── */
+const detectiveCases = [
+  {
+    doc: `<div style="text-align:left;font-size:12px;font-family:monospace;margin-bottom:8px;">PENGUMUMAN LIBUR SEKOLAH</div>
+          <div>Diberitahukan kepada seluruh siswa bahwa libur sekolah semester ganjil akan dimulai pada hari senin tanggal 20 desember. harap seluruh siswa menyelesaikan tugas.</div>`,
+    q: "Apa kesalahan paling fatal pada tampilan pengumuman di atas?",
+    opts: [
+      "Judul tidak berada di tengah dan ukurannya sama kecil dengan isi teks.",
+      "Kertasnya berwarna putih.",
+      "Tidak ada gambar kartun animasi.",
+      "Tulisannya terlalu pendek."
+    ],
+    ans: 0,
+    why: "Judul pengumuman harus diletakkan di tengah (Center / Ctrl+E) dan ukurannya diperbesar (16 pt) agar langsung terlihat jelas oleh pembaca!"
+  },
+  {
+    doc: `<div style="text-align:center;font-weight:bold;font-size:16px;margin-bottom:8px;">DAFTAR PERLENGKAPAN KEMPING</div>
+          <div style="text-align:center;">1. Tenda Dome 2. Senter Baterai 3. Jaket Tebal 4. Jas Hujan 5. Kotak P3K</div>`,
+    q: "Mengapa daftar perlengkapan di atas sulit dibaca?",
+    opts: [
+      "Semua poin digabung dalam satu baris panjang ke samping.",
+      "Nomornya terlalu banyak.",
+      "Font-nya terlalu bagus.",
+      "Harusnya ditulis memakai pensil warna."
+    ],
+    ans: 0,
+    why: "Daftar perlengkapan harus disusun berbaris ke bawah menggunakan fitur Numbering atau Bullets, bukan ditulis memanjang dalam satu baris!"
+  },
+  {
+    doc: `<div style="text-align:center;font-size:16px;font-weight:bold;margin-bottom:8px;">CERITA PETUALANGAN BUDI</div>
+          <div style="font-weight:bold;font-style:italic;text-decoration:underline;line-height:1.7;">PADA SUATU HARI BUDI PERGI KE HUTAN BERSAMA TEMAN-TEMANNYA MEREKA MEMBAWA BEKAL MAKANAN YANG BANYAK DAN BERJALAN MENYUSURI SUNGAI KECIL.</div>`,
+    q: "Apa yang membuat isi cerita di atas sangat melelahkan mata?",
+    opts: [
+      "Semua huruf diketik KAPITAL, ditebalkan, dimiringkan, dan digarisbawahi sekaligus!",
+      "Ceritanya terlalu membosankan.",
+      "Budi tidak membawa senter.",
+      "Sungainya terlalu jernih."
+    ],
+    ans: 0,
+    why: "Penggunaan Bold + Italic + Underline + All Caps pada seluruh paragraf membuat teks berantakan dan membuat mata lelah. Format penekanan hanya dipakai secukupnya!"
+  }
+];
+let caseIndex = 0;
+
+function loadDetectiveCase() {
+  if (caseIndex >= detectiveCases.length) {
+    document.getElementById('detectiveContainer').innerHTML = `
+      <div style="text-align:center;padding:1.5rem;">
+        <div style="font-size:42px;">🕵️‍♂️ 🎖️</div>
+        <div style="font-size:18px;font-weight:800;color:var(--green);margin:6px 0;">Semua Kasus Terpecahkan Sempurna!</div>
+        <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;">Kamu kini memiliki mata elang yang mampu mendeteksi kesalahan format dokumen secara instan.</p>
+        <button class="btn btn-cyan" onclick="caseIndex=0;loadDetectiveCase();">🔄 Ulangi Game Detektif</button>
+      </div>
+    `;
+    playSound('fanfare');
+    addXP(80, 'Detektif Format Master');
+    return;
+  }
+  const c = detectiveCases[caseIndex];
+  document.getElementById('caseNumberLabel').textContent = 'KASUS ' + (caseIndex + 1) + ' DARI ' + detectiveCases.length;
+  document.getElementById('caseDocumentView').innerHTML = c.doc;
+  document.getElementById('caseQuestion').textContent = c.q;
+  document.getElementById('caseFeedback').className = 'quiz-feedback';
+
+  const container = document.getElementById('caseOptions');
+  container.innerHTML = '';
+  c.opts.forEach((opt, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'case-btn';
+    btn.textContent = String.fromCharCode(65 + idx) + '. ' + opt;
+    btn.onclick = () => answerCase(idx, c.ans, c.why, container);
+    container.appendChild(btn);
+  });
+}
+
+function answerCase(selectedIdx, correctIdx, why, container) {
+  const buttons = container.querySelectorAll('.case-btn');
+  buttons.forEach((btn, idx) => {
+    btn.disabled = true;
+    if (idx === correctIdx) btn.classList.add('correct');
+    else if (idx === selectedIdx) btn.classList.add('wrong');
+  });
+
+  const fb = document.getElementById('caseFeedback');
+  if (selectedIdx === correctIdx) {
+    playSound('success');
+    addXP(45, 'Analisis Kasus Tepat');
+    fb.className = 'quiz-feedback show ok';
+    fb.innerHTML = '✅ <strong>Analisis Tepat!</strong> ' + why;
+  } else {
+    playSound('wrong');
+    fb.className = 'quiz-feedback show bad';
+    fb.innerHTML = '❌ <strong>Jawaban Kurang Tepat.</strong> ' + why;
+  }
+
+  setTimeout(() => {
+    caseIndex++;
+    loadDetectiveCase();
+  }, 2400);
+}
+
+/* ── SHORTCUT BATTLE (10 QUESTIONS) ── */
+const scData = [
+  { combo: "Ctrl + B", q: "Fungsi kombinasi tombol ini adalah:", opts: ["Bold (Tebal)", "Back (Kembali)", "Break", "Blue"], ans: 0 },
+  { combo: "Ctrl + I", q: "Fungsi kombinasi tombol ini adalah:", opts: ["Insert", "Italic (Miring)", "Index", "Info"], ans: 1 },
+  { combo: "Ctrl + U", q: "Fungsi kombinasi tombol ini adalah:", opts: ["Undo", "Update", "Underline (Garis Bawah)", "Upload"], ans: 2 },
+  { combo: "Ctrl + E", q: "Mengatur paragraf menjadi rata:", opts: ["Kiri", "Kanan", "Tengah (Center)", "Justify"], ans: 2 },
+  { combo: "Ctrl + L", q: "Mengatur paragraf menjadi rata:", opts: ["Kiri (Left)", "Kanan (Right)", "Tengah", "Lompat"], ans: 0 },
+  { combo: "Ctrl + J", q: "Mengatur paragraf menjadi rata:", opts: ["Justify (Rata Kanan-Kiri)", "Jauh", "Jeda Baris", "Judul"], ans: 0 },
+  { combo: "Ctrl + S", q: "Fungsi tombol penyelamat ini adalah:", opts: ["Select", "Save (Simpan Dokumen)", "Search", "Start"], ans: 1 },
+  { combo: "Ctrl + Z", q: "Fungsi tombol penyelamat ini adalah:", opts: ["Zoom", "Zip", "Undo (Batalkan Kesalahan)", "Zero"], ans: 2 },
+  { combo: "Ctrl + N", q: "Kombinasi tombol ini membuat:", opts: ["Nama baru", "Dokumen Baru (New)", "Nomor otomatis", "Navigasi"], ans: 1 },
+  { combo: "Ctrl + A", q: "Fungsi kombinasi tombol ini adalah:", opts: ["Select All (Pilih Seluruh Dokumen)", "Align", "Add Text", "Auto Save"], ans: 0 }
+];
+let scCurrentIndex = 0;
+let scHits = 0;
+let scMisses = 0;
+let scStreak = 0;
+
+function startShortcutBattle() {
+  scCurrentIndex = 0;
+  scHits = 0;
+  scMisses = 0;
+  scStreak = 0;
+  updateSCStats();
+  document.getElementById('scResultBox').style.display = 'none';
+  loadSCQuestion();
+}
+
+function loadSCQuestion() {
+  if (scCurrentIndex >= scData.length) {
+    endShortcutBattle();
+    return;
+  }
+  const q = scData[scCurrentIndex];
+  document.getElementById('scProgress').textContent = 'TANTANGAN ' + (scCurrentIndex + 1) + ' DARI ' + scData.length;
+  document.getElementById('scKeyDisplay').textContent = q.combo;
+  document.getElementById('scQuestion').textContent = q.q;
+
+  const choicesContainer = document.getElementById('scChoices');
+  choicesContainer.innerHTML = '';
+  q.opts.forEach((opt, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-btn';
+    btn.textContent = opt;
+    btn.onclick = () => answerSC(idx, q.ans, choicesContainer);
+    choicesContainer.appendChild(btn);
+  });
+}
+
+function answerSC(selectedIdx, correctIdx, container) {
+  const buttons = container.querySelectorAll('.quiz-btn');
+  buttons.forEach((btn, idx) => {
+    btn.disabled = true;
+    if (idx === correctIdx) btn.classList.add('correct');
+    else if (idx === selectedIdx) btn.classList.add('wrong');
+  });
+
+  if (selectedIdx === correctIdx) {
+    playSound('success');
+    scHits++;
+    scStreak++;
+    addXP(35, 'Shortcut Tepat');
+  } else {
+    playSound('wrong');
+    scMisses++;
+    scStreak = 0;
+  }
+  updateSCStats();
+
+  setTimeout(() => {
+    scCurrentIndex++;
+    loadSCQuestion();
+  }, 1100);
+}
+
+function updateSCStats() {
+  document.getElementById('scHitCount').textContent = scHits;
+  document.getElementById('scMissCount').textContent = scMisses;
+  document.getElementById('scStreakCount').textContent = scStreak;
+}
+
+function endShortcutBattle() {
+  document.getElementById('scChoices').innerHTML = '';
+  document.getElementById('scResultBox').style.display = 'block';
+  const pct = scHits / scData.length;
+  document.getElementById('scResultTitle').textContent = pct >= 0.8 ? '⚡ Master Shortcut Word!' : '👍 Latihan Hebat!';
+  document.getElementById('scResultSub').textContent = 'Kamu berhasil menjawab ' + scHits + ' dari ' + scData.length + ' soal dengan tepat.';
+  playSound('fanfare');
+  addXP(80, 'Shortcut Battle Selesai');
+}
+
+/* ── ANATOMY EXPLORER ── */
+const anatomyDetails = {
+  ribbon: { tag: "PITA RIBBON", desc: "Pita Ribbon adalah panel baris di bagian paling atas Microsoft Word yang berisi kelompok tombol senjata seperti Font, Paragraf, Styles, dan Find." },
+  home: { tag: "TAB HOME", desc: "Tab Home adalah markas terpenting! Di sinilah tempat tombol Tebal (B), Miring (I), Garis Bawah (U), ukuran huruf, dan perataan teks berada." },
+  paper: { tag: "LEMBAR KERJA PUTIH", desc: "Kertas putih di tengah adalah lembar tulisanmu. Di sinilah dokumenmu akan tampak persis seperti saat dicetak di atas kertas fisik (What You See Is What You Get)." },
+  cursor: { tag: "KURSOR BERKEDIP", desc: "Garis hitam vertikal yang berkedip menunjukkan posisi tempat huruf berikutnya akan muncul saat kamu menekan tombol di keyboard." },
+  ruler: { tag: "RULER (PENGGARIS)", desc: "Garis mistar di atas kertas yang menunjukkan batas tepi kertas (Margin kiri dan kanan) agar tulisan tidak keluar dari batas cetak." },
+  status: { tag: "STATUS BAR BAWAH", desc: "Garis biru di bagian paling bawah yang menampilkan informasi jumlah kata, halaman aktif, dan pengatur zoom dokumen." }
+};
+
+function inspectAnatomy(key) {
+  playSound('click');
+  const details = anatomyDetails[key];
+  if (!details) return;
+  document.getElementById('anatomyTag').textContent = 'BAGIAN: ' + details.tag;
+  document.getElementById('anatomyText').textContent = details.desc;
+
+  document.querySelectorAll('.anatomy-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('onclick').includes(key));
+  });
+  addXP(15, 'Belajar Anatomi Word');
+}
+
+/* ── WORD SIMULATOR LOGIC ── */
+function applySim(cmd) {
+  playSound('click');
+  document.getElementById('simCanvas').focus();
+  document.execCommand(cmd, false, null);
+  updateSimStats();
+}
+
+function applySimAlign(align) {
+  playSound('click');
+  document.getElementById('simCanvas').focus();
+  const map = { left: 'justifyLeft', center: 'justifyCenter', right: 'justifyRight', justify: 'justifyFull' };
+  document.execCommand(map[align], false, null);
+  updateSimStats();
+}
+
+function applySimFont(fontName) {
+  playSound('click');
+  document.getElementById('simCanvas').focus();
+  document.execCommand('fontName', false, fontName);
+  updateSimStats();
+}
+
+function applySimSize(size) {
+  playSound('click');
+  document.getElementById('simCanvas').focus();
+  document.execCommand('fontSize', false, '3');
+  const elements = document.getElementById('simCanvas').querySelectorAll('font[size="3"]');
+  elements.forEach(el => {
+    el.removeAttribute('size');
+    el.style.fontSize = size + 'px';
+  });
+  updateSimStats();
+}
+
+function applySimColor(color) {
+  playSound('click');
+  document.getElementById('simCanvas').focus();
+  document.execCommand('foreColor', false, color);
+  updateSimStats();
+}
+
+function updateSimStats() {
+  const text = document.getElementById('simCanvas').innerText.trim();
+  const words = text ? text.split(/\s+/).length : 0;
+  document.getElementById('simWordCount').textContent = 'Kata: ' + words;
+  document.getElementById('simCharCount').textContent = 'Karakter: ' + text.length;
+}
+
+/* ── TEXT SELECTION DOJO DEMO ── */
+function testSelectWord() {
+  playSound('click');
+  const node = document.getElementById('selectionDemoArea');
+  const range = document.createRange();
+  const sel = window.getSelection();
+  const targetSpan = node.querySelector('span');
+  if (targetSpan) {
+    range.selectNodeContents(targetSpan);
+    sel.removeAllRanges();
+    sel.addRange(range);
+    showXPToast('🎯 Kata "Word Warrior" Terseleksi!');
+  }
+}
+
+function testSelectAll() {
+  playSound('click');
+  const node = document.getElementById('selectionDemoArea');
+  const range = document.createRange();
+  const sel = window.getSelection();
+  range.selectNodeContents(node);
+  sel.removeAllRanges();
+  sel.addRange(range);
+  showXPToast('🌟 Seluruh Paragraf Terseleksi (Ctrl + A)!');
+}
+
+function clearDemoSelection() {
+  window.getSelection().removeAllRanges();
+}
+
+/* ── AVATAR & HERO ── */
+function updateStudentName(val) {
+  const trimmed = val.trim();
+  warriorName = trimmed ? trimmed : 'Siswa';
+  document.getElementById('playerName').textContent = warriorName;
+  saveState();
+}
+
+function chooseAvatar(emoji, roleName) {
+  playSound('click');
+  avatarEmoji = emoji;
+  document.getElementById('playerAvatar').textContent = emoji;
+  
+  const input = document.getElementById('studentNameInput');
+  if (input && (!input.value.trim() || ['Fox Raider', 'Cyber Cat', 'Neon Ninja', 'Robo Scribe', 'Cosmic Pilot', 'Budi', 'Petualang Kata'].includes(input.value.trim()))) {
+    input.value = roleName;
+    warriorName = roleName;
+    document.getElementById('playerName').textContent = warriorName;
+  }
+  
+  document.querySelectorAll('.avatar-choice').forEach(el => {
+    el.classList.toggle('selected', el.textContent.includes(emoji));
+  });
+  saveState();
+}
+
+function promptChangeAvatar() {
+  const name = prompt("Ketik nama siswa untuk gelar Word Warrior:", warriorName);
+  if (name && name.trim()) {
+    warriorName = name.trim();
+    document.getElementById('playerName').textContent = warriorName;
+    const input = document.getElementById('studentNameInput');
+    if (input) input.value = warriorName;
+    saveState();
+    playSound('success');
+  }
+}
+
+function startAdventure() {
+  const input = document.getElementById('studentNameInput');
+  if (input && input.value.trim()) {
+    warriorName = input.value.trim();
+    document.getElementById('playerName').textContent = warriorName;
+    saveState();
+  }
+  playSound('success');
+  addXP(30, 'Selamat Datang di Level 3');
+  switchStage(1);
+}
+
+/* ── STAGE NAVIGATION ── */
+function switchStage(stageIdx) {
+  playSound('click');
+  document.querySelectorAll('.quest-screen').forEach((screen, idx) => {
+    screen.classList.toggle('active', idx === stageIdx);
+  });
+  const tabs = document.querySelectorAll('.stage-tab');
+  tabs.forEach((tab, idx) => {
+    tab.classList.toggle('active', idx === stageIdx);
+    if (idx < stageIdx) tab.classList.add('completed');
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ── XP & RANK SYSTEM ── */
+function addXP(amount, reason) {
+  currentXP = Math.min(maxXP, currentXP + amount);
+  updateXPUI();
+  saveState();
+  playSound('success');
+  showXPToast('+' + amount + ' XP ' + (reason ? '(' + reason + ')' : ''));
+}
+
+function updateXPUI() {
+  const pct = Math.min(100, Math.round((currentXP / maxXP) * 100));
+  document.getElementById('xpBarFill').style.width = pct + '%';
+  document.getElementById('xpText').textContent = currentXP + ' / ' + maxXP + ' XP';
+
+  const rankBadge = document.getElementById('rankBadge');
+  if (currentXP >= 1000) {
+    rankBadge.textContent = 'RANK: 👑 MASTER OF WORD';
+    rankBadge.style.color = '#F59E0B';
+  } else if (currentXP >= 700) {
+    rankBadge.textContent = 'RANK: 🥇 PENDEKAR DOKUMEN';
+    rankBadge.style.color = '#10B981';
+  } else if (currentXP >= 400) {
+    rankBadge.textContent = 'RANK: 🥈 PENJELAJAH RIBBON';
+    rankBadge.style.color = '#06B6D4';
+  } else {
+    rankBadge.textContent = 'RANK: 🥉 CADET TYPIST';
+    rankBadge.style.color = '#8E99B0';
+  }
+}
+
+function showXPToast(text) {
+  const toast = document.createElement('div');
+  toast.className = 'xp-toast';
+  toast.textContent = text;
+  document.body.appendChild(toast);
+  setTimeout(() => { toast.remove(); }, 2200);
+}
+
+/* ── CHECKLIST SYSTEM ── */
+function renderChecklist(containerId, data) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  container.innerHTML = '';
+
+  data.forEach((item, index) => {
+    const el = document.createElement('div');
+    el.className = 'check-item' + (completedTasks.has(item.id) ? ' done' : '');
+    el.id = 'task-' + item.id;
+    el.innerHTML = `
+      <div class="check-box">${completedTasks.has(item.id) ? '✓' : index + 1}</div>
+      <div class="check-info">
+        <div class="check-title">${item.title}</div>
+        <div class="check-desc">${item.desc}</div>
+      </div>
+      <div class="check-xp">+${item.xp} XP</div>
+    `;
+    el.onclick = () => toggleTask(item.id, item.xp);
+    container.appendChild(el);
+  });
+}
+
+function toggleTask(id, xp) {
+  if (completedTasks.has(id)) return;
+  completedTasks.add(id);
+  const el = document.getElementById('task-' + id);
+  if (el) {
+    el.classList.add('done');
+    el.querySelector('.check-box').textContent = '✓';
+  }
+  addXP(xp, 'Tugas Selesai');
+
+  if (id.startsWith('fb')) {
+    const fbAllDone = finalBossData.every(item => completedTasks.has(item.id));
+    if (fbAllDone) {
+      document.getElementById('claimBadgeBtn').style.display = 'inline-flex';
+      playSound('fanfare');
+    }
+  }
+}
+
+/* ── FINAL VICTORY & CONFETTI ── */
+function triggerVictory() {
+  playSound('fanfare');
+  document.getElementById('claimBadgeBtn').style.display = 'none';
+  document.getElementById('victoryBlock').style.display = 'block';
+  document.getElementById('certPlayerLabel').textContent = 'Dianugerahkan kepada: ' + warriorName + ' ' + avatarEmoji;
+  addXP(150, 'Kelulusan Master of Word');
+  launchConfetti();
+}
+
+function launchConfetti() {
+  const canvas = document.getElementById('confettiCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const pieces = [];
+  const colors = ['#3B82F6', '#06B6D4', '#10B981', '#F59E0B', '#8B5CF6', '#EF4444'];
+  for (let i = 0; i < 140; i++) {
+    pieces.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * -canvas.height,
+      size: Math.random() * 8 + 6,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      speedY: Math.random() * 4 + 2,
+      speedX: Math.random() * 2 - 1,
+      rotation: Math.random() * 360,
+      rotSpeed: Math.random() * 4 - 2
+    });
+  }
+
+  let frames = 0;
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pieces.forEach(p => {
+      p.y += p.speedY;
+      p.x += p.speedX;
+      p.rotation += p.rotSpeed;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate((p.rotation * Math.PI) / 180);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+      ctx.restore();
+    });
+    frames++;
+    if (frames < 240) requestAnimationFrame(animate);
+    else ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+  animate();
+}
+
+/* ── JOURNAL REFLECTION ── */
+function saveJournal() {
+  playSound('success');
+  const in1 = document.getElementById('jnlInput1').value.trim();
+  const in2 = document.getElementById('jnlInput2').value.trim();
+  const conf = document.getElementById('jnlConfidence').value;
+  try {
+    localStorage.setItem('cq_p3_journal', JSON.stringify({ in1, in2, conf, date: new Date().toISOString() }));
+  } catch(e) {}
+  document.getElementById('journalSavedFeedback').style.display = 'block';
+  addXP(60, 'Jurnal Refleksi Selesai');
+}
+
+/* ── LOCAL STORAGE RECOVERY ── */
+function loadSavedState() {
+  try {
+    const savedXP = localStorage.getItem('cq_p3_xp');
+    if (savedXP) {
+      currentXP = parseInt(savedXP, 10) || 0;
+      updateXPUI();
+    }
+    const savedAvatar = localStorage.getItem('cq_p3_avatar');
+    if (savedAvatar) {
+      avatarEmoji = savedAvatar;
+      document.getElementById('playerAvatar').textContent = avatarEmoji;
+    }
+    const savedName = localStorage.getItem('cq_p3_name');
+    if (savedName) {
+      warriorName = savedName;
+      document.getElementById('playerName').textContent = warriorName;
+      const input = document.getElementById('studentNameInput');
+      if (input) input.value = warriorName;
+    }
+  } catch (e) {
+    console.warn(e);
+  }
+}
+
+function saveState() {
+  try {
+    localStorage.setItem('cq_p3_xp', currentXP);
+    localStorage.setItem('cq_p3_avatar', avatarEmoji);
+    localStorage.setItem('cq_p3_name', warriorName);
+  } catch (e) {
+    console.warn(e);
+  }
+}
+
+/* ── TIMER ── */
+let timerSeconds = 3600;
+function startTimer() {
+  setInterval(() => {
+    if (timerSeconds <= 0) return;
+    timerSeconds--;
+    const mins = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+    const secs = String(timerSeconds % 60).padStart(2, '0');
+    const display = document.getElementById('timerDisplay');
+    if (display) {
+      display.textContent = '⏱️ ' + mins + ':' + secs;
+      if (timerSeconds < 600) display.style.color = '#EF4444';
+    }
+  }, 1000);
+}
+
+/* ── INITIALIZATION ── */
+document.addEventListener('DOMContentLoaded', () => {
+  renderChecklist('bootList', bootMissionData);
+  renderChecklist('formatList', formatMissionData);
+  renderChecklist('paragraphList', paragraphMissionData);
+  renderChecklist('docBuilderList', docBuilderData);
+  renderChecklist('finalBossList', finalBossData);
+  selectProject('bio');
+  loadDetectiveCase();
+  startShortcutBattle();
+  startTimer();
+  loadSavedState();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computer Quest P6: Excel Formula — Otomasi Hitung Data</title>
+<meta name="description" content="Modul belajar interaktif Microsoft Excel Formula untuk siswa: Operator hitung, Cell Reference, fungsi =SUM(), =AVERAGE(), Copy Formula, Error Detective, dan Excel Shop." />
+<style>
+:root {
+  --bg: #080D1A;
+  --bg-card: #0F172A;
+  --bg-subtle: #172540;
+  --border: #23385C;
+  --text: #F1F5F9;
+  --text-muted: #94A3B8;
+  --excel-green: #107C41;
+  --excel-light: #22C55E;
+  --excel-emerald: #10B981;
+  --cyan: #06B6D4;
+  --blue: #3B82F6;
+  --purple: #8B5CF6;
+  --yellow: #F59E0B;
+  --orange: #F97316;
+  --red: #EF4444;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font); background: var(--bg); color: var(--text);
+  min-height: 100vh; line-height: 1.6; font-size: 15px; overflow-x: hidden;
+}
+
+/* TOP NAV */
+.top-nav {
+  position: sticky; top: 0; z-index: 100; background: rgba(8, 13, 26, 0.96);
+  backdrop-filter: blur(14px); border-bottom: 1px solid var(--border);
+  padding: 10px 18px; display: flex; align-items: center; justify-content: space-between; gap: 10px;
+}
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand-badge {
+  background: linear-gradient(135deg, var(--excel-green), var(--cyan));
+  color: #fff; font-size: 11px; font-weight: 800; padding: 4px 8px; border-radius: var(--radius-sm);
+  letter-spacing: 0.05em;
+}
+.brand-title { font-size: 14px; font-weight: 700; color: var(--text); }
+.session-switch {
+  display: flex; background: var(--bg-subtle); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 3px; gap: 4px;
+}
+.session-btn {
+  padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 700;
+  border: none; background: transparent; color: var(--text-muted); cursor: pointer; transition: all 0.2s;
+}
+.session-btn.active { background: var(--excel-green); color: #fff; }
+.nav-actions { display: flex; align-items: center; gap: 8px; }
+.timer-chip {
+  background: var(--bg-subtle); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 4px 10px; font-size: 12px; font-weight: 700;
+  color: var(--cyan); font-variant-numeric: tabular-nums;
+}
+.audio-btn {
+  background: var(--bg-subtle); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 4px 10px; font-size: 12px; color: var(--text); cursor: pointer;
+}
+
+.container { max-width: 960px; margin: 0 auto; padding: 1.25rem 1rem 5rem; }
+
+/* PROFILE & XP */
+.profile-card {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md);
+  padding: 14px 18px; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+}
+.avatar-display {
+  width: 48px; height: 48px; border-radius: 50%; background: var(--bg-subtle);
+  border: 2px solid var(--cyan); display: flex; align-items: center; justify-content: center;
+  font-size: 24px; cursor: pointer; box-shadow: 0 0 12px rgba(6, 182, 212, 0.3);
+}
+.hero-info { flex: 1; min-width: 170px; }
+.hero-rank { font-size: 11px; font-weight: 800; color: var(--cyan); letter-spacing: 0.08em; }
+.hero-name { font-size: 16px; font-weight: 800; }
+.xp-container { flex: 2; min-width: 220px; }
+.xp-meta { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; margin-bottom: 5px; }
+.xp-bar-bg { height: 10px; background: var(--bg-subtle); border-radius: 20px; overflow: hidden; }
+.xp-bar-fill {
+  height: 100%; width: 0%; background: linear-gradient(90deg, var(--excel-green), var(--cyan), var(--yellow));
+  border-radius: 20px; transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* STAGES NAV */
+.stages-nav {
+  display: flex; gap: 6px; margin-bottom: 1.25rem; overflow-x: auto; padding-bottom: 6px; scrollbar-width: none;
+}
+.stages-nav::-webkit-scrollbar { display: none; }
+.stage-tab {
+  background: var(--bg-card); border: 1px solid var(--border); color: var(--text-muted);
+  padding: 8px 12px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 700;
+  cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 6px; font-family: inherit;
+}
+.stage-tab:hover { border-color: var(--cyan); color: var(--text); }
+.stage-tab.active { background: var(--excel-green); color: #fff; border-color: var(--excel-green); }
+.stage-tab.completed { border-color: var(--excel-light); color: var(--excel-light); }
+.badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
+.stage-tab.active .badge-dot { background: #fff; }
+.stage-tab.completed .badge-dot { background: var(--excel-light); }
+
+.quest-screen { display: none; animation: fadeIn 0.25s ease-out; }
+.quest-screen.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+/* CARDS */
+.card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 1.25rem;
+}
+.card-header-badge { font-size: 11px; font-weight: 800; color: var(--cyan); letter-spacing: 0.1em; margin-bottom: 4px; }
+.card-title { font-size: 18px; font-weight: 800; color: var(--text); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.card-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 1.25rem; line-height: 1.6; }
+
+.intro-hero {
+  background: linear-gradient(135deg, rgba(16, 124, 65, 0.2) 0%, rgba(6, 182, 212, 0.12) 100%);
+  border: 1px solid rgba(6, 182, 212, 0.35); border-radius: var(--radius-lg);
+  padding: 2rem 1.75rem; margin-bottom: 1.5rem; position: relative;
+}
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 6px; background: rgba(6, 182, 212, 0.18);
+  border: 1px solid rgba(6, 182, 212, 0.4); color: var(--cyan); font-size: 11px;
+  font-weight: 800; padding: 4px 12px; border-radius: 20px; margin-bottom: 10px;
+}
+.intro-hero h1 { font-size: 24px; font-weight: 900; margin-bottom: 8px; }
+.intro-hero p { font-size: 14px; color: #CBD5E1; line-height: 1.7; }
+
+/* PILLARS GRID */
+.pillars-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 1.25rem; }
+.pillar-card { background: var(--bg-subtle); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; transition: 0.2s; }
+.pillar-card:hover { transform: translateY(-3px); border-color: var(--cyan); }
+.pillar-icon { font-size: 24px; margin-bottom: 6px; }
+.pillar-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; color: var(--text); }
+.pillar-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+/* AVATAR */
+.avatar-grid { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 1.25rem; }
+.avatar-choice {
+  background: var(--bg-subtle); border: 2px solid var(--border); border-radius: var(--radius-md);
+  padding: 8px 12px; display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px; font-weight: 700; transition: all 0.15s;
+}
+.avatar-choice.selected { border-color: var(--cyan); background: rgba(6, 182, 212, 0.15); color: var(--cyan); }
+
+/* CHECKLIST */
+.checklist { display: flex; flex-direction: column; gap: 10px; }
+.check-item {
+  background: var(--bg-subtle); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 12px 14px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: all 0.15s;
+}
+.check-item:hover { border-color: var(--cyan); }
+.check-item.done { border-color: var(--excel-light); background: rgba(16, 185, 129, 0.08); }
+.check-box {
+  width: 24px; height: 24px; border-radius: 6px; flex-shrink: 0; border: 2px solid var(--border);
+  display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800;
+}
+.check-item.done .check-box { background: var(--excel-green); border-color: var(--excel-green); color: #fff; }
+.check-info { flex: 1; }
+.check-title { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+.check-desc { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+.check-xp { font-size: 11px; font-weight: 800; color: var(--yellow); flex-shrink: 0; }
+
+/* BUTTONS */
+.btn {
+  background: var(--bg-subtle); border: 1px solid var(--border); color: var(--text);
+  padding: 8px 16px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 700;
+  cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; font-family: inherit;
+}
+.btn:hover { border-color: var(--cyan); }
+.btn-excel { background: var(--excel-green); color: #fff; border-color: var(--excel-green); }
+.btn-excel:hover { background: #0E6835; }
+.btn-cyan { background: var(--cyan); color: #08111D; border-color: var(--cyan); font-weight: 800; }
+.btn-green { background: var(--excel-light); color: #052E16; border-color: var(--excel-light); font-weight: 800; }
+.btn-yellow { background: var(--yellow); color: #1E1202; border-color: var(--yellow); font-weight: 800; }
+.btn-lg { padding: 12px 22px; font-size: 15px; }
+
+.nav-buttons-row { display: flex; justify-content: space-between; align-items: center; margin-top: 1.25rem; gap: 10px; }
+
+/* EXCEL LIVE SIMULATOR */
+.excel-sim-box {
+  background: #fff; color: #1E293B; border-radius: 8px; overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3); border: 1px solid #CBD5E1; font-family: 'Segoe UI', sans-serif;
+}
+.excel-title-bar {
+  background: #107C41; color: #fff; padding: 6px 12px; font-size: 12px; font-weight: bold;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.excel-fx-bar {
+  background: #F8FAFC; border-bottom: 1px solid #CBD5E1; padding: 6px 10px;
+  display: flex; align-items: center; gap: 8px; font-size: 12px;
+}
+.fx-name { background: #fff; border: 1px solid #94A3B8; padding: 2px 8px; font-weight: bold; border-radius: 3px; min-width: 50px; text-align: center; color: #0F172A; }
+.fx-input { background: #fff; border: 1px solid #CBD5E1; padding: 3px 8px; flex: 1; border-radius: 3px; font-size: 12px; font-family: monospace; font-weight: bold; color: #1E3A8A; }
+
+.excel-grid-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.excel-grid-table th { background: #E2E8F0; color: #475569; font-weight: 600; text-align: center; border: 1px solid #CBD5E1; padding: 4px 8px; user-select: none; font-size: 11px; }
+.excel-grid-table td { border: 1px solid #CBD5E1; padding: 6px 10px; min-width: 75px; height: 28px; outline: none; }
+.excel-grid-table td.header-cell { background: #1E3A8A; color: #fff; font-weight: bold; text-align: center; }
+.excel-grid-table td.calc-result { background: #ECFDF5; color: #065F46; font-weight: bold; }
+
+/* QUIZ & DETECTIVE */
+.quiz-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 1rem; }
+.quiz-btn {
+  background: var(--bg-subtle); border: 1px solid var(--border); color: var(--text);
+  padding: 12px 14px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600;
+  text-align: left; cursor: pointer; transition: 0.15s;
+}
+.quiz-btn:hover { border-color: var(--cyan); }
+.quiz-btn.correct { background: rgba(16, 185, 129, 0.2); border-color: var(--excel-light); color: var(--excel-light); font-weight: 800; }
+.quiz-btn.wrong { background: rgba(239, 68, 68, 0.2); border-color: var(--red); color: var(--red); }
+.feedback-box { margin-top: 12px; padding: 12px; border-radius: var(--radius-sm); font-size: 13px; display: none; }
+.feedback-box.show { display: block; }
+.feedback-box.ok { background: rgba(16, 185, 129, 0.1); border: 1px solid var(--excel-light); color: var(--excel-light); }
+.feedback-box.bad { background: rgba(239, 68, 68, 0.1); border: 1px solid var(--red); color: var(--red); }
+
+/* CERTIFICATE */
+.cert-card {
+  background: radial-gradient(circle at center, #063920 0%, #06111E 100%);
+  border: 3px solid #10B981; border-radius: var(--radius-lg); padding: 2.5rem 1.5rem;
+  text-align: center; position: relative; box-shadow: 0 0 30px rgba(16, 185, 129, 0.3);
+}
+.cert-title { font-size: 22px; font-weight: 900; color: #34D399; letter-spacing: 0.05em; margin: 8px 0; }
+.cert-badge { font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 12px; }
+
+.xp-toast {
+  position: fixed; bottom: 24px; right: 24px; background: rgba(16, 124, 65, 0.95);
+  color: #fff; font-weight: 800; font-size: 13px; padding: 8px 16px; border-radius: 20px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.3); z-index: 1000; animation: toastIn 0.3s ease-out;
+}
+@keyframes toastIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+#confettiCanvas { position: fixed; inset: 0; pointer-events: none; z-index: 999; }
+@media (max-width: 640px) {
+  .quiz-grid { grid-template-columns: 1fr; }
+  .profile-card { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="confettiCanvas"></canvas>
+
+<!-- TOP NAV -->
+<nav class="top-nav">
+  <div class="brand">
+    <span class="brand-badge">P6 EXCEL FORMULA</span>
+    <div class="brand-title">Computer Quest <span>— Level 6</span></div>
+  </div>
+  <div class="session-switch">
+    <button class="session-btn" onclick="alert('Modul Pertemuan 5: Excel Starter (Tabel & Format)')">P5 Starter</button>
+    <button class="session-btn active">P6 Formula</button>
+    <button class="session-btn" onclick="alert('Pertemuan 7 akan membahas Email & Melampirkan File!')">P7 Sneak Peek</button>
+  </div>
+  <div class="nav-actions">
+    <div class="timer-chip" id="timerDisplay">⏱️ 45:00</div>
+    <button class="audio-btn" id="audioToggle" onclick="toggleAudio()">🔊 Suara</button>
+  </div>
+</nav>
+
+<main class="container">
+
+  <!-- PROFILE & XP -->
+  <header class="profile-card">
+    <div class="avatar-display" id="playerAvatar" onclick="promptChangeName()">🦊</div>
+    <div class="hero-info">
+      <div class="hero-rank" id="rankBadge">RANK: 🥉 FORMULA ROOKIE</div>
+      <div class="hero-name" id="playerName">Budi Santoso</div>
+    </div>
+    <div class="xp-container">
+      <div class="xp-meta">
+        <span>KEMAJUAN BELAJAR LEVEL 6</span>
+        <span id="xpText" style="color:var(--yellow)">0 / 1400 XP</span>
+      </div>
+      <div class="xp-bar-bg">
+        <div class="xp-bar-fill" id="xpBarFill"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- STAGE TABS -->
+  <nav class="stages-nav">
+    <button class="stage-tab active" onclick="switchStage(0)"><span class="badge-dot"></span>0. Momen Ajaib</button>
+    <button class="stage-tab" onclick="switchStage(1)"><span class="badge-dot"></span>1. 4 Operator (+ - * /)</button>
+    <button class="stage-tab" onclick="switchStage(2)"><span class="badge-dot"></span>2. Cell Reference</button>
+    <button class="stage-tab" onclick="switchStage(3)"><span class="badge-dot"></span>3. Fungsi =SUM()</button>
+    <button class="stage-tab" onclick="switchStage(4)"><span class="badge-dot"></span>4. Fungsi =AVERAGE()</button>
+    <button class="stage-tab" onclick="switchStage(5)"><span class="badge-dot"></span>5. Copy Formula (Tarik)</button>
+    <button class="stage-tab" onclick="switchStage(6)"><span class="badge-dot"></span>6. Detektif Rumus (Error)</button>
+    <button class="stage-tab" onclick="switchStage(7)"><span class="badge-dot"></span>7. Excel Shop Challenge</button>
+    <button class="stage-tab" onclick="switchStage(8)"><span class="badge-dot"></span>8. Final Boss & Sertifikat</button>
+    <button class="stage-tab" onclick="switchStage(9)"><span class="badge-dot"></span>9. Jurnal Refleksi</button>
+  </nav>
+
+  <!-- ═════════════════════════════════════════════
+       STAGE 0: PENGANTAR & MOMEN AJAIB FORMULA
+  ═════════════════════════════════════════════ -->
+  <section class="quest-screen active" id="stage0">
+    <div class="intro-hero">
+      <div class="hero-tag">⚡ LEVEL 6 — EXCEL FORMULA</div>
+      <h1>"Daripada Menghitung Satu-Satu, Biarkan Excel yang Bekerja!"</h1>
+      <p>
+        Di Pertemuan 5, kamu sudah mahir merapikan baris, kolom, dan memberi warna tabel. Sekarang saatnya membuka kekuatan super Excel yang sesungguhnya: <strong>Excel bisa berhitung sendiri dalam 0,1 detik!</strong> Kamu tidak perlu kalkulator fisik atau menghitung di kertas buram lagi.
+      </p>
+    </div>
+
+    <!-- TANTANGAN PIKIRAN -->
+    <div class="card">
+      <div class="card-header-badge">MASALAH DUNIA NYATA</div>
+      <div class="card-title">🤔 Bayangkan Ada 100 Nilai Siswa, Mau Dihitung Manual?</div>
+      <div class="card-desc">Jika hanya 2 angka, kalkulator biasa mungkin cukup. Tapi bagaimana jika ada 100 nilai siswa atau ratusan transaksi kas kelas?</div>
+
+      <div style="background:var(--bg-subtle);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;margin-bottom:12px;">
+        <div style="font-size:13px;color:var(--text-muted);margin-bottom:6px;">DATA NILAI: 80, 85, 90, 75, 88, ... (100 siswa)</div>
+        <div style="display:flex;gap:14px;flex-wrap:wrap;">
+          <div style="flex:1;min-width:220px;background:#1E293B;padding:12px;border-radius:6px;border-left:4px solid var(--red);">
+            <div style="color:var(--red);font-weight:bold;font-size:12px;">CARA MANUAL (PUSING & LELAH)</div>
+            <div style="font-size:12px;color:#CBD5E1;margin-top:4px;">Memencet kalkulator 100 kali. Jika salah 1 angka saja di tengah, harus mengulang dari awal!</div>
+          </div>
+          <div style="flex:1;min-width:220px;background:#064E3B;padding:12px;border-radius:6px;border-left:4px solid var(--excel-light);">
+            <div style="color:var(--excel-light);font-weight:bold;font-size:12px;">CARA FORMULA EXCEL (KILAT)</div>
+            <div style="font-size:12px;color:#CBD5E1;margin-top:4px;">Cukup ketik <b>=SUM(B2:B101)</b> lalu tekan Enter. Hasil total langsung muncul seketika!</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:rgba(6,182,212,0.1);border:1px solid var(--cyan);border-radius:var(--radius-sm);padding:14px;font-size:14px;color:var(--cyan);">
+        👑 <strong>HUKUM PALING KERAMAT DI EXCEL:</strong><br>
+        <i>"Semua Formula & Rumus Excel <strong>WAJIB DIAWALI DENGAN TANDA SAMA DENGAN (=)</strong>! Tanpa tanda sama dengan, Excel hanya menganggap tulisanmu sebagai kata-kata biasa."</i>
+      </div>
+    </div>
+
+    <!-- IDENTITAS NAMA SISWA -->
+    <div class="card">
+      <div class="card-header-badge">NAMA SISWA</div>
+      <div class="card-title">👤 Masukkan Nama Siswa:</div>
+      <div style="margin-bottom:1.25rem;">
+        <label style="font-size:13px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:6px;">Ketik Nama Lengkap atau Nama Panggilanmu:</label>
+        <input type="text" id="studentNameInput" placeholder="Contoh: Budi Santoso" value="Budi Santoso" oninput="updateStudentName(this.value)" style="width:100%;max-width:440px;padding:11px 16px;border-radius:var(--radius-sm);border:1px solid var(--cyan);background:var(--bg-subtle);color:var(--text);font-size:15px;font-weight:700;outline:none;">
+      </div>
+      <div style="font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:8px;">Pilih Karakter Ahli Hitungmu:</div>
+      <div class="avatar-grid" id="avatarPicker">
+        <div class="avatar-choice selected" onclick="chooseAvatar('🦊', 'Fox Formula')">🦊 Fox Formula</div>
+        <div class="avatar-choice" onclick="chooseAvatar('🐱', 'Math Cat')">🐱 Math Cat</div>
+        <div class="avatar-choice" onclick="chooseAvatar('⚡', 'Calc Ninja')">⚡ Calc Ninja</div>
+        <div class="avatar-choice" onclick="chooseAvatar('🤖', 'AutoSum Bot')">🤖 AutoSum Bot</div>
+        <div class="avatar-choice" onclick="chooseAvatar('🚀', 'Number Pilot')">🚀 Number Pilot</div>
+      </div>
+      <button class="btn btn-cyan btn-lg" onclick="startAdventure()">🔥 Mulai Petualangan Rumus Excel! Misi 1 →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       STAGE 1: 4 OPERATOR DASAR (+ - * /)
+  ═════════════════════════════════════════════ -->
+  <section class="quest-screen" id="stage1">
+    <div class="card">
+      <div class="card-header-badge">SENJATA ARITMATIKA</div>
+      <div class="card-title">➕ Mengenal 4 Operator Matematika Excel</div>
+      <div class="card-desc">Excel tidak memakai tanda titik dua (:) untuk bagi, atau tanda silang (x) untuk kali. Gunakan simbol keyboard ini:</div>
+
+      <div class="pillars-grid">
+        <div class="pillar-card">
+          <div class="pillar-icon" style="color:var(--cyan);">+</div>
+          <div class="pillar-title">Tambah (+)</div>
+          <div class="pillar-desc">Contoh: <code>=10+5</code> ➔ Hasil: <b>15</b></div>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon" style="color:var(--yellow);">-</div>
+          <div class="pillar-title">Kurang (-)</div>
+          <div class="pillar-desc">Contoh: <code>=10-5</code> ➔ Hasil: <b>5</b></div>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon" style="color:var(--excel-light);">*</div>
+          <div class="pillar-title">Kali (*) Bintang</div>
+          <div class="pillar-desc">Gunakan Shift + 8: <code>=10*5</code> ➔ Hasil: <b>50</b></div>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon" style="color:var(--purple);">/</div>
+          <div class="pillar-title">Bagi (/) Garis Miring</div>
+          <div class="pillar-desc">Garis miring: <code>=10/5</code> ➔ Hasil: <b>2</b></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LIVE FORMULA CALCULATOR SIMULATOR -->
+    <div class="card">
+      <div class="card-header-badge">SIMULATOR FORMULA INTERAKTIF</div>
+      <div class="card-title">🧪 Uji Rumus Pertama: Ketik Formula Sendiri!</div>
+      <div class="card-desc">Coba ketik <code>=25*4</code> atau <code>=100/5</code> atau <code>=50+75</code> di bilah formula bawah lalu tekan tombol <b>Hitung Excel</b>:</div>
+
+      <div class="excel-sim-box">
+        <div class="excel-title-bar">
+          <span>📗 LatihanFormula.xlsx — Formula Bar Simulator</span>
+          <span>_ 🗖 ✕</span>
+        </div>
+        <div class="excel-fx-bar">
+          <div class="fx-name">A1</div>
+          <span style="font-weight:bold;color:#475569;">fx</span>
+          <input type="text" class="fx-input" id="calcSimInput" value="=25*4" placeholder="Ketik diawali tanda = ...">
+          <button class="btn btn-excel" style="padding:4px 12px;font-size:12px;" onclick="runFormulaSim()">Hitung [Enter]</button>
+        </div>
+        <div style="padding:18px;background:#F8FAFC;">
+          <table class="excel-grid-table" style="max-width:400px;background:#fff;">
+            <tr><th style="width:40px;"></th><th>A</th><th>B</th></tr>
+            <tr><th>1</th><td id="calcSimResult" class="calc-result" style="font-size:16px;">100</td><td></td></tr>
+            <tr><th>2</th><td></td><td></td></tr>
+          </table>
+        </div>
+      </div>
+      <div id="simFeedback" style="margin-top:10px;font-size:13px;color:var(--excel-light);">
+        ✨ Excel mengeksekusi rumus <code>=25*4</code> dan menghasilkan angka <b>100</b> secara otomatis!
+      </div>
+    </div>
+
+    <!-- CHECKLIST MISI 1 -->
+    <div class="card">
+      <div class="card-header-badge">MISI PRAKTEK DI LAPTOP SISWA</div>
+      <div class="card-title">🖥️ Buka Excel di Komputermu & Buktikan:</div>
+      <div class="checklist" id="operatorChecklist"></div>
+    </div>
+
+    <div class="nav-buttons-row">
+      <button class="btn" onclick="switchStage(0)">← Momen Ajaib</button>
+      <button class="btn btn-excel" onclick="switchStage(2)">Lanjut ke Cell Reference →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       STAGE 2: CELL REFERENCE (REFERENSI SEL)
+  ═════════════════════════════════════════════ -->
+  <section class="quest-screen" id="stage2">
+    <div class="card">
+      <div class="card-header-badge">JURUS PALING PENTING SEBELUM SUM</div>
+      <div class="card-title">📍 Cell Reference: Mengambil Angka dari Kotak Lain</div>
+      <div class="card-desc">Jangan mengetik angka mati seperti <code>=5000+10000</code>. Ketik nama kotaknya: <code>=B2+B3</code>!</div>
+
+      <div style="background:var(--bg-subtle);padding:14px;border-radius:8px;border:1px solid var(--border);margin-bottom:14px;">
+        <div style="font-weight:bold;color:var(--cyan);margin-bottom:6px;">💡 Kenapa Harus Pakai Cell Reference?</div>
+        <p style="font-size:13px;color:#CBD5E1;line-height:1.7;">
+          Karena jika harga Pensil di sel B2 mendadak naik dari 5000 jadi 6000, <strong>kamu tidak perlu mengedit rumusnya</strong>! Excel akan langsung mendeteksi angka baru dan memperbarui total secara otomatis!
+        </p>
+      </div>
+
+      <!-- INTERACTIVE CELL REFERENCE PLAYGROUND -->
+      <div class="excel-sim-box">
+        <div class="excel-title-bar"><span>Daftar Belanja ATK (Ubah harga di kotak B2!)</span></div>
+        <div style="padding:14px;background:#fff;overflow-x:auto;">
+          <table class="excel-grid-table">
+            <tr><th style="width:30px;"></th><th>A (Barang)</th><th>B (Harga Rp)</th><th>C (Keterangan)</th></tr>
+            <tr><th>1</th><td class="header-cell">Barang</td><td class="header-cell">Harga</td><td class="header-cell">Catatan</td></tr>
+            <tr><th>2</th><td>Pensil</td><td><input type="number" id="refPrice1" value="5000" oninput="updateRefLab()" style="width:80px;font-weight:bold;padding:2px 4px;border:1px solid #0284C7;border-radius:4px;"></td><td>Ubah angka ini!</td></tr>
+            <tr><th>3</th><td>Buku Tulis</td><td><input type="number" id="refPrice2" value="10000" oninput="updateRefLab()" style="width:80px;font-weight:bold;padding:2px 4px;border:1px solid #0284C7;border-radius:4px;"></td><td>Ubah angka ini!</td></tr>
+            <tr><th>4</th><td style="font-weight:bold;">TOTAL</td><td id="refTotalCell" class="calc-result" style="font-size:14px;">Rp 15.000</td><td style="font-family:monospace;color:#2563EB;font-weight:bold;">=B2+B3</td></tr>
+          </table>
+        </div>
+      </div>
+      <div style="font-size:12px;color:var(--text-muted);margin-top:8px;">
+        ✨ Coba ketik angka baru di kolom B2 dan lihat bagaimana sel TOTAL langsung berubah sendiri tanpa perlu dihitung ulang!
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header-badge">CHECKLIST PEMAHAMAN</div>
+      <div class="card-title">📝 Tugas Cell Reference di Komputermu:</div>
+      <div class="checklist" id="refChecklist"></div>
+    </div>
+
+    <div class="nav-buttons-row">
+      <button class="btn" onclick="switchStage(1)">← Operator (+ - * /)</button>
+      <button class="btn btn-excel" onclick="switchStage(3)">Lanjut ke Fungsi Sakti =SUM() →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       STAGE 3: FUNGSI SAKTI =SUM()
+  ═════════════════════════════════════════════ -->
+  <section class="quest-screen" id="stage3">
+    <div class="card">
+      <div class="card-header-badge">FUNGSI PALING TERKENAL DI DUNIA</div>
+      <div class="card-title">➕ Jurus =SUM() : Menjumlahkan Puluhan Kotak Sekaligus!</div>
+      <div class="card-desc">
+        Kalau datanya ada 5 atau 100 baris, masa kita harus mengetik <code>=B2+B3+B4+B5+B6+B7...</code>? Capek sekali! Di sinilah fungsi <strong>=SUM()</strong> menjadi pahlawanmu.
+      </div>
+
+      <div style="background:var(--bg-subtle);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:14px;">
+        <div style="font-size:20px;font-weight:900;color:var(--excel-light);margin-bottom:6px;font-family:monospace;">
+          =SUM(B2:B6)
+        </div>
+        <div style="font-size:13px;color:#CBD5E1;line-height:1.7;">
+          Tanda titik dua (<code>:</code>) dibaca <strong>"SAMPAI"</strong>.<br>
+          Jadi arti rumus di atas adalah: <i>"Wahai Excel, tolong jumlahkan semua angka dari kotak B2 <strong>SAMPAI</strong> kotak B6!"</i>
+        </div>
+      </div>
+
+      <!-- VISUAL TABLE SUM -->
+      <div class="excel-sim-box">
+        <div class="excel-title-bar"><span>Rekap Nilai Tugas Harian</span></div>
+        <div style="padding:14px;background:#fff;overflow-x:auto;">
+          <table class="excel-grid-table" style="max-width:340px;">
+            <tr><th style="width:30px;"></th><th>A</th><th>B (Nilai)</th></tr>
+            <tr><th>1</th><td class="header-cell">Siswa</td><td class="header-cell">Skor</td></tr>
+            <tr><th>2</th><td>Tugas 1</td><td>80</td></tr>
+            <tr><th>3</th><td>Tugas 2</td><td>85</td></tr>
+            <tr><th>4</th><td>Tugas 3</td><td>90</td></tr>
+            <tr><th>5</th><td>Tugas 4</td><td>75</td></tr>
+            <tr><th>6</th><td>Tugas 5</td><td>88</td></tr>
+            <tr style="border-top:2px solid #1E293B;"><th>7</th><td style="font-weight:bold;">TOTAL</td><td class="calc-result" style="font-size:15px;">418</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header-badge">CHECKLIST MISI SUM</div>
+      <div class="card-title">🖥️ Latihan Menjumlahkan Data Mandiri:</div>
+      <div class="checklist" id="sumChecklist"></div>
+    </div>
+
+    <div class="nav-buttons-row">
+      <button class="btn" onclick="switchStage(2)">← Cell Reference</button>
+      <button class="btn btn-excel" onclick="switchStage(4)">Lanjut ke Fungsi =AVERAGE() →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       STAGE 4: FUNGSI =AVERAGE() (RATA-RATA)
+  ═════════════════════════════════════════════ -->
+  <section class="quest-screen" id="stage4">
+    <div class="card">
+      <div class="card-header-badge">RATA-RATA INSTAN</div>
+      <div class="card-title">📊 Fungsi =AVERAGE() : Menghitung Rata-rata Nilai</div>
+      <div class="card-desc">Jika wali kelas bertanya berapa nilai rata-rata kelas, kamu tidak perlu menjumlahkan lalu membagi manual. Gunakan =AVERAGE():</div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+        <div style="background:var(--bg-subtle);padding:14px;border-radius:8px;border:1px solid var(--border);">
+          <div style="font-weight:800;color:var(--excel-light);font-size:15px;margin-bottom:4px;">=SUM(B2:B5)</div>
+          <div style="font-size:12px;color:var(--text-muted);">Fungsi untuk <strong>MENJUMLAHKAN</strong> semua nilai.</div>
+        </div>
+        <div style="background:var(--bg-subtle);padding:14px;border-radius:8px;border:1px solid var(--border);">
+          <div style="font-weight:800;color:var(--cyan);font-size:15px;margin-bottom:4px;">=AVERAGE(B2:B5)</div>
+          <div style="font-size:12px;color:var(--text-muted);">Fungsi untuk mencari <strong>NILAI RATA-RATA</strong>.</div>
+        </div>
+      </div>
+
+      <!-- BONUS MAX MIN -->
+      <div style="background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.25);border-radius:8px;padding:12px 14px;font-size:13px;">
+        ⭐ <strong>Bonus Jurus Pendekar (Untuk yang Cepat):</strong><br>
+        • <code>=MAX(B2:B5)</code> ➔ Mencari nilai <strong>TERTINGGI / MAKSIMAL</strong> di kelas.<br>
+        • <code>=MIN(B2:B5)</code> ➔ Mencari nilai <strong>TERENDAH / MINIMAL</strong> di kelas.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header-badge">CHECKLIST MISI AVERAGE</div>
+      <div class="card-title">🖥️ Praktek Mencari Rata-Rata di Excel:</div>
+      <div class="checklist" id="avgChecklist"></div>
+    </div>
+
+    <div class="nav-buttons-row">
+      <button class="btn" onclick="switchStage(3)">← Fungsi =SUM()</button>
+      <button class="btn btn-excel" onclick="switchStage(5)">Lanjut ke Copy Formula →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       STAGE 5: COPY FORMULA (TARIK RUMUS KE BAWAH)
+  ═════════════════════════════════════════════ -->
+  <section class="quest-screen" id="stage5">
+    <div class="card">
+      <div class="card-header-badge">TRIK PALING MENGHEMAT WAKTU</div>
+      <div class="card-title">🔄 Copy Formula: Cukup Tulis 1 Rumus, Tarik ke Bawah!</div>
+      <div class="card-desc">
+        Setelah kamu berhasil membuat rumus untuk Andi, apakah kamu harus mengetik ulang rumus yang sama untuk Budi, Citra, dan Dinda? <strong>TIDAK PERLU!</strong>
+      </div>
+
+      <div style="background:var(--bg-subtle);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:14px;">
+        <div style="font-weight:800;color:var(--cyan);font-size:15px;margin-bottom:6px;">Cara Kerja Tarik Rumus (Fill Handle):</div>
+        <ol style="margin-left:18px;font-size:13px;color:#CBD5E1;line-height:1.7;">
+          <li>Klik sel yang sudah berisi rumus (misalnya sel total Andi di E2).</li>
+          <li>Arahkan mouse ke <strong>titik kotak hijau kecil di pojok kanan bawah sel</strong> sampai kursor berubah menjadi tanda tambah hitam kecil <code>+</code>.</li>
+          <li>Klik tahan dan <strong>seret ke bawah</strong> sampai baris siswa terakhir.</li>
+          <li>Lepaskan! Excel secara cerdas akan otomatis mengubah <code>=SUM(B2:D2)</code> menjadi <code>=SUM(B3:D3)</code>, <code>=SUM(B4:D4)</code>, dst!</li>
+        </ol>
+      </div>
+
+      <div class="checklist" id="copyChecklist"></div>
+    </div>
+
+    <div class="nav-buttons-row">
+      <button class="btn" onclick="switchStage(4)">← Fungsi =AVERAGE()</button>
+      <button class="btn btn-excel" onclick="switchStage(6)">Masuk ke Detektif Rumus →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       STAGE 6: ERROR DETECTIVE (PERBAIKI RUMUS RUSAK)
+  ═════════════════════════════════════════════ -->
+  <section class="quest-screen" id="stage6">
+    <div class="card">
+      <div class="card-header-badge">GAME DETEKTIF FORMULA</div>
+      <div class="card-title">🕵️‍♂️ Error Detective: Sembuhkan 4 Rumus yang Rusak!</div>
+      <div class="card-desc">Salah mengetik rumus itu hal biasa bagi programmer & data analis. Tugasmu adalah menemukan letak kesalahannya:</div>
+
+      <div style="background:#08101E;border:1px solid var(--border);border-radius:var(--radius-md);padding:1.5rem;" id="detectiveContainer">
+        <div style="font-size:12px;font-weight:800;color:var(--yellow);margin-bottom:6px;" id="caseNumberLabel">KASUS 1 DARI 4</div>
+        <div style="background:#1E293B;padding:12px;border-radius:6px;border-left:4px solid var(--red);margin-bottom:12px;" id="caseFormulaView"></div>
+        <div style="font-size:14px;font-weight:700;color:var(--cyan);margin-bottom:10px;" id="caseQuestion"></div>
+        <div class="quiz-grid" id="caseOptions"></div>
+        <div class="feedback-box" id="caseFeedback"></div>
+      </div>
+    </div>
+
+    <div class="nav-buttons-row">
+      <button class="btn" onclick="switchStage(5)">← Copy Formula</button>
+      <button class="btn btn-excel" onclick="switchStage(7)">Main Game Excel Shop →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       STAGE 7: EXCEL SHOP CHALLENGE (4 ORDERS)
+  ═════════════════════════════════════════════ -->
+  <section class="quest-screen" id="stage7">
+    <div class="card">
+      <div class="card-header-badge">SIMULASI TOKO & KASIR FORMULA</div>
+      <div class="card-title">🏪 Excel Shop: Selesaikan 4 Tantangan Hitung Pelanggan!</div>
+      <div class="card-desc">Terapkan skill perkalian, penjumlahan, =SUM, dan =AVERAGE untuk membantu para pelanggan:</div>
+
+      <div style="background:#08101E;border:1px solid var(--border);border-radius:var(--radius-md);padding:1.5rem;" id="shopContainer">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+          <span style="font-size:12px;font-weight:800;color:var(--yellow);" id="shopOrderNumber">TANTANGAN 1 DARI 4</span>
+          <span style="font-size:12px;color:var(--cyan);" id="shopCustomerTitle">👤 Customer #1: Kasir Belanja</span>
+        </div>
+        <div style="background:#1E293B;padding:12px 16px;border-radius:6px;margin-bottom:12px;" id="shopDialog"></div>
+        <div style="font-size:14px;font-weight:700;color:var(--excel-light);margin-bottom:10px;" id="shopQuestion"></div>
+        <div class="quiz-grid" id="shopOptions"></div>
+        <div class="feedback-box" id="shopFeedback"></div>
+      </div>
+    </div>
+
+    <div class="nav-buttons-row">
+      <button class="btn" onclick="switchStage(6)">← Detektif Rumus</button>
+      <button class="btn btn-excel" onclick="switchStage(8)">Lanjut ke Final Boss & Sertifikat →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       STAGE 8: FINAL BOSS CHECKPOINT & SERTIFIKAT
+  ═════════════════════════════════════════════ -->
+  <section class="quest-screen" id="stage8">
+    <div class="card">
+      <div class="card-header-badge" style="color:var(--yellow)">UJIAN KELULUSAN MANDIRI LEVEL 6</div>
+      <div class="card-title">🏆 Final Boss Checkpoint: Buktikan Kemandirian Formula!</div>
+      <div class="card-desc">Buka Excel di laptopmu, buat tabel rekap nilai di bawah ini dan selesaikan 5 instruksi tanpa bantuan:</div>
+
+      <!-- TARGET PROJECT PREVIEW -->
+      <div style="background:#fff;color:#111;padding:16px;border-radius:8px;margin-bottom:1.25rem;">
+        <div style="text-align:center;font-weight:900;font-size:15px;color:#1E3A8A;margin-bottom:8px;">
+          REKAP NILAI SISWA KELAS 7A
+        </div>
+        <table style="width:100%;border-collapse:collapse;font-size:12px;text-align:center;">
+          <tr style="background:#1E3A8A;color:#fff;font-weight:bold;">
+            <th style="padding:6px;border:1px solid #172554;">Nama</th>
+            <th style="padding:6px;border:1px solid #172554;">Tugas 1</th>
+            <th style="padding:6px;border:1px solid #172554;">Tugas 2</th>
+            <th style="padding:6px;border:1px solid #172554;">Tugas 3</th>
+            <th style="padding:6px;border:1px solid #172554;background:#15803D;">Total (=SUM)</th>
+            <th style="padding:6px;border:1px solid #172554;background:#0369A1;">Rata-rata (=AVERAGE)</th>
+          </tr>
+          <tr><td style="padding:5px;border:1px solid #CBD5E1;text-align:left;font-weight:bold;">Andi</td><td>80</td><td>85</td><td>90</td><td style="font-weight:bold;color:#15803D;">255</td><td style="font-weight:bold;color:#0369A1;">85</td></tr>
+          <tr style="background:#F8FAFC;"><td style="padding:5px;border:1px solid #CBD5E1;text-align:left;font-weight:bold;">Budi</td><td>75</td><td>90</td><td>80</td><td style="font-weight:bold;color:#15803D;">245</td><td style="font-weight:bold;color:#0369A1;">81.6</td></tr>
+          <tr><td style="padding:5px;border:1px solid #CBD5E1;text-align:left;font-weight:bold;">Citra</td><td>90</td><td>85</td><td>95</td><td style="font-weight:bold;color:#15803D;">270</td><td style="font-weight:bold;color:#0369A1;">90</td></tr>
+          <tr style="background:#F8FAFC;"><td style="padding:5px;border:1px solid #CBD5E1;text-align:left;font-weight:bold;">Dinda</td><td>85</td><td>80</td><td>90</td><td style="font-weight:bold;color:#15803D;">255</td><td style="font-weight:bold;color:#0369A1;">85</td></tr>
+        </table>
+      </div>
+
+      <div class="checklist" id="finalBossChecklist"></div>
+
+      <div style="text-align:center;margin-top:1.5rem;">
+        <button class="btn btn-yellow btn-lg" id="claimBadgeBtn" style="display:none;" onclick="triggerVictory()">
+          👑 Klaim Gelar: GRAND EXCEL FORMULA MASTER!
+        </button>
+      </div>
+    </div>
+
+    <!-- CERTIFICATE LEVEL 6 -->
+    <div id="victoryBlock" style="display:none;margin-top:1.5rem;">
+      <div class="cert-card">
+        <div style="font-size:36px;margin-bottom:6px;">⚡ 📊 🏆</div>
+        <div class="hero-tag" style="background:rgba(16,185,129,0.2);color:var(--excel-light);border-color:var(--excel-light);">LEVEL 6 RESMI LULUS</div>
+        <div class="cert-title">SERTIFIKAT KELULUSAN GRAND EXCEL FORMULA MASTER</div>
+        <div class="cert-badge" id="certPlayerLabel">Dianugerahkan kepada: Budi Santoso 🦊</div>
+        <p style="font-size:14px;color:#E2E8F0;max-width:620px;margin:0 auto 16px;line-height:1.7;">
+          Telah berhasil menuntaskan pelatihan otomasi data Microsoft Excel: menguasai formula dasar, 4 operator matematika (+ - * /), cell reference dinamis, fungsi =SUM() dan =AVERAGE(), teknik copy formula kilat, serta debugging rumus!
+        </p>
+        <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem;">
+          <span style="background:rgba(16,185,129,0.15);border:1px solid var(--excel-light);color:var(--excel-light);padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;">✓ Operator + - * /</span>
+          <span style="background:rgba(16,185,129,0.15);border:1px solid var(--excel-light);color:var(--excel-light);padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;">✓ Cell Reference</span>
+          <span style="background:rgba(16,185,129,0.15);border:1px solid var(--excel-light);color:var(--excel-light);padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;">✓ Fungsi =SUM()</span>
+          <span style="background:rgba(16,185,129,0.15);border:1px solid var(--excel-light);color:var(--excel-light);padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;">✓ Fungsi =AVERAGE()</span>
+        </div>
+        <button class="btn btn-green" onclick="window.print()">🖨️ Cetak / Simpan Sertifikat Level 6 (PDF)</button>
+      </div>
+    </div>
+
+    <div class="nav-buttons-row">
+      <button class="btn" onclick="switchStage(7)">← Excel Shop</button>
+      <button class="btn btn-excel" onclick="switchStage(9)">Jurnal Refleksi & Misi Rumah →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       STAGE 9: JURNAL REFLEKSI & HOME QUEST P6
+  ═════════════════════════════════════════════ -->
+  <section class="quest-screen" id="stage9">
+    <div class="card">
+      <div class="card-header-badge">JURNAL REFLEKSI LEVEL 6</div>
+      <div class="card-title">💭 Jurnal Pengalaman: Sensasi Excel Menghitung Otomatis!</div>
+      <div class="card-desc">Tuliskan pemikiranmu hari ini agar ilmu perhitungan otomatis ini semakin kuat:</div>
+
+      <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:1.25rem;">
+        <div>
+          <label style="font-size:13px;font-weight:700;display:block;margin-bottom:4px;">1. Dari rumus =SUM() dan =AVERAGE(), mana yang menurutmu paling ajaib dan berguna?</label>
+          <input type="text" id="jnlInput1" placeholder="Contoh: =SUM() karena gak perlu pencet tambah satu-satu..." style="width:100%;padding:10px 14px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--bg-subtle);color:var(--text);font-family:inherit;">
+        </div>
+        <div>
+          <label style="font-size:13px;font-weight:700;display:block;margin-bottom:4px;">2. Hitungan apa di rumah yang bisa kamu selesaikan pakai rumus Excel?</label>
+          <input type="text" id="jnlInput2" placeholder="Contoh: Menghitung uang jajan sebulan, rekap nilai ulangan semester..." style="width:100%;padding:10px 14px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--bg-subtle);color:var(--text);font-family:inherit;">
+        </div>
+        <div>
+          <label style="font-size:13px;font-weight:700;display:block;margin-bottom:4px;">3. Nilai rasa percaya dirimu menggunakan rumus Excel sekarang: (1 - 5)</label>
+          <div style="display:flex;align-items:center;gap:14px;margin-top:6px;">
+            <span>😟 1</span>
+            <input type="range" id="jnlConfidence" min="1" max="5" value="5" oninput="document.getElementById('jnlConfEmoji').textContent = ['','😟','😐','🙂','😎','👑'][this.value]" style="flex:1;">
+            <span>5 👑</span>
+            <span id="jnlConfEmoji" style="font-size:24px;">👑</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-green" onclick="saveJournal()">💾 Simpan Jurnal Refleksi (+75 XP)</button>
+      <div id="journalSavedFeedback" style="display:none;background:rgba(34,197,94,0.1);border:1px solid var(--excel-light);color:var(--excel-light);padding:12px;border-radius:var(--radius-sm);margin-top:12px;font-size:13px;">
+        ✨ Jurnal refleksi berhasil disimpan! Kamu resmi naik kelas menjadi penakluk data sejati.
+      </div>
+    </div>
+
+    <!-- HOME QUEST P6 -->
+    <div class="card">
+      <div class="card-header-badge">MISI RUMAH SANTAI LEVEL 6</div>
+      <div class="card-title">🏠 Home Quest: "Rekap Nilai Saya" (rekap_nilai.xlsx)</div>
+      <div class="card-desc">Cukup 10–15 menit di rumah untuk menerapkan rumus ke mata pelajaranmu sendiri:</div>
+
+      <div class="checklist">
+        <div class="check-item">
+          <div class="check-box">1</div>
+          <div class="check-info">
+            <div class="check-title">Buat Tabel 4 Mapel Favoritmu</div>
+            <div class="check-desc">Kolom: Mata Pelajaran, Tugas 1, Tugas 2, Total, Rata-rata. Masukkan nilai Matematika, IPA, B. Indo, dan B. Inggris.</div>
+          </div>
+        </div>
+        <div class="check-item">
+          <div class="check-box">2</div>
+          <div class="check-info">
+            <div class="check-title">Gunakan =SUM() dan =AVERAGE()</div>
+            <div class="check-desc">Cukup buat rumus untuk baris pertama, lalu tarik (copy formula) ke baris bawahnya!</div>
+          </div>
+        </div>
+        <div class="check-item">
+          <div class="check-box">⭐</div>
+          <div class="check-info">
+            <div class="check-title" style="color:var(--yellow)">MISI SPESIAL: Tunjukkan Efek Ajaib ke Orang Tua</div>
+            <div class="check-desc">Peragakan di depan orang tua: ganti nilai tugasnya, dan tunjukkan bagaimana total dan rata-ratanya berubah otomatis dalam sekejap!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SNEAK PEEK PERTEMUAN 7 -->
+    <div class="card" style="background:linear-gradient(135deg,rgba(59,130,246,0.18),rgba(139,92,246,0.15));border-color:rgba(59,130,246,0.35);text-align:center;padding:2rem;">
+      <div style="font-size:36px;margin-bottom:8px;">📊 ➔ ✉️ 📎</div>
+      <div class="card-header-badge" style="color:var(--blue);">SNEAK PEEK PERTEMUAN 7</div>
+      <div style="font-size:20px;font-weight:900;color:var(--text);margin-bottom:6px;">Level 7: Dunia Email & Melampirkan File Karyamu!</div>
+      <p style="font-size:13px;color:var(--text-muted);max-width:560px;margin:0 auto 16px;line-height:1.7;">
+        Kamu sudah punya file dokumen Word yang indah dari P3-P4, dan tabel data pintar Excel dari P5-P6! Di pertemuan berikutnya, kita akan belajar cara mengirim file-file karyamu lewat <strong>Email & Lampiran (Attachment)</strong> ke guru dan teman-temanmu di seluruh dunia!
+      </p>
+      <button class="btn btn-cyan" onclick="switchStage(0)">🔄 Kembali ke Menu Pengantar P6</button>
+    </div>
+  </section>
+
+</main>
+
+<script>
+/* ── AUDIO SYNTHESIZER ── */
+let audioEnabled = true;
+let audioCtx = null;
+function getAudioCtx() {
+  if (!audioCtx) {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (AudioContext) audioCtx = new AudioContext();
+  }
+  if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+  return audioCtx;
+}
+function playSound(type) {
+  if (!audioEnabled) return;
+  try {
+    const ctx = getAudioCtx();
+    if (!ctx) return;
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    if (type === 'click') {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(620, now);
+      osc.frequency.exponentialRampToValueAtTime(340, now + 0.08);
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.linearRampToValueAtTime(0.01, now + 0.08);
+      osc.start(now); osc.stop(now + 0.08);
+    } else if (type === 'success') {
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(523.25, now);
+      osc.frequency.setValueAtTime(659.25, now + 0.09);
+      osc.frequency.setValueAtTime(783.99, now + 0.18);
+      gain.gain.setValueAtTime(0.15, now);
+      gain.gain.linearRampToValueAtTime(0.01, now + 0.35);
+      osc.start(now); osc.stop(now + 0.35);
+    } else if (type === 'wrong') {
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(220, now);
+      osc.frequency.setValueAtTime(150, now + 0.1);
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
+      osc.start(now); osc.stop(now + 0.25);
+    } else if (type === 'fanfare') {
+      [523.25, 659.25, 783.99, 1046.50].forEach((f, idx) => {
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.connect(g); g.connect(ctx.destination);
+        o.type = 'triangle';
+        o.frequency.setValueAtTime(f, now + idx * 0.12);
+        g.gain.setValueAtTime(0.15, now + idx * 0.12);
+        g.gain.linearRampToValueAtTime(0.01, now + idx * 0.12 + 0.35);
+        o.start(now + idx * 0.12); o.stop(now + idx * 0.12 + 0.35);
+      });
+    }
+  } catch(e) {}
+}
+function toggleAudio() {
+  audioEnabled = !audioEnabled;
+  document.getElementById('audioToggle').textContent = audioEnabled ? '🔊 Suara' : '🔇 Mute';
+  if (audioEnabled) playSound('click');
+}
+
+/* ── GAME STATE ── */
+let currentXP = 0;
+const maxXP = 1400;
+let avatarEmoji = '🦊';
+let warriorName = 'Budi Santoso';
+const completedTasks = new Set();
+
+/* ── MISSIONS DATA ── */
+const operatorData = [
+  { id: 'op1', title: 'Coba Penjumlahan di Excel: =80+85', desc: 'Ketik =80+85 di cell A1 Excel laptopmu lalu tekan ENTER. Lihat hasil 165 muncul!', xp: 50 },
+  { id: 'op2', title: 'Coba Perkalian dengan Bintang: =25*4', desc: 'Gunakan simbol bintang (*) lewat tombol Shift + 8 untuk mengalikan 25 kali 4.', xp: 50 },
+  { id: 'op3', title: 'Coba Pembagian dengan Garis Miring: =100/5', desc: 'Ketik =100/5 untuk membagi 100 dengan 5 ➔ Hasil 20.', xp: 50 },
+  { id: 'op4', title: 'Coba Pengurangan: =100-35', desc: 'Ketik =100-35 ➔ Hasil 65.', xp: 40 }
+];
+
+const refData = [
+  { id: 'rf1', title: 'Ketik Angka 5000 di B2 dan 10000 di B3', desc: 'Siapkan dua sel angka harga barang di lembar Excel.', xp: 50 },
+  { id: 'rf2', title: 'Ketik Rumus =B2+B3 di Sel B4', desc: 'Jangan mengetik angkanya, ketik koordinat kotaknya!', xp: 60 },
+  { id: 'rf3', title: 'Uji Keajaiban: Ganti Angka di B2 Menjadi 7000', desc: 'Tekan Enter dan amati bagaimana sel B4 otomatis berubah menjadi 17000 tanpa kamu sentuh!', xp: 60 }
+];
+
+const sumData = [
+  { id: 'sm1', title: 'Ketik 5 Nilai Berbaris dari B2 sampai B6', desc: 'Isi angka 80, 85, 90, 75, 88 di kolom B.', xp: 50 },
+  { id: 'sm2', title: 'Ketik Rumus =SUM(B2:B6) di Sel B7', desc: 'Perhatikan tanda titik dua (:) yang berarti "sampai".', xp: 70 },
+  { id: 'sm3', title: 'Gunakan Tombol AutoSum (Σ) di Ribbon Home', desc: 'Klik sel di bawah angka, lalu klik tombol AutoSum di pojok kanan atas ribbon.', xp: 60 }
+];
+
+const avgData = [
+  { id: 'av1', title: 'Ketik Rumus =AVERAGE(B2:B6) di Bawah Nilai', desc: 'Excel akan otomatis menjumlahkan dan membagi dengan jumlah siswa.', xp: 60 },
+  { id: 'av2', title: 'Coba Rumus Bonus: =MAX(B2:B6)', desc: 'Temukan nilai tertinggi di dalam kumpulan angka tersebut.', xp: 50 },
+  { id: 'av3', title: 'Coba Rumus Bonus: =MIN(B2:B6)', desc: 'Temukan nilai terendah di dalam kumpulan angka tersebut.', xp: 50 }
+];
+
+const copyData = [
+  { id: 'cp1', title: 'Temukan Kotak Hijau Kecil di Pojok Kanan Bawah Sel', desc: 'Arahkan kursor sampai berubah menjadi tanda plus hitam ramping (+).', xp: 50 },
+  { id: 'cp2', title: 'Tarik Rumus ke Bawah (Fill Handle)', desc: 'Klik tahan dan tarik ke bawah. Amati seluruh baris terisi hitungan otomatis!', xp: 70 }
+];
+
+const finalBossData = [
+  { id: 'fb1', title: 'Buat Tabel 4 Siswa dengan 3 Nilai Tugas', desc: 'Ketik nama Andi, Budi, Citra, Dinda dan nilai tugasnya di Excel.', xp: 60 },
+  { id: 'fb2', title: 'Hitung Kolom Total Menggunakan =SUM(B2:D2)', desc: 'Gunakan fungsi SUM untuk menghitung total nilai tugas siswa pertama.', xp: 70 },
+  { id: 'fb3', title: 'Hitung Kolom Rata-rata Menggunakan =AVERAGE(B2:D2)', desc: 'Gunakan fungsi AVERAGE untuk menghitung nilai rata-rata siswa pertama.', xp: 70 },
+  { id: 'fb4', title: 'Tarik Rumus (Copy Formula) ke Seluruh Siswa di Bawahnya', desc: 'Tarik kedua rumus ke bawah sehingga seluruh siswa terhitung seketika.', xp: 70 },
+  { id: 'fb5', title: 'Simpan File sebagai "Rekap_Nilai_P6.xlsx"', desc: 'Simpan file di foldermu dengan aman.', xp: 70 }
+];
+
+/* ── LIVE SIMULATOR LOGIC ── */
+function runFormulaSim() {
+  playSound('click');
+  const input = document.getElementById('calcSimInput').value.trim();
+  const resCell = document.getElementById('calcSimResult');
+  const fb = document.getElementById('simFeedback');
+
+  if (!input.startsWith('=')) {
+    playSound('wrong');
+    resCell.textContent = input;
+    fb.innerHTML = `⚠️ <strong>Peringatan:</strong> Kamu lupa tanda sama dengan (<code>=</code>)! Excel hanya menganggap <i>"${input}"</i> sebagai teks biasa, bukan rumus hitung.`;
+    fb.style.color = 'var(--yellow)';
+    return;
+  }
+
+  try {
+    const mathExp = input.substring(1);
+    if (/^[0-9+\-*/().\s]+$/.test(mathExp)) {
+      const val = Function(`'use strict'; return (${mathExp})`)();
+      playSound('success');
+      resCell.textContent = val;
+      fb.innerHTML = `✅ <strong>Perhitungan Berhasil!</strong> Excel menghitung formula <code>${input}</code> dan menghasilkan <b>${val}</b>!`;
+      fb.style.color = 'var(--excel-light)';
+      addXP(25, 'Hitung Formula');
+    } else {
+      resCell.textContent = '#ERROR';
+      fb.innerHTML = `❌ Formula tidak valid. Gunakan angka dan operator (+ - * /).`;
+      fb.style.color = 'var(--red)';
+    }
+  } catch(e) {
+    resCell.textContent = '#ERROR';
+  }
+}
+
+function updateRefLab() {
+  const p1 = parseInt(document.getElementById('refPrice1').value, 10) || 0;
+  const p2 = parseInt(document.getElementById('refPrice2').value, 10) || 0;
+  const tot = p1 + p2;
+  document.getElementById('refTotalCell').textContent = 'Rp ' + tot.toLocaleString('id-ID');
+}
+
+/* ── ERROR DETECTIVE CASES ── */
+const detectiveCases = [
+  {
+    formula: `SUM(B2:B6)`,
+    q: "Mengapa Excel tidak mau menghitung dan hanya menampilkan tulisan 'SUM(B2:B6)'?",
+    opts: [
+      "Karena lupa menuliskan tanda sama dengan (=) di awal rumus.",
+      "Karena huruf B harusnya huruf Z.",
+      "Karena komputernya harus direstart.",
+      "Karena angkanya terlalu besar."
+    ],
+    ans: 0,
+    why: "Rumus di Excel WAJIB diawali tanda sama dengan (=). Tanpa tanda (=), Excel menganggapnya sebagai kata-kata biasa!"
+  },
+  {
+    formula: `=SUM(B2-B6)`,
+    q: "Apa kesalahan pada rumus penjumlahan di atas?",
+    opts: [
+      "Menggunakan tanda strip (-) yang artinya pengurangan, harusnya titik dua (:) untuk rentang sel.",
+      "Fungsi SUM harus ditulis huruf kecil.",
+      "B2 harus diganti A1.",
+      "Kurungnya harus kurung kurawal {}."
+    ],
+    ans: 0,
+    why: "Untuk menjumlahkan dari B2 sampai B6, gunakan tanda titik dua (:), yaitu =SUM(B2:B6), bukan tanda kurang (-)."
+  },
+  {
+    formula: `=80+85+90 (di sel E2 padahal angka ada di B2, C2, D2)`,
+    q: "Mengapa mengetik angka manual =80+85+90 bukan cara yang cerdas di Excel?",
+    opts: [
+      "Karena jika nilai tugas siswa diedit, hasil totalnya tidak akan berubah otomatis.",
+      "Karena angka 90 terlalu besar.",
+      "Karena tanda + dilarang di Excel.",
+      "Karena warna selnya putih."
+    ],
+    ans: 0,
+    why: "Jika kita mengetik angka manual, kita kehilangan kekuatan otomatis Excel. Gunakan Cell Reference: =SUM(B2:D2) agar nilainya adaptif!"
+  },
+  {
+    formula: `=AVRAGE(B2:B5)`,
+    q: "Excel menampilkan error #NAME? pada rumus di atas. Apa penyebabnya?",
+    opts: [
+      "Salah ketik nama fungsi (typo). Harusnya ditulis lengkap =AVERAGE(B2:B5).",
+      "Nama siswanya tidak dikenal.",
+      "Excel sedang libur.",
+      "Tanda kurungnya kurang banyak."
+    ],
+    ans: 0,
+    why: "Error #NAME? muncul ketika Excel tidak mengenali nama fungsi karena salah ketik satu huruf (AVRAGE harusnya AVERAGE)!"
+  }
+];
+let caseIndex = 0;
+
+function loadDetectiveCase() {
+  if (caseIndex >= detectiveCases.length) {
+    document.getElementById('detectiveContainer').innerHTML = `
+      <div style="text-align:center;padding:1.5rem;">
+        <div style="font-size:42px;">🕵️‍♂️ 🎖️</div>
+        <div style="font-size:18px;font-weight:800;color:var(--excel-light);margin:6px 0;">Semua Error Rumus Berhasil Dipecahkan!</div>
+        <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;">Kamu kini memiliki kepekaan tajam untuk mendiagnosis rumus Excel yang bermasalah.</p>
+        <button class="btn btn-excel" onclick="caseIndex=0;loadDetectiveCase();">🔄 Ulangi Detektif Rumus</button>
+      </div>
+    `;
+    playSound('fanfare');
+    addXP(90, 'Error Detective Master');
+    return;
+  }
+  const c = detectiveCases[caseIndex];
+  document.getElementById('caseNumberLabel').textContent = `KASUS ${caseIndex + 1} DARI ${detectiveCases.length}`;
+  document.getElementById('caseFormulaView').innerHTML = `<span style="font-family:monospace;font-size:16px;font-weight:bold;color:#F87171;">${c.formula}</span>`;
+  document.getElementById('caseQuestion').textContent = c.q;
+  document.getElementById('caseFeedback').className = 'feedback-box';
+
+  const container = document.getElementById('caseOptions');
+  container.innerHTML = '';
+  c.opts.forEach((opt, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-btn';
+    btn.textContent = String.fromCharCode(65 + idx) + '. ' + opt;
+    btn.onclick = () => answerCase(idx, c.ans, c.why, container);
+    container.appendChild(btn);
+  });
+}
+
+function answerCase(selectedIdx, correctIdx, why, container) {
+  const buttons = container.querySelectorAll('.quiz-btn');
+  buttons.forEach((btn, idx) => {
+    btn.disabled = true;
+    if (idx === correctIdx) btn.classList.add('correct');
+    else if (idx === selectedIdx) btn.classList.add('wrong');
+  });
+
+  const fb = document.getElementById('caseFeedback');
+  if (selectedIdx === correctIdx) {
+    playSound('success');
+    addXP(45, 'Deteksi Error Tepat');
+    fb.className = 'feedback-box show ok';
+    fb.innerHTML = '✅ <strong>Analisis Tepat!</strong> ' + why;
+  } else {
+    playSound('wrong');
+    fb.className = 'feedback-box show bad';
+    fb.innerHTML = '❌ <strong>Kurang Tepat.</strong> ' + why;
+  }
+
+  setTimeout(() => {
+    caseIndex++;
+    loadDetectiveCase();
+  }, 2400);
+}
+
+/* ── EXCEL SHOP CHALLENGES (4 CUSTOMERS) ── */
+const shopChallenges = [
+  {
+    cust: "👤 Customer #1: Kasir Toko Alat Tulis",
+    dialog: `"Halo! Seorang anak membeli 4 buku tulis. Harga 1 buku adalah Rp 3.000 di sel B2. Rumus apa yang harus saya ketik di sel total untuk mengalikannya?"`,
+    q: "Pilih rumus perkalian yang tepat:",
+    opts: ["=B2*4", "=B2x4", "=4+B2", "B2*4"],
+    ans: 0,
+    why: "Di Excel, operator perkalian adalah tanda bintang (*) dan diawali tanda sama dengan: =B2*4"
+  },
+  {
+    cust: "👤 Customer #2: Bu Guru Matematika",
+    dialog: `"Saya punya 10 nilai ulangan siswa dari sel B2 sampai B11. Rumus sakti apa yang paling cepat untuk menjumlahkan seluruh nilainya?"`,
+    q: "Pilih rumus penjumlahan rentang sel yang tepat:",
+    opts: ["=SUM(B2:B11)", "=TOTAL(B2:B11)", "=TAMBAH(B2:B11)", "=SUM(B2+B11)"],
+    ans: 0,
+    why: "=SUM(B2:B11) adalah fungsi resmi Excel untuk menjumlahkan semua angka dari B2 sampai B11."
+  },
+  {
+    cust: "👤 Customer #3: Pak Kepala Sekolah",
+    dialog: `"Saya ingin tahu nilai rata-rata ujian sekolah dari kolom B2 sampai B25. Apa fungsi yang harus dimasukkan?"`,
+    q: "Pilih fungsi rata-rata yang benar:",
+    opts: ["=AVERAGE(B2:B25)", "=MEAN(B2:B25)", "=SUM(B2:B25)/100", "=RATA(B2:B25)"],
+    ans: 0,
+    why: "=AVERAGE(B2:B25) secara otomatis menjumlahkan nilai dan membaginya dengan jumlah siswa secara presisi!"
+  },
+  {
+    cust: "👤 Customer #4: Final Order Rekap Nilai",
+    dialog: `"Saya sudah berhasil membuat rumus =SUM(B2:D2) untuk murid pertama di baris 2. Bagaimana cara paling cepat menerapkan rumus itu ke 30 murid di bawahnya?"`,
+    q: "Cara tercepat menyalin rumus tanpa mengetik ulang:",
+    opts: [
+      "Tarik titik hijau kecil di pojok kanan bawah sel (Fill Handle) ke bawah.",
+      "Ketik ulang satu-satu 30 kali.",
+      "Foto layarnya dengan HP.",
+      "Hapus datanya."
+    ],
+    ans: 0,
+    why: "Menyeret Fill Handle ke bawah akan menyalin rumus sekaligus menyesuaikan nomor baris sel (relative reference) secara cerdas!"
+  }
+];
+let shopIdx = 0;
+
+function loadShopChallenge() {
+  if (shopIdx >= shopChallenges.length) {
+    document.getElementById('shopContainer').innerHTML = `
+      <div style="text-align:center;padding:1.5rem;">
+        <div style="font-size:42px;">🏪 ⚡ 🏆</div>
+        <div style="font-size:18px;font-weight:800;color:var(--excel-light);margin:6px 0;">Semua Pesanan Kasir Excel Shop Selesai!</div>
+        <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;">Kamu telah membuktikan kemampuan problem solving kalkulasi data nyata!</p>
+        <button class="btn btn-excel" onclick="shopIdx=0;loadShopChallenge();">🔄 Ulangi Tantangan Shop</button>
+      </div>
+    `;
+    playSound('fanfare');
+    addXP(90, 'Excel Shop Pro');
+    return;
+  }
+  const ch = shopChallenges[shopIdx];
+  document.getElementById('shopOrderNumber').textContent = `TANTANGAN ${shopIdx + 1} DARI ${shopChallenges.length}`;
+  document.getElementById('shopCustomerTitle').textContent = ch.cust;
+  document.getElementById('shopDialog').textContent = ch.dialog;
+  document.getElementById('shopQuestion').textContent = ch.q;
+  document.getElementById('shopFeedback').className = 'feedback-box';
+
+  const container = document.getElementById('shopOptions');
+  container.innerHTML = '';
+  ch.opts.forEach((opt, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-btn';
+    btn.textContent = String.fromCharCode(65 + idx) + '. ' + opt;
+    btn.onclick = () => answerShop(idx, ch.ans, ch.why, container);
+    container.appendChild(btn);
+  });
+}
+
+function answerShop(selectedIdx, correctIdx, why, container) {
+  const buttons = container.querySelectorAll('.quiz-btn');
+  buttons.forEach((btn, idx) => {
+    btn.disabled = true;
+    if (idx === correctIdx) btn.classList.add('correct');
+    else if (idx === selectedIdx) btn.classList.add('wrong');
+  });
+
+  const fb = document.getElementById('shopFeedback');
+  if (selectedIdx === correctIdx) {
+    playSound('success');
+    addXP(45, 'Solusi Toko Tepat');
+    fb.className = 'feedback-box show ok';
+    fb.innerHTML = '✅ <strong>Kalkulasi Tepat!</strong> ' + why;
+  } else {
+    playSound('wrong');
+    fb.className = 'feedback-box show bad';
+    fb.innerHTML = '❌ <strong>Kurang Tepat.</strong> ' + why;
+  }
+
+  setTimeout(() => {
+    shopIdx++;
+    loadShopChallenge();
+  }, 2400);
+}
+
+/* ── AVATAR & NAME ── */
+function updateStudentName(val) {
+  const trimmed = val.trim();
+  warriorName = trimmed ? trimmed : 'Siswa';
+  document.getElementById('playerName').textContent = warriorName;
+  saveState();
+}
+
+function chooseAvatar(emoji, roleName) {
+  playSound('click');
+  avatarEmoji = emoji;
+  document.getElementById('playerAvatar').textContent = emoji;
+  const input = document.getElementById('studentNameInput');
+  if (input && (!input.value.trim() || ['Fox Formula', 'Math Cat', 'Calc Ninja', 'AutoSum Bot', 'Number Pilot', 'Budi Santoso'].includes(input.value.trim()))) {
+    input.value = roleName;
+    warriorName = roleName;
+    document.getElementById('playerName').textContent = warriorName;
+  }
+  document.querySelectorAll('.avatar-choice').forEach(el => {
+    el.classList.toggle('selected', el.textContent.includes(emoji));
+  });
+  saveState();
+}
+
+function promptChangeName() {
+  const name = prompt("Ketik nama siswa untuk sertifikat Level 6:", warriorName);
+  if (name && name.trim()) {
+    warriorName = name.trim();
+    document.getElementById('playerName').textContent = warriorName;
+    const input = document.getElementById('studentNameInput');
+    if (input) input.value = warriorName;
+    saveState();
+    playSound('success');
+  }
+}
+
+function startAdventure() {
+  const input = document.getElementById('studentNameInput');
+  if (input && input.value.trim()) {
+    warriorName = input.value.trim();
+    document.getElementById('playerName').textContent = warriorName;
+    saveState();
+  }
+  playSound('success');
+  addXP(30, 'Selamat Datang di Level 6');
+  switchStage(1);
+}
+
+/* ── STAGE NAVIGATION ── */
+function switchStage(stageIdx) {
+  playSound('click');
+  document.querySelectorAll('.quest-screen').forEach((screen, idx) => {
+    screen.classList.toggle('active', idx === stageIdx);
+  });
+  document.querySelectorAll('.stage-tab').forEach((tab, idx) => {
+    tab.classList.toggle('active', idx === stageIdx);
+    if (idx < stageIdx) tab.classList.add('completed');
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ── XP & RANK SYSTEM ── */
+function addXP(amount, reason) {
+  currentXP = Math.min(maxXP, currentXP + amount);
+  updateXPUI();
+  saveState();
+  showXPToast('+' + amount + ' XP ' + (reason ? '(' + reason + ')' : ''));
+}
+
+function updateXPUI() {
+  const pct = Math.min(100, Math.round((currentXP / maxXP) * 100));
+  document.getElementById('xpBarFill').style.width = pct + '%';
+  document.getElementById('xpText').textContent = currentXP + ' / ' + maxXP + ' XP';
+
+  const rankBadge = document.getElementById('rankBadge');
+  if (currentXP >= 1200) {
+    rankBadge.textContent = 'RANK: 👑 GRAND EXCEL FORMULA MASTER';
+    rankBadge.style.color = '#F59E0B';
+  } else if (currentXP >= 800) {
+    rankBadge.textContent = 'RANK: 🥇 AUTOSUM WIZARD';
+    rankBadge.style.color = '#22C55E';
+  } else if (currentXP >= 400) {
+    rankBadge.textContent = 'RANK: 🥈 CELL CALCULATOR';
+    rankBadge.style.color = '#06B6D4';
+  } else {
+    rankBadge.textContent = 'RANK: 🥉 FORMULA ROOKIE';
+    rankBadge.style.color = '#94A3B8';
+  }
+}
+
+function showXPToast(text) {
+  const toast = document.createElement('div');
+  toast.className = 'xp-toast';
+  toast.textContent = text;
+  document.body.appendChild(toast);
+  setTimeout(() => { toast.remove(); }, 2200);
+}
+
+/* ── CHECKLIST RENDERER ── */
+function renderChecklist(containerId, data) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  container.innerHTML = '';
+  data.forEach((item, index) => {
+    const el = document.createElement('div');
+    el.className = 'check-item' + (completedTasks.has(item.id) ? ' done' : '');
+    el.id = 'task-' + item.id;
+    el.innerHTML = `
+      <div class="check-box">${completedTasks.has(item.id) ? '✓' : index + 1}</div>
+      <div class="check-info">
+        <div class="check-title">${item.title}</div>
+        <div class="check-desc">${item.desc}</div>
+      </div>
+      <div class="check-xp">+${item.xp} XP</div>
+    `;
+    el.onclick = () => toggleTask(item.id, item.xp);
+    container.appendChild(el);
+  });
+}
+
+function toggleTask(id, xp) {
+  if (completedTasks.has(id)) return;
+  completedTasks.add(id);
+  const el = document.getElementById('task-' + id);
+  if (el) {
+    el.classList.add('done');
+    el.querySelector('.check-box').textContent = '✓';
+  }
+  addXP(xp, 'Tugas Selesai');
+  playSound('success');
+
+  if (id.startsWith('fb')) {
+    const allDone = finalBossData.every(item => completedTasks.has(item.id));
+    if (allDone) {
+      document.getElementById('claimBadgeBtn').style.display = 'inline-flex';
+      playSound('fanfare');
+    }
+  }
+}
+
+/* ── FINAL VICTORY & CONFETTI ── */
+function triggerVictory() {
+  playSound('fanfare');
+  document.getElementById('claimBadgeBtn').style.display = 'none';
+  document.getElementById('victoryBlock').style.display = 'block';
+  document.getElementById('certPlayerLabel').textContent = 'Dianugerahkan kepada: ' + warriorName + ' ' + avatarEmoji;
+  addXP(150, 'Kelulusan Formula Master');
+  launchConfetti();
+}
+
+function launchConfetti() {
+  const canvas = document.getElementById('confettiCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const pieces = [];
+  const colors = ['#107C41', '#22C55E', '#06B6D4', '#3B82F6', '#F59E0B', '#8B5CF6'];
+  for (let i = 0; i < 150; i++) {
+    pieces.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * -canvas.height,
+      size: Math.random() * 8 + 6,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      speedY: Math.random() * 4 + 2,
+      speedX: Math.random() * 2 - 1,
+      rotation: Math.random() * 360,
+      rotSpeed: Math.random() * 4 - 2
+    });
+  }
+
+  let frames = 0;
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pieces.forEach(p => {
+      p.y += p.speedY; p.x += p.speedX; p.rotation += p.rotSpeed;
+      ctx.save(); ctx.translate(p.x, p.y);
+      ctx.rotate((p.rotation * Math.PI) / 180);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+      ctx.restore();
+    });
+    frames++;
+    if (frames < 240) requestAnimationFrame(animate);
+    else ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+  animate();
+}
+
+/* ── JOURNAL & LOCAL STORAGE ── */
+function saveJournal() {
+  playSound('success');
+  const in1 = document.getElementById('jnlInput1').value.trim();
+  const in2 = document.getElementById('jnlInput2').value.trim();
+  const conf = document.getElementById('jnlConfidence').value;
+  try {
+    localStorage.setItem('cq_p6_journal', JSON.stringify({ in1, in2, conf, date: new Date().toISOString() }));
+  } catch(e) {}
+  document.getElementById('journalSavedFeedback').style.display = 'block';
+  addXP(75, 'Jurnal Level 6 Selesai');
+}
+
+function loadSavedState() {
+  try {
+    const savedXP = localStorage.getItem('cq_p6_xp');
+    if (savedXP) { currentXP = parseInt(savedXP, 10) || 0; updateXPUI(); }
+    const savedAvatar = localStorage.getItem('cq_p6_avatar') || localStorage.getItem('cq_p5_avatar');
+    if (savedAvatar) { avatarEmoji = savedAvatar; document.getElementById('playerAvatar').textContent = avatarEmoji; }
+    const savedName = localStorage.getItem('cq_p6_name') || localStorage.getItem('cq_p5_name') || localStorage.getItem('cq_p4_name');
+    if (savedName) {
+      warriorName = savedName;
+      document.getElementById('playerName').textContent = warriorName;
+      const input = document.getElementById('studentNameInput');
+      if (input) input.value = warriorName;
+    }
+  } catch(e) {}
+}
+
+function saveState() {
+  try {
+    localStorage.setItem('cq_p6_xp', currentXP);
+    localStorage.setItem('cq_p6_avatar', avatarEmoji);
+    localStorage.setItem('cq_p6_name', warriorName);
+  } catch(e) {}
+}
+
+/* ── TIMER ── */
+let timerSeconds = 2700;
+function startTimer() {
+  setInterval(() => {
+    if (timerSeconds <= 0) return;
+    timerSeconds--;
+    const mins = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+    const secs = String(timerSeconds % 60).padStart(2, '0');
+    const display = document.getElementById('timerDisplay');
+    if (display) display.textContent = '⏱️ ' + mins + ':' + secs;
+  }, 1000);
+}
+
+/* ── INIT ── */
+document.addEventListener('DOMContentLoaded', () => {
+  renderChecklist('operatorChecklist', operatorData);
+  renderChecklist('refChecklist', refData);
+  renderChecklist('sumChecklist', sumData);
+  renderChecklist('avgChecklist', avgData);
+  renderChecklist('copyChecklist', copyData);
+  renderChecklist('finalBossChecklist', finalBossData);
+  loadDetectiveCase();
+  loadShopChallenge();
+  startTimer();
+  loadSavedState();
+});
+</script>
+</body>
+</html>

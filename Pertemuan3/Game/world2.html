@@ -1,0 +1,2025 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Digital Hero: Dunia 2 - Hutan Font</title>
+  <meta name="description" content="Dunia 2: Hutan Font - Petualangan edukasi Microsoft Word mempelajari Jenis Huruf (Font Family), Ukuran (Font Size), dan Gaya (Bold, Italic, Underline)." />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap');
+    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+    body {
+      width: 100vw; height: 100vh; overflow: hidden; background: #064e3b;
+      font-family: 'Fredoka', sans-serif; color: #1e293b;
+      display: flex; justify-content: center; align-items: center;
+    }
+    #game-container {
+      position: relative; width: 100%; height: 100%; max-width: 1920px; max-height: 1080px;
+      background: #000; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7);
+    }
+    canvas#game-canvas { display: block; width: 100%; height: 100%; background: #065f46; }
+    #ui-overlay {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none; display: flex; flex-direction: column;
+      justify-content: space-between; padding: 14px; z-index: 10;
+    }
+    .interactive { pointer-events: auto; }
+    .hud-header { display: flex; justify-content: space-between; align-items: flex-start; width: 100%; }
+    .hud-left {
+      display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.95);
+      padding: 8px 16px; border-radius: 18px; border: 3px solid #059669; box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+    .player-badge {
+      position: relative; width: 48px; height: 48px; background: linear-gradient(135deg, #059669, #047857);
+      border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px;
+      border: 2px solid #fff;
+    }
+    .player-level {
+      position: absolute; bottom: -5px; right: -5px; background: #f59e0b; color: #fff;
+      font-size: 10px; font-weight: 700; padding: 1px 5px; border-radius: 8px; border: 2px solid #fff;
+    }
+    .bars-container { display: flex; flex-direction: column; gap: 4px; min-width: 170px; }
+    .bar-wrap { display: flex; align-items: center; gap: 6px; }
+    .bar-label { font-size: 11px; font-weight: 700; color: #475569; width: 20px; }
+    .bar-bg { flex: 1; height: 13px; background: #e2e8f0; border-radius: 7px; overflow: hidden; border: 1px solid #cbd5e1; }
+    .bar-fill-hp { height: 100%; width: 100%; background: linear-gradient(90deg, #ef4444, #f87171); transition: width 0.2s; }
+    .bar-fill-xp { height: 100%; width: 0%; background: linear-gradient(90deg, #059669, #34d399); transition: width 0.2s; }
+    .bar-text { font-size: 11px; font-weight: 700; color: #334155; font-family: 'JetBrains Mono', monospace; width: 48px; text-align: right; }
+    .hud-right { display: flex; align-items: center; gap: 8px; }
+    .hud-pill {
+      background: rgba(255,255,255,0.95); padding: 7px 14px; border-radius: 14px;
+      border: 2px solid #cbd5e1; font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 6px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .pill-world { border-color: #059669; color: #065f46; }
+    .pill-coins { border-color: #f59e0b; color: #b45309; }
+    .btn-icon {
+      background: rgba(255,255,255,0.95); border: 2px solid #cbd5e1; border-radius: 12px;
+      width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+      font-size: 18px; cursor: pointer; transition: 0.15s; text-decoration: none; color: inherit;
+    }
+    .btn-icon:hover { transform: translateY(-2px); border-color: #059669; background: #fff; }
+    .quest-tracker-card {
+      position: absolute; top: 85px; right: 14px; width: 280px; background: rgba(255,255,255,0.96);
+      border: 3px solid #059669; border-radius: 16px; padding: 12px 14px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    .quest-header { display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 2px dashed #e2e8f0; padding-bottom: 4px; }
+    .quest-title-tag { font-size: 11px; font-weight: 700; color: #059669; text-transform: uppercase; }
+    .quest-name { font-size: 14px; font-weight: 700; color: #1e293b; margin-bottom: 4px; }
+    .quest-desc { font-size: 12px; color: #475569; line-height: 1.4; }
+    .hud-bottom { display: flex; justify-content: space-between; align-items: flex-end; width: 100%; }
+    .skill-dock {
+      display: flex; gap: 10px; background: rgba(255,255,255,0.95); padding: 8px 12px;
+      border-radius: 18px; border: 3px solid #059669; box-shadow: 0 10px 25px rgba(0,0,0,0.25); margin: 0 auto;
+    }
+    .skill-slot {
+      position: relative; width: 54px; height: 54px; background: #f1f5f9; border-radius: 12px;
+      border: 2px solid #cbd5e1; display: flex; flex-direction: column; align-items: center;
+      justify-content: center; cursor: pointer; overflow: hidden; transition: 0.15s;
+    }
+    .skill-slot.locked { opacity: 0.5; filter: grayscale(90%); }
+    .skill-slot.ready { border-color: #059669; background: #fff; }
+    .skill-slot.ready:hover { transform: translateY(-2px); }
+    .skill-icon { font-size: 20px; line-height: 1; }
+    .skill-name-tag { font-size: 8px; font-weight: 700; color: #475569; margin-top: 2px; text-transform: uppercase; }
+    .skill-hotkey { position: absolute; top: 2px; left: 4px; font-size: 10px; font-weight: 700; color: #64748b; font-family: monospace; }
+    .skill-cooldown-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 0%; background: rgba(6,78,59,0.72); pointer-events: none; transition: height 0.1s linear; }
+    .controls-hint {
+      background: rgba(255,255,255,0.9); border-radius: 10px; padding: 6px 10px;
+      font-size: 11px; font-weight: 600; color: #475569; border: 1px solid #cbd5e1; display: flex; gap: 8px;
+    }
+    kbd { background: #e2e8f0; border: 1px solid #94a3b8; border-radius: 4px; padding: 1px 4px; font-family: monospace; font-size: 10px; }
+    #boss-bar-container {
+      position: absolute; top: 80px; left: 50%; transform: translateX(-50%);
+      width: 420px; background: rgba(15,23,42,0.94); padding: 10px 16px; border-radius: 14px;
+      border: 3px solid #10b981; box-shadow: 0 10px 30px rgba(16,185,129,0.4); display: none;
+      flex-direction: column; gap: 4px; z-index: 20;
+    }
+    .boss-bar-bg { width: 100%; height: 14px; background: #334155; border-radius: 7px; overflow: hidden; }
+    .boss-bar-fill { width: 100%; height: 100%; background: linear-gradient(90deg, #059669, #34d399); transition: width 0.15s; }
+    #dialog-container {
+      position: absolute; bottom: 100px; left: 50%; transform: translateX(-50%);
+      width: 90%; max-width: 660px; background: rgba(255,255,255,0.98); border: 4px solid #059669;
+      border-radius: 18px; padding: 16px 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.35); display: none; z-index: 30;
+    }
+    .dialog-speaker { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 15px; color: #047857; margin-bottom: 6px; }
+    .dialog-text { font-size: 15px; line-height: 1.5; color: #1e293b; min-height: 40px; }
+    .dialog-btn {
+      background: #059669; color: #fff; border: none; border-radius: 8px; padding: 6px 16px;
+      font-family: inherit; font-weight: 700; font-size: 13px; cursor: pointer; float: right; margin-top: 10px;
+    }
+    .modal-overlay {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(6,78,59,0.75);
+      backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 50; pointer-events: auto;
+    }
+    .modal-card {
+      background: #fff; border-radius: 20px; border: 4px solid #059669; width: 90%; max-width: 580px;
+      padding: 20px; box-shadow: 0 25px 50px rgba(0,0,0,0.4); max-height: 85vh; display: flex; flex-direction: column;
+    }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 12px; }
+    .modal-title { font-size: 18px; font-weight: 700; color: #065f46; display: flex; align-items: center; gap: 6px; }
+    .modal-close-btn { background: #f1f5f9; border: none; font-size: 18px; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; }
+    .inventory-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 12px; }
+    .inv-slot {
+      aspect-ratio: 1; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 12px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; padding: 4px;
+    }
+    .inv-slot.selected { border-color: #059669; background: #d1fae5; }
+    .item-details-box { background: #f1f5f9; border-radius: 12px; padding: 12px; border: 1px solid #e2e8f0; }
+    .item-details-wordtip { margin-top: 6px; padding: 6px 10px; background: #ecfdf5; border-left: 4px solid #059669; border-radius: 4px; font-size: 12px; color: #047857; font-weight: 600; }
+    .document-sheet-view { background: #fff; border: 1px solid #cbd5e1; padding: 20px; border-radius: 4px; max-height: 340px; overflow-y: auto; line-height: 1.5; font-family: 'Calibri', serif; }
+    .doc-fragment-slot { padding: 10px; margin-bottom: 10px; border-radius: 6px; border: 1px dashed #cbd5e1; }
+    .doc-fragment-slot.found { background: #f0fdf4; border-color: #22c55e; color: #15803d; }
+    .doc-fragment-slot.missing { background: #fef2f2; border-color: #f87171; color: #991b1b; font-style: italic; }
+    .floating-toast {
+      position: absolute; top: 20px; left: 50%; transform: translateX(-50%) translateY(-20px);
+      background: rgba(6,78,59,0.95); color: #fff; border: 2px solid #34d399; border-radius: 12px;
+      padding: 8px 18px; font-weight: 700; font-size: 14px; opacity: 0; transition: 0.3s; pointer-events: none; z-index: 80;
+    }
+    .floating-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    .edu-guide-card { background: #ecfdf5; border: 2px solid #a7f3d0; border-radius: 12px; padding: 12px; margin-bottom: 12px; font-size: 13px; line-height: 1.5; color: #064e3b; }
+    .font-sample-serif { font-family: 'Times New Roman', Times, serif; font-size: 16px; font-weight: bold; color: #1e3a8a; }
+    .font-sample-sans { font-family: 'Arial', sans-serif; font-size: 16px; font-weight: bold; color: #059669; }
+    .menu-btn {
+      background: #fff; color: #065f46; border: none; border-radius: 14px; padding: 12px 20px;
+      font-family: inherit; font-size: 15px; font-weight: 700; cursor: pointer; box-shadow: 0 6px 16px rgba(0,0,0,0.3); transition: 0.15s;
+    }
+    .menu-btn.primary { background: linear-gradient(135deg, #059669, #047857); color: #fff; border: 2px solid #34d399; }
+    .menu-btn:hover { transform: translateY(-2px); }
+
+    /* --- Mini Word Challenge & Boss Quiz Styling --- */
+    .word-ribbon {
+      background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px;
+      padding: 6px 10px; display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .ribbon-btn {
+      min-width: 32px; height: 32px; padding: 0 8px; border: 1px solid #94a3b8; border-radius: 6px;
+      background: #fff; color: #1e293b; font-weight: 700; cursor: pointer; display: inline-flex;
+      align-items: center; justify-content: center; font-size: 13px; transition: 0.15s; user-select: none;
+    }
+    .ribbon-btn:hover { background: #e2e8f0; }
+    .ribbon-btn.active { background: #10b981; color: #fff; border-color: #059669; }
+    .ribbon-select {
+      height: 32px; border: 1px solid #94a3b8; border-radius: 6px; background: #fff;
+      font-size: 13px; font-weight: 600; padding: 0 6px; color: #1e293b; cursor: pointer;
+    }
+    .challenge-instruction {
+      background: #ecfdf5; border-left: 4px solid #10b981; padding: 8px 12px;
+      border-radius: 6px; font-size: 13px; color: #065f46; margin-bottom: 12px; line-height: 1.5;
+    }
+    .interactive-doc-page {
+      background: #fff; border: 2px solid #cbd5e1; box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      border-radius: 6px; padding: 18px 22px; min-height: 130px; font-family: 'Calibri', 'Times New Roman', sans-serif;
+      font-size: 15px; line-height: 1.8; color: #1e293b; outline: none; margin-bottom: 14px;
+      user-select: text;
+    }
+    .interactive-doc-page:focus { border-color: #10b981; }
+    .editable-span {
+      padding: 1px 4px; border-radius: 3px; cursor: pointer; transition: 0.15s; display: inline-block;
+    }
+    .editable-span:hover { background: #fef08a; }
+    .editable-span.active-select { outline: 2px dashed #059669; background: #e0e7ff; }
+
+    /* Boss Quiz Modal overlay styling */
+    #boss-quiz-overlay {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(15, 23, 42, 0.82); backdrop-filter: blur(5px);
+      display: none; align-items: center; justify-content: center; z-index: 60;
+    }
+    .boss-quiz-card {
+      background: #fff; border-radius: 20px; border: 4px solid #ef4444; width: 90%; max-width: 540px;
+      padding: 22px; box-shadow: 0 25px 60px rgba(239,68,68,0.35); text-align: center;
+      animation: popIn 0.25s ease-out;
+    }
+    @keyframes popIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .boss-quiz-options {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px;
+    }
+    .boss-quiz-btn {
+      background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 12px; padding: 12px 14px;
+      font-size: 14px; font-weight: 700; color: #1e293b; cursor: pointer; transition: 0.15s;
+      text-align: left; display: flex; align-items: center; gap: 8px;
+    }
+    .boss-quiz-btn:hover { background: #fee2e2; border-color: #ef4444; transform: translateY(-2px); }
+    .boss-quiz-btn.correct { background: #d1fae5; border-color: #10b981; color: #065f46; }
+    .boss-quiz-btn.wrong { background: #fee2e2; border-color: #ef4444; color: #991b1b; }
+  </style>
+</head>
+<body>
+  <div id="game-container">
+    <canvas id="game-canvas"></canvas>
+
+    <div id="ui-overlay">
+      <header class="hud-header">
+        <div class="hud-left interactive">
+          <div class="player-badge">
+            <span>🧝‍♂️</span>
+            <div id="player-level-badge" class="player-level">LV 2</div>
+          </div>
+          <div class="bars-container">
+            <div class="bar-wrap">
+              <span class="bar-label">HP</span>
+              <div class="bar-bg"><div id="hp-fill" class="bar-fill-hp"></div></div>
+              <span id="hp-text" class="bar-text">120/120</span>
+            </div>
+            <div class="bar-wrap">
+              <span class="bar-label">XP</span>
+              <div class="bar-bg"><div id="xp-fill" class="bar-fill-xp"></div></div>
+              <span id="xp-text" class="bar-text">0/140</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hud-right interactive">
+          <div id="world-indicator" class="hud-pill pill-world">
+            <span>🌲</span> Dunia 2: Hutan Font
+          </div>
+          <div class="hud-pill pill-coins">
+            <span>💰</span> <span id="coins-counter">0</span>
+          </div>
+          <button id="btn-challenge" class="btn-icon" title="Tantangan Editor Word" style="border-color: #3b82f6; background: #eff6ff;">✍️</button>
+          <button id="btn-font-guide" class="btn-icon" title="Buku Panduan Font Word">📖</button>
+          <button id="btn-document" class="btn-icon" title="Periksa Dokumen Master">📜</button>
+          <button id="btn-inventory" class="btn-icon" title="Buka Ransel Barang">🎒</button>
+          <button id="btn-save" class="btn-icon" title="Simpan Game (Ctrl+S)">💾</button>
+          <button id="btn-audio" class="btn-icon" title="Nyalakan/Matikan Suara">🔊</button>
+          <a href="/index.html" class="btn-icon" title="Kembali ke Dunia 1 (Lembah Word)">↩️</a>
+        </div>
+      </header>
+
+      <div id="quest-tracker-card" class="quest-tracker-card interactive">
+        <div class="quest-header">
+          <span class="quest-title-tag">🌲 Misi Hutan Font</span>
+          <span id="quest-progress" style="font-size: 11px; font-weight: 700; color: #059669;">0/1</span>
+        </div>
+        <div id="quest-name" class="quest-name">Misteri Pohon Font</div>
+        <div id="quest-desc" class="quest-desc">Bicaralah dengan Profesor Typography di gerbang Hutan Font.</div>
+      </div>
+
+      <div id="boss-bar-container">
+        <div style="display: flex; justify-content: space-between; color: #fff; font-weight: 700; font-size: 13px;">
+          <span>👑 FONT CORRUPTER (SANG PENGUBAH FONT)</span>
+          <span style="color: #6ee7b7;">BOS HUTAN</span>
+        </div>
+        <div class="boss-bar-bg"><div id="boss-bar-fill" class="boss-bar-fill"></div></div>
+      </div>
+
+      <div id="dialog-container" class="interactive">
+        <div class="dialog-speaker">
+          <span id="dialog-speaker-avatar" style="font-size: 20px;">🧙‍♂️</span>
+          <span id="dialog-speaker-name">Profesor Typography</span>
+        </div>
+        <div id="dialog-text-content" class="dialog-text">
+          Selamat datang di Hutan Font! Tempat di mana setiap huruf menentukan gaya dan keanggunan dokumenmu!
+        </div>
+        <div>
+          <button id="dialog-next-btn" class="dialog-btn">Lanjut [E] ➔</button>
+        </div>
+      </div>
+
+      <footer class="hud-bottom">
+        <div class="controls-hint">
+          <span><kbd>A</kbd><kbd>D</kbd> Gerak</span>
+          <span><kbd>Spasi</kbd> Lompat</span>
+          <span><kbd>J</kbd> Serang</span>
+          <span><kbd>E</kbd> Interaksi</span>
+          <span><kbd>1</kbd> Bold</span>
+          <span><kbd>2</kbd> Italic</span>
+          <span><kbd>3</kbd> Underline</span>
+        </div>
+
+        <div class="skill-dock interactive">
+          <div id="skill-slot-bold" class="skill-slot ready" title="Skill 1: Hantaman Bold (Ctrl+B)">
+            <span class="skill-hotkey">1</span>
+            <span class="skill-icon">💥</span>
+            <span class="skill-name-tag">BOLD</span>
+            <div id="cd-overlay-bold" class="skill-cooldown-overlay"></div>
+          </div>
+          <div id="skill-slot-italic" class="skill-slot ready" title="Skill 2: Dash Italic (Ctrl+I) - Meluncur miring menembus duri">
+            <span class="skill-hotkey">2</span>
+            <span class="skill-icon">⚡</span>
+            <span class="skill-name-tag">ITALIC</span>
+            <div id="cd-overlay-italic" class="skill-cooldown-overlay"></div>
+          </div>
+          <div id="skill-slot-underline" class="skill-slot ready" title="Skill 3: Perisai Underline (Ctrl+U) - Menangkis hujan tinta">
+            <span class="skill-hotkey">3</span>
+            <span class="skill-icon">🛡️</span>
+            <span class="skill-name-tag">UNDERLINE</span>
+            <div id="cd-overlay-underline" class="skill-cooldown-overlay"></div>
+          </div>
+        </div>
+        <div style="width: 130px;"></div>
+      </footer>
+    </div>
+
+    <div id="floating-toast" class="floating-toast">Pemberitahuan</div>
+
+    <!-- Modals -->
+    <div id="inventory-modal" class="modal-overlay">
+      <div class="modal-card">
+        <div class="modal-header">
+          <div class="modal-title">🎒 Ransel Pahlawan Digital</div>
+          <button class="modal-close-btn">&times;</button>
+        </div>
+        <div id="inventory-grid" class="inventory-grid"></div>
+        <div class="item-details-box">
+          <div id="inv-detail-title" style="font-weight: 700; color: #065f46; margin-bottom: 4px;">Pilih Item</div>
+          <div id="inv-detail-desc" style="font-size: 13px; color: #475569;">Informasi barang dan wawasan Microsoft Word akan tampil di sini.</div>
+          <div id="inv-detail-tip" class="item-details-wordtip">💡 Tips Edukasi Word: Jenis font menentukan nuansa dokumenmu!</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Document Modal -->
+    <div id="document-modal" class="modal-overlay">
+      <div class="modal-card" style="max-width: 640px;">
+        <div class="modal-header">
+          <div class="modal-title">📜 Dokumen Master (Pemeriksaan)</div>
+          <button class="modal-close-btn">&times;</button>
+        </div>
+        <div class="document-sheet-view">
+          <div style="display: flex; justify-content: space-between; font-size: 10px; color: #64748b; border-bottom: 2px dashed #94a3b8; padding-bottom: 4px; margin-bottom: 12px;">
+            <span>|··· 1 ···| Margin Kertas: Normal (1.0 inci) |··· 6.5 ···|</span>
+          </div>
+          <h3 style="text-align: center; color: #1e293b; border-bottom: 2px solid #059669; padding-bottom: 6px; margin-bottom: 14px;">DOKUMEN MASTER WORD WORLD</h3>
+          <div id="doc-slot-header" class="doc-fragment-slot found">
+            <strong>[PULIH] Bagian Judul & Header Halaman:</strong><br>
+            <em>"PETUALANGAN PAHLAWAN DIGITAL — LEMBAR RESMI" (Font: Aptos / Calibri 24pt Bold)</em>
+          </div>
+          <div id="doc-slot-font" class="doc-fragment-slot missing">
+            <strong>[HILANG] Bagian Format Font & Gaya Huruf:</strong><br>
+            <em>Dijaga oleh Font Corrupter di Hutan Font! Kalahkan bos untuk merebut fragmen format isi teks ini!</em>
+          </div>
+          <div class="doc-fragment-slot missing">
+            <strong>[KORUP] Bagian Penataan Paragraf & Tabel (Dunia Selanjutnya):</strong><br>
+            <em>Format paragraf dan tabel masih terkunci.</em>
+          </div>
+        </div>
+        <div style="margin-top: 12px; font-size: 13px; color: #64748b; text-align: center;">
+          <span id="doc-inspect-status">1 / 6 Fragmen Telah Dipulihkan</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Font Guide Modal -->
+    <div id="font-guide-modal" class="modal-overlay">
+      <div class="modal-card" style="max-width: 620px;">
+        <div class="modal-header">
+          <div class="modal-title">📖 Buku Panduan Font Microsoft Word</div>
+          <button class="modal-close-btn">&times;</button>
+        </div>
+        <div style="font-size: 13px; line-height: 1.6; color: #334155; overflow-y: auto; max-height: 400px; padding-right: 6px;">
+          <div class="edu-guide-card">
+            <strong>1. Dua Keluarga Font Utama (Font Family):</strong>
+            <p>• <span class="font-sample-serif">Serif (Berkaki)</span>: Memiliki kait/kaki kecil di ujung huruf. Contoh: <strong>Times New Roman, Garamond</strong>. Sangat cocok untuk dokumen resmi kenegaraan, proposal formal, dan buku cetak.</p>
+            <p>• <span class="font-sample-sans">Sans-Serif (Tanpa Kaki)</span>: Tepi huruf bersih dan minimalis ("Sans" artinya tanpa). Contoh: <strong>Calibri, Arial, Segoe UI</strong>. Sangat mudah dibaca di layar monitor dan presentasi.</p>
+          </div>
+          <div class="edu-guide-card">
+            <strong>2. Hierarki Ukuran Font (Font Size - pt):</strong>
+            <p>• <strong>10 - 12 pt</strong>: Standar teks isi paragraf dokumen.</p>
+            <p>• <strong>14 - 16 pt</strong>: Subjudul (Heading 2) untuk bab atau topik pembahasan.</p>
+            <p>• <strong>20 - 28 pt</strong>: Judul Utama (Title / Heading 1) di halaman sampul.</p>
+          </div>
+          <div class="edu-guide-card">
+            <strong>3. Tiga Pendekar Gaya Huruf (Font Styles):</strong>
+            <p>• <strong>Bold [Ctrl + B]</strong>: Memberi ketebalan untuk kata kunci atau peringatan penting.</p>
+            <p>• <strong>Italic [Ctrl + I]</strong>: Memiringkan huruf untuk istilah bahasa asing atau kutipan.</p>
+            <p>• <strong>Underline [Ctrl + U]</strong>: Menggarisbawahi teks penting atau tautan.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quest Complete Modal -->
+    <div id="quest-complete-modal" class="modal-overlay">
+      <div class="modal-card" style="max-width: 440px; text-align: center;">
+        <div style="font-size: 40px; margin-bottom: 6px;">🏆</div>
+        <h2 style="font-size: 22px; color: #065f46; margin-bottom: 4px;">MISI HUTAN SELESAI!</h2>
+        <div id="quest-modal-title" style="font-size: 16px; font-weight: 700; color: #059669; margin-bottom: 12px;">Nama Misi</div>
+        <div style="display: flex; justify-content: center; gap: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px;">
+          <span id="quest-modal-xp" style="color: #059669;">+150 XP</span>
+          <span id="quest-modal-coins" style="color: #d97706;">+60 Koin</span>
+        </div>
+        <div id="quest-modal-unlock" style="font-size: 15px; font-weight: 700; color: #047857;"></div>
+      </div>
+    </div>
+
+    <!-- Victory Modal -->
+    <div id="victory-modal" class="modal-overlay">
+      <div class="modal-card" style="text-align: center; max-width: 520px;">
+        <div style="font-size: 50px; margin-bottom: 8px;">🌟</div>
+        <h2 style="font-size: 24px; color: #065f46; margin-bottom: 6px;">DUNIA 2: HUTAN FONT DITAKLUKKAN!</h2>
+        <p style="font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 14px;">
+          Hebat sekali! Kamu berhasil mengalahkan <strong>Font Corrupter</strong> dan memulihkan <strong>Fragmen Gaya Huruf & Ukuran Font</strong>! Seluruh huruf di Hutan Font kini tertata rapi dan indah!
+        </p>
+        <div style="background: #ecfdf5; border: 2px solid #6ee7b7; border-radius: 10px; padding: 10px; margin-bottom: 16px; font-size: 13px; color: #065f46; text-align: left;">
+          🎓 <strong>Kompetensi Microsoft Word yang Dikuasai:</strong><br>
+          • Membedakan <strong>Serif (Times New Roman)</strong> dan <strong>Sans-Serif (Calibri/Arial)</strong><br>
+          • Menentukan ukuran huruf yang proporsional (12pt isi, 24pt judul)<br>
+          • Menggunakan kombinasi <strong>Bold (Ctrl+B)</strong>, <strong>Italic (Ctrl+I)</strong>, dan <strong>Underline (Ctrl+U)</strong>!
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <a href="/index.html" class="menu-btn primary" style="flex: 1; text-decoration: none; text-align: center;">
+            KEMBALI KE DUNIA 1 ↩️
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mini Word Formatting Challenge Modal -->
+    <div id="word-challenge-modal" class="modal-overlay">
+      <div class="modal-card" style="max-width: 620px;">
+        <div class="modal-header">
+          <div class="modal-title">✍️ Tantangan Format Teks Word: Membuka Gerbang Kuno</div>
+          <button class="modal-close-btn">&times;</button>
+        </div>
+
+        <div class="challenge-instruction" id="challenge-instructions">
+          📌 <strong>Instruksi Editor Word:</strong><br>
+          Klik kata pada teks dokumen di bawah, lalu gunakan tombol pita/ribbon di bawah untuk:
+          <ul style="margin: 4px 0 0 16px; padding: 0;">
+            <li>Jadikan kata <strong>"PINTU"</strong> menjadi <strong>Tebal (Bold / Ctrl+B)</strong></li>
+            <li>Jadikan kata <strong>"KUNCI"</strong> menjadi <em>Miring (Italic / Ctrl+I)</em></li>
+            <li>Jadikan kata <strong>"RESMI"</strong> bergaris bawah <u>(Underline / Ctrl+U)</u></li>
+            <li>Ubah Font kata <strong>"KERAJAAN"</strong> menjadi <strong>Times New Roman (Serif)</strong></li>
+          </ul>
+        </div>
+
+        <!-- Word Ribbon Bar -->
+        <div class="word-ribbon">
+          <select id="editor-font-family" class="ribbon-select" title="Pilih Font Family">
+            <option value="Calibri">Calibri (Sans-serif)</option>
+            <option value="Times New Roman">Times New Roman (Serif Resmi)</option>
+            <option value="Arial">Arial (Sans-serif Modern)</option>
+            <option value="Courier New">Courier New (Monospace)</option>
+          </select>
+          <select id="editor-font-size" class="ribbon-select" title="Ukuran Font (pt)">
+            <option value="12pt">12 pt (Isi Paragraf)</option>
+            <option value="16pt">16 pt (Subjudul)</option>
+            <option value="22pt">22 pt (Judul Dokumen)</option>
+          </select>
+          <button id="editor-btn-bold" class="ribbon-btn" title="Tebalkan Teks (Ctrl+B)"><strong>B</strong></button>
+          <button id="editor-btn-italic" class="ribbon-btn" title="Miringkan Teks (Ctrl+I)"><em>I</em></button>
+          <button id="editor-btn-underline" class="ribbon-btn" title="Garis Bawahi Teks (Ctrl+U)"><u>U</u></button>
+          <button id="editor-btn-reset" class="ribbon-btn" style="margin-left: auto; color: #ef4444;" title="Reset Format">↺ Reset</button>
+        </div>
+
+        <!-- Interactive Document Sheet -->
+        <div class="interactive-doc-page" id="interactive-doc-canvas">
+          <!-- Populated dynamically via JS with interactive word spans -->
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px;">
+          <span id="challenge-status-text" style="font-size: 13px; font-weight: 700; color: #64748b;">Pilih kata untuk mulai memformat...</span>
+          <button id="btn-submit-formatting" class="menu-btn primary" style="padding: 8px 18px; font-size: 14px;">
+            VERIFIKASI FORMAT DOKUMEN ➔
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Boss Quick-Time Quiz Overlay (Memecahkan Perisai Teks Rusak Bos) -->
+    <div id="boss-quiz-overlay">
+      <div class="boss-quiz-card">
+        <div style="font-size: 30px; margin-bottom: 4px;">⚡🛡️</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+          <h3 style="font-size: 18px; color: #991b1b;">PERISAI TEKS RUSAK AKTIF!</h3>
+          <span id="boss-quiz-num" style="font-size:11px;font-weight:700;color:#64748b;background:#f1f5f9;padding:3px 8px;border-radius:8px;border:1px solid #e2e8f0;">Soal 1 / 12</span>
+        </div>
+        <p style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Font Corrupter kebal! Jawab soal Word ini untuk memecahkan perisainya:</p>
+        <div style="background:#fef9c3;border:2px solid #fde047;border-radius:8px;padding:10px 12px;margin-bottom:12px;">
+          <p id="boss-quiz-question" style="font-size: 14px; color: #334155; line-height: 1.55; font-weight: 600; margin:0;">
+            Memuat soal...
+          </p>
+        </div>
+        <div id="boss-quiz-box" class="boss-quiz-options">
+          <!-- Populated dynamically -->
+        </div>
+        <div id="boss-quiz-feedback" style="margin-top: 10px; font-size: 13px; font-weight: 700; min-height: 24px; line-height: 1.4; padding: 6px 8px; border-radius: 6px;"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SINGLE FILE INLINE SCRIPT: WORLD 2 ENGINE -->
+  <script>
+    // --- 1. AUDIO ENGINE (Web Audio API) ---
+    class SoundSystem {
+      constructor() {
+        this.ctx = null; this.isMuted = false; this.bgmPlaying = false; this.bgmTimer = null; this.bgmStep = 0;
+      }
+      init() {
+        if (!this.ctx) {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (AudioCtx) this.ctx = new AudioCtx();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume();
+      }
+      toggleMute() {
+        this.isMuted = !this.isMuted;
+        if (this.isMuted) this.stopBGM(); else this.startBGM();
+        return this.isMuted;
+      }
+      playTone(freq, dur, type = 'sine', vol = 0.15, bend = 0) {
+        if (this.isMuted) return;
+        this.init();
+        if (!this.ctx) return;
+        try {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+          if (bend !== 0) osc.frequency.exponentialRampToValueAtTime(Math.max(20, freq + bend), this.ctx.currentTime + dur);
+          gain.gain.setValueAtTime(vol, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + dur);
+          osc.connect(gain); gain.connect(this.ctx.destination);
+          osc.start(); osc.stop(this.ctx.currentTime + dur);
+        } catch(e) {}
+      }
+      playJump() { this.playTone(200, 0.15, 'square', 0.12, 240); }
+      playAttack() { this.playTone(360, 0.12, 'triangle', 0.18, -160); }
+      playHit() { this.playTone(120, 0.12, 'sawtooth', 0.2, -50); }
+      playCoin() { this.playTone(1046, 0.08, 'sine', 0.15); setTimeout(() => this.playTone(1396, 0.18, 'sine', 0.15), 60); }
+      playBold() { this.playTone(90, 0.35, 'sawtooth', 0.25, -45); }
+      playDash() { this.playTone(520, 0.16, 'triangle', 0.18, 400); }
+      playShield() { this.playTone(659, 0.2, 'sine', 0.16); setTimeout(() => this.playTone(880, 0.2, 'sine', 0.16), 60); }
+      playLevelUp() { [262, 330, 392, 523, 659, 784].forEach((f, i) => setTimeout(() => this.playTone(f, 0.18, 'triangle', 0.2), i * 60)); }
+      playQuestComplete() { [440, 523, 659, 880].forEach((f, i) => setTimeout(() => this.playTone(f, 0.14, 'triangle', 0.2), i * 80)); }
+      playSave() { this.playTone(659, 0.1, 'sine', 0.15); setTimeout(() => this.playTone(880, 0.2, 'sine', 0.18), 90); }
+      playShroom() { this.playTone(400, 0.2, 'sine', 0.2, 300); }
+      startBGM() {
+        if (this.bgmPlaying || this.isMuted) return;
+        this.init(); this.bgmPlaying = true; this.bgmStep = 0;
+        // Forest nature theme in minor pentatonic
+        const melody = [330, 392, 440, 523, 440, 392, 330, 294, 330, 392, 523, 659, 587, 523, 440, 392];
+        const bass = [165, 165, 196, 196, 147, 147, 165, 165];
+        this.bgmTimer = setInterval(() => {
+          if (this.isMuted || !this.bgmPlaying) return;
+          this.playTone(melody[this.bgmStep % melody.length], 0.14, 'sine', 0.04);
+          if (this.bgmStep % 2 === 0) this.playTone(bass[Math.floor((this.bgmStep / 2) % bass.length)], 0.22, 'triangle', 0.06);
+          this.bgmStep++;
+        }, 250);
+      }
+      stopBGM() { this.bgmPlaying = false; if (this.bgmTimer) { clearInterval(this.bgmTimer); this.bgmTimer = null; } }
+    }
+    const audio = new SoundSystem();
+
+    // --- 2. STORAGE SYSTEM ---
+    const SAVE_KEY = 'digital_hero_save_id';
+    class StorageSystem {
+      static hasSave() { try { return localStorage.getItem(SAVE_KEY) !== null; } catch { return false; } }
+      static getSave() { try { const d = localStorage.getItem(SAVE_KEY); return d ? JSON.parse(d) : null; } catch { return null; } }
+      static saveGame(data) { try { localStorage.setItem(SAVE_KEY, JSON.stringify(data)); return true; } catch { return false; } }
+    }
+
+    // --- 3. INVENTORY SYSTEM ---
+    class Inventory {
+      constructor() { this.items = []; }
+      load(saved = []) { this.items = saved; }
+      addItem(item) {
+        const exist = this.items.find(i => i.id === item.id);
+        if (exist) exist.count = (exist.count || 1) + (item.count || 1);
+        else this.items.push({ id: item.id, name: item.name, icon: item.icon, count: item.count || 1, desc: item.desc, wordTip: item.wordTip });
+      }
+      hasItem(id) { const i = this.items.find(it => it.id === id); return i && i.count > 0; }
+      getAll() { return this.items; }
+    }
+
+    // --- 4. QUEST SYSTEM (Dunia 2) ---
+    class QuestManager {
+      constructor(game) {
+        this.game = game; this.activeQuest = null; this.completedQuests = [];
+        this.quests = {
+          w2_q1: {
+            id: 'w2_q1', title: 'Teka-Teki Gerbang Serif',
+            desc: 'Bicaralah dengan Profesor Typography dan pilih Batu Font Resmi (Times New Roman) untuk membuka Gerbang Hutan!',
+            targetType: 'solve_puzzle', targetId: 'serif_gate', current: 0, required: 1,
+            rewardXp: 120, rewardCoins: 40, nextQuest: 'w2_q2'
+          },
+          w2_q2: {
+            id: 'w2_q2', title: 'Tantangan Editor Word Kuno',
+            desc: 'Bicaralah dengan Peri Format di depan Gerbang Kuno [E]. Tebalkan "PINTU", miringkan "KUNCI", garis bawahi "RESMI", dan ganti font "KERAJAAN" ke Times New Roman!',
+            targetType: 'complete_challenge', targetId: 'word_editor_puzzle', current: 0, required: 1,
+            rewardXp: 180, rewardCoins: 60, nextQuest: 'w2_q3'
+          },
+          w2_q3: {
+            id: 'w2_q3', title: 'Menembus Semak Duri Asing',
+            desc: 'Gunakan Dash Italic [2] (Ctrl+I) untuk meluncur menembus semak berduri miring tanpa terluka!',
+            targetType: 'use_skill', targetId: 'italic_dash', current: 0, required: 1,
+            rewardXp: 150, rewardCoins: 50, nextQuest: 'w2_q4'
+          },
+          w2_q4: {
+            id: 'w2_q4', title: 'Kalahkan Font Corrupter',
+            desc: 'Kalahkan Bos Hutan Font! Pecahkan Perisai Teks Rusaknya dengan kuis kilat shortcut Word!',
+            targetType: 'defeat_boss', targetId: 'font_corrupter', current: 0, required: 1,
+            rewardXp: 350, rewardCoins: 140, nextQuest: null
+          }
+        };
+      }
+      startQuest(id) {
+        if (this.quests[id]) {
+          this.activeQuest = { ...this.quests[id], current: 0 };
+          this.game.ui.updateQuestUI(this.activeQuest);
+          this.game.ui.showToast(`🌲 Misi Hutan: ${this.activeQuest.title}`);
+        }
+      }
+      updateProgress(type, id, amt = 1) {
+        if (!this.activeQuest) return;
+        if (this.activeQuest.targetType === type && (!this.activeQuest.targetId || this.activeQuest.targetId === id)) {
+          this.activeQuest.current = Math.min(this.activeQuest.required, this.activeQuest.current + amt);
+          this.game.ui.updateQuestUI(this.activeQuest);
+          if (this.activeQuest.current >= this.activeQuest.required) this.completeActiveQuest();
+        }
+      }
+      completeActiveQuest() {
+        if (!this.activeQuest) return;
+        const q = this.activeQuest;
+        this.completedQuests.push(q.id);
+        audio.playQuestComplete();
+        this.game.player.addXp(q.rewardXp);
+        this.game.player.addCoins(q.rewardCoins);
+
+        let unlockMsg = '';
+        if (q.id === 'w2_q4') {
+          this.game.inventory.addItem({
+            id: 'fragment_font', name: 'Fragmen Format Font & Gaya', icon: '🌲',
+            desc: 'Kepingan kedua Dokumen Master! Mengatur jenis font, ukuran pt, serta penataan gaya Bold/Italic/Underline.',
+            wordTip: 'Fungsi Word: Kombinasi jenis font dan ukuran yang tepat membuat dokumen enak dibaca dan profesional!'
+          });
+          unlockMsg = '🌟 FRAGMEN KE-2 DOKUMEN MASTER TELAH PULIH!';
+          this.game.onWorldComplete();
+        }
+
+        this.game.ui.showQuestCompleteModal(q, unlockMsg);
+        if (q.nextQuest) this.startQuest(q.nextQuest);
+        else { this.activeQuest = null; this.game.ui.updateQuestUI(null); }
+      }
+    }
+
+    // --- 5. PLAYER ---
+    class Player {
+      constructor(game) {
+        this.game = game; this.x = 100; this.y = 420; this.vx = 0; this.vy = 0;
+        this.width = 36; this.height = 52; this.direction = 1; this.speed = 4.8;
+        this.jumpForce = -12.2; this.onGround = false; this.coyoteTimer = 0; this.jumpBufferTimer = 0;
+        this.hp = 120; this.maxHp = 120; this.xp = 0; this.maxXp = 140; this.level = 2; this.coins = 50;
+        // In World 2, all 3 fundamental formatting skills are available!
+        this.unlockedSkills = ['bold_blast', 'italic_dash', 'underline_shield'];
+        this.cooldowns = { bold_blast: 0, italic_dash: 0, underline_shield: 0 };
+        this.maxCooldowns = { bold_blast: 2.8, italic_dash: 3.5, underline_shield: 5.5 };
+        this.isAttacking = false; this.attackTimer = 0; this.attackDuration = 0.22;
+        this.isDashing = false; this.dashTimer = 0; this.dashDuration = 0.28;
+        this.shieldCharges = 0; this.invulnTimer = 0; this.animTimer = 0;
+        this.fontSizeState = 'normal'; // 'tiny' (10pt), 'normal' (12pt), 'giant' (24pt)
+        this.lastSafeX = 100;
+        this.lastSafeY = 500;
+        this.isRespawning = false;
+      }
+      load(saved) {
+        if (!saved) return;
+        this.level = Math.max(2, saved.level || 2);
+        this.xp = saved.xp || 0; this.maxXp = saved.maxXp || 140;
+        this.hp = saved.hp || 120; this.maxHp = Math.max(120, saved.maxHp || 120);
+        this.coins = saved.coins || 50;
+      }
+      addXp(amt) {
+        this.xp += amt;
+        while (this.xp >= this.maxXp) {
+          this.xp -= this.maxXp; this.level++; this.maxHp += 15; this.hp = this.maxHp;
+          this.maxXp = Math.floor(this.maxXp * 1.35);
+          audio.playLevelUp();
+          this.game.ui.showToast(`🎉 NAIK LEVEL! Kamu mencapai Level ${this.level}!`);
+        }
+        this.game.ui.updateStatsUI(this);
+      }
+      addCoins(amt) { this.coins += amt; audio.playCoin(); this.game.ui.updateCoinsUI(this.coins); }
+      setFontSize(size) {
+        if (this.fontSizeState === size) return;
+        this.fontSizeState = size;
+        audio.playShroom();
+        if (size === 'giant') {
+          this.width = 54; this.height = 76; this.jumpForce = -15.5; this.speed = 5.6;
+          this.game.ui.showToast('🍄 UKURAN FONT 24pt (JUDUL)! Tubuh membesar, lompatan tinggi!');
+        } else if (size === 'tiny') {
+          this.width = 24; this.height = 34; this.jumpForce = -10.5; this.speed = 4.2;
+          this.game.ui.showToast('🍄 UKURAN FONT 10pt (CATATAN KAKI)! Tubuh mengecil, bisa merayap di celah!');
+        } else {
+          this.width = 36; this.height = 52; this.jumpForce = -12.2; this.speed = 4.8;
+          this.game.ui.showToast('🍄 UKURAN FONT 12pt (PARAGRAF STANDAR)! Kembali normal.');
+        }
+      }
+      takeDamage(amt) {
+        if (this.invulnTimer > 0 || this.isDashing) return false;
+        if (this.game && this.game.isUserInChallengeOrModal && this.game.isUserInChallengeOrModal()) return false;
+        if (this.shieldCharges > 0) {
+          this.shieldCharges--; audio.playShield();
+          this.game.ui.showToast('🛡️ Perisai Underline menahan serangan!');
+          this.invulnTimer = 0.5; return false;
+        }
+        this.hp = Math.max(0, this.hp - amt); this.invulnTimer = 1.0;
+        this.game.createScreenShake(5); audio.playHit(); this.game.ui.updateStatsUI(this);
+        if (this.hp <= 0) {
+          this.isRespawning = true;
+          this.vx = 0;
+          this.vy = 0;
+          this.game.ui.showToast('💀 Kamu pingsan! Memulihkan diri di pohon awal...');
+          setTimeout(() => {
+            this.hp = this.maxHp;
+            this.x = 100;
+            this.y = 480;
+            this.vx = 0;
+            this.vy = 0;
+            this.lastSafeX = 100;
+            this.lastSafeY = 500;
+            this.onGround = true;
+            this.invulnTimer = 1.5;
+            this.isRespawning = false;
+            this.game.ui.updateStatsUI(this);
+          }, 1200);
+        }
+        return true;
+      }
+      handleFallRespawn() {
+        if (this.isRespawning) return;
+        this.isRespawning = true;
+        this.takeDamage(15);
+        audio.playHit();
+        this.game.createScreenShake(6);
+        this.game.ui.showToast('⚠️ Terjatuh ke jurang Hutan Font! Kembali ke tempat aman...');
+        this.vx = 0;
+        this.vy = 0;
+        setTimeout(() => {
+          this.x = Math.max(80, this.lastSafeX || 100);
+          this.y = Math.min(500, (this.lastSafeY || 500) - 25);
+          this.vx = 0;
+          this.vy = 0;
+          this.onGround = true;
+          this.invulnTimer = 1.2;
+          this.isRespawning = false;
+        }, 320);
+      }
+      attack() {
+        if (this.isAttacking) return;
+        this.isAttacking = true; this.attackTimer = this.attackDuration; audio.playAttack();
+        this.checkAttackCollision();
+      }
+      useSkill(key) {
+        if (this.cooldowns[key] > 0) return;
+        if (key === 'bold_blast') {
+          this.cooldowns.bold_blast = this.maxCooldowns.bold_blast; audio.playBold();
+          this.game.createScreenShake(8); this.game.world.triggerBoldBlast(this);
+        } else if (key === 'italic_dash') {
+          this.cooldowns.italic_dash = this.maxCooldowns.italic_dash; this.isDashing = true;
+          this.dashTimer = this.dashDuration; this.vx = this.direction * 14; audio.playDash();
+          this.game.questManager.updateProgress('use_skill', 'italic_dash', 1);
+        } else if (key === 'underline_shield') {
+          this.cooldowns.underline_shield = this.maxCooldowns.underline_shield; this.shieldCharges = 2;
+          audio.playShield(); this.game.ui.showToast('🛡️ Perisai Garis Bawah Aktif (Ctrl+U)!');
+        }
+      }
+      checkAttackCollision() {
+        const box = { x: this.direction > 0 ? this.x + this.width : this.x - 40, y: this.y + 4, width: 40, height: this.height };
+        // Check puzzle stones
+        this.game.world.puzzleStones.forEach(stone => {
+          if (!stone.solved && this.game.world.checkOverlap(box, stone)) {
+            this.game.world.hitPuzzleStone(stone, this.game);
+          }
+        });
+        // Check enemies
+        this.game.world.enemies.forEach(e => {
+          if (!e.isDead && this.game.world.checkOverlap(box, e)) {
+            const res = e.takeDamage(this.fontSizeState === 'giant' ? 35 : 22, false);
+            audio.playHit();
+            if (res === 'killed') {
+              this.addXp(e.isBoss ? 300 : 30); this.addCoins(e.isBoss ? 80 : 10);
+              this.game.world.spawnParticles(e.x + e.width/2, e.y + e.height/2, '#10b981', 12);
+              if (e.isBoss) {
+                this.game.world.bossDefeated = true;
+                this.game.ui.hideBossBar();
+                this.game.questManager.updateProgress('defeat_boss', 'font_corrupter', 1);
+              }
+            } else {
+              this.game.world.spawnParticles(e.x + e.width/2, e.y + e.height/2, '#34d399', 6);
+            }
+          }
+        });
+      }
+      update(dt, input, world) {
+        if (this.isRespawning) {
+          this.vx = 0;
+          this.vy = 0;
+          return;
+        }
+        this.animTimer += dt;
+        Object.keys(this.cooldowns).forEach(k => {
+          if (this.cooldowns[k] > 0) this.cooldowns[k] = Math.max(0, this.cooldowns[k] - dt);
+          // Update visual cooldown overlay
+          const overlayMap = { bold_blast: 'cd-overlay-bold', italic_dash: 'cd-overlay-italic', underline_shield: 'cd-overlay-underline' };
+          const el = document.getElementById(overlayMap[k]);
+          if (el) {
+            const pct = this.cooldowns[k] > 0 ? (this.cooldowns[k] / this.maxCooldowns[k]) * 100 : 0;
+            el.style.height = pct + '%';
+          }
+        });
+        if (this.invulnTimer > 0) this.invulnTimer -= dt;
+        if (this.isAttacking) { this.attackTimer -= dt; if (this.attackTimer <= 0) this.isAttacking = false; }
+        if (this.isDashing) {
+          this.dashTimer -= dt; this.vy = 0;
+          if (this.dashTimer <= 0) this.isDashing = false;
+        } else {
+          // Horizontal Move
+          let move = 0;
+          if (input.left) { move -= 1; this.direction = -1; }
+          if (input.right) { move += 1; this.direction = 1; }
+          this.vx = move * this.speed;
+          // Jump logic
+          if (this.onGround) this.coyoteTimer = 0.12; else this.coyoteTimer -= dt;
+          if (input.jumpPressed) this.jumpBufferTimer = 0.14; else this.jumpBufferTimer -= dt;
+          if (this.jumpBufferTimer > 0 && this.coyoteTimer > 0) {
+            this.vy = this.jumpForce; this.onGround = false; this.coyoteTimer = 0; this.jumpBufferTimer = 0;
+            audio.playJump();
+          }
+          this.vy += 23 * dt;
+          if (this.vy > 16) this.vy = 16;
+        }
+        this.x += this.vx;
+        this.x = Math.max(20, Math.min(world.width - this.width - 20, this.x));
+        world.handleHorizontalCollision(this);
+        this.y += this.vy;
+        world.handleVerticalCollision(this);
+
+        // Record last safe platform position
+        if (this.onGround && this.y <= 560) {
+          this.lastSafeX = this.x;
+          this.lastSafeY = this.y;
+        }
+
+        // Pit fall detection
+        if (this.y > 610) {
+          this.handleFallRespawn();
+        }
+      }
+      draw(ctx, cam) {
+        const rx = this.x - cam.x; const ry = this.y - cam.y;
+        if (rx + this.width < -50 || rx > ctx.canvas.width + 50) return;
+        ctx.save();
+        if (this.invulnTimer > 0 && Math.floor(this.animTimer * 18) % 2 === 0) ctx.globalAlpha = 0.4;
+        if (this.isDashing) {
+          ctx.transform(1, 0, -0.35, 1, 0, 0); // Visual Italic slant!
+          ctx.fillStyle = 'rgba(52,211,153,0.3)'; ctx.fillRect(rx - 15, ry, this.width + 30, this.height);
+        }
+        // Shadow
+        ctx.fillStyle = 'rgba(0,0,0,0.2)'; ctx.beginPath(); ctx.ellipse(rx + this.width/2, ry + this.height, this.width * 0.45, 6, 0, 0, Math.PI * 2); ctx.fill();
+        // Character Body (Green Cape for Font Forest)
+        ctx.fillStyle = '#059669'; ctx.beginPath(); ctx.roundRect(rx + 6, ry + 16, this.width - 12, this.height - 24, 6); ctx.fill();
+        // Head
+        ctx.fillStyle = '#fde047'; ctx.beginPath(); ctx.arc(rx + this.width/2, ry + 12, 10, 0, Math.PI * 2); ctx.fill();
+        // Eyes
+        ctx.fillStyle = '#1e293b'; const eyeOffset = this.direction > 0 ? 3 : -3;
+        ctx.beginPath(); ctx.arc(rx + this.width/2 + eyeOffset, ry + 11, 2, 0, Math.PI * 2); ctx.fill();
+        // Underline Shield Indicator
+        if (this.shieldCharges > 0) {
+          ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 4;
+          ctx.beginPath(); ctx.moveTo(rx - 6, ry + this.height + 2); ctx.lineTo(rx + this.width + 6, ry + this.height + 2); ctx.stroke();
+        }
+        if (this.game && this.game.isUserInChallengeOrModal && this.game.isUserInChallengeOrModal()) {
+          ctx.strokeStyle = '#eab308'; ctx.lineWidth = 2; ctx.setLineDash([4, 4]);
+          ctx.beginPath();
+          ctx.arc(rx + this.width/2, ry + this.height/2, this.width * 0.75 + 10, 0, Math.PI * 2);
+          ctx.stroke(); ctx.setLineDash([]);
+          ctx.fillStyle = '#fef08a'; ctx.font = 'bold 9px sans-serif'; ctx.textAlign = 'center';
+          ctx.fillText('🛡️ KEBAL (TANTANGAN)', rx + this.width/2, ry - 14);
+        }
+        // Attack Blade
+        if (this.isAttacking) {
+          ctx.strokeStyle = '#facc15'; ctx.lineWidth = 4; ctx.beginPath();
+          const slashX = this.direction > 0 ? rx + this.width + 4 : rx - 24;
+          ctx.arc(slashX, ry + 20, 20, -Math.PI/3, Math.PI/3, this.direction < 0); ctx.stroke();
+        }
+        ctx.restore();
+      }
+    }
+
+    // --- 6. WORLD 2 (Hutan Font Environment) ---
+    class World2 {
+      constructor(game) {
+        this.game = game; this.width = 3800; this.height = 720;
+        this.platforms = [
+          { x: 0, y: 560, width: 900, height: 160 },
+          { x: 950, y: 560, width: 850, height: 160 },
+          { x: 1850, y: 560, width: 1950, height: 160 },
+          // Floating Tree Branch Platforms
+          { x: 260, y: 440, width: 160, height: 26 },
+          { x: 480, y: 350, width: 180, height: 26 },
+          { x: 700, y: 260, width: 160, height: 26 },
+          { x: 1020, y: 430, width: 180, height: 26 },
+          { x: 1250, y: 330, width: 200, height: 26 },
+          { x: 1500, y: 440, width: 170, height: 26 },
+          { x: 2000, y: 450, width: 220, height: 26 },
+          { x: 2300, y: 360, width: 240, height: 26 }
+        ];
+
+        // Font Size Shrooms
+        this.shrooms = [
+          { x: 300, y: 410, width: 44, height: 30, size: 'giant', label: '+A 24pt', color: '#ec4899' },
+          { x: 800, y: 530, width: 44, height: 30, size: 'tiny', label: '-A 10pt', color: '#3b82f6' },
+          { x: 1300, y: 300, width: 44, height: 30, size: 'normal', label: '12pt', color: '#10b981' }
+        ];
+
+        // Italic Thorns (Bisa dilewati dengan Dash Italic [2])
+        this.thorns = [
+          { x: 1720, y: 500, width: 110, height: 60, active: true }
+        ];
+
+        // Puzzle Stones: Serif vs Sans-Serif
+        this.puzzleStones = [
+          { x: 1100, y: 500, width: 60, height: 60, fontType: 'serif', name: 'Times New Roman', isCorrect: true, solved: false },
+          { x: 1240, y: 500, width: 60, height: 60, fontType: 'comic', name: 'Comic Sans', isCorrect: false, solved: false }
+        ];
+        this.serifGateOpen = false;
+
+        // NPCs
+        this.npcs = [
+          {
+            id: 'prof_type', name: 'Profesor Typography', avatar: '🧙‍♂️', x: 200, y: 496, width: 48, height: 64,
+            dialog: "Salam, Pahlawan Digital! Kamu telah tiba di Hutan Font! Di sini, huruf bukan sekadar tulisan, tapi memiliki karakter jiwa! Ingat: Dokumen Resmi membutuhkan font Serif berkaki (seperti Times New Roman). Jangan pernah memakai font santai untuk surat resmi kenegaraan!"
+          },
+          {
+            id: 'guide_fairy', name: 'Peri Format', avatar: '🧚‍♀️', x: 1360, y: 496, width: 48, height: 64, isChallengeGiver: true,
+            dialog: "Halo Pahlawan! Di depan kita adalah Gerbang Kuno Kuil Font. Gerbang ini disegel oleh prasasti teks kuno yang formatnya berantakan! Kamu harus memformat dokumen titah kuno ini menggunakan pita editor Word: Tebalkan kata PINTU, miringkan KUNCI, garis bawahi RESMI, dan jadikan KERAJAAN font Times New Roman! Ayo buka editor dokumen sekarang!"
+          }
+        ];
+
+        // Enemies
+        this.enemies = [
+          new FontEnemy({ id: 'bug1', x: 550, y: 310, width: 34, height: 30, hp: 35, type: 'bug' }),
+          new FontEnemy({ id: 'bug2', x: 1080, y: 390, width: 34, height: 30, hp: 35, type: 'goblin' }),
+          new FontEnemy({ id: 'bug3', x: 1350, y: 290, width: 34, height: 30, hp: 40, type: 'bug' }),
+          new FontEnemy({ id: 'boss', x: 2350, y: 460, width: 96, height: 84, hp: 320, isBoss: true })
+        ];
+
+        this.bossStarted = false;
+        this.bossDefeated = false;
+        this.particles = [];
+        this.projectiles = [];
+      }
+      hitPuzzleStone(stone, game) {
+        if (stone.isCorrect) {
+          stone.solved = true; this.serifGateOpen = true; audio.playQuestComplete();
+          game.ui.showToast('✅ BENAR! Times New Roman adalah Font Serif Resmi! Gerbang Terbuka!');
+          game.questManager.updateProgress('solve_puzzle', 'serif_gate', 1);
+        } else {
+          audio.playHit();
+          game.ui.showToast('❌ SALAH! Comic Sans tidak pantas untuk dokumen resmi! Pilih Font Serif!');
+        }
+      }
+      checkOverlap(r1, r2) {
+        if (!r1 || !r2) return false;
+        const w1 = r1.width !== undefined ? r1.width : (r1.radius ? r1.radius * 2 : 0);
+        const h1 = r1.height !== undefined ? r1.height : (r1.radius ? r1.radius * 2 : 0);
+        const w2 = r2.width !== undefined ? r2.width : (r2.radius ? r2.radius * 2 : 0);
+        const h2 = r2.height !== undefined ? r2.height : (r2.radius ? r2.radius * 2 : 0);
+        if (w1 <= 0 || h1 <= 0 || w2 <= 0 || h2 <= 0) return false;
+        const x1 = r1.radius && r1.width === undefined ? r1.x - r1.radius : r1.x;
+        const y1 = r1.radius && r1.height === undefined ? r1.y - r1.radius : r1.y;
+        const x2 = r2.radius && r2.width === undefined ? r2.x - r2.radius : r2.x;
+        const y2 = r2.radius && r2.height === undefined ? r2.y - r2.radius : r2.y;
+        return x1 < x2 + w2 && x1 + w1 > x2 && y1 < y2 + h2 && y1 + h1 > y2;
+      }
+      handleHorizontalCollision(e) {
+        for (const p of this.platforms) {
+          if (this.checkOverlap(e, p)) {
+            if (e.vx > 0) e.x = p.x - e.width;
+            else if (e.vx < 0) e.x = p.x + p.width;
+            e.vx = 0;
+          }
+        }
+        // Gate collision
+        if (!this.serifGateOpen) {
+          const gate = { x: 1400, y: 400, width: 24, height: 160 };
+          if (this.checkOverlap(e, gate)) {
+            if (e.vx > 0) e.x = gate.x - e.width;
+            e.vx = 0;
+            this.game.ui.showToast('🔒 Gerbang Kuil Font terkunci! Selesaikan Teka-Teki Font Serif di belakang.');
+          }
+        }
+      }
+      handleVerticalCollision(e) {
+        e.onGround = false;
+        for (const p of this.platforms) {
+          if (this.checkOverlap(e, p)) {
+            if (e.vy > 0) { e.y = p.y - e.height; e.vy = 0; e.onGround = true; }
+            else if (e.vy < 0) { e.y = p.y + p.height; e.vy = 0; }
+          }
+        }
+      }
+      triggerBoldBlast(player) {
+        const area = { x: player.x - 100, y: player.y - 30, width: player.width + 200, height: player.height + 60 };
+        this.enemies.forEach(e => {
+          if (!e.isDead && this.checkOverlap(area, e)) {
+            const res = e.takeDamage(55, true);
+            this.spawnParticles(e.x + e.width/2, e.y + e.height/2, '#f59e0b', 14);
+            if (res === 'killed' && e.isBoss) {
+              this.bossDefeated = true;
+              this.game.ui.hideBossBar();
+              this.game.questManager.updateProgress('defeat_boss', 'font_corrupter', 1);
+            }
+          }
+        });
+      }
+      spawnParticles(x, y, color, count = 8) {
+        for (let i = 0; i < count; i++) {
+          this.particles.push({
+            x, y, vx: (Math.random() - 0.5) * 6, vy: (Math.random() - 0.8) * 6,
+            color, life: 0.4 + Math.random() * 0.3
+          });
+        }
+      }
+      update(dt, player, game) {
+        // Boss fight encounter trigger
+        const boss = this.enemies.find(e => e.isBoss && !e.isDead);
+        if (boss) {
+          if (!this.bossStarted && player.x >= 2000) {
+            this.bossStarted = true;
+            game.ui.showBossBar();
+            game.ui.updateBossBar(boss.hp, boss.maxHp);
+            game.ui.showToast('🔥 PERINGATAN: FONT CORRUPTER MUNCUL! Lawan Bos!');
+            game.createScreenShake(12);
+          }
+          if (this.bossStarted) {
+            game.ui.updateBossBar(boss.hp, boss.maxHp);
+          }
+        } else if (this.bossStarted && !this.bossDefeated) {
+          this.bossDefeated = true;
+          game.ui.hideBossBar();
+        }
+
+        // Particles
+        for (let i = this.particles.length - 1; i >= 0; i--) {
+          const p = this.particles[i]; p.x += p.vx; p.y += p.vy; p.life -= dt;
+          if (p.life <= 0) this.particles.splice(i, 1);
+        }
+        // Projectiles
+        for (let i = this.projectiles.length - 1; i >= 0; i--) {
+          const pr = this.projectiles[i]; pr.x += pr.vx; pr.y += pr.vy; pr.life -= dt;
+          if (pr.life <= 0) { this.projectiles.splice(i, 1); continue; }
+          if (this.checkOverlap(pr, player)) {
+            player.takeDamage(pr.damage || 14);
+            this.projectiles.splice(i, 1);
+          }
+        }
+        // Shroom checks
+        this.shrooms.forEach(s => {
+          if (this.checkOverlap(player, s) && player.vy > 0) {
+            player.setFontSize(s.size);
+            player.vy = -10; // bounce
+          }
+        });
+        // Thorn checks
+        this.thorns.forEach(t => {
+          if (t.active && this.checkOverlap(player, t)) {
+            if (!player.isDashing) {
+              player.takeDamage(15);
+              player.vx = -6;
+              game.ui.showToast('⚠️ Tertusuk Semak Duri Asing! Gunakan Dash Italic [2] untuk lewat!');
+            } else {
+              game.questManager.updateProgress('use_skill', 'italic_dash', 1);
+            }
+          }
+        });
+        // Enemies
+        this.enemies.forEach(e => {
+          e.update(dt, player, this, game);
+          if (!e.isDead && !player.isDashing) {
+            // Boss shouldn't deal contact damage while stunned, shielded, or recovering from hit
+            if (e.isBoss && (e.stunTimer > 0 || e.isShielded || e.hurtTimer > 0)) return;
+            if (e.hurtTimer > 0) return;
+
+            // Inset enemy hitbox slightly so melee hits don't punish the player
+            const enemyHitbox = {
+              x: e.x + (e.isBoss ? 18 : 4),
+              y: e.y + (e.isBoss ? 16 : 4),
+              width: e.width - (e.isBoss ? 36 : 8),
+              height: e.height - (e.isBoss ? 24 : 8)
+            };
+            if (this.checkOverlap(player, enemyHitbox)) {
+              player.takeDamage(e.isBoss ? 20 : 10);
+            }
+          }
+        });
+      }
+      draw(ctx, cam) {
+        // Draw Forest Background
+        ctx.fillStyle = '#064e3b'; ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        // Distant Font Trees (Parallax)
+        for (let i = 0; i < 25; i++) {
+          const tx = (i * 220) - (cam.x * 0.3);
+          ctx.fillStyle = '#065f46';
+          ctx.beginPath(); ctx.moveTo(tx, 560); ctx.lineTo(tx + 40, 200); ctx.lineTo(tx + 80, 560); ctx.fill();
+        }
+        // Platforms
+        this.platforms.forEach(p => {
+          const rx = p.x - cam.x; const ry = p.y - cam.y;
+          if (rx + p.width < -50 || rx > ctx.canvas.width + 50) return;
+          ctx.fillStyle = '#047857'; ctx.fillRect(rx, ry, p.width, p.height);
+          ctx.fillStyle = '#10b981'; ctx.fillRect(rx, ry, p.width, 10); // moss grass
+        });
+        // Shrooms
+        this.shrooms.forEach(s => {
+          const rx = s.x - cam.x; const ry = s.y - cam.y;
+          ctx.fillStyle = s.color; ctx.beginPath(); ctx.arc(rx + s.width/2, ry + 16, s.width/2, Math.PI, 0); ctx.fill();
+          ctx.fillStyle = '#fff'; ctx.fillRect(rx + s.width/2 - 4, ry + 16, 8, 14);
+          ctx.fillStyle = '#fff'; ctx.font = 'bold 9px sans-serif'; ctx.textAlign = 'center';
+          ctx.fillText(s.label, rx + s.width/2, ry + 10);
+        });
+        // Puzzle Stones
+        this.puzzleStones.forEach(st => {
+          const rx = st.x - cam.x; const ry = st.y - cam.y;
+          ctx.fillStyle = st.solved ? '#22c55e' : (st.fontType === 'serif' ? '#1e3a8a' : '#ea580c');
+          ctx.beginPath(); ctx.roundRect(rx, ry, st.width, st.height, 8); ctx.fill();
+          ctx.fillStyle = '#fff'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center';
+          ctx.fillText(st.fontType === 'serif' ? 'SERIF' : 'SANTAI', rx + st.width/2, ry + 24);
+          ctx.font = '9px monospace'; ctx.fillText(st.name, rx + st.width/2, ry + 42);
+        });
+        // Serif Gate
+        if (!this.serifGateOpen) {
+          const rx = 1400 - cam.x; const ry = 400 - cam.y;
+          ctx.fillStyle = '#1e293b'; ctx.fillRect(rx, ry, 24, 160);
+          ctx.fillStyle = '#38bdf8'; ctx.font = 'bold 12px sans-serif'; ctx.fillText('GERBANG SERIF', rx - 30, ry - 8);
+        }
+        // Thorns
+        this.thorns.forEach(t => {
+          const rx = t.x - cam.x; const ry = t.y - cam.y;
+          ctx.fillStyle = '#dc2626';
+          for (let i = 0; i < t.width; i += 18) {
+            ctx.beginPath(); ctx.moveTo(rx + i, ry + t.height); ctx.lineTo(rx + i + 14, ry); ctx.lineTo(rx + i + 18, ry + t.height); ctx.fill();
+          }
+          ctx.fillStyle = '#fca5a5'; ctx.font = 'italic bold 10px sans-serif'; ctx.fillText('Semak Duri Italic (Gunakan Dash [2])', rx - 10, ry - 6);
+        });
+        // Boss Arena Signpost
+        {
+          const sx = 1880 - cam.x; const sy = 480 - cam.y;
+          ctx.fillStyle = '#92400e'; ctx.fillRect(sx + 18, sy + 30, 8, 50); // post
+          ctx.fillStyle = '#fef3c7'; ctx.strokeStyle = '#b45309'; ctx.lineWidth = 2;
+          ctx.beginPath(); ctx.roundRect(sx, sy, 140, 36, 6); ctx.fill(); ctx.stroke();
+          ctx.fillStyle = '#b45309'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center';
+          ctx.fillText('⚔️ ARENA BOS ➔', sx + 70, sy + 16);
+          ctx.font = '9px monospace'; ctx.fillText('Lurus ke kanan!', sx + 70, sy + 28);
+        }
+        // NPCs
+        this.npcs.forEach(n => {
+          const rx = n.x - cam.x; const ry = n.y - cam.y;
+          ctx.fillStyle = '#0284c7'; ctx.beginPath(); ctx.roundRect(rx + 8, ry + 20, 32, 38, 8); ctx.fill();
+          ctx.fillStyle = '#fde047'; ctx.beginPath(); ctx.arc(rx + 24, ry + 16, 14, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = '#fff'; ctx.strokeStyle = '#059669'; ctx.beginPath(); ctx.roundRect(rx - 14, ry - 14, 76, 18, 6); ctx.fill(); ctx.stroke();
+          ctx.fillStyle = '#065f46'; ctx.font = 'bold 10px sans-serif'; ctx.textAlign = 'center'; ctx.fillText(n.name, rx + 24, ry - 1);
+        });
+        // Enemies
+        this.enemies.forEach(e => e.draw(ctx, cam));
+        // Projectiles
+        this.projectiles.forEach(pr => {
+          ctx.fillStyle = '#34d399'; ctx.beginPath(); ctx.arc(pr.x - cam.x, pr.y - cam.y, 6, 0, Math.PI * 2); ctx.fill();
+        });
+        // Particles
+        this.particles.forEach(p => {
+          ctx.fillStyle = p.color; ctx.fillRect(p.x - cam.x, p.y - cam.y, 3, 3);
+        });
+      }
+    }
+
+    // --- 7. FONT ENEMY & BOSS CLASS ---
+    class FontEnemy {
+      constructor({ id, x, y, width = 34, height = 30, hp = 35, type = 'bug', isBoss = false }) {
+        this.id = id; this.x = x; this.startX = x; this.y = y; this.width = width; this.height = height;
+        this.hp = hp; this.maxHp = hp; this.type = type; this.isBoss = isBoss; this.vx = 1.4; this.vy = 0;
+        this.isDead = false; this.direction = 1; this.animTimer = 0; this.bossTimer = 0;
+
+        // Boss Shield & Quiz Mechanic
+        this.isShielded = false;
+        this.quizTriggered50 = false;
+        this.quizTriggered20 = false;
+        this.stunTimer = 0;
+      }
+      takeDamage(amt, isBold = false) {
+        if (this.isDead) return false;
+        if (this.isBoss && this.isShielded) {
+          audio.playHit();
+          return 'shielded';
+        }
+        this.hp -= amt;
+        if (this.hp <= 0) { this.hp = 0; this.isDead = true; return 'killed'; }
+        return 'damaged';
+      }
+      activateShield(game, reason = '50% HP') {
+        this.isShielded = true;
+        audio.playShield();
+        game.createScreenShake(10);
+        game.ui.showToast('🛡️ PERISAI KUTUKAN FONT AKTIF! Bos Kebal Serangan!');
+        setTimeout(() => {
+          if (!this.isDead && this.isShielded) {
+            game.ui.triggerBossQuiz(this);
+          }
+        }, 600);
+      }
+      breakShield(game) {
+        this.isShielded = false;
+        this.stunTimer = 4.0; // Stunned for 4 seconds!
+        audio.playQuestComplete();
+        game.createScreenShake(14);
+        game.ui.showToast('💥 PERISAI BOS PECAH! Font Corrupter TERSTUN! Hantam sekarang!');
+      }
+      update(dt, player, world, game) {
+        if (this.isDead) return;
+        this.animTimer += dt;
+        this.vy += 22 * dt; this.y += this.vy;
+        world.handleVerticalCollision(this);
+
+        if (this.isBoss) {
+          // Check HP thresholds to trigger interactive Quiz Shield!
+          if (!this.quizTriggered50 && this.hp <= this.maxHp * 0.65) {
+            this.quizTriggered50 = true;
+            this.activateShield(game, '65% HP');
+          } else if (!this.quizTriggered20 && this.hp <= this.maxHp * 0.30) {
+            this.quizTriggered20 = true;
+            this.activateShield(game, '30% HP');
+          }
+
+          // Handle Stun
+          if (this.stunTimer > 0) {
+            this.stunTimer -= dt;
+            return; // Can't move or shoot while stunned
+          }
+
+          this.bossTimer += dt;
+          this.direction = player.x > this.x ? 1 : -1;
+          this.x += this.direction * 1.5;
+          // Keep boss inside arena
+          this.x = Math.max(2050, Math.min(2700, this.x));
+          if (this.bossTimer > (this.isShielded ? 3.5 : 2.5)) {
+            this.bossTimer = 0;
+            // Shoot font glyphs
+            audio.playAttack();
+            for (let i = -1; i <= 1; i++) {
+              world.projectiles.push({
+                x: this.x + this.width/2 - 7,
+                y: this.y + 16,
+                width: 14,
+                height: 14,
+                vx: (this.direction * 4) + i * 1.2,
+                vy: (Math.random() - 0.5) * 3,
+                damage: 15,
+                life: 3.0
+              });
+            }
+          }
+        } else {
+          if (Math.abs(this.x - this.startX) > 100) this.direction *= -1;
+          this.vx = this.direction * 1.4;
+          this.x += this.vx;
+        }
+      }
+      draw(ctx, cam) {
+        if (this.isDead) return;
+        const rx = this.x - cam.x; const ry = this.y - cam.y;
+        ctx.save();
+        if (this.isBoss) {
+          // Dark menacing aura
+          const pulse = Math.sin(this.animTimer * 5) * 4;
+          ctx.fillStyle = this.isShielded ? 'rgba(239, 68, 68, 0.5)' : 'rgba(6, 78, 59, 0.4)';
+          ctx.beginPath();
+          ctx.roundRect(rx - 6 - pulse/2, ry - 6 - pulse/2, this.width + 12 + pulse, this.height + 12 + pulse, 20);
+          ctx.fill();
+
+          // If shielded, draw huge rotating glyph barrier
+          if (this.isShielded) {
+            ctx.strokeStyle = '#ef4444';
+            ctx.lineWidth = 4;
+            ctx.setLineDash([8, 6]);
+            ctx.beginPath();
+            ctx.arc(rx + this.width/2, ry + this.height/2, this.width * 0.72 + pulse, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.fillStyle = '#fca5a5';
+            ctx.font = 'bold 11px monospace';
+            ctx.textAlign = 'center';
+            ctx.fillText('🛡️ PERISAI KUTUKAN', rx + this.width/2, ry - 22);
+          }
+
+          // If Stunned, draw stars
+          if (this.stunTimer > 0) {
+            ctx.fillStyle = '#facc15';
+            ctx.font = 'bold 16px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('💫 TERSTUN! 💫', rx + this.width/2, ry - 24);
+          }
+
+          // Boss body
+          ctx.fillStyle = this.stunTimer > 0 ? '#334155' : '#0f172a';
+          ctx.strokeStyle = this.isShielded ? '#ef4444' : '#10b981';
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.roundRect(rx, ry, this.width, this.height, 16);
+          ctx.fill();
+          ctx.stroke();
+
+          // Menacing Glowing Eyes
+          ctx.fillStyle = this.stunTimer > 0 ? '#94a3b8' : '#ef4444';
+          ctx.beginPath();
+          ctx.arc(rx + 28, ry + 22, 5, 0, Math.PI * 2);
+          ctx.arc(rx + this.width - 28, ry + 22, 5, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Glowing glyphs inside
+          ctx.fillStyle = this.isShielded ? '#f87171' : '#34d399';
+          ctx.font = 'bold 20px serif';
+          ctx.textAlign = 'center';
+          ctx.fillText('Aa Bb Gg', rx + this.width/2, ry + 46);
+          ctx.fillStyle = '#f87171'; ctx.font = 'bold 11px monospace';
+          ctx.fillText('FONT CORRUPTER', rx + this.width/2, ry + 66);
+
+          // Local mini health bar above head
+          const hpPct = Math.max(0, this.hp / this.maxHp);
+          ctx.fillStyle = '#334155';
+          ctx.fillRect(rx + 6, ry - 14, this.width - 12, 6);
+          ctx.fillStyle = this.isShielded ? '#ef4444' : (hpPct > 0.3 ? '#10b981' : '#f59e0b');
+          ctx.fillRect(rx + 6, ry - 14, (this.width - 12) * hpPct, 6);
+        } else {
+          ctx.fillStyle = this.type === 'bug' ? '#10b981' : '#f59e0b';
+          ctx.beginPath(); ctx.ellipse(rx + this.width/2, ry + this.height/2, this.width/2, this.height/2, 0, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = '#fff'; ctx.font = 'bold 10px monospace'; ctx.textAlign = 'center';
+          ctx.fillText('font', rx + this.width/2, ry + this.height/2 + 3);
+        }
+        ctx.restore();
+      }
+    }
+
+    // --- 8. UI MANAGER (Dunia 2) ---
+    class UIManager2 {
+      constructor(game) {
+        this.game = game;
+        this.hpFill = document.getElementById('hp-fill');
+        this.hpText = document.getElementById('hp-text');
+        this.xpFill = document.getElementById('xp-fill');
+        this.xpText = document.getElementById('xp-text');
+        this.levelBadge = document.getElementById('player-level-badge');
+        this.coinsText = document.getElementById('coins-counter');
+
+        this.questName = document.getElementById('quest-name');
+        this.questDesc = document.getElementById('quest-desc');
+        this.questProgress = document.getElementById('quest-progress');
+
+        this.dialogBox = document.getElementById('dialog-container');
+        this.dialogSpeaker = document.getElementById('dialog-speaker-name');
+        this.dialogText = document.getElementById('dialog-text-content');
+        this.toast = document.getElementById('floating-toast');
+
+        this.bossBar = document.getElementById('boss-bar-container');
+        this.bossFill = document.getElementById('boss-bar-fill');
+
+        // Mini Word Editor State
+        this.activeEditorWord = null;
+        this.challengeCompleted = false;
+        this.challengeWords = [
+          { id: 'w_pembuka', text: 'KERAJAAN', font: 'Calibri', size: '12pt', bold: false, italic: false, underline: false, targetFont: 'Times New Roman' },
+          { id: 'w_text1', text: 'Huruf purba membuka gerbang', font: 'Calibri', size: '12pt', bold: false, italic: false, underline: false },
+          { id: 'w_pintu', text: 'PINTU', font: 'Calibri', size: '12pt', bold: false, italic: false, underline: false, targetBold: true },
+          { id: 'w_text2', text: 'kuil terlarang. Peganglah', font: 'Calibri', size: '12pt', bold: false, italic: false, underline: false },
+          { id: 'w_kunci', text: 'KUNCI', font: 'Calibri', size: '12pt', bold: false, italic: false, underline: false, targetItalic: true },
+          { id: 'w_text3', text: 'kuno untuk membuktikan surat', font: 'Calibri', size: '12pt', bold: false, italic: false, underline: false },
+          { id: 'w_resmi', text: 'RESMI', font: 'Calibri', size: '12pt', bold: false, italic: false, underline: false, targetUnderline: true },
+          { id: 'w_text4', text: 'tertata dengan format tipografi sempurna!', font: 'Calibri', size: '12pt', bold: false, italic: false, underline: false }
+        ];
+
+        // Boss Quiz State
+        this.activeQuizBoss = null;
+        this.usedQuizIndices = [];
+        this.bossQuizQuestions = [
+          // --- SHORTCUT DASAR ---
+          {
+            q: "⌨️ Shortcut keyboard Microsoft Word untuk menebalkan teks (Bold) adalah...",
+            options: [
+              { label: "A. Ctrl + I", correct: false, explain: "Ctrl+I untuk memiringkan teks (Italic), bukan Bold." },
+              { label: "B. Ctrl + B", correct: true, explain: "Tepat! Ctrl + B = Bold. 'B' singkatan dari Bold!" },
+              { label: "C. Ctrl + U", correct: false, explain: "Ctrl+U untuk menggarisbawahi teks (Underline)." },
+              { label: "D. Ctrl + S", correct: false, explain: "Ctrl+S untuk menyimpan dokumen (Save)." }
+            ]
+          },
+          {
+            q: "⌨️ Shortcut untuk menggarisbawahi teks (Underline) di Microsoft Word adalah...",
+            options: [
+              { label: "A. Ctrl + Z", correct: false, explain: "Ctrl+Z adalah Undo (membatalkan aksi terakhir)." },
+              { label: "B. Ctrl + B", correct: false, explain: "Ctrl+B adalah Bold (menebalkan teks)." },
+              { label: "C. Ctrl + U", correct: true, explain: "Benar! Ctrl + U = Underline. 'U' singkatan dari Underline!" },
+              { label: "D. Ctrl + J", correct: false, explain: "Ctrl+J adalah Justify (rata kanan dan kiri)." }
+            ]
+          },
+          {
+            q: "⌨️ Shortcut untuk memiringkan teks (Italic) di Microsoft Word adalah...",
+            options: [
+              { label: "A. Ctrl + A", correct: false, explain: "Ctrl+A untuk memilih semua teks (Select All)." },
+              { label: "B. Ctrl + I", correct: true, explain: "Tepat! Ctrl + I = Italic. 'I' singkatan dari Italic!" },
+              { label: "C. Ctrl + N", correct: false, explain: "Ctrl+N untuk membuka dokumen baru (New)." },
+              { label: "D. Ctrl + P", correct: false, explain: "Ctrl+P untuk mencetak dokumen (Print)." }
+            ]
+          },
+          // --- JENIS FONT ---
+          {
+            q: "🖋️ Font 'Times New Roman' termasuk keluarga font apa yang memiliki kaki/kait di ujung huruf?",
+            options: [
+              { label: "A. Sans-Serif", correct: false, explain: "Sans-Serif tidak memiliki kait (contoh: Arial, Calibri, Segoe UI)." },
+              { label: "B. Serif", correct: true, explain: "Benar! Font Serif punya 'kaki' kecil. Times New Roman sangat cocok untuk dokumen resmi!" },
+              { label: "C. Monospace", correct: false, explain: "Monospace semua hurufnya sama lebar, seperti di mesin tik (contoh: Courier New)." },
+              { label: "D. Display", correct: false, explain: "Font Display/Dekoratif hanya untuk desain artistik, bukan dokumen resmi." }
+            ]
+          },
+          {
+            q: "🖋️ Font Calibri dan Arial termasuk kategori font apa yang tidak memiliki kait di ujung huruf?",
+            options: [
+              { label: "A. Serif", correct: false, explain: "Serif justru punya kait/kaki. Contoh: Times New Roman, Garamond." },
+              { label: "B. Monospace", correct: false, explain: "Monospace berjarak tetap antar huruf (contoh: Courier New, Consolas)." },
+              { label: "C. Sans-Serif", correct: true, explain: "Tepat! 'Sans' artinya tanpa. Sans-Serif = tanpa kait. Lebih mudah dibaca di layar!" },
+              { label: "D. Script", correct: false, explain: "Font Script meniru tulisan tangan (contoh: Brush Script)." }
+            ]
+          },
+          {
+            q: "🖋️ Menurut standar surat resmi kenegaraan Indonesia, font yang BENAR digunakan adalah...",
+            options: [
+              { label: "A. Comic Sans MS", correct: false, explain: "Comic Sans adalah font santai/kasual. TIDAK boleh untuk surat resmi!" },
+              { label: "B. Papyrus", correct: false, explain: "Papyrus adalah font dekoratif/tematis. Tidak cocok untuk dokumen resmi." },
+              { label: "C. Times New Roman", correct: true, explain: "Benar! Times New Roman (Serif) adalah standar surat resmi. Berkesan formal dan profesional!" },
+              { label: "D. Impact", correct: false, explain: "Impact adalah font tebal untuk judul besar. Tidak sesuai untuk isi surat resmi." }
+            ]
+          },
+          // --- UKURAN FONT ---
+          {
+            q: "📏 Ukuran font standar untuk teks ISI PARAGRAF pada dokumen kerja atau skripsi adalah...",
+            options: [
+              { label: "A. 8 pt", correct: false, explain: "8pt terlalu kecil, biasanya untuk catatan kaki yang sangat kecil." },
+              { label: "B. 12 pt", correct: true, explain: "Benar! 12pt adalah ukuran standar isi paragraf dokumen formal. Nyaman dibaca!" },
+              { label: "C. 24 pt", correct: false, explain: "24pt terlalu besar untuk isi paragraf. Ukuran itu untuk judul halaman!" },
+              { label: "D. 36 pt", correct: false, explain: "36pt sangat besar. Biasanya hanya untuk sampul atau banner besar." }
+            ]
+          },
+          {
+            q: "📏 Ukuran font yang paling tepat untuk JUDUL UTAMA di halaman cover dokumen adalah...",
+            options: [
+              { label: "A. 11 pt", correct: false, explain: "11pt terlalu kecil untuk judul utama. Itu ukuran standar untuk catatan kaki." },
+              { label: "B. 14 pt", correct: false, explain: "14pt lebih cocok untuk Subjudul (Heading 2), bukan judul utama halaman cover." },
+              { label: "C. 20-28 pt", correct: true, explain: "Benar! Judul utama (Title/Heading 1) biasanya 20-28pt agar menonjol dan mudah dibaca." },
+              { label: "D. 6 pt", correct: false, explain: "6pt sangat kecil dan hampir tidak bisa dibaca mata normal." }
+            ]
+          },
+          // --- FUNGSI WORD UMUM ---
+          {
+            q: "💾 Shortcut keyboard untuk MENYIMPAN dokumen Word yang sedang dikerjakan adalah...",
+            options: [
+              { label: "A. Ctrl + P", correct: false, explain: "Ctrl+P untuk Print (mencetak dokumen)." },
+              { label: "B. Ctrl + S", correct: true, explain: "Tepat! Ctrl + S = Save. Kebiasaan menyimpan sering akan mencegah kehilangan data!" },
+              { label: "C. Ctrl + W", correct: false, explain: "Ctrl+W untuk menutup dokumen yang aktif." },
+              { label: "D. Ctrl + Z", correct: false, explain: "Ctrl+Z untuk Undo (membatalkan aksi terakhir)." }
+            ]
+          },
+          {
+            q: "↩️ Shortcut keyboard untuk MEMBATALKAN aksi terakhir (Undo) di Word adalah...",
+            options: [
+              { label: "A. Ctrl + Y", correct: false, explain: "Ctrl+Y adalah Redo (mengulang kembali aksi yang sudah di-Undo)." },
+              { label: "B. Ctrl + X", correct: false, explain: "Ctrl+X adalah Cut (memotong teks atau objek terpilih)." },
+              { label: "C. Ctrl + Z", correct: true, explain: "Benar! Ctrl + Z = Undo. Bisa ditekan berkali-kali untuk membatalkan beberapa langkah!" },
+              { label: "D. Ctrl + C", correct: false, explain: "Ctrl+C adalah Copy (menyalin teks atau objek)." }
+            ]
+          },
+          {
+            q: "🔤 Apa fungsi tombol kombinasi Ctrl + A di Microsoft Word?",
+            options: [
+              { label: "A. Menebalkan semua teks", correct: false, explain: "Untuk tebal, gunakan Ctrl+B setelah semua teks dipilih." },
+              { label: "B. Membuka file baru", correct: false, explain: "Ctrl+N untuk membuka dokumen baru, bukan Ctrl+A." },
+              { label: "C. Memilih semua teks dalam dokumen (Select All)", correct: true, explain: "Tepat! Ctrl + A = Select All. Sangat berguna untuk format seluruh dokumen sekaligus!" },
+              { label: "D. Menambah halaman baru", correct: false, explain: "Untuk menambah halaman, gunakan Ctrl+Enter (Page Break)." }
+            ]
+          },
+          {
+            q: "📋 Kombinasi shortcut untuk MENYALIN lalu MENEMPELKAN teks di Word adalah...",
+            options: [
+              { label: "A. Ctrl+X lalu Ctrl+V", correct: false, explain: "Ctrl+X adalah Cut (memotong, bukan menyalin). Itu kombinasi untuk Memindahkan teks." },
+              { label: "B. Ctrl+C lalu Ctrl+V", correct: true, explain: "Benar! Ctrl+C = Copy (salin), Ctrl+V = Paste (tempel). Teks asli tetap ada!" },
+              { label: "C. Ctrl+B lalu Ctrl+P", correct: false, explain: "Ctrl+B = Bold, Ctrl+P = Print. Bukan untuk copy-paste." },
+              { label: "D. Ctrl+S lalu Ctrl+Z", correct: false, explain: "Ctrl+S = Save, Ctrl+Z = Undo. Bukan kombinasi salin-tempel." }
+            ]
+          }
+        ];
+
+        this.initButtons();
+        this.initWordEditorUI();
+      }
+      initWordEditorUI() {
+        const canvas = document.getElementById('interactive-doc-canvas');
+        if (!canvas) return;
+
+        // Render words inside editor document sheet
+        this.renderEditorDoc();
+
+        const btnBold = document.getElementById('editor-btn-bold');
+        const btnItalic = document.getElementById('editor-btn-italic');
+        const btnUnderline = document.getElementById('editor-btn-underline');
+        const selectFont = document.getElementById('editor-font-family');
+        const selectSize = document.getElementById('editor-font-size');
+        const btnReset = document.getElementById('editor-btn-reset');
+        const btnSubmit = document.getElementById('btn-submit-formatting');
+
+        if (btnBold) {
+          btnBold.addEventListener('click', () => {
+            if (!this.activeEditorWord) {
+              this.showToast('Pilih salah satu kata dalam dokumen terlebih dahulu!');
+              return;
+            }
+            this.activeEditorWord.bold = !this.activeEditorWord.bold;
+            audio.playBold();
+            this.renderEditorDoc();
+          });
+        }
+
+        if (btnItalic) {
+          btnItalic.addEventListener('click', () => {
+            if (!this.activeEditorWord) {
+              this.showToast('Pilih salah satu kata dalam dokumen terlebih dahulu!');
+              return;
+            }
+            this.activeEditorWord.italic = !this.activeEditorWord.italic;
+            audio.playDash();
+            this.renderEditorDoc();
+          });
+        }
+
+        if (btnUnderline) {
+          btnUnderline.addEventListener('click', () => {
+            if (!this.activeEditorWord) {
+              this.showToast('Pilih salah satu kata dalam dokumen terlebih dahulu!');
+              return;
+            }
+            this.activeEditorWord.underline = !this.activeEditorWord.underline;
+            audio.playShield();
+            this.renderEditorDoc();
+          });
+        }
+
+        if (selectFont) {
+          selectFont.addEventListener('change', (e) => {
+            if (!this.activeEditorWord) return;
+            this.activeEditorWord.font = e.target.value;
+            audio.playCoin();
+            this.renderEditorDoc();
+          });
+        }
+
+        if (selectSize) {
+          selectSize.addEventListener('change', (e) => {
+            if (!this.activeEditorWord) return;
+            this.activeEditorWord.size = e.target.value;
+            audio.playShroom();
+            this.renderEditorDoc();
+          });
+        }
+
+        if (btnReset) {
+          btnReset.addEventListener('click', () => {
+            this.challengeWords.forEach(w => {
+              w.font = 'Calibri';
+              w.size = '12pt';
+              w.bold = false;
+              w.italic = false;
+              w.underline = false;
+            });
+            this.activeEditorWord = null;
+            audio.playHit();
+            this.renderEditorDoc();
+            document.getElementById('challenge-status-text').textContent = 'Format dokumen direset!';
+          });
+        }
+
+        if (btnSubmit) {
+          btnSubmit.addEventListener('click', () => {
+            this.validateWordChallenge();
+          });
+        }
+      }
+      renderEditorDoc() {
+        const canvas = document.getElementById('interactive-doc-canvas');
+        if (!canvas) return;
+        canvas.innerHTML = '';
+
+        const titleDiv = document.createElement('div');
+        titleDiv.style.fontWeight = 'bold';
+        titleDiv.style.marginBottom = '12px';
+        titleDiv.style.borderBottom = '1px solid #cbd5e1';
+        titleDiv.style.paddingBottom = '6px';
+        titleDiv.style.fontSize = '14px';
+        titleDiv.style.color = '#1e3a8a';
+        titleDiv.textContent = 'DOKUMEN TITAH KERAJAAN TIPOGRAFI';
+        canvas.appendChild(titleDiv);
+
+        const p = document.createElement('p');
+        p.style.lineHeight = '2.2';
+        p.style.fontSize = '14px';
+        p.style.margin = '0';
+
+        this.challengeWords.forEach((wordObj) => {
+          const span = document.createElement('span');
+          span.textContent = wordObj.text + ' ';
+          span.className = 'editable-span' + (this.activeEditorWord === wordObj ? ' active-select' : '');
+          
+          span.style.fontFamily = wordObj.font;
+          span.style.fontWeight = wordObj.bold ? 'bold' : 'normal';
+          span.style.fontStyle = wordObj.italic ? 'italic' : 'normal';
+          span.style.textDecoration = wordObj.underline ? 'underline' : 'none';
+
+          span.addEventListener('click', () => {
+            this.activeEditorWord = wordObj;
+            document.getElementById('challenge-status-text').innerHTML = `Kata terpilih: <strong>"${wordObj.text}"</strong> (Font: ${wordObj.font})`;
+            
+            const sf = document.getElementById('editor-font-family');
+            if (sf) sf.value = wordObj.font;
+            const ss = document.getElementById('editor-font-size');
+            if (ss) ss.value = wordObj.size;
+
+            this.renderEditorDoc();
+          });
+
+          p.appendChild(span);
+        });
+
+        canvas.appendChild(p);
+      }
+      validateWordChallenge() {
+        if (this.challengeCompleted) {
+          this.showToast('✅ Tantangan sudah selesai! Gerbang sudah terbuka.');
+          return;
+        }
+        const wPintu = this.challengeWords.find(w => w.id === 'w_pintu');
+        const wKunci = this.challengeWords.find(w => w.id === 'w_kunci');
+        const wResmi = this.challengeWords.find(w => w.id === 'w_resmi');
+        const wKerajaan = this.challengeWords.find(w => w.id === 'w_pembuka');
+
+        const checks = [
+          { ok: wPintu && wPintu.bold, hint: '❌ Klik kata <strong>"PINTU"</strong>, lalu tekan tombol <strong>B (Bold)</strong>' },
+          { ok: wKunci && wKunci.italic, hint: '❌ Klik kata <strong>"KUNCI"</strong>, lalu tekan tombol <em>I (Italic)</em>' },
+          { ok: wResmi && wResmi.underline, hint: '❌ Klik kata <strong>"RESMI"</strong>, lalu tekan tombol <u>U (Underline)</u>' },
+          { ok: wKerajaan && wKerajaan.font.includes('Times New Roman'), hint: '❌ Klik kata <strong>"KERAJAAN"</strong>, lalu pilih <strong>Times New Roman</strong> dari dropdown Font' }
+        ];
+
+        const done = checks.filter(c => c.ok).length;
+        const total = checks.length;
+        const statusEl = document.getElementById('challenge-status-text');
+
+        if (done === total) {
+          this.challengeCompleted = true;
+          audio.playQuestComplete();
+          statusEl.innerHTML = `🎉 <strong style="color: #10b981;">SEMPURNA! ${total}/${total} format selesai — Gerbang Kuno Terbuka!</strong>`;
+          this.showToast('✅ TANTANGAN FORMAT WORD SELESAI! Gerbang Kuno Terbuka!');
+          this.game.questManager.updateProgress('complete_challenge', 'word_editor_puzzle', 1);
+          this.game.world.serifGateOpen = true;
+          const submitBtn = document.getElementById('btn-submit-formatting');
+          if (submitBtn) { submitBtn.textContent = '✅ SELESAI!'; submitBtn.disabled = true; }
+          setTimeout(() => {
+            document.getElementById('word-challenge-modal').style.display = 'none';
+          }, 1600);
+        } else {
+          audio.playHit();
+          const firstFail = checks.find(c => !c.ok);
+          statusEl.innerHTML = `📋 Progress: ${done}/${total} selesai — ${firstFail.hint}`;
+          this.showToast(`Format Belum Tepat (${done}/${total})`);
+        }
+      }
+      triggerBossQuiz(boss) {
+        this.activeQuizBoss = boss;
+        const overlay = document.getElementById('boss-quiz-overlay');
+        const qText = document.getElementById('boss-quiz-question');
+        const box = document.getElementById('boss-quiz-box');
+        const feedback = document.getElementById('boss-quiz-feedback');
+
+        if (!overlay || !box) return;
+
+        // Pick random question — hindari soal yang sudah dipakai di ronde ini
+        if (this.usedQuizIndices.length >= this.bossQuizQuestions.length) {
+          this.usedQuizIndices = []; // reset kalau semua soal sudah terpakai
+        }
+        let idx;
+        do {
+          idx = Math.floor(Math.random() * this.bossQuizQuestions.length);
+        } while (this.usedQuizIndices.includes(idx));
+        this.usedQuizIndices.push(idx);
+        const qObj = this.bossQuizQuestions[idx];
+
+        // Acak urutan opsi jawaban
+        const shuffledOptions = [...qObj.options].sort(() => Math.random() - 0.5);
+        const letters = ['A', 'B', 'C', 'D'];
+
+        qText.textContent = qObj.q;
+        box.innerHTML = '';
+        feedback.textContent = '';
+        feedback.innerHTML = '';
+
+        let answered = false;
+        let countdownTimer = null;
+
+        // Tambah indikator soal ke-berapa
+        const quizNum = document.getElementById('boss-quiz-num');
+        if (quizNum) quizNum.textContent = `Soal ${this.usedQuizIndices.length} / ${this.bossQuizQuestions.length}`;
+
+        shuffledOptions.forEach((opt, i) => {
+          const btn = document.createElement('button');
+          btn.className = 'boss-quiz-btn';
+          btn.innerHTML = `<span style="background:#e2e8f0;border-radius:6px;padding:1px 7px;font-family:monospace;font-size:12px;margin-right:6px;">${letters[i]}</span>${opt.label.replace(/^[A-D]\. /, '')}`;
+          btn.addEventListener('click', () => {
+            if (answered) return; // cegah klik ganda
+            answered = true;
+            clearTimeout(countdownTimer);
+            // Kunci semua tombol
+            box.querySelectorAll('.boss-quiz-btn').forEach(b => { b.style.pointerEvents = 'none'; b.style.opacity = '0.7'; });
+            if (opt.correct) {
+              btn.classList.add('correct');
+              btn.style.opacity = '1';
+              feedback.style.color = '#15803d';
+              feedback.innerHTML = `✅ <strong>BENAR!</strong> ${opt.explain}`;
+              audio.playQuestComplete();
+              setTimeout(() => {
+                overlay.style.display = 'none';
+                if (this.activeQuizBoss) {
+                  this.activeQuizBoss.breakShield(this.game);
+                }
+              }, 1200);
+            } else {
+              btn.classList.add('wrong');
+              btn.style.opacity = '1';
+              // Tampilkan jawaban yang benar
+              box.querySelectorAll('.boss-quiz-btn').forEach((b, bi) => {
+                if (shuffledOptions[bi].correct) {
+                  b.classList.add('correct');
+                  b.style.opacity = '1';
+                }
+              });
+              feedback.style.color = '#b91c1c';
+              feedback.innerHTML = `❌ <strong>Salah!</strong> ${opt.explain}`;
+              audio.playHit();
+              this.game.createScreenShake(6);
+              // Damage pemain karena salah jawab
+              this.game.player.takeDamage(12);
+              // Beri kesempatan baca jawaban benar, lalu tutup overlay (bos tetap kebal)
+              setTimeout(() => {
+                overlay.style.display = 'none';
+                // Bos tetap kebal, tapi coba lagi setelah beberapa detik
+                setTimeout(() => {
+                  if (this.activeQuizBoss && this.activeQuizBoss.isShielded && !this.activeQuizBoss.isDead) {
+                    this.triggerBossQuiz(this.activeQuizBoss);
+                  }
+                }, 4000);
+              }, 2200);
+            }
+          });
+          box.appendChild(btn);
+        });
+
+        overlay.style.display = 'flex';
+      }
+      openWordChallengeModal() {
+        const m = document.getElementById('word-challenge-modal');
+        if (m) m.style.display = 'flex';
+      }
+      initButtons() {
+        const btnChallenge = document.getElementById('btn-challenge');
+        if (btnChallenge) {
+          btnChallenge.addEventListener('click', () => {
+            this.openWordChallengeModal();
+          });
+        }
+        document.getElementById('btn-inventory').addEventListener('click', () => {
+          document.getElementById('inventory-modal').style.display = 'flex';
+        });
+        document.getElementById('btn-document').addEventListener('click', () => {
+          document.getElementById('document-modal').style.display = 'flex';
+        });
+        document.getElementById('btn-font-guide').addEventListener('click', () => {
+          document.getElementById('font-guide-modal').style.display = 'flex';
+        });
+        document.getElementById('btn-save').addEventListener('click', () => {
+          this.game.saveGame();
+        });
+        document.getElementById('btn-audio').addEventListener('click', () => {
+          const isMuted = this.game.audio.toggleMute();
+          document.getElementById('btn-audio').textContent = isMuted ? '🔇' : '🔊';
+          this.showToast(isMuted ? 'Audio Dimatikan' : 'Audio Dinyalakan');
+        });
+        document.getElementById('dialog-next-btn').addEventListener('click', () => {
+          this.dialogBox.style.display = 'none';
+        });
+        document.querySelectorAll('.modal-close-btn').forEach(b => {
+          b.addEventListener('click', e => e.target.closest('.modal-overlay').style.display = 'none');
+        });
+
+        // Skill triggers
+        document.getElementById('skill-slot-bold').addEventListener('click', () => this.game.player.useSkill('bold_blast'));
+        document.getElementById('skill-slot-italic').addEventListener('click', () => this.game.player.useSkill('italic_dash'));
+        document.getElementById('skill-slot-underline').addEventListener('click', () => this.game.player.useSkill('underline_shield'));
+      }
+      updateStatsUI(p) {
+        if (this.hpFill) this.hpFill.style.width = `${(p.hp / p.maxHp) * 100}%`;
+        if (this.hpText) this.hpText.textContent = `${Math.ceil(p.hp)}/${p.maxHp}`;
+        if (this.xpFill) this.xpFill.style.width = `${(p.xp / p.maxXp) * 100}%`;
+        if (this.xpText) this.xpText.textContent = `${p.xp}/${p.maxXp}`;
+        if (this.levelBadge) this.levelBadge.textContent = `LV ${p.level}`;
+      }
+      updateCoinsUI(c) { if (this.coinsText) this.coinsText.textContent = c; }
+      updateQuestUI(q) {
+        if (!q) {
+          this.questName.textContent = 'Seluruh Misi Hutan Selesai!';
+          this.questDesc.textContent = 'Kamu telah menguasai seluruh rahasia Tipografi dan Format Font!';
+          this.questProgress.textContent = '100%';
+          return;
+        }
+        this.questName.textContent = q.title;
+        this.questDesc.textContent = q.desc;
+        this.questProgress.textContent = `${q.current}/${q.required}`;
+      }
+      showToast(msg) {
+        this.toast.textContent = msg; this.toast.classList.add('show');
+        clearTimeout(this.toastTimeout);
+        this.toastTimeout = setTimeout(() => this.toast.classList.remove('show'), 2800);
+      }
+      showDialog(name, text) {
+        this.dialogSpeaker.textContent = name;
+        this.dialogText.textContent = text;
+        this.dialogBox.style.display = 'block';
+      }
+      showQuestCompleteModal(q, unlock) {
+        document.getElementById('quest-modal-title').textContent = q.title;
+        document.getElementById('quest-modal-unlock').textContent = unlock;
+        const xpEl = document.getElementById('quest-modal-xp');
+        const coinsEl = document.getElementById('quest-modal-coins');
+        if (xpEl) xpEl.textContent = `+${q.rewardXp} XP`;
+        if (coinsEl) coinsEl.textContent = `+${q.rewardCoins} Koin`;
+        const m = document.getElementById('quest-complete-modal');
+        m.style.display = 'flex';
+        setTimeout(() => m.style.display = 'none', 4200);
+      }
+      showBossBar() {
+        if (this.bossBar) this.bossBar.style.display = 'flex';
+      }
+      updateBossBar(hp, maxHp) {
+        if (!this.bossBar || !this.bossFill) return;
+        const pct = Math.max(0, Math.min(100, (hp / maxHp) * 100));
+        this.bossFill.style.width = `${pct}%`;
+      }
+      hideBossBar() {
+        if (this.bossBar) this.bossBar.style.display = 'none';
+      }
+    }
+
+    // --- 9. GAME ENGINE (Dunia 2) ---
+    class Game2 {
+      constructor() {
+        this.canvas = document.getElementById('game-canvas');
+        this.ctx = this.canvas.getContext('2d');
+        this.canvas.width = 1280; this.canvas.height = 720;
+        this.audio = audio;
+        this.storage = StorageSystem;
+        this.inventory = new Inventory();
+        this.player = new Player(this);
+        this.world = new World2(this);
+        this.questManager = new QuestManager(this);
+        this.ui = new UIManager2(this);
+        this.camera = { x: 0, y: 0 };
+        this.screenShake = 0;
+        this.input = { left: false, right: false, jump: false, jumpPressed: false };
+        this.lastTime = 0;
+
+        this.initInputs();
+        this.loadSavedState();
+        this.questManager.startQuest('w2_q1');
+        this.audio.startBGM();
+        this.lastTime = performance.now();
+        requestAnimationFrame(this.gameLoop.bind(this));
+      }
+      initInputs() {
+        window.addEventListener('keydown', (e) => {
+          if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') { e.preventDefault(); this.saveGame(); return; }
+          const k = e.key.toLowerCase();
+          if (k === 'escape') {
+            document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
+            if (this.ui && this.ui.dialogBox) this.ui.dialogBox.style.display = 'none';
+            return;
+          }
+          if (this.isUserInChallengeOrModal && this.isUserInChallengeOrModal()) {
+            this.input.left = false; this.input.right = false; this.input.jump = false; this.input.jumpPressed = false;
+            return;
+          }
+          if (k === 'a' || k === 'arrowleft') this.input.left = true;
+          if (k === 'd' || k === 'arrowright') this.input.right = true;
+          if (k === 'w' || k === ' ' || k === 'arrowup') {
+            if (!this.input.jump) this.input.jumpPressed = true;
+            this.input.jump = true;
+          }
+          if (k === 'j') this.player.attack();
+          if (k === 'e') this.handleInteraction();
+          if (k === '1') this.player.useSkill('bold_blast');
+          if (k === '2') this.player.useSkill('italic_dash');
+          if (k === '3') this.player.useSkill('underline_shield');
+        });
+        window.addEventListener('keyup', (e) => {
+          const k = e.key.toLowerCase();
+          if (k === 'a' || k === 'arrowleft') this.input.left = false;
+          if (k === 'd' || k === 'arrowright') this.input.right = false;
+          if (k === 'w' || k === ' ' || k === 'arrowup') { this.input.jump = false; this.input.jumpPressed = false; }
+        });
+      }
+      loadSavedState() {
+        const d = this.storage.getSave();
+        if (d) {
+          this.player.load(d.player);
+          this.inventory.load(d.inventory || []);
+        }
+        this.ui.updateStatsUI(this.player);
+        this.ui.updateCoinsUI(this.player.coins);
+      }
+      saveGame() {
+        const gameData = {
+          player: {
+            level: this.player.level, xp: this.player.xp, maxXp: this.player.maxXp,
+            hp: this.player.hp, maxHp: this.player.maxHp, coins: this.player.coins,
+            unlockedSkills: this.player.unlockedSkills
+          },
+          inventory: this.inventory.getAll()
+        };
+        this.storage.saveGame(gameData);
+        this.audio.playSave();
+        this.ui.showToast('💾 Progress Game Tersimpan (Ctrl+S)!');
+      }
+      handleInteraction() {
+        let interacted = false;
+        this.world.npcs.forEach(n => {
+          const dist = Math.hypot((n.x + 24) - (this.player.x + 18), (n.y + 32) - (this.player.y + 26));
+          if (dist < 85) {
+            interacted = true;
+            this.ui.showDialog(n.name, n.dialog);
+            if (n.isChallengeGiver) {
+              setTimeout(() => {
+                this.ui.openWordChallengeModal();
+              }, 1200);
+            }
+          }
+        });
+
+        // Also check if player is standing near the Serif Gate (x: 1400)
+        if (!interacted && Math.abs(this.player.x - 1400) < 100) {
+          this.ui.openWordChallengeModal();
+          this.ui.showToast('📜 Membuka Segel Dokumen Gerbang Kuno...');
+        }
+      }
+      createScreenShake(amt) { this.screenShake = amt; }
+      isUserInChallengeOrModal() {
+        const quizOverlay = document.getElementById('boss-quiz-overlay');
+        if (quizOverlay && quizOverlay.style.display === 'flex') return true;
+        const challengeModal = document.getElementById('word-challenge-modal');
+        if (challengeModal && challengeModal.style.display === 'flex') return true;
+        if (this.ui && this.ui.dialogBox && this.ui.dialogBox.style.display === 'block') return true;
+        const anyModal = Array.from(document.querySelectorAll('.modal-overlay')).some(m => m.style.display === 'flex');
+        return anyModal;
+      }
+      onWorldComplete() {
+        audio.playLevelUp();
+        document.getElementById('victory-modal').style.display = 'flex';
+      }
+      gameLoop(curTime) {
+        const dt = Math.min((curTime - this.lastTime) / 1000, 0.05);
+        this.lastTime = curTime;
+        if (this.screenShake > 0) this.screenShake = Math.max(0, this.screenShake - dt * 14);
+
+        this.player.update(dt, this.input, this.world);
+        this.world.update(dt, this.player, this);
+
+        // Camera
+        const targetX = this.player.x - this.canvas.width / 2;
+        this.camera.x += (targetX - this.camera.x) * 0.09;
+        this.camera.x = Math.max(0, Math.min(this.world.width - this.canvas.width, this.camera.x));
+
+        // Draw
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.save();
+        if (this.screenShake > 0) this.ctx.translate((Math.random() - 0.5) * this.screenShake, (Math.random() - 0.5) * this.screenShake);
+        this.world.draw(this.ctx, this.camera);
+        this.player.draw(this.ctx, this.camera);
+        this.ctx.restore();
+
+        this.input.jumpPressed = false;
+        requestAnimationFrame(this.gameLoop.bind(this));
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      window.game = new Game2();
+    });
+  </script>
+</body>
+</html>

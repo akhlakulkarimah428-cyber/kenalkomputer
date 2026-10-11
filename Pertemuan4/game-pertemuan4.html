@@ -1,0 +1,2960 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Word Shop — Game Simulasi Toko Jasa Microsoft Word</title>
+  <meta name="description" content="Game simulasi toko jasa dokumen Word interaktif. Bantu pelanggan menyelesaikan pesanan dokumen mereka!" />
+  <meta property="og:title" content="Word Shop — Game Simulasi Toko Jasa Microsoft Word" />
+  <meta property="og:description" content="Game simulasi toko jasa dokumen Word interaktif untuk siswa SMP kelas 7." />
+  <meta property="og:type" content="website" />
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       1. GAME VARIABLES & PALETTE
+       ========================================================================== */
+    :root {
+      --dark: #0D0D14;
+      --dark-card: #181824;
+      --purple: #6D28D9;
+      --purple-hover: #5B21B6;
+      --purple-glow: rgba(109, 40, 217, 0.4);
+      --violet: #8B5CF6;
+      --yellow: #FDE047;
+      --yellow-dark: #CA8A04;
+      --green: #10B981;
+      --green-dark: #059669;
+      --red: #EF4444;
+      --offwhite: #F7F7FA;
+      --desk-wood: #D97706;
+      --desk-dark: #92400E;
+      --font-main: 'Plus Jakarta Sans', system-ui, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background: #09090E;
+      color: #FFFFFF;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Game Window Wrapper (Landscape Desktop-First, 16:10 ratio feel) */
+    #game-container {
+      width: 100%;
+      max-width: 1140px;
+      height: 94vh;
+      max-height: 780px;
+      background: #11111B;
+      border-radius: 20px;
+      border: 3px solid #232338;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(109, 40, 217, 0.15);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Screen Management */
+    .game-screen {
+      position: absolute;
+      inset: 0;
+      display: none;
+      flex-direction: column;
+      z-index: 10;
+    }
+    .game-screen.active {
+      display: flex;
+    }
+
+    /* ==========================================================================
+       2. TOP STATUS BAR (Game Header)
+       ========================================================================== */
+    .game-header {
+      height: 54px;
+      background: linear-gradient(180deg, #1C1C2C 0%, #12121E 100%);
+      border-bottom: 2px solid #28283E;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 30;
+      flex-shrink: 0;
+    }
+    .brand-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.15rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+    .brand-tag {
+      background: var(--purple);
+      color: #FFF;
+      font-size: 0.68rem;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      box-shadow: 0 0 10px var(--purple-glow);
+    }
+    .session-badge {
+      background: #222234;
+      border: 1px solid #363652;
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--yellow);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .stats-cluster {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .stat-pill {
+      background: #181826;
+      border: 1px solid #2C2C44;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #FFF;
+    }
+    .stat-pill.stars { color: var(--yellow); }
+    .stat-pill.xp { color: var(--green); }
+    .header-btn {
+      background: #232336;
+      border: 1px solid #363650;
+      color: #FFF;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: all 0.15s;
+    }
+    .header-btn:hover { background: #32324C; transform: scale(1.05); }
+
+    /* ==========================================================================
+       3. SHOP INTERIOR & CUSTOMER AREA (Top 38%)
+       ========================================================================== */
+    .shop-area {
+      height: 38%;
+      position: relative;
+      background: linear-gradient(180deg, #24223A 0%, #1A182C 75%, #151324 100%);
+      overflow: hidden;
+      border-bottom: 5px solid #0D0C17;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    /* Shop Decor (Shelves, posters, plants in background) */
+    .shop-background-decor {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .shelf {
+      position: absolute;
+      top: 18px;
+      left: 30px;
+      width: 170px;
+      height: 8px;
+      background: #473B28;
+      border-radius: 4px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.5);
+    }
+    .shelf-item {
+      position: absolute;
+      bottom: 8px;
+      border-radius: 3px;
+    }
+    .shelf-doc1 { left: 15px; width: 18px; height: 32px; background: #6366F1; }
+    .shelf-doc2 { left: 37px; width: 22px; height: 26px; background: #EC4899; }
+    .shelf-printer {
+      position: absolute;
+      top: 24px;
+      right: 40px;
+      width: 110px;
+      height: 48px;
+      background: #2E2E44;
+      border: 2px solid #434360;
+      border-radius: 8px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      font-weight: 800;
+      color: #94A3B8;
+      letter-spacing: 0.05em;
+    }
+    .printer-paper {
+      position: absolute;
+      top: -12px;
+      width: 50px;
+      height: 18px;
+      background: #FFF;
+      border-radius: 2px;
+    }
+    .shop-poster {
+      position: absolute;
+      top: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,0.06);
+      border: 1px dashed rgba(255,255,255,0.2);
+      border-radius: 6px;
+      padding: 4px 16px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: #A5B4FC;
+      letter-spacing: 0.05em;
+    }
+
+    /* Wooden Counter top boundary */
+    .shop-counter {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 22px;
+      background: linear-gradient(180deg, #A16207 0%, #78350F 100%);
+      border-top: 3px solid #CA8A04;
+      box-shadow: 0 -4px 10px rgba(0,0,0,0.4);
+      z-index: 10;
+    }
+
+    /* Customer Stage / Characters */
+    .customer-stage {
+      position: relative;
+      z-index: 5;
+      height: 100%;
+      display: flex;
+      align-items: flex-end;
+      padding: 0 40px 18px;
+      justify-content: space-between;
+    }
+
+    /* Active Customer (Center Stage) */
+    .active-customer-spot {
+      position: absolute;
+      left: 48%;
+      transform: translateX(-50%);
+      bottom: 12px;
+      display: flex;
+      align-items: flex-end;
+      gap: 20px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .active-customer-spot.slide-in {
+      animation: customerEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes customerEnter {
+      0% { transform: translate(-100%, 20px); opacity: 0; }
+      100% { transform: translate(-50%, 0); opacity: 1; }
+    }
+
+    /* Customer Character Graphic */
+    .customer-avatar-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    .customer-char {
+      width: 82px;
+      height: 98px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.2s ease;
+    }
+    .customer-head {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: #FBBF24;
+      border: 3px solid #1E1B4B;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+    .customer-body {
+      width: 68px;
+      height: 44px;
+      border-radius: 18px 18px 4px 4px;
+      background: var(--purple);
+      border: 3px solid #1E1B4B;
+      margin-top: -6px;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .customer-name-tag {
+      margin-top: 6px;
+      background: #0F0E17;
+      border: 1px solid #33334A;
+      color: #F8FAFC;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 2px 10px;
+      border-radius: 10px;
+      white-space: nowrap;
+    }
+
+    /* ORDER BUBBLE / CARD (Floating above & beside customer) */
+    .order-ticket {
+      width: 320px;
+      background: #FFFFFF;
+      color: #0D0D14;
+      border-radius: 16px;
+      border: 3px solid #0D0D14;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
+      padding: 12px 16px;
+      position: relative;
+      animation: ticketPop 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      margin-bottom: 14px;
+    }
+    @keyframes ticketPop {
+      0% { transform: scale(0.85); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .order-ticket::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 28px;
+      width: 16px;
+      height: 16px;
+      background: #FFF;
+      border-right: 3px solid #0D0D14;
+      border-bottom: 3px solid #0D0D14;
+      transform: rotate(45deg);
+    }
+    .ticket-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      border-bottom: 1.5px dashed #E2E8F0;
+      padding-bottom: 4px;
+    }
+    .ticket-order-num {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--purple);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .ticket-reward {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--yellow-dark);
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .ticket-request-text {
+      font-size: 0.88rem;
+      font-weight: 700;
+      line-height: 1.35;
+      color: #111827;
+      margin-bottom: 8px;
+    }
+    .ticket-requirements-list {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #4B5563;
+    }
+    .req-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .req-item.done {
+      color: var(--green-dark);
+      font-weight: 800;
+    }
+
+    /* Customer Queue (Waiting Line on Left) */
+    .waiting-queue {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      position: absolute;
+      left: 24px;
+      bottom: 24px;
+      z-index: 5;
+    }
+    .queue-title {
+      font-size: 0.65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #94A3B8;
+    }
+    .queue-avatars {
+      display: flex;
+      gap: 8px;
+    }
+    .queue-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #28283E;
+      border: 2px solid #3E3E5E;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      position: relative;
+      opacity: 0.75;
+      transition: all 0.2s;
+    }
+    .queue-avatar.next {
+      opacity: 1;
+      border-color: var(--purple);
+      box-shadow: 0 0 10px var(--purple-glow);
+    }
+
+    /* Patience / Customer Mood Bar */
+    .patience-container {
+      width: 100%;
+      height: 6px;
+      background: #E5E7EB;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+    .patience-bar {
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(90deg, #10B981, #FDE047);
+      border-radius: 999px;
+      transition: width 0.3s, background 0.3s;
+    }
+
+    /* ==========================================================================
+       4. WORK DESK / DOCUMENT AREA (Middle 38%)
+       ========================================================================== */
+    .desk-area {
+      height: 38%;
+      background: #181726;
+      background-image: 
+        radial-gradient(#26243A 1.5px, transparent 1.5px),
+        linear-gradient(180deg, #161522 0%, #1A192A 100%);
+      background-size: 24px 24px, 100% 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 8px 20px;
+    }
+
+    /* Desk props around document */
+    .desk-ruler {
+      position: absolute;
+      top: 8px;
+      left: 40px;
+      width: 160px;
+      height: 16px;
+      background: #D97706;
+      border-radius: 3px;
+      opacity: 0.35;
+      border: 1px solid #B45309;
+    }
+    .desk-pencil {
+      position: absolute;
+      bottom: 12px;
+      right: 50px;
+      width: 120px;
+      height: 10px;
+      background: #F59E0B;
+      border-radius: 2px;
+      transform: rotate(-8deg);
+      opacity: 0.4;
+    }
+
+    /* THE DOCUMENT SHEET (A4 White simulated Word Sheet) */
+    .word-sheet {
+      width: 500px;
+      height: 94%;
+      background: #FFFFFF;
+      color: #0D0D14;
+      border-radius: 8px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45);
+      border: 2px solid #E2E8F0;
+      padding: 20px 28px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .sheet-clip {
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 44px;
+      height: 16px;
+      background: #94A3B8;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+    }
+    .sheet-watermark {
+      position: absolute;
+      top: 6px;
+      right: 12px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: #CBD5E1;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Interactive Document Elements */
+    .doc-title-block {
+      text-align: center;
+      margin-bottom: 10px;
+      min-height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .doc-title-text {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #1F2937;
+      transition: all 0.2s;
+    }
+    .doc-title-text.bold {
+      font-weight: 900;
+      color: #000000;
+      font-size: 1.3rem;
+    }
+    .doc-title-text.centered {
+      text-align: center;
+    }
+
+    /* Document Body Stage */
+    .doc-content-stage {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      border: 1px dashed transparent;
+      border-radius: 6px;
+    }
+    .doc-content-stage.guide-active {
+      border-color: rgba(109, 40, 217, 0.4);
+      background: rgba(109, 40, 217, 0.02);
+    }
+
+    /* Photo Element inside Document */
+    .doc-photo-frame {
+      display: none;
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 2px solid #000;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      transition: width 0.2s ease, height 0.2s ease;
+      cursor: pointer;
+    }
+    .doc-photo-frame.visible {
+      display: inline-block;
+    }
+    .doc-photo-frame.cropped {
+      border-radius: 8px;
+      box-shadow: 0 6px 16px rgba(109, 40, 217, 0.25);
+    }
+    .doc-photo-frame svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .photo-size-tag {
+      position: absolute;
+      bottom: 4px;
+      right: 4px;
+      background: rgba(0,0,0,0.7);
+      color: #FFF;
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+
+    /* Shape & Text Box Elements inside Document */
+    .doc-textbox {
+      display: none;
+      background: #FFFFFF;
+      border: 2px solid #000;
+      border-radius: 6px;
+      padding: 6px 14px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      text-align: center;
+      margin-top: 8px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      transition: all 0.2s;
+    }
+    .doc-textbox.visible {
+      display: block;
+    }
+
+    .doc-shape {
+      display: none;
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 0.78rem;
+      color: #0D0D14;
+      border: 2px solid #0D0D14;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+      transition: all 0.2s;
+    }
+    .doc-shape.visible {
+      display: flex;
+    }
+    .doc-shape.circle {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+    }
+    .doc-shape.rect {
+      width: 130px;
+      height: 48px;
+      border-radius: 6px;
+    }
+
+    /* Table Element inside Document */
+    .doc-table-wrapper {
+      display: none;
+      width: 100%;
+      margin-top: 6px;
+    }
+    .doc-table-wrapper.visible {
+      display: block;
+    }
+    .doc-sim-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.75rem;
+      background: #FFF;
+    }
+    .doc-sim-table th, .doc-sim-table td {
+      padding: 5px 8px;
+      border: 1px solid #CBD5E1;
+      text-align: left;
+    }
+    .doc-sim-table.bordered th,
+    .doc-sim-table.bordered td {
+      border: 2px solid #0F172A !important;
+    }
+    .doc-sim-table th {
+      background: #F1F5F9;
+      font-weight: 800;
+    }
+    .doc-sim-table.shaded th {
+      background: var(--purple) !important;
+      color: #FFFFFF !important;
+    }
+
+    /* Paragraph filler placeholder */
+    .doc-paragraph-filler {
+      width: 100%;
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .filler-line {
+      height: 6px;
+      background: #E2E8F0;
+      border-radius: 3px;
+    }
+
+    /* Hint Speech Bubble on Desk */
+    .desk-hint-bubble {
+      position: absolute;
+      top: 14px;
+      right: 24px;
+      background: #24223A;
+      border: 1.5px solid #3E3B5C;
+      color: #DDD6FE;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 12px;
+      max-width: 250px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      z-index: 15;
+    }
+
+    /* ==========================================================================
+       5. WORKSTATION DOCK — SIMULATED MICROSOFT WORD RIBBON (Bottom 24%)
+       ========================================================================== */
+    .station-dock {
+      height: 24%;
+      background: #181926;
+      border-top: 2px solid #2B579A;
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      z-index: 20;
+      flex-shrink: 0;
+      box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Word Ribbon Tabs Bar (Header row of the ribbon) */
+    .ribbon-tabs-bar {
+      height: 38px;
+      background: #11121C;
+      border-bottom: 1px solid #282A3E;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      gap: 10px;
+    }
+    .ribbon-word-brand {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-right: 12px;
+    }
+    .word-w-icon {
+      width: 22px;
+      height: 22px;
+      background: #185ABD;
+      color: #FFFFFF;
+      font-weight: 900;
+      font-size: 0.85rem;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 6px rgba(24, 90, 189, 0.5);
+    }
+    .word-brand-label {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: #93C5FD;
+      letter-spacing: 0.04em;
+    }
+    .ribbon-tabs-list {
+      display: flex;
+      gap: 4px;
+      height: 100%;
+      align-items: flex-end;
+    }
+    .ribbon-tab {
+      background: transparent;
+      border: 1px solid transparent;
+      border-bottom: none;
+      border-radius: 8px 8px 0 0;
+      color: #94A3B8;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 6px 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+    .ribbon-tab:hover {
+      color: #FFFFFF;
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .ribbon-tab.active {
+      background: #1E2030;
+      color: #FFFFFF;
+      border-color: #2B579A;
+      border-bottom: 2px solid #3B82F6;
+    }
+
+    /* Ribbon Deck (The actual tool buttons grouped by category) */
+    .ribbon-deck {
+      flex: 1;
+      display: flex;
+      align-items: stretch;
+      padding: 6px 16px;
+      gap: 8px;
+      overflow-x: auto;
+      background: #181926;
+    }
+
+    /* Group Box inside Ribbon */
+    .ribbon-group {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 1px solid #2B2D42;
+      padding: 2px 12px 2px 4px;
+    }
+    .ribbon-group:last-child {
+      border-right: none;
+    }
+    .group-tools-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex: 1;
+    }
+    .group-caption {
+      font-size: 0.62rem;
+      font-weight: 800;
+      color: #64748B;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      text-align: center;
+      margin-top: 2px;
+    }
+
+    /* Authentic MS Word Ribbon Button */
+    .btn-word-tool {
+      background: #232538;
+      border: 1px solid #33364D;
+      border-radius: 8px;
+      color: #F8FAFC;
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      min-width: 58px;
+      height: 52px;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .btn-word-tool:hover:not(:disabled) {
+      background: #2E314A;
+      border-color: #3B82F6;
+      transform: translateY(-1px);
+    }
+    .btn-word-tool:active:not(:disabled) {
+      transform: translateY(1px);
+    }
+    .btn-word-tool.active {
+      background: #1D4ED8;
+      border-color: #60A5FA;
+      color: #FFFFFF;
+      box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
+    }
+    .btn-word-tool:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+      border-color: #232538;
+      background: #141520;
+    }
+    .tool-icon-large {
+      font-size: 1.15rem;
+      line-height: 1;
+    }
+    .tool-label-text {
+      font-size: 0.68rem;
+      font-weight: 700;
+    }
+
+    /* Bold Button specific styling (Like Word's bold B) */
+    .font-bold-icon {
+      font-family: serif;
+      font-weight: 900;
+      font-size: 1.25rem;
+      line-height: 1;
+    }
+
+    /* Big Glowing Complete / Serve Button */
+    .btn-serve-order {
+      background: linear-gradient(180deg, #10B981 0%, #059669 100%);
+      border: 2px solid #34D399;
+      color: #FFFFFF;
+      font-size: 0.85rem;
+      font-weight: 900;
+      padding: 6px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 10px rgba(16, 185, 129, 0.35);
+      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+      white-space: nowrap;
+      margin-left: auto;
+    }
+    .btn-serve-order:hover:not(:disabled) {
+      background: linear-gradient(180deg, #34D399 0%, #059669 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.5);
+    }
+    .btn-serve-order:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      border-color: #374151;
+      background: #1F2937;
+      box-shadow: none;
+    }
+
+    /* ==========================================================================
+       6. OVERLAY SCREENS (Session Map & Results)
+       ========================================================================== */
+    .overlay-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(13, 13, 20, 0.88);
+      backdrop-filter: blur(6px);
+      z-index: 50;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .overlay-backdrop.active {
+      display: flex;
+    }
+    .dialog-box {
+      background: #1A192B;
+      border: 2px solid #312E52;
+      border-radius: 24px;
+      max-width: 580px;
+      width: 100%;
+      padding: 32px 30px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+      text-align: center;
+      animation: modalPop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modalPop {
+      0% { transform: scale(0.9); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* ==========================================================================
+       TITLE / COVER SCREEN & HANDBOOK STYLES
+       ========================================================================== */
+    .title-screen-container {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 30%, #2A244D 0%, #151326 65%, #0B0A14 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px 24px;
+      z-index: 45;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    /* Store Striped Canopy Awning at Top */
+    .store-awning {
+      width: 100%;
+      height: 40px;
+      background: repeating-linear-gradient(
+        90deg,
+        #6D28D9 0px,
+        #6D28D9 36px,
+        #F8FAFC 36px,
+        #F8FAFC 72px
+      );
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      border-bottom: 3px solid #4C1D95;
+    }
+    .awning-scallop {
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      right: 0;
+      height: 10px;
+      background-image: radial-gradient(circle at 10px -5px, transparent 12px, #4C1D95 13px);
+      background-size: 24px 10px;
+      pointer-events: none;
+    }
+
+    /* Floating Ambient Elements */
+    .floating-badge {
+      position: absolute;
+      font-size: 1.6rem;
+      opacity: 0.25;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+      animation: floatBadge 4s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+    @keyframes floatBadge {
+      0% { transform: translateY(0) rotate(0deg); }
+      100% { transform: translateY(-16px) rotate(8deg); }
+    }
+    .badge-pos-1 { top: 70px; left: 8%; animation-delay: 0s; font-size: 2.2rem; }
+    .badge-pos-2 { top: 90px; right: 10%; animation-delay: 0.8s; font-size: 2rem; }
+    .badge-pos-3 { bottom: 120px; left: 6%; animation-delay: 1.5s; font-size: 1.8rem; }
+    .badge-pos-4 { bottom: 140px; right: 8%; animation-delay: 0.4s; font-size: 2rem; }
+
+    /* Title Logo Centerpiece */
+    .title-hero-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin-top: 14px;
+      z-index: 5;
+    }
+    .hero-badge-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(109, 40, 217, 0.25);
+      border: 1.5px solid var(--violet);
+      color: #EDE9FE;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 4px 16px;
+      border-radius: 999px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      box-shadow: 0 0 16px rgba(139, 92, 246, 0.35);
+    }
+    .game-logo-3d {
+      font-size: 3.4rem;
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      color: #FFFFFF;
+      text-shadow: 
+        0 2px 0 #8B5CF6,
+        0 4px 0 #6D28D9,
+        0 6px 0 #4C1D95,
+        0 8px 0 #2E1065,
+        0 12px 24px rgba(0, 0, 0, 0.7);
+      margin-bottom: 6px;
+    }
+    .game-logo-3d span {
+      color: var(--yellow);
+      text-shadow: 
+        0 2px 0 #EAB308,
+        0 4px 0 #CA8A04,
+        0 6px 0 #A16207,
+        0 8px 0 #713F12,
+        0 12px 24px rgba(0, 0, 0, 0.7);
+    }
+    .title-tagline-ribbon {
+      background: linear-gradient(90deg, transparent, rgba(109, 40, 217, 0.5), transparent);
+      padding: 4px 30px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #DDD6FE;
+      letter-spacing: 0.02em;
+    }
+
+    /* Customer Cast Lineup Display */
+    .cast-display-card {
+      background: rgba(18, 16, 32, 0.85);
+      border: 2px solid #332F52;
+      border-radius: 18px;
+      padding: 14px 20px 10px;
+      width: 100%;
+      max-width: 580px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 5;
+    }
+    .cast-speech-bubble {
+      background: #FFFFFF;
+      color: #0D0D14;
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 8px 16px;
+      border-radius: 12px;
+      border: 2px solid #0D0D14;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      margin-bottom: 12px;
+      position: relative;
+      text-align: center;
+      transition: all 0.25s ease;
+      min-height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cast-speech-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%) rotate(45deg);
+      width: 12px;
+      height: 12px;
+      background: #FFF;
+      border-right: 2px solid #0D0D14;
+      border-bottom: 2px solid #0D0D14;
+    }
+    .cast-avatars-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 16px;
+    }
+    .cast-member {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .cast-member:hover {
+      transform: translateY(-8px) scale(1.08);
+    }
+    .cast-avatar-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 2.5px solid #1E1B4B;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    }
+    .cast-name-pill {
+      font-size: 0.65rem;
+      font-weight: 800;
+      color: #CBD5E1;
+      margin-top: 4px;
+      white-space: nowrap;
+    }
+
+    /* Actions Grid */
+    .title-actions-hub {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      max-width: 440px;
+      z-index: 5;
+    }
+    .btn-play-game {
+      background: linear-gradient(180deg, #10B981 0%, #059669 100%);
+      border: 3px solid #34D399;
+      color: #FFFFFF;
+      font-size: 1.25rem;
+      font-weight: 900;
+      padding: 14px 28px;
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 8px 30px rgba(16, 185, 129, 0.5), 0 0 20px rgba(52, 211, 153, 0.3);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      letter-spacing: 0.03em;
+    }
+    .btn-play-game:hover {
+      background: linear-gradient(180deg, #34D399 0%, #059669 100%);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 12px 36px rgba(16, 185, 129, 0.7);
+    }
+    .btn-play-game:active {
+      transform: translateY(1px);
+    }
+    .title-sub-buttons {
+      display: flex;
+      gap: 10px;
+    }
+    .btn-title-sub {
+      flex: 1;
+      background: #1C1B30;
+      border: 2px solid #363354;
+      color: #E2E8F0;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+    .btn-title-sub:hover {
+      background: #282644;
+      border-color: var(--violet);
+      color: #FFF;
+      transform: translateY(-2px);
+    }
+
+    /* Interactive Handbook Modal */
+    .handbook-modal-box {
+      background: #18162A;
+      border: 2px solid #3C3762;
+      border-radius: 22px;
+      max-width: 660px;
+      width: 100%;
+      max-height: 88vh;
+      overflow-y: auto;
+      padding: 24px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.7);
+      animation: modalPop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      text-align: left;
+    }
+    .handbook-tabs-nav {
+      display: flex;
+      gap: 6px;
+      border-bottom: 2px solid #2B2748;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+      overflow-x: auto;
+    }
+    .handbook-tab-btn {
+      background: #121020;
+      border: 1px solid #2B2844;
+      border-radius: 10px;
+      color: #94A3B8;
+      font-size: 0.8rem;
+      font-weight: 800;
+      padding: 8px 14px;
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .handbook-tab-btn:hover {
+      color: #FFF;
+      background: #201D38;
+    }
+    .handbook-tab-btn.active {
+      background: var(--purple);
+      border-color: var(--violet);
+      color: #FFF;
+      box-shadow: 0 0 12px var(--purple-glow);
+    }
+    .handbook-slide {
+      display: none;
+    }
+    .handbook-slide.active {
+      display: block;
+      animation: modalPop 0.2s ease;
+    }
+    .guide-step-card {
+      background: #121122;
+      border: 1px solid #282442;
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .guide-step-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--purple);
+      color: #FFF;
+      font-weight: 900;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .guide-step-text h4 {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #FFF;
+      margin-bottom: 2px;
+    }
+    .guide-step-text p {
+      font-size: 0.76rem;
+      color: #94A3B8;
+      line-height: 1.4;
+    }
+
+    .dialog-hero-icon {
+      font-size: 3.2rem;
+      margin-bottom: 8px;
+    }
+    .dialog-title {
+      font-size: 1.8rem;
+      font-weight: 900;
+      margin-bottom: 6px;
+    }
+    .dialog-desc {
+      color: #A5B4FC;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+    /* Shift / Session Cards Grid */
+    .session-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+    .session-card {
+      background: #12111E;
+      border: 2px solid #282642;
+      border-radius: 16px;
+      padding: 18px 12px;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .session-card.unlocked {
+      cursor: pointer;
+      border-color: var(--purple);
+      background: linear-gradient(180deg, #1C1A30 0%, #131222 100%);
+    }
+    .session-card.unlocked:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px var(--purple-glow);
+      border-color: var(--violet);
+    }
+    .session-card.locked {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+    .card-shift-name {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--yellow);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .card-shift-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .card-shift-meta {
+      font-size: 0.72rem;
+      color: #94A3B8;
+    }
+
+    /* Floating XP Particles & Sparks */
+    .sparkle-particle {
+      position: absolute;
+      pointer-events: none;
+      font-weight: 900;
+      font-size: 1.1rem;
+      color: var(--yellow);
+      animation: floatUp 0.8s ease-out forwards;
+      z-index: 100;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-50px) scale(1.3); opacity: 0; }
+    }
+
+    /* Confetti Canvas */
+    #confetti-canvas {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 99;
+    }
+
+    /* ==========================================================================
+       7. RESPONSIVE (Adaptive Mobile / Tablet)
+       ========================================================================== */
+    @media (max-width: 900px) {
+      #game-container {
+        height: 100vh;
+        max-height: none;
+        border-radius: 0;
+        border: none;
+      }
+      .shop-area {
+        height: 38%;
+      }
+      .order-ticket {
+        width: 250px;
+        padding: 8px 12px;
+      }
+      .word-sheet {
+        width: 92%;
+        padding: 14px 18px;
+      }
+      .tools-group {
+        gap: 6px;
+      }
+      .tool-chip {
+        padding: 6px 10px;
+        font-size: 0.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Game Container Frame -->
+  <div id="game-container">
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Top Bar: Game Brand, Shift Badge, Stats -->
+    <header class="game-header">
+      <div class="brand-title">
+        <span>🏪 WORD SHOP</span>
+        <span class="brand-tag">SIMULATION</span>
+      </div>
+
+      <div class="session-badge" id="hud-session-badge">
+        <span>🌱 SHIFT 1: BEGINNER</span>
+      </div>
+
+      <div class="stats-cluster">
+        <div class="stat-pill stars" title="Bintang Kepuasan">
+          <span>⭐</span>
+          <span id="hud-stars-count">0</span>
+        </div>
+        <div class="stat-pill xp" title="Poin XP Toko">
+          <span>⚡</span>
+          <span id="hud-xp-count">0 XP</span>
+        </div>
+        <button class="header-btn" title="Buku Panduan & Tips" onclick="openHandbookModal()">
+          📖
+        </button>
+        <button class="header-btn" title="Ganti Shift" onclick="openShiftSelector()">
+          📋
+        </button>
+        <button class="header-btn" title="Kembali ke Layar Judul" onclick="returnToTitleScreen()">
+          🏪
+        </button>
+        <button id="sound-btn" class="header-btn" title="Suara On/Off" onclick="toggleAudio()">
+          🔊
+        </button>
+      </div>
+    </header>
+
+    <!-- ======================================================================
+         SCREEN 0: TITLE & COVER SCREEN (AWNING & CHARACTER CAST)
+         ====================================================================== -->
+    <div id="screen-title" class="game-screen active">
+      <div class="title-screen-container">
+        <!-- Store Awning Canopy -->
+        <div class="store-awning">
+          <div class="awning-scallop"></div>
+        </div>
+
+        <!-- Floating Badges / Icons -->
+        <div class="floating-badge badge-pos-1">📄</div>
+        <div class="floating-badge badge-pos-2">⭐</div>
+        <div class="floating-badge badge-pos-3">🖼️</div>
+        <div class="floating-badge badge-pos-4">📋</div>
+
+        <!-- Hero Branding -->
+        <div class="title-hero-wrap">
+          <div class="hero-badge-tag">
+            <span>✨ GAME SIMULASI TOKO DOKUMEN · KELAS 7 SMP ✨</span>
+          </div>
+          <h1 class="game-logo-3d">
+            WORD <span>SHOP</span>
+          </h1>
+          <div class="title-tagline-ribbon">
+            “Pesanan masuk. Dokumen harus jadi!”
+          </div>
+        </div>
+
+        <!-- Cast Display Card (Animated Customer Lineup) -->
+        <div class="cast-display-card">
+          <div class="cast-speech-bubble" id="cast-bubble-text">
+            “Halo operator! Toko buka jam 07.00, pesanan dokumen kami sudah menumpuk nih!”
+          </div>
+
+          <div class="cast-avatars-row">
+            <div class="cast-member" onclick="peekCustomerQuote('Raka', '“Fotonya kebesaran nih, tolong kecilkan ya!”')">
+              <div class="cast-avatar-circle" style="background:#FBBF24;">👨‍🎓</div>
+              <span class="cast-name-pill">Raka (OSIS)</span>
+            </div>
+            <div class="cast-member" onclick="peekCustomerQuote('Sinta', '“Aku butuh foto mading berukuran pas!”')">
+              <div class="cast-avatar-circle" style="background:#F472B6;">👩</div>
+              <span class="cast-name-pill">Sinta (Mading)</span>
+            </div>
+            <div class="cast-member" onclick="peekCustomerQuote('Dini', '“Tolong bantu bikin poster Class Day 7B!”')">
+              <div class="cast-avatar-circle" style="background:#FDE047;">👧</div>
+              <span class="cast-name-pill">Dini (Acara)</span>
+            </div>
+            <div class="cast-member" onclick="peekCustomerQuote('Bu Maya', '“Jadwal piket kelas butuh tabel yang rapi!”')">
+              <div class="cast-avatar-circle" style="background:#A78BFA;">👩‍🏫</div>
+              <span class="cast-name-pill">Bu Maya (Guru)</span>
+            </div>
+            <div class="cast-member" onclick="peekCustomerQuote('Reza', '“Final order! Brosur akbar sekolah!”')">
+              <div class="cast-avatar-circle" style="background:#38BDF8;">😎</div>
+              <span class="cast-name-pill">Reza (Ketua)</span>
+            </div>
+          </div>
+          <div style="font-size:0.68rem; color:#94A3B8; margin-top:8px;">(Klik salah satu karakter untuk mendengar pesanannya!)</div>
+        </div>
+
+        <!-- Action Buttons Hub -->
+        <div class="title-actions-hub">
+          <button class="btn-play-game" onclick="startGameFromTitle()">
+            <span>▶️ BUKA TOKO SEKARANG</span>
+          </button>
+
+          <div class="title-sub-buttons">
+            <button class="btn-title-sub" onclick="openHandbookModal()">
+              <span>📖 Buku Panduan</span>
+            </button>
+            <button class="btn-title-sub" onclick="openShiftSelector()">
+              <span>🌱 Pilih Shift</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Footer / Version -->
+        <div style="font-size: 0.72rem; color: #64748B; z-index: 5; margin-top: 4px;">
+          Word Shop v2.0 · Simulasi Microsoft Word Interaktif untuk SMP · 100% Offline Ready
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================================
+         MAIN GAMEPLAY SCREEN (ALIVE SERVICE SHOP)
+         ====================================================================== -->
+    <div id="screen-gameplay" class="game-screen">
+
+      <!-- TOP: SHOP INTERIOR & CUSTOMER COUNTER -->
+      <section class="shop-area">
+        <!-- Background Decor -->
+        <div class="shop-background-decor">
+          <div class="shelf">
+            <div class="shelf-item shelf-doc1"></div>
+            <div class="shelf-item shelf-doc2"></div>
+          </div>
+          <div class="shop-poster">WORD SERVICE SHOP · CLASS 7</div>
+          <div class="shelf-printer">
+            <div class="printer-paper"></div>
+            <span>PRINTER OK</span>
+          </div>
+        </div>
+
+        <!-- Waiting Queue (Left Side) -->
+        <div class="waiting-queue">
+          <div class="queue-title">ANTREAN TOKO</div>
+          <div class="queue-avatars" id="queue-avatars-box">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- Center Customer Counter -->
+        <div class="customer-stage">
+          <div class="active-customer-spot" id="active-customer-spot">
+            <!-- Order Ticket Bubble -->
+            <div class="order-ticket" id="order-ticket-box">
+              <div class="ticket-top">
+                <span class="ticket-order-num" id="ticket-order-num">ORDER #1</span>
+                <span class="ticket-reward" id="ticket-reward">⭐ +20 XP</span>
+              </div>
+              <div class="ticket-request-text" id="ticket-request-text">
+                “Tolong masukkan foto kegiatan ini ke dokumen artikel sekolah.”
+              </div>
+              <div class="ticket-requirements-list" id="ticket-checklist">
+                <!-- Objectives dynamically rendered -->
+              </div>
+              <div class="patience-container">
+                <div class="patience-bar" id="customer-patience-bar"></div>
+              </div>
+            </div>
+
+            <!-- Customer Avatar Character -->
+            <div class="customer-avatar-box">
+              <div class="customer-char" id="customer-char-body">
+                <div class="customer-head" id="customer-head-face">👨</div>
+                <div class="customer-body" id="customer-torso"></div>
+              </div>
+              <span class="customer-name-tag" id="customer-name-tag">Raka (Siswa)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Counter Surface -->
+        <div class="shop-counter"></div>
+      </section>
+
+      <!-- MIDDLE: WORK DESK / INTERACTIVE DOCUMENT CANVAS -->
+      <section class="desk-area">
+        <div class="desk-ruler"></div>
+        <div class="desk-pencil"></div>
+
+        <!-- Contextual Help / Teacher Tip -->
+        <div class="desk-hint-bubble" id="desk-hint-bubble">
+          💡 Gunakan tool di bawah untuk mengerjakan dokumen.
+        </div>
+
+        <!-- White Simulated Microsoft Word Sheet -->
+        <div class="word-sheet" id="work-sheet">
+          <div class="sheet-clip"></div>
+          <div class="sheet-watermark">Word Doc · A4</div>
+
+          <!-- Document Title Element -->
+          <div class="doc-title-block">
+            <h2 class="doc-title-text" id="doc-title-el">Laporan Kegiatan Sekolah</h2>
+          </div>
+
+          <!-- Document Content Sandbox -->
+          <div class="doc-content-stage" id="doc-content-stage">
+            
+            <!-- Photo Element -->
+            <div class="doc-photo-frame" id="doc-photo-frame" style="width: 140px; height: 95px;">
+              <svg viewBox="0 0 200 130" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="photoGrad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#38BDF8"/>
+                    <stop offset="100%" stop-color="#6366F1"/>
+                  </linearGradient>
+                </defs>
+                <rect width="200" height="130" fill="url(#photoGrad)"/>
+                <circle cx="50" cy="40" r="16" fill="#FDE047"/>
+                <rect x="20" y="80" width="70" height="50" fill="#1E1B4B" rx="4"/>
+                <circle cx="120" cy="50" r="14" fill="#F43F5E"/>
+                <rect x="100" y="70" width="80" height="60" fill="#059669" rx="4"/>
+                <text x="100" y="115" fill="#FFF" font-size="11" font-weight="bold" text-anchor="middle">FOTO DOKUMEN</text>
+              </svg>
+              <div class="photo-size-tag" id="photo-size-tag">140px</div>
+            </div>
+
+            <!-- Shape Element -->
+            <div class="doc-shape circle" id="doc-shape-el">
+              <span id="doc-shape-text">⭐ BAZAR</span>
+            </div>
+
+            <!-- Text Box Element -->
+            <div class="doc-textbox" id="doc-textbox-el">
+              📅 Jumat, 10 Okt · Aula Utama SMP
+            </div>
+
+            <!-- Table Element -->
+            <div class="doc-table-wrapper" id="doc-table-wrapper">
+              <table class="doc-sim-table" id="doc-table-el">
+                <thead>
+                  <tr>
+                    <th>HARI</th>
+                    <th>TUGAS PIKET</th>
+                    <th>PETUGAS</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Senin</td>
+                    <td>Sapu & Papan Tulis</td>
+                    <td>Budi & Siti</td>
+                  </tr>
+                  <tr>
+                    <td>Selasa</td>
+                    <td>Meja & Tempat Sampah</td>
+                    <td>Rian & Putri</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Simulated Text Paragraph -->
+            <div class="doc-paragraph-filler" id="doc-filler-lines">
+              <div class="filler-line" style="width: 90%;"></div>
+              <div class="filler-line" style="width: 75%;"></div>
+              <div class="filler-line" style="width: 82%;"></div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- BOTTOM: WORKSTATION DOCK — SIMULATED MICROSOFT WORD RIBBON -->
+      <footer class="station-dock" id="word-ribbon-dock">
+        <!-- Ribbon Top Tabs Bar -->
+        <div class="ribbon-tabs-bar">
+          <div class="ribbon-word-brand">
+            <span class="word-w-icon">W</span>
+            <span class="word-brand-label">Word Ribbon</span>
+          </div>
+
+          <div class="ribbon-tabs-list">
+            <button class="ribbon-tab active" id="tab-btn-home" onclick="switchRibbonTab('home')">
+              🏠 Beranda (Home)
+            </button>
+            <button class="ribbon-tab" id="tab-btn-insert" onclick="switchRibbonTab('insert')">
+              📥 Sisipkan (Insert)
+            </button>
+            <button class="ribbon-tab" id="tab-btn-design" onclick="switchRibbonTab('design')">
+              🎨 Desain & Format
+            </button>
+            <button class="ribbon-tab" id="tab-btn-all" onclick="switchRibbonTab('all')">
+              ⚡ Semua Tool
+            </button>
+          </div>
+
+          <!-- Serahkan Dokumen (Complete Order) -->
+          <button id="btn-complete-order" class="btn-serve-order" onclick="onCompleteOrderClick()">
+            <span>✅ SERAHKAN DOKUMEN</span>
+          </button>
+        </div>
+
+        <!-- Ribbon Groups Deck (Populated by JS) -->
+        <div class="ribbon-deck" id="ribbon-deck-container">
+          <!-- Populated by JavaScript -->
+        </div>
+      </footer>
+    </div>
+
+    <!-- ======================================================================
+         MODAL / OVERLAY: SHIFT SELECTOR (SESSION MAP)
+         ====================================================================== -->
+    <div id="modal-shift-selector" class="overlay-backdrop">
+      <div class="dialog-box">
+        <div class="dialog-hero-icon">🏪</div>
+        <h2 class="dialog-title">WORD SHOP: SHIFT</h2>
+        <p class="dialog-desc">Pilih shift kerja tokomu. Setiap shift memiliki 3 pesanan pelanggan dengan tantangan Word bertahap.</p>
+
+        <div class="session-cards-grid">
+          <!-- Shift 1 -->
+          <div class="session-card unlocked" id="card-shift-1" onclick="selectShift(1)">
+            <div class="card-shift-name">Shift 1</div>
+            <div class="card-shift-title">🌱 Beginner</div>
+            <div class="card-shift-meta">3 Pelanggan · Foto & Teks</div>
+          </div>
+
+          <!-- Shift 2 -->
+          <div class="session-card locked" id="card-shift-2" onclick="selectShift(2)">
+            <div class="card-shift-name">Shift 2</div>
+            <div class="card-shift-title">🌿 Normal</div>
+            <div class="card-shift-meta">3 Pelanggan · Poster & Shape</div>
+          </div>
+
+          <!-- Shift 3 -->
+          <div class="session-card locked" id="card-shift-3" onclick="selectShift(3)">
+            <div class="card-shift-name">Shift 3</div>
+            <div class="card-shift-title">🌳 Challenge</div>
+            <div class="card-shift-meta">3 Pelanggan · Tabel & Brosur</div>
+          </div>
+        </div>
+
+        <button class="tool-chip active" style="padding: 10px 24px; font-size: 0.9rem;" onclick="closeShiftSelector()">
+          Lanjut Jaga Toko ➔
+        </button>
+      </div>
+    </div>
+
+    <!-- ======================================================================
+         MODAL: SUCCESS / SHIFT COMPLETE CELEBRATION
+         ====================================================================== -->
+    <div id="modal-celebration" class="overlay-backdrop">
+      <div class="dialog-box">
+        <div class="dialog-hero-icon" id="celeb-icon">🎉</div>
+        <h2 class="dialog-title" id="celeb-title">SHIFT 1 SELESAI!</h2>
+        <p class="dialog-desc" id="celeb-desc">Semua 3 pelanggan sangat puas dengan hasil dokumen Word buatanmu!</p>
+
+        <div style="background: #11101E; border: 1px solid #2D2B48; border-radius: 14px; padding: 16px; margin-bottom: 24px; display: flex; justify-content: space-around;">
+          <div>
+            <div style="font-size: 0.72rem; color: #94A3B8; font-weight: 700;">TOTAL BINTANG</div>
+            <div style="font-size: 1.4rem; font-weight: 900; color: var(--yellow);" id="celeb-stars">⭐ 3/3</div>
+          </div>
+          <div>
+            <div style="font-size: 0.72rem; color: #94A3B8; font-weight: 700;">TOTAL XP</div>
+            <div style="font-size: 1.4rem; font-weight: 900; color: var(--green);" id="celeb-xp">+60 XP</div>
+          </div>
+        </div>
+
+        <button id="btn-celeb-next" class="btn-serve-order" style="width: 100%; justify-content: center;" onclick="onCelebNextClick()">
+          Mulai Shift Berikutnya ➔
+        </button>
+      </div>
+    </div>
+
+    <!-- ======================================================================
+         MODAL: BUKU PANDUAN RESMI OPERATOR WORD SHOP (INTERACTIVE HANDBOOK)
+         ====================================================================== -->
+    <div id="modal-handbook" class="overlay-backdrop">
+      <div class="handbook-modal-box">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 1.5rem;">📖</span>
+            <div>
+              <h3 style="font-size: 1.15rem; font-weight: 900; color: #FFF;">BUKU PANDUAN OPERATOR</h3>
+              <p style="font-size: 0.72rem; color: #A5B4FC;">Pedoman Standar Layanan Toko Word Shop</p>
+            </div>
+          </div>
+          <button class="header-btn" onclick="closeHandbookModal()" title="Tutup Panduan">✕</button>
+        </div>
+
+        <!-- Handbook Navigation Tabs -->
+        <div class="handbook-tabs-nav">
+          <button class="handbook-tab-btn active" id="hb-tab-1" onclick="switchHandbookSlide(1)">
+            🏢 1. Cara Melayani Order
+          </button>
+          <button class="handbook-tab-btn" id="hb-tab-2" onclick="switchHandbookSlide(2)">
+            🎛️ 2. Peta Ribbon Word
+          </button>
+          <button class="handbook-tab-btn" id="hb-tab-3" onclick="switchHandbookSlide(3)">
+            ⭐ 3. Rahasia Bintang 3
+          </button>
+        </div>
+
+        <!-- Slide 1: Cara Melayani Order -->
+        <div class="handbook-slide active" id="hb-slide-1">
+          <div class="guide-step-card">
+            <div class="guide-step-num">1</div>
+            <div class="guide-step-text">
+              <h4>👥 Sambut Pelanggan & Baca Tiket Pesanan</h4>
+              <p>Setiap pelanggan membawa tiket order dengan kalimat permintaan santai dan checklist target.</p>
+            </div>
+          </div>
+          <div class="guide-step-card">
+            <div class="guide-step-num">2</div>
+            <div class="guide-step-text">
+              <h4>🗂️ Pilih Tab Menu Word Ribbon</h4>
+              <p>Gunakan tab <strong>Beranda (Home)</strong> untuk teks/paragraf, <strong>Sisipkan (Insert)</strong> untuk foto/tabel/shape, atau <strong>Desain</strong> untuk border/warna.</p>
+            </div>
+          </div>
+          <div class="guide-step-card">
+            <div class="guide-step-num">3</div>
+            <div class="guide-step-text">
+              <h4>📄 Format Dokumen Nyata di Meja</h4>
+              <p>Setiap tool yang kamu klik akan langsung mengubah dokumen di mejamu secara otomatis!</p>
+            </div>
+          </div>
+          <div class="guide-step-card">
+            <div class="guide-step-num">4</div>
+            <div class="guide-step-text">
+              <h4>✅ Serahkan Dokumen & Dapatkan Bintang</h4>
+              <p>Jika checklist sudah centang hijau semua, klik tombol <strong>SERAHKAN DOKUMEN</strong> untuk membuat pelanggan senang dan raih XP!</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2: Peta Ribbon Word -->
+        <div class="handbook-slide" id="hb-slide-2">
+          <div style="background:#11101E; border:1px solid #2B2844; border-radius:12px; padding:12px; margin-bottom:10px;">
+            <div style="font-size:0.82rem; font-weight:800; color:#93C5FD; margin-bottom:4px;">🏠 TAB BERANDA (HOME)</div>
+            <p style="font-size:0.75rem; color:#CBD5E1; line-height:1.4;">
+              • <strong>Tebal (Bold / B)</strong>: Membuat judul atau teks penting menjadi tebal dan mencolok.<br>
+              • <strong>Rata Tengah (Center / ≡)</strong>: Mengatur perataan teks tepat di tengah halaman.
+            </p>
+          </div>
+          <div style="background:#11101E; border:1px solid #2B2844; border-radius:12px; padding:12px; margin-bottom:10px;">
+            <div style="font-size:0.82rem; font-weight:800; color:#34D399; margin-bottom:4px;">📥 TAB SISIPKAN (INSERT)</div>
+            <p style="font-size:0.75rem; color:#CBD5E1; line-height:1.4;">
+              • <strong>Gambar (Picture)</strong>: Menyisipkan foto kegiatan atau ilustrasi ke dokumen.<br>
+              • <strong>Bentuk (Shapes)</strong>: Menambah kotak ribbon atau lingkaran badge.<br>
+              • <strong>Kotak Teks (Text Box)</strong>: Menaruh teks yang bisa digeser fleksibel.<br>
+              • <strong>Tabel (Table)</strong>: Membuat kolom dan baris untuk jadwal atau daftar data.
+            </p>
+          </div>
+          <div style="background:#11101E; border:1px solid #2B2844; border-radius:12px; padding:12px;">
+            <div style="font-size:0.82rem; font-weight:800; color:#F472B6; margin-bottom:4px;">🎨 TAB DESAIN & FORMAT</div>
+            <p style="font-size:0.75rem; color:#CBD5E1; line-height:1.4;">
+              • <strong>Resize & Crop</strong>: Mengatur dimensi dan memotong pinggiran foto agar rapi.<br>
+              • <strong>Border & Shading</strong>: Memberi garis batas tegas dan warna latar sel tabel.
+            </p>
+          </div>
+        </div>
+
+        <!-- Slide 3: Rahasia Bintang 3 -->
+        <div class="handbook-slide" id="hb-slide-3">
+          <div style="text-align:center; padding:10px 0 16px;">
+            <div style="font-size:2.4rem; margin-bottom:6px;">⭐⭐⭐</div>
+            <h4 style="font-size:1.05rem; font-weight:900; color:#FDE047;">Trik Menjadi Master Word Shop!</h4>
+            <p style="font-size:0.8rem; color:#E2E8F0; line-height:1.5; max-width:480px; margin:0 auto;">
+              Perhatikan balon petunjuk kuning di sebelah meja kerja. Guru dan operator senior akan membisikkan tool apa yang tepat jika kamu bingung!
+            </p>
+          </div>
+          <div style="display:flex; gap:10px;">
+            <div style="flex:1; background:#121020; border:1px solid #2A2744; border-radius:10px; padding:10px; font-size:0.75rem; color:#CBD5E1;">
+              💡 <strong>Cek Centang Hijau:</strong> Tombol Serahkan Dokumen akan bersinar terang saat seluruh syarat terpenuhi.
+            </div>
+            <div style="flex:1; background:#121020; border:1px solid #2A2744; border-radius:10px; padding:10px; font-size:0.75rem; color:#CBD5E1;">
+              ⚡ <strong>Tab Semua Tool:</strong> Gunakan tab kilat ini jika ingin melihat semua tool Word sekaligus dalam 1 baris!
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Action -->
+        <div style="margin-top: 18px; text-align: center;">
+          <button class="btn-play-game" style="font-size: 1rem; padding: 10px 24px; width: 100%; justify-content: center;" onclick="closeHandbookModal()">
+            <span>Mengerti! Kembali ke Toko ➔</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ==========================================================================
+       JAVASCRIPT GAME ENGINE
+       ========================================================================== -->
+  <script>
+    /* ==========================================================================
+       A. AUDIO SYNTHESIZER (Web Audio API)
+       ========================================================================== */
+    let audioCtx = null;
+    let audioEnabled = true;
+
+    function getAudioContext() {
+      if (!audioCtx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) audioCtx = new AudioContextClass();
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    function toggleAudio() {
+      audioEnabled = !audioEnabled;
+      document.getElementById('sound-btn').textContent = audioEnabled ? '🔊' : '🔇';
+    }
+
+    function playSfx(type) {
+      if (!audioEnabled) return;
+      try {
+        const ctx = getAudioContext();
+        if (!ctx) return;
+        const t = ctx.currentTime;
+
+        if (type === 'pop') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(320, t);
+          osc.frequency.exponentialRampToValueAtTime(750, t + 0.08);
+          gain.gain.setValueAtTime(0.15, t);
+          gain.gain.exponentialRampToValueAtTime(0.01, t + 0.08);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(t);
+          osc.stop(t + 0.08);
+        } else if (type === 'tool') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(540, t);
+          osc.frequency.exponentialRampToValueAtTime(840, t + 0.06);
+          gain.gain.setValueAtTime(0.12, t);
+          gain.gain.exponentialRampToValueAtTime(0.01, t + 0.06);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(t);
+          osc.stop(t + 0.06);
+        } else if (type === 'bell') {
+          // Authentic shop door chime
+          const osc1 = ctx.createOscillator();
+          const gain1 = ctx.createGain();
+          osc1.type = 'sine';
+          osc1.frequency.setValueAtTime(880, t); // A5
+          gain1.gain.setValueAtTime(0.22, t);
+          gain1.gain.exponentialRampToValueAtTime(0.005, t + 0.35);
+          osc1.connect(gain1);
+          gain1.connect(ctx.destination);
+          osc1.start(t);
+          osc1.stop(t + 0.35);
+
+          const osc2 = ctx.createOscillator();
+          const gain2 = ctx.createGain();
+          osc2.type = 'sine';
+          osc2.frequency.setValueAtTime(1174.66, t + 0.12); // D6
+          gain2.gain.setValueAtTime(0.22, t + 0.12);
+          gain2.gain.exponentialRampToValueAtTime(0.005, t + 0.6);
+          osc2.connect(gain2);
+          gain2.connect(ctx.destination);
+          osc2.start(t + 0.12);
+          osc2.stop(t + 0.6);
+        } else if (type === 'success') {
+          const notes = [523.25, 659.25, 783.99, 1046.50];
+          notes.forEach((freq, i) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, t + i * 0.07);
+            gain.gain.setValueAtTime(0.15, t + i * 0.07);
+            gain.gain.exponentialRampToValueAtTime(0.01, t + i * 0.07 + 0.25);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(t + i * 0.07);
+            osc.stop(t + i * 0.07 + 0.25);
+          });
+        }
+      } catch (e) {}
+    }
+
+    /* ==========================================================================
+       B. CONFETTI FX
+       ========================================================================== */
+    function triggerConfetti() {
+      const canvas = document.getElementById('confetti-canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = canvas.parentElement.offsetWidth;
+      canvas.height = canvas.parentElement.offsetHeight;
+
+      const particles = [];
+      const colors = ['#6D28D9', '#8B5CF6', '#FDE047', '#10B981', '#EF4444', '#38BDF8'];
+
+      for (let i = 0; i < 50; i++) {
+        particles.push({
+          x: canvas.width / 2,
+          y: canvas.height * 0.4,
+          vx: (Math.random() - 0.5) * 12,
+          vy: (Math.random() - 0.8) * 12,
+          size: Math.random() * 8 + 4,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          rotation: Math.random() * 360,
+          opacity: 1
+        });
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        let active = false;
+        particles.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += 0.35;
+          p.opacity -= 0.018;
+          if (p.opacity > 0) {
+            active = true;
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate((p.rotation * Math.PI) / 180);
+            ctx.fillStyle = p.color;
+            ctx.globalAlpha = Math.max(0, p.opacity);
+            ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+            ctx.restore();
+          }
+        });
+        if (active) requestAnimationFrame(animate);
+        else ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+      animate();
+    }
+
+    function spawnSparkle(x, y, text) {
+      const el = document.createElement('div');
+      el.className = 'sparkle-particle';
+      el.textContent = text;
+      el.style.left = `${x}px`;
+      el.style.top = `${y}px`;
+      document.getElementById('game-container').appendChild(el);
+      setTimeout(() => el.remove(), 800);
+    }
+
+    /* ==========================================================================
+       C. GAME DATA & PROGRESSION CONFIG
+       ========================================================================== */
+    const gameState = {
+      currentSession: 1,
+      currentCustomerIndex: 0,
+      xp: 0,
+      stars: 0,
+      unlockedSessions: [1]
+    };
+
+    // Document state (active on desk)
+    let docState = {
+      titleText: "Laporan Kegiatan Sekolah",
+      isTitleBold: false,
+      isTitleCentered: false,
+      hasPhoto: false,
+      photoWidth: 140, // standard small
+      photoCropped: false,
+      hasTextBox: false,
+      hasShape: false,
+      shapeType: 'circle',
+      shapeColor: '#FDE047',
+      hasTable: false,
+      tableBorder: false,
+      tableShading: false
+    };
+
+    // Sessions & Customer Catalog (9 Customers total across 3 Sessions)
+    const sessions = [
+      {
+        id: 1,
+        title: "Beginner",
+        shiftBadge: "🌱 SHIFT 1: BEGINNER",
+        toolsUnlocked: ['photo_insert', 'photo_resize', 'text_bold', 'text_center'],
+        customers: [
+          {
+            name: "Raka",
+            role: "Siswa Kelas 7A",
+            avatar: "👨",
+            headColor: "#FBBF24",
+            torsoColor: "#6D28D9",
+            requestText: "“Tolong masukkan foto kegiatan mading ini ke dalam dokumen artikel sekolah.”",
+            rewardXp: 20,
+            objectives: [
+              { id: "photo_present", label: "Sisipkan foto ke dokumen" }
+            ],
+            checkSatisfied: () => docState.hasPhoto,
+            hint: "Buka tab Sisipkan (Insert) ➔ klik tool 'Gambar'.",
+            happyQuote: "“Wah, pas banget! Fotonya sudah muncul rapi!”"
+          },
+          {
+            name: "Sinta",
+            role: "Sekretaris OSIS",
+            avatar: "👩",
+            headColor: "#F472B6",
+            torsoColor: "#10B981",
+            requestText: "“Fotoku kekecilan dan belum kelihatan jelas. Tolong perbesar ukurannya jadi pas ya!”",
+            rewardXp: 20,
+            objectives: [
+              { id: "photo_present", label: "Foto ada di dokumen" },
+              { id: "photo_size_big", label: "Ukuran foto ideal (180px ke atas)" }
+            ],
+            checkSatisfied: () => docState.hasPhoto && docState.photoWidth >= 180,
+            hint: "Buka tab Desain & Format ➔ klik tool 'Perbesar'.",
+            happyQuote: "“Nah, ini baru jelas! Terima kasih banyak!”"
+          },
+          {
+            name: "Bima",
+            role: "Ketua Panitia",
+            avatar: "👦",
+            headColor: "#38BDF8",
+            torsoColor: "#F59E0B",
+            requestText: "“Tolong bikin judul dokumen ini jadi tebal (Bold) dan posisinya pas di tengah (Center).”",
+            rewardXp: 25,
+            objectives: [
+              { id: "title_bold", label: "Judul dibuat Bold (Tebal)" },
+              { id: "title_center", label: "Posisi judul di Tengah (Center)" }
+            ],
+            checkSatisfied: () => docState.isTitleBold && docState.isTitleCentered,
+            hint: "Buka tab Beranda (Home) ➔ klik 'Tebal (Bold)' & 'Rata Tengah'.",
+            happyQuote: "“Keren! Sekarang judul laporannya langsung terbaca!”"
+          }
+        ]
+      },
+      {
+        id: 2,
+        title: "Normal",
+        shiftBadge: "🌿 SHIFT 2: NORMAL",
+        toolsUnlocked: ['photo_insert', 'photo_resize', 'photo_crop', 'text_bold', 'text_box', 'shape_circle', 'color_yellow', 'color_purple'],
+        customers: [
+          {
+            name: "Dini",
+            role: "Seksi Acara",
+            avatar: "👧",
+            headColor: "#FDE047",
+            torsoColor: "#EC4899",
+            requestText: "“Kami butuh Text Box info tanggal acara di poster ini agar mudah digeser.”",
+            rewardXp: 25,
+            objectives: [
+              { id: "textbox_present", label: "Tambahkan Text Box info acara" }
+            ],
+            checkSatisfied: () => docState.hasTextBox,
+            hint: "Buka tab Sisipkan (Insert) ➔ klik tool 'Kotak Teks'.",
+            happyQuote: "“Sip! Tanggal acaranya jadi jelas sekali di poster!”"
+          },
+          {
+            name: "Fajar",
+            role: "Tim Desain",
+            avatar: "🧒",
+            headColor: "#A78BFA",
+            torsoColor: "#3B82F6",
+            requestText: "“Tambahkan bentuk dekorasi (Shape) lingkaran dan warnai dengan warna kuning cerah!”",
+            rewardXp: 25,
+            objectives: [
+              { id: "shape_present", label: "Tambahkan Shape lingkaran" },
+              { id: "shape_yellow", label: "Beri warna kuning pada bentuk" }
+            ],
+            checkSatisfied: () => docState.hasShape && docState.shapeColor === '#FDE047',
+            hint: "Buka tab Sisipkan (Insert) untuk 'Bentuk', lalu Desain untuk warna 'Kuning'.",
+            happyQuote: "“Desainnya jadi hidup dan menarik perhatian!”"
+          },
+          {
+            name: "Nadia",
+            role: "Humas Pentas Seni",
+            avatar: "👩‍🦰",
+            headColor: "#FB923C",
+            torsoColor: "#8B5CF6",
+            requestText: "“Tolong rapikan poster mini ini: masukkan foto rapi yang sudah di-crop, dan beri aksen warna ungu!”",
+            rewardXp: 30,
+            objectives: [
+              { id: "photo_crop", label: "Foto dimasukkan & di-crop rapi" },
+              { id: "shape_purple", label: "Aksen bentuk berwarna Ungu" }
+            ],
+            checkSatisfied: () => docState.hasPhoto && docState.photoCropped && docState.hasShape && docState.shapeColor === '#6D28D9',
+            hint: "Buka tab Desain & Format ➔ klik 'Crop Foto' dan warna 'Ungu'.",
+            happyQuote: "“Wah, sekarang posternya sangat eye-catching!”"
+          }
+        ]
+      },
+      {
+        id: 3,
+        title: "Challenge",
+        shiftBadge: "🌳 SHIFT 3: CHALLENGE",
+        toolsUnlocked: ['photo_insert', 'photo_resize', 'photo_crop', 'text_bold', 'text_center', 'text_box', 'shape_circle', 'color_yellow', 'color_purple', 'table_add', 'table_border', 'table_shading'],
+        customers: [
+          {
+            name: "Pak Danu",
+            role: "Pembina Mading",
+            avatar: "👨‍🏫",
+            headColor: "#FBBF24",
+            torsoColor: "#0F172A",
+            requestText: "“Tolong rapikan pengumuman ini: buat judulnya tebal di tengah dan masukkan foto yang pas.”",
+            rewardXp: 30,
+            objectives: [
+              { id: "bold_center", label: "Judul tebal & di tengah" },
+              { id: "photo_present", label: "Foto kegiatan terpasang" }
+            ],
+            checkSatisfied: () => docState.isTitleBold && docState.isTitleCentered && docState.hasPhoto,
+            hint: "Buka tab Beranda (Home) untuk Tebal & Tengah, lalu tab Sisipkan untuk Gambar.",
+            happyQuote: "“Bagus sekali! Pengumumannya rapi dan formal.”"
+          },
+          {
+            name: "Bu Maya",
+            role: "Wali Kelas 7A",
+            avatar: "👩‍🏫",
+            headColor: "#F472B6",
+            torsoColor: "#059669",
+            requestText: "“Ibu butuh tabel jadwal piket ini dipertegas garis border-nya dan beri warna shading pada baris judul ya!”",
+            rewardXp: 35,
+            objectives: [
+              { id: "table_on", label: "Tabel jadwal piket tampil" },
+              { id: "table_border", label: "All Borders aktif jelas" },
+              { id: "table_shading", label: "Header Shading aktif" }
+            ],
+            checkSatisfied: () => docState.hasTable && docState.tableBorder && docState.tableShading,
+            hint: "Buka tab Desain & Format ➔ aktifkan 'Border' dan 'Shading'.",
+            happyQuote: "“Mantap nak! Tabelnya sangat rapi dan mudah dibaca murid-murid!”"
+          },
+          {
+            name: "Reza",
+            role: "Ketua OSIS SMP",
+            avatar: "😎",
+            headColor: "#38BDF8",
+            torsoColor: "#DC2626",
+            requestText: "“FINAL ORDER! Brosur akbar sekolah: Judul bold, foto pentas seni, kotak info acara, dan tabel tiket!”",
+            rewardXp: 40,
+            objectives: [
+              { id: "final_title", label: "Judul Tebal (Bold)" },
+              { id: "final_photo", label: "Foto Pentas Terpasang" },
+              { id: "final_textbox", label: "Text Box Jadwal Acara" },
+              { id: "final_table", label: "Tabel Rapi dengan Border" }
+            ],
+            checkSatisfied: () => docState.isTitleBold && docState.hasPhoto && docState.hasTextBox && docState.hasTable && docState.tableBorder,
+            hint: "Gunakan tab 'Semua Tool' atau jelajahi tab Ribbon untuk melengkapi brosur!",
+            happyQuote: "“LUAR BIASA! Dokumen pesanan akbar selesai sempurna! Kamu Word Pro sejati!”"
+          }
+        ]
+      }
+    ];
+
+    /* ==========================================================================
+       D. GAME ENGINE CORE
+       ========================================================================== */
+    function initGame() {
+      loadSession(1);
+    }
+
+    function loadSession(sessionNum) {
+      gameState.currentSession = sessionNum;
+      gameState.currentCustomerIndex = 0;
+      const s = sessions[sessionNum - 1];
+      document.getElementById('hud-session-badge').textContent = s.shiftBadge;
+      
+      resetDocForNewCustomer();
+      renderCustomerStage();
+      renderToolsDock();
+      updateHud();
+    }
+
+    function resetDocForNewCustomer() {
+      // Clean slate tailored for the current customer
+      const currentCust = getCurrentCustomer();
+      docState = {
+        titleText: currentCust.name === "Reza" ? "BROSUR PENTAS SENI AKBAR" : 
+                   (currentCust.name === "Bu Maya" ? "JADWAL PIKET KELAS 7A" : "Laporan Kegiatan Sekolah"),
+        isTitleBold: false,
+        isTitleCentered: false,
+        hasPhoto: false,
+        photoWidth: 140,
+        photoCropped: false,
+        hasTextBox: false,
+        hasShape: false,
+        shapeType: 'circle',
+        shapeColor: '#FDE047',
+        hasTable: false,
+        tableBorder: false,
+        tableShading: false
+      };
+
+      // In session 1 customer 2, customer specifically starts with photo too small
+      if (gameState.currentSession === 1 && gameState.currentCustomerIndex === 1) {
+        docState.hasPhoto = true;
+        docState.photoWidth = 110;
+      }
+      // In session 3 customer 2, table is already on desk awaiting border & shading
+      if (gameState.currentSession === 3 && gameState.currentCustomerIndex === 1) {
+        docState.hasTable = true;
+      }
+
+      applyDocStateToUI();
+    }
+
+    function getCurrentSession() {
+      return sessions[gameState.currentSession - 1];
+    }
+
+    function getCurrentCustomer() {
+      const s = getCurrentSession();
+      return s.customers[gameState.currentCustomerIndex];
+    }
+
+    /* Renders Customer on Stage & Waiting Queue */
+    function renderCustomerStage() {
+      playSfx('pop');
+      const s = getCurrentSession();
+      const cust = getCurrentCustomer();
+
+      // Customer avatar details
+      document.getElementById('customer-head-face').textContent = cust.avatar;
+      document.getElementById('customer-head-face').style.background = cust.headColor;
+      document.getElementById('customer-torso').style.background = cust.torsoColor;
+      document.getElementById('customer-name-tag').textContent = `${cust.name} (${cust.role})`;
+
+      // Order Ticket details
+      document.getElementById('ticket-order-num').textContent = `ORDER #${gameState.currentCustomerIndex + 1} (${s.title})`;
+      document.getElementById('ticket-reward').textContent = `⭐ +${cust.rewardXp} XP`;
+      document.getElementById('ticket-request-text').textContent = cust.requestText;
+
+      // Reset patience bar
+      document.getElementById('customer-patience-bar').style.width = '100%';
+
+      // Checklist
+      updateChecklistUI();
+
+      // Render Queue (other waiting customers in this session)
+      const queueBox = document.getElementById('queue-avatars-box');
+      queueBox.innerHTML = '';
+      s.customers.forEach((c, idx) => {
+        if (idx > gameState.currentCustomerIndex) {
+          const q = document.createElement('div');
+          q.className = `queue-avatar ${idx === gameState.currentCustomerIndex + 1 ? 'next' : ''}`;
+          q.textContent = c.avatar;
+          q.title = `${c.name} (Antre berikutnya)`;
+          queueBox.appendChild(q);
+        }
+      });
+      if (queueBox.children.length === 0) {
+        queueBox.innerHTML = '<span style="font-size:0.75rem; color:#64748B;">Pelanggan Terakhir</span>';
+      }
+
+      // Animate active customer spot
+      const spot = document.getElementById('active-customer-spot');
+      spot.classList.remove('slide-in');
+      void spot.offsetWidth; // trigger reflow
+      spot.classList.add('slide-in');
+
+      // Update Desk Hint
+      document.getElementById('desk-hint-bubble').innerHTML = `💡 <span>${cust.hint}</span>`;
+
+      // Auto-switch to relevant Microsoft Word Ribbon Tab for this customer
+      if (cust.name === "Bima") switchRibbonTab('home');
+      else if (cust.name === "Raka" || cust.name === "Dini" || cust.name === "Fajar") switchRibbonTab('insert');
+      else if (cust.name === "Sinta" || cust.name === "Nadia" || cust.name === "Bu Maya") switchRibbonTab('design');
+      else if (cust.name === "Pak Danu" || cust.name === "Reza") switchRibbonTab('all');
+      else switchRibbonTab('home');
+    }
+
+    /* Update Checklist in Order Ticket */
+    function updateChecklistUI() {
+      const cust = getCurrentCustomer();
+      const list = document.getElementById('ticket-checklist');
+      list.innerHTML = '';
+
+      cust.objectives.forEach(obj => {
+        const isDone = evaluateObjective(obj.id);
+        const div = document.createElement('div');
+        div.className = `req-item ${isDone ? 'done' : ''}`;
+        div.innerHTML = `<span>${isDone ? '✅' : '⚪'}</span> <span>${obj.label}</span>`;
+        list.appendChild(div);
+      });
+
+      const isReady = cust.checkSatisfied();
+      const btn = document.getElementById('btn-complete-order');
+      if (isReady) {
+        btn.style.boxShadow = '0 0 25px rgba(16, 185, 129, 0.9)';
+        btn.style.borderColor = '#6EE7B7';
+        btn.style.transform = 'scale(1.03)';
+      } else {
+        btn.style.boxShadow = '';
+        btn.style.borderColor = '';
+        btn.style.transform = '';
+      }
+    }
+
+    function evaluateObjective(objId) {
+      if (objId === "photo_present") return docState.hasPhoto;
+      if (objId === "photo_size_big") return docState.hasPhoto && docState.photoWidth >= 180;
+      if (objId === "title_bold") return docState.isTitleBold;
+      if (objId === "title_center") return docState.isTitleCentered;
+      if (objId === "textbox_present") return docState.hasTextBox;
+      if (objId === "shape_present") return docState.hasShape;
+      if (objId === "shape_yellow") return docState.hasShape && docState.shapeColor === '#FDE047';
+      if (objId === "shape_purple") return docState.hasShape && docState.shapeColor === '#6D28D9';
+      if (objId === "photo_crop") return docState.hasPhoto && docState.photoCropped;
+      if (objId === "bold_center") return docState.isTitleBold && docState.isTitleCentered;
+      if (objId === "table_on") return docState.hasTable;
+      if (objId === "table_border") return docState.hasTable && docState.tableBorder;
+      if (objId === "table_shading") return docState.hasTable && docState.tableShading;
+      if (objId === "final_title") return docState.isTitleBold;
+      if (objId === "final_photo") return docState.hasPhoto;
+      if (objId === "final_textbox") return docState.hasTextBox;
+      if (objId === "final_table") return docState.hasTable && docState.tableBorder;
+      return false;
+    }
+
+    /* ==========================================================================
+       E. SIMULATED MICROSOFT WORD RIBBON CONTROLLER
+       ========================================================================== */
+    let currentRibbonTab = 'home';
+
+    function switchRibbonTab(tabName) {
+      currentRibbonTab = tabName;
+      document.querySelectorAll('.ribbon-tab').forEach(t => t.classList.remove('active'));
+      const activeBtn = document.getElementById(`tab-btn-${tabName}`);
+      if (activeBtn) activeBtn.classList.add('active');
+      renderToolsDock();
+    }
+
+    function renderToolsDock() {
+      const s = getCurrentSession();
+      const container = document.getElementById('ribbon-deck-container');
+      if (!container) return;
+      container.innerHTML = '';
+
+      // Define all Word tools grouped authentically like Microsoft Word
+      const allGroups = [
+        {
+          id: 'grp_font',
+          tab: 'home',
+          title: 'FONT',
+          tools: [
+            {
+              id: 'text_bold',
+              icon: '<span class="font-bold-icon">B</span>',
+              label: 'Tebal (Bold)',
+              action: () => toggleTextBold(),
+              isActive: () => docState.isTitleBold
+            }
+          ]
+        },
+        {
+          id: 'grp_paragraf',
+          tab: 'home',
+          title: 'PARAGRAF',
+          tools: [
+            {
+              id: 'text_center',
+              icon: '<span style="font-size:1.2rem; font-weight:900;">≡</span>',
+              label: 'Rata Tengah',
+              action: () => toggleTextCenter(),
+              isActive: () => docState.isTitleCentered
+            }
+          ]
+        },
+        {
+          id: 'grp_ilustrasi',
+          tab: 'insert',
+          title: 'ILUSTRASI',
+          tools: [
+            {
+              id: 'photo_insert',
+              icon: '🖼️',
+              label: 'Gambar',
+              action: () => toggleToolPhoto(),
+              isActive: () => docState.hasPhoto
+            },
+            {
+              id: 'shape_circle',
+              icon: '🔷',
+              label: 'Bentuk',
+              action: () => toggleShape(),
+              isActive: () => docState.hasShape
+            }
+          ]
+        },
+        {
+          id: 'grp_teks',
+          tab: 'insert',
+          title: 'TEKS',
+          tools: [
+            {
+              id: 'text_box',
+              icon: '📝',
+              label: 'Kotak Teks',
+              action: () => toggleTextBox(),
+              isActive: () => docState.hasTextBox
+            }
+          ]
+        },
+        {
+          id: 'grp_tabel',
+          tab: 'insert',
+          title: 'TABEL',
+          tools: [
+            {
+              id: 'table_add',
+              icon: '📋',
+              label: 'Sisip Tabel',
+              action: () => toggleTable(),
+              isActive: () => docState.hasTable
+            }
+          ]
+        },
+        {
+          id: 'grp_format_gambar',
+          tab: 'design',
+          title: 'FORMAT GAMBAR',
+          tools: [
+            {
+              id: 'photo_resize',
+              icon: '🔍',
+              label: 'Perbesar',
+              action: () => resizePhoto(30),
+              isActive: () => docState.hasPhoto && docState.photoWidth >= 180
+            },
+            {
+              id: 'photo_crop',
+              icon: '✂️',
+              label: 'Crop Foto',
+              action: () => toggleCropPhoto(),
+              isActive: () => docState.hasPhoto && docState.photoCropped
+            }
+          ]
+        },
+        {
+          id: 'grp_gaya_tabel',
+          tab: 'design',
+          title: 'GAYA TABEL',
+          tools: [
+            {
+              id: 'table_border',
+              icon: '🔲',
+              label: 'Border',
+              action: () => toggleTableBorder(),
+              isActive: () => docState.hasTable && docState.tableBorder
+            },
+            {
+              id: 'table_shading',
+              icon: '🎨',
+              label: 'Shading',
+              action: () => toggleTableShading(),
+              isActive: () => docState.hasTable && docState.tableShading
+            }
+          ]
+        },
+        {
+          id: 'grp_warna_bentuk',
+          tab: 'design',
+          title: 'WARNA BENTUK',
+          tools: [
+            {
+              id: 'color_yellow',
+              icon: '🟡',
+              label: 'Kuning',
+              action: () => setShapeColor('#FDE047'),
+              isActive: () => docState.hasShape && docState.shapeColor === '#FDE047'
+            },
+            {
+              id: 'color_purple',
+              icon: '🟣',
+              label: 'Ungu',
+              action: () => setShapeColor('#6D28D9'),
+              isActive: () => docState.hasShape && docState.shapeColor === '#6D28D9'
+            }
+          ]
+        }
+      ];
+
+      // Filter groups to display according to active ribbon tab
+      const visibleGroups = allGroups.filter(grp => currentRibbonTab === 'all' || grp.tab === currentRibbonTab);
+
+      visibleGroups.forEach(grp => {
+        const groupEl = document.createElement('div');
+        groupEl.className = 'ribbon-group';
+
+        const toolsRow = document.createElement('div');
+        toolsRow.className = 'group-tools-row';
+
+        grp.tools.forEach(tool => {
+          const isUnlocked = s.toolsUnlocked.includes(tool.id);
+          const active = isUnlocked && tool.isActive();
+
+          const btn = document.createElement('button');
+          btn.className = `btn-word-tool ${active ? 'active' : ''}`;
+          btn.disabled = !isUnlocked;
+          btn.title = isUnlocked ? tool.label : 'Terkunci di shift ini';
+
+          btn.innerHTML = `
+            <span class="tool-icon-large">${tool.icon}</span>
+            <span class="tool-label-text">${tool.label} ${isUnlocked ? '' : '🔒'}</span>
+          `;
+
+          if (isUnlocked) {
+            btn.onclick = () => {
+              playSfx('tool');
+              tool.action();
+              applyDocStateToUI();
+              updateChecklistUI();
+              renderToolsDock();
+            };
+          }
+
+          toolsRow.appendChild(btn);
+        });
+
+        const caption = document.createElement('div');
+        caption.className = 'group-caption';
+        caption.textContent = grp.title;
+
+        groupEl.appendChild(toolsRow);
+        groupEl.appendChild(caption);
+        container.appendChild(groupEl);
+      });
+    }
+
+    /* Tool Action Handlers */
+    function toggleToolPhoto() {
+      docState.hasPhoto = !docState.hasPhoto;
+      if (docState.hasPhoto && docState.photoWidth < 140) docState.photoWidth = 140;
+    }
+    function resizePhoto(delta) {
+      if (!docState.hasPhoto) docState.hasPhoto = true;
+      docState.photoWidth = Math.max(100, Math.min(260, docState.photoWidth + delta));
+    }
+    function toggleCropPhoto() {
+      if (!docState.hasPhoto) docState.hasPhoto = true;
+      docState.photoCropped = !docState.photoCropped;
+    }
+    function toggleTextBold() {
+      docState.isTitleBold = !docState.isTitleBold;
+    }
+    function toggleTextCenter() {
+      docState.isTitleCentered = !docState.isTitleCentered;
+    }
+    function toggleTextBox() {
+      docState.hasTextBox = !docState.hasTextBox;
+    }
+    function toggleShape() {
+      docState.hasShape = !docState.hasShape;
+    }
+    function setShapeColor(color) {
+      if (!docState.hasShape) docState.hasShape = true;
+      docState.shapeColor = color;
+    }
+    function toggleTable() {
+      docState.hasTable = !docState.hasTable;
+    }
+    function toggleTableBorder() {
+      if (!docState.hasTable) docState.hasTable = true;
+      docState.tableBorder = !docState.tableBorder;
+    }
+    function toggleTableShading() {
+      if (!docState.hasTable) docState.hasTable = true;
+      docState.tableShading = !docState.tableShading;
+    }
+
+    /* Reflect Document State onto the Paper Elements */
+    function applyDocStateToUI() {
+      // Title
+      const titleEl = document.getElementById('doc-title-el');
+      titleEl.textContent = docState.titleText;
+      if (docState.isTitleBold) titleEl.classList.add('bold');
+      else titleEl.classList.remove('bold');
+      if (docState.isTitleCentered) titleEl.classList.add('centered');
+      else titleEl.classList.remove('centered');
+
+      // Photo
+      const photoEl = document.getElementById('doc-photo-frame');
+      if (docState.hasPhoto) {
+        photoEl.classList.add('visible');
+        photoEl.style.width = `${docState.photoWidth}px`;
+        photoEl.style.height = `${Math.round(docState.photoWidth * 0.65)}px`;
+        document.getElementById('photo-size-tag').textContent = `${docState.photoWidth}px`;
+        if (docState.photoCropped) photoEl.classList.add('cropped');
+        else photoEl.classList.remove('cropped');
+      } else {
+        photoEl.classList.remove('visible');
+      }
+
+      // Text Box
+      const tbEl = document.getElementById('doc-textbox-el');
+      if (docState.hasTextBox) tbEl.classList.add('visible');
+      else tbEl.classList.remove('visible');
+
+      // Shape
+      const shapeEl = document.getElementById('doc-shape-el');
+      if (docState.hasShape) {
+        shapeEl.classList.add('visible');
+        shapeEl.style.backgroundColor = docState.shapeColor;
+        shapeEl.style.color = (docState.shapeColor === '#6D28D9') ? '#FFF' : '#0D0D14';
+      } else {
+        shapeEl.classList.remove('visible');
+      }
+
+      // Table
+      const tableWrapper = document.getElementById('doc-table-wrapper');
+      const tableEl = document.getElementById('doc-table-el');
+      if (docState.hasTable) {
+        tableWrapper.classList.add('visible');
+        if (docState.tableBorder) tableEl.classList.add('bordered');
+        else tableEl.classList.remove('bordered');
+        if (docState.tableShading) tableEl.classList.add('shaded');
+        else tableEl.classList.remove('shaded');
+      } else {
+        tableWrapper.classList.remove('visible');
+      }
+    }
+
+    /* ==========================================================================
+       F. SERVE ORDER / ORDER COMPLETION FLOW
+       ========================================================================== */
+    function onCompleteOrderClick() {
+      const cust = getCurrentCustomer();
+      const isSatisfied = cust.checkSatisfied();
+
+      if (!isSatisfied) {
+        // Friendly playful hint
+        playSfx('tool');
+        const bubble = document.getElementById('desk-hint-bubble');
+        bubble.innerHTML = `⚠️ <span>Hampir! Coba cek checklist pesanan di atas.</span>`;
+        bubble.style.borderColor = '#EF4444';
+        setTimeout(() => {
+          bubble.style.borderColor = '#3E3B5C';
+        }, 1500);
+        return;
+      }
+
+      // Success!
+      playSfx('success');
+      triggerConfetti();
+
+      // Customer reaction
+      document.getElementById('customer-head-face').textContent = '😄';
+      document.getElementById('ticket-request-text').textContent = cust.happyQuote;
+      document.getElementById('ticket-request-text').style.color = 'var(--green-dark)';
+
+      // Rewards
+      gameState.stars += 1;
+      gameState.xp += cust.rewardXp;
+      updateHud();
+
+      const btnRect = document.getElementById('btn-complete-order').getBoundingClientRect();
+      spawnSparkle(btnRect.left + 40, btnRect.top - 20, `+${cust.rewardXp} XP!`);
+
+      // Advance to next customer after brief reaction
+      setTimeout(() => {
+        gameState.currentCustomerIndex += 1;
+        const s = getCurrentSession();
+
+        if (gameState.currentCustomerIndex < s.customers.length) {
+          // Next customer in queue
+          resetDocForNewCustomer();
+          renderCustomerStage();
+        } else {
+          // Session Completed!
+          completeCurrentSession();
+        }
+      }, 1200);
+    }
+
+    function completeCurrentSession() {
+      playSfx('success');
+      triggerConfetti();
+
+      const s = getCurrentSession();
+      const isFinalSession = gameState.currentSession === 3;
+
+      document.getElementById('celeb-icon').textContent = isFinalSession ? '🏆' : '🎉';
+      document.getElementById('celeb-title').textContent = isFinalSession ? 'WORD SHOP MASTER! 🏆' : `SHIFT ${s.id} SELESAI!`;
+      document.getElementById('celeb-desc').textContent = isFinalSession ? 
+        'Selamat! Kamu menyelesaikan semua pesanan pelanggan dari dasar hingga final order brosur!' :
+        `Hebat! Kamu berhasil menyelesaikan semua pesanan pada shift ${s.title}.`;
+      
+      document.getElementById('celeb-stars').textContent = `⭐ ${s.customers.length}/${s.customers.length}`;
+      document.getElementById('celeb-xp').textContent = `+${s.customers.reduce((acc, c) => acc + c.rewardXp, 0)} XP`;
+
+      const nextBtn = document.getElementById('btn-celeb-next');
+      if (isFinalSession) {
+        nextBtn.textContent = 'Main Lagi dari Awal 🔄';
+      } else {
+        nextBtn.textContent = `Buka Shift ${gameState.currentSession + 1} ➔`;
+        // Unlock next session
+        if (!gameState.unlockedSessions.includes(gameState.currentSession + 1)) {
+          gameState.unlockedSessions.push(gameState.currentSession + 1);
+        }
+      }
+
+      document.getElementById('modal-celebration').classList.add('active');
+    }
+
+    function onCelebNextClick() {
+      document.getElementById('modal-celebration').classList.remove('active');
+      if (gameState.currentSession < 3) {
+        loadSession(gameState.currentSession + 1);
+      } else {
+        // Reset to Session 1
+        gameState.currentSession = 1;
+        gameState.currentCustomerIndex = 0;
+        loadSession(1);
+      }
+    }
+
+    /* Title Screen & Character Interaction */
+    function peekCustomerQuote(name, quote) {
+      playSfx('pop');
+      const bubble = document.getElementById('cast-bubble-text');
+      if (bubble) {
+        bubble.innerHTML = `<strong>${name}:</strong> ${quote}`;
+        bubble.style.transform = 'scale(1.05)';
+        setTimeout(() => {
+          bubble.style.transform = 'scale(1)';
+        }, 180);
+      }
+    }
+
+    function startGameFromTitle() {
+      playSfx('bell');
+      triggerConfetti();
+      document.getElementById('screen-title').classList.remove('active');
+      document.getElementById('screen-gameplay').classList.add('active');
+    }
+
+    function returnToTitleScreen() {
+      playSfx('pop');
+      document.getElementById('screen-gameplay').classList.remove('active');
+      document.getElementById('screen-title').classList.add('active');
+    }
+
+    /* Handbook Modal Controls */
+    function openHandbookModal() {
+      playSfx('pop');
+      switchHandbookSlide(1);
+      document.getElementById('modal-handbook').classList.add('active');
+    }
+
+    function closeHandbookModal() {
+      playSfx('pop');
+      document.getElementById('modal-handbook').classList.remove('active');
+    }
+
+    function switchHandbookSlide(slideNum) {
+      playSfx('tool');
+      for (let i = 1; i <= 3; i++) {
+        const btn = document.getElementById(`hb-tab-${i}`);
+        const slide = document.getElementById(`hb-slide-${i}`);
+        if (btn) btn.classList.toggle('active', i === slideNum);
+        if (slide) slide.classList.toggle('active', i === slideNum);
+      }
+    }
+
+    /* Shift Map Navigation */
+    function openShiftSelector() {
+      playSfx('pop');
+      updateShiftCardsUI();
+      document.getElementById('modal-shift-selector').classList.add('active');
+    }
+
+    function closeShiftSelector() {
+      document.getElementById('modal-shift-selector').classList.remove('active');
+    }
+
+    function updateShiftCardsUI() {
+      for (let i = 1; i <= 3; i++) {
+        const card = document.getElementById(`card-shift-${i}`);
+        if (gameState.unlockedSessions.includes(i)) {
+          card.className = 'session-card unlocked';
+          card.querySelector('.card-shift-meta').innerHTML = i === gameState.currentSession ? 
+            '<strong style="color:var(--green)">Sedang Aktif</strong>' : 'Buka Shift ➔';
+        } else {
+          card.className = 'session-card locked';
+          card.querySelector('.card-shift-meta').textContent = 'Terkunci 🔒';
+        }
+      }
+    }
+
+    function selectShift(shiftId) {
+      if (!gameState.unlockedSessions.includes(shiftId)) {
+        playSfx('tool');
+        return;
+      }
+      playSfx('bell');
+      closeShiftSelector();
+      document.getElementById('screen-title').classList.remove('active');
+      document.getElementById('screen-gameplay').classList.add('active');
+      loadSession(shiftId);
+    }
+
+    function updateHud() {
+      document.getElementById('hud-stars-count').textContent = gameState.stars;
+      document.getElementById('hud-xp-count').textContent = `${gameState.xp} XP`;
+    }
+
+    // Auto-boot game
+    window.addEventListener('DOMContentLoaded', () => {
+      initGame();
+    });
+  </script>
+</body>
+</html>

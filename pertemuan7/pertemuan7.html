@@ -1,0 +1,1609 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computer Quest — Level 7: Data & Email di Laptop</title>
+<meta name="description" content="Modul belajar interaktif siswa: Memahami data (Mean, Median, Modus) dan praktik langsung Webmail laptop, To, Cc, Bcc, Attachment File Explorer, Final Boss, dan Jurnal Refleksi." />
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --bg: #070d18;
+  --surface: #0f1d32;
+  --surface-2: #162742;
+  --surface-3: #1e3559;
+  --input-bg: #0b1322;
+  --border: #1e2f4d;
+  --border-light: #2d456e;
+  --cyan: #06b6d4;
+  --blue: #3b82f6;
+  --green: #10b981;
+  --green-btn: #22c55e;
+  --green-btn-hover: #16a34a;
+  --yellow: #f59e0b;
+  --purple: #8b5cf6;
+  --red: #ef4444;
+  --text: #f8fafc;
+  --text-dim: #94a3b8;
+  --muted: #64748b;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --font: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font); background: var(--bg); color: var(--text);
+  min-height: 100vh; line-height: 1.6; font-size: 14px; overflow-x: hidden;
+}
+
+/* ── TOP NAV ── */
+.top-nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(10, 18, 32, 0.95); backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.brand-box { display: flex; align-items: center; gap: 10px; }
+.brand-badge {
+  background: var(--cyan); color: #082f49; font-size: 11px; font-weight: 900;
+  padding: 4px 10px; border-radius: 6px; letter-spacing: 0.05em; text-transform: uppercase;
+}
+.brand-info h1 { font-size: 14px; font-weight: 800; color: #fff; line-height: 1.2; }
+.breadcrumbs {
+  display: flex; align-items: center; gap: 4px; background: var(--surface);
+  border: 1px solid var(--border); padding: 4px; border-radius: 12px; font-size: 11px; font-weight: 700;
+}
+.crumb { padding: 3px 10px; border-radius: 8px; color: var(--muted); }
+.crumb.active { background: #059669; color: #fff; }
+.nav-actions { display: flex; align-items: center; gap: 8px; }
+.timer-pill {
+  background: var(--surface); border: 1px solid var(--border); color: #67e8f9;
+  font-family: monospace; font-size: 12px; font-weight: 800; padding: 5px 12px; border-radius: 8px;
+}
+.audio-btn {
+  background: var(--surface); border: 1px solid var(--border); color: var(--text);
+  padding: 5px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer;
+  transition: all 0.2s; display: flex; align-items: center; gap: 4px;
+}
+.audio-btn:hover { border-color: var(--cyan); }
+
+.container { max-width: 980px; margin: 0 auto; padding: 1.25rem 1rem 5rem; }
+
+/* ── PROFILE & XP ── */
+.profile-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md);
+  padding: 16px 20px; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.avatar-display {
+  width: 48px; height: 48px; border-radius: 50%; background: #082f49;
+  border: 2px solid var(--cyan); display: flex; align-items: center; justify-content: center;
+  font-size: 22px; color: var(--cyan); cursor: pointer; box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);
+  transition: transform 0.2s;
+}
+.avatar-display:hover { transform: scale(1.06); }
+.hero-details { flex: 1; min-width: 180px; }
+.hero-rank { font-size: 11px; font-weight: 900; color: #fbbf24; letter-spacing: 0.08em; }
+.hero-name { font-size: 17px; font-weight: 900; color: #fff; cursor: pointer; }
+.xp-wrapper { flex: 2; min-width: 240px; }
+.xp-labels { display: flex; justify-content: space-between; font-size: 12px; font-weight: 800; margin-bottom: 6px; }
+.xp-track { height: 11px; background: var(--input-bg); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
+.xp-fill {
+  height: 100%; width: 0%; background: linear-gradient(90deg, var(--cyan), #10b981, #f59e0b);
+  border-radius: 20px; transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ── TABS ── */
+.nav-tabs {
+  display: flex; gap: 7px; margin-bottom: 1.25rem; overflow-x: auto; padding-bottom: 6px; scrollbar-width: none;
+}
+.nav-tabs::-webkit-scrollbar { display: none; }
+.nav-tab {
+  background: var(--surface); border: 1px solid var(--border); color: #cbd5e1;
+  padding: 7px 15px; border-radius: 24px; font-size: 12px; font-weight: 700;
+  cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 7px;
+  transition: all 0.2s; font-family: inherit;
+}
+.nav-tab:hover { border-color: var(--cyan); color: #fff; }
+.nav-tab.active {
+  background: #059669; color: #fff; border-color: #10b981;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+}
+.nav-tab.completed { border-color: #059669; color: #34d399; }
+.dot-indicator { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); }
+.nav-tab.active .dot-indicator { background: #fff; }
+.nav-tab.completed .dot-indicator { background: #34d399; }
+
+/* ── CARDS ── */
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 1.25rem;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+}
+.card-tag { font-size: 11px; font-weight: 900; color: #38bdf8; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+.card-title { font-size: 20px; font-weight: 900; color: #fff; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.card-lead { font-size: 13px; color: var(--text-dim); margin-bottom: 1.25rem; line-height: 1.6; }
+
+.hero-banner {
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(59, 130, 246, 0.15) 100%);
+  border: 1px solid rgba(6, 182, 212, 0.35); border-radius: var(--radius-lg);
+  padding: 1.75rem; margin-bottom: 1.25rem;
+}
+.hero-tag-chip {
+  display: inline-flex; align-items: center; gap: 6px; background: rgba(6, 182, 212, 0.2);
+  border: 1px solid rgba(6, 182, 212, 0.4); color: #7dd3fc; font-size: 11px;
+  font-weight: 800; padding: 4px 12px; border-radius: 20px; margin-bottom: 12px;
+}
+.hero-banner h2 { font-size: 23px; font-weight: 900; margin-bottom: 8px; line-height: 1.3; color: #fff; }
+.hero-banner p { font-size: 13px; color: #cbd5e1; line-height: 1.7; max-width: 760px; }
+
+/* ── DATA STATS CARDS ── */
+.data-cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin: 1rem 0; }
+.stat-box {
+  background: var(--surface-2); border: 2px solid var(--border); border-radius: var(--radius-md);
+  padding: 16px; text-align: center;
+}
+.stat-box.mean { border-color: var(--purple); }
+.stat-box.median { border-color: var(--yellow); }
+.stat-box.mode { border-color: var(--green); }
+.stat-badge { font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 12px; display: inline-block; margin-bottom: 6px; }
+
+.visual-box {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.25rem; text-align: center;
+}
+.emoji-row { display: flex; justify-content: center; gap: 10px; font-size: 26px; margin: 10px 0; flex-wrap: wrap; }
+.group-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; margin-top: 10px; }
+.group-item {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 12px; text-align: center; font-size: 13px;
+}
+
+/* ── LAPTOP DESKTOP MOCKUP ── */
+.laptop-window {
+  background: #0f172a; border: 1px solid var(--border); border-radius: 12px;
+  overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-bottom: 1.25rem;
+}
+.window-titlebar {
+  background: #1e293b; padding: 8px 14px; display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--border); font-size: 12px; font-weight: 600; color: #94a3b8;
+}
+.window-dots { display: flex; gap: 6px; }
+.window-dot { width: 11px; height: 11px; border-radius: 50%; }
+.dot-red { background: #ef4444; }
+.dot-yellow { background: #f59e0b; }
+.dot-green { background: #10b981; }
+
+.webmail-layout { display: grid; grid-template-columns: 200px 1fr; min-height: 360px; }
+.webmail-sidebar { background: #111e33; border-right: 1px solid var(--border); padding: 14px 10px; }
+.compose-btn-main {
+  background: #2563eb; color: #fff; width: 100%; border: none; padding: 10px 14px;
+  border-radius: 20px; font-size: 12px; font-weight: 800; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 14px;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); transition: all 0.2s;
+}
+.compose-btn-main:hover { background: #1d4ed8; }
+.mail-nav-item {
+  padding: 8px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; color: #cbd5e1;
+  display: flex; align-items: center; justify-content: space-between; cursor: pointer; margin-bottom: 4px;
+}
+.mail-nav-item.active { background: rgba(59, 130, 246, 0.2); color: #60a5fa; font-weight: 700; }
+.webmail-content { background: #0b1322; padding: 16px; }
+
+/* ── MODAL POPUP COMPOSE ── */
+.compose-modal {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6); overflow: hidden;
+}
+.modal-header {
+  background: #09111e; padding: 10px 14px; display: flex; align-items: center; justify-content: space-between;
+  font-size: 12px; font-weight: 800; border-bottom: 1px solid var(--border); color: #e2e8f0;
+}
+.compose-row {
+  display: flex; align-items: center; padding: 8px 14px; border-bottom: 1px solid var(--border);
+  font-size: 13px; gap: 10px;
+}
+.compose-label { color: #94a3b8; width: 65px; font-weight: 700; flex-shrink: 0; font-size: 12px; }
+.compose-input {
+  flex: 1; background: transparent; border: none; outline: none; color: #f1f5f9;
+  font-family: inherit; font-size: 13px;
+}
+.toggle-cc-btn {
+  font-size: 11px; color: #38bdf8; cursor: pointer; background: transparent; border: none;
+  font-weight: 800; padding: 2px 6px; border-radius: 4px;
+}
+.compose-textarea {
+  width: 100%; min-height: 130px; background: transparent; border: none; outline: none;
+  color: #f1f5f9; padding: 14px; font-family: inherit; font-size: 13px; resize: vertical; line-height: 1.6;
+}
+.compose-toolbar {
+  background: #09111e; border-top: 1px solid var(--border); padding: 10px 14px;
+  display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;
+}
+.tool-icon-btn {
+  background: var(--surface-2); border: 1px solid var(--border); color: #cbd5e1;
+  padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.tool-icon-btn:hover { border-color: var(--cyan); color: #fff; }
+.attachment-pill {
+  display: inline-flex; align-items: center; gap: 8px; background: rgba(59, 130, 246, 0.2);
+  border: 1px solid #3b82f6; color: #93c5fd; padding: 4px 10px; border-radius: 6px;
+  font-size: 11px; font-weight: 700; margin: 8px 14px;
+}
+
+/* ── FILE EXPLORER SIMULATOR ── */
+.explorer-modal {
+  background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px;
+  padding: 16px; margin: 12px 14px; display: none; box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+.explorer-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; margin: 12px 0; }
+.file-item {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 10px;
+  text-align: center; cursor: pointer; transition: all 0.2s;
+}
+.file-item:hover { border-color: var(--cyan); transform: translateY(-2px); }
+.file-item.selected { border-color: #10b981; background: rgba(16, 185, 129, 0.15); }
+.file-icon { font-size: 26px; margin-bottom: 4px; }
+.file-name { font-size: 11px; font-weight: 700; word-break: break-all; }
+
+/* ── BUTTONS ── */
+.btn {
+  background: var(--surface-2); border: 1px solid var(--border); color: var(--text);
+  padding: 8px 16px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 700;
+  cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; font-family: inherit;
+}
+.btn:hover { border-color: var(--cyan); }
+.btn-primary { background: #2563eb; color: #fff; border-color: #3b82f6; }
+.btn-primary:hover { background: #1d4ed8; }
+.btn-green { background: var(--green-btn); color: #052e16; border-color: var(--green-btn); font-weight: 900; }
+.btn-green:hover { background: var(--green-btn-hover); }
+.btn-yellow { background: var(--yellow); color: #1e1202; border-color: var(--yellow); font-weight: 900; }
+.btn-lg { padding: 12px 24px; font-size: 14px; border-radius: 12px; }
+
+.nav-buttons-row { display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; gap: 10px; }
+
+/* ── QUIZ / FEEDBACK ── */
+.quiz-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 1rem; }
+.quiz-btn {
+  background: var(--surface-2); border: 1px solid var(--border); color: var(--text);
+  padding: 12px 14px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600;
+  text-align: left; cursor: pointer; transition: all 0.2s; font-family: inherit;
+}
+.quiz-btn:hover { border-color: var(--cyan); }
+.quiz-btn.correct { background: rgba(16, 185, 129, 0.2); border-color: #10b981; color: #34d399; font-weight: 800; }
+.quiz-btn.wrong { background: rgba(239, 68, 68, 0.2); border-color: #ef4444; color: #f87171; }
+.feedback-box { margin-top: 12px; padding: 12px 16px; border-radius: var(--radius-sm); font-size: 13px; display: none; }
+.feedback-box.show { display: block; animation: fadeIn 0.2s ease-out; }
+.feedback-box.ok { background: rgba(16, 185, 129, 0.12); border: 1px solid #10b981; color: #34d399; }
+.feedback-box.bad { background: rgba(239, 68, 68, 0.12); border: 1px solid #ef4444; color: #f87171; }
+
+/* ── CERTIFICATE ── */
+.cert-card {
+  background: radial-gradient(circle at center, #0f274a 0%, #070d18 100%);
+  border: 3px solid var(--cyan); border-radius: var(--radius-lg); padding: 2.5rem 1.5rem;
+  text-align: center; position: relative; box-shadow: 0 0 45px rgba(6, 182, 212, 0.25);
+}
+.cert-title { font-size: 22px; font-weight: 900; color: #38bdf8; letter-spacing: 0.05em; margin: 8px 0; }
+.cert-badge { font-size: 18px; font-weight: 900; color: #fff; margin-bottom: 12px; }
+
+/* ── JURNAL REFLEKSI (MATCHING SCREENSHOT) ── */
+.reflection-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+  padding: 1.75rem; box-shadow: 0 8px 24px rgba(0,0,0,0.3); margin-bottom: 1.5rem;
+}
+.ref-input {
+  width: 100%; background: var(--input-bg); border: 1px solid var(--border); border-radius: 10px;
+  padding: 12px 14px; font-family: inherit; font-size: 13px; color: #f1f5f9; outline: none;
+  transition: border-color 0.2s;
+}
+.ref-input:focus { border-color: #38bdf8; }
+.ref-input::placeholder { color: #475569; }
+
+.slider-container { display: flex; align-items: center; gap: 14px; margin-top: 6px; }
+.ref-slider {
+  flex: 1; height: 7px; -webkit-appearance: none; appearance: none;
+  background: #1e293b; border-radius: 8px; outline: none; cursor: pointer;
+}
+.ref-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none; width: 20px; height: 20px; border-radius: 50%;
+  background: #0284c7; cursor: pointer; border: 2px solid #fff; box-shadow: 0 0 10px rgba(2, 132, 199, 0.6);
+}
+.ref-slider::-moz-range-thumb {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: #0284c7; cursor: pointer; border: 2px solid #fff;
+}
+
+.xp-toast {
+  position: fixed; bottom: 24px; right: 24px; background: rgba(16, 185, 129, 0.95);
+  color: #fff; font-weight: 800; font-size: 13px; padding: 8px 18px; border-radius: 20px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3); z-index: 1000; animation: toastIn 0.3s ease-out;
+}
+@keyframes toastIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+.screen-pane { display: none; animation: fadeIn 0.25s ease-out; }
+.screen-pane.active { display: block; }
+
+#confettiCanvas { position: fixed; inset: 0; pointer-events: none; z-index: 999; }
+@media (max-width: 700px) {
+  .webmail-layout { grid-template-columns: 1fr; }
+  .webmail-sidebar { display: none; }
+  .quiz-grid { grid-template-columns: 1fr; }
+  .profile-card { flex-direction: column; align-items: flex-start; }
+  .breadcrumbs { display: none; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="confettiCanvas"></canvas>
+
+<!-- TOP NAV (MATCHING SCREENSHOT) -->
+<nav class="top-nav">
+  <div class="brand-box">
+    <span class="brand-badge">P7 DATA & EMAIL</span>
+    <div class="brand-info">
+      <h1>Computer Quest — Level 7</h1>
+    </div>
+  </div>
+
+  <div class="breadcrumbs">
+    <span class="crumb">P5 Starter</span>
+    <span class="crumb">P6 Formula</span>
+    <span class="crumb active">P7 Data & Email</span>
+  </div>
+
+  <div class="nav-actions">
+    <div class="timer-pill">⏱️ 44:53</div>
+    <button class="audio-btn" id="audioToggle" onclick="toggleAudio()">🔊 Suara</button>
+  </div>
+</nav>
+
+<main class="container">
+
+  <!-- PROFILE & XP (MATCHING SCREENSHOT) -->
+  <header class="profile-card">
+    <div class="avatar-display" id="playerAvatar" onclick="promptChangeName()" title="Ganti Nama Siswa">⚡</div>
+    <div class="hero-details">
+      <div class="hero-rank" id="rankBadge">RANK: 👑 GRAND DATA & EMAIL MASTER</div>
+      <div class="hero-name" id="playerName" onclick="promptChangeName()">Budi Santoso</div>
+    </div>
+    <div class="xp-wrapper">
+      <div class="xp-labels">
+        <span style="color:#cbd5e1;">KEMAJUAN BELAJAR LEVEL 7</span>
+        <span id="xpText" style="color:#f8fafc;font-weight:900;">0 / 1400 XP</span>
+      </div>
+      <div class="xp-track">
+        <div class="xp-fill" id="xpBarFill"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- NAVIGATION TABS (MATCHING SCREENSHOT GREEN PILL STYLE) -->
+  <nav class="nav-tabs" id="navTabsContainer">
+    <button class="nav-tab active" onclick="switchSection(0)"><span class="dot-indicator"></span>● 0. Ringkasan Data</button>
+    <button class="nav-tab" onclick="switchSection(1)"><span class="dot-indicator"></span>● 1. Lab Mean, Median, Modus</button>
+    <button class="nav-tab" onclick="switchSection(2)"><span class="dot-indicator"></span>● 2. Anatomi Webmail</button>
+    <button class="nav-tab" onclick="switchSection(3)"><span class="dot-indicator"></span>● 3. To, Cc, Bcc & Subject</button>
+    <button class="nav-tab" onclick="switchSection(4)"><span class="dot-indicator"></span>● 4. Lampirkan File</button>
+    <button class="nav-tab" onclick="switchSection(5)"><span class="dot-indicator"></span>● 5. Simulator Webmail</button>
+    <button class="nav-tab" onclick="switchSection(6)"><span class="dot-indicator"></span>● 6. Download & Reply</button>
+    <button class="nav-tab" onclick="switchSection(7)"><span class="dot-indicator"></span>● 7. Detektif Error</button>
+    <button class="nav-tab" onclick="switchSection(8)"><span class="dot-indicator"></span>● 8. Final Boss & Sertifikat</button>
+    <button class="nav-tab" onclick="switchSection(9)"><span class="dot-indicator"></span>● 9. Jurnal Refleksi</button>
+  </nav>
+
+  <!-- ═════════════════════════════════════════════
+       SECTION 0: ANALOGI DATA & KONSEP STATISTIK
+  ═════════════════════════════════════════════ -->
+  <section class="screen-pane active" id="sec0">
+    <div class="hero-banner">
+      <div class="hero-tag-chip">📊 PART 1 — MEMAHAMI DATA DENGAN ANALOGI</div>
+      <h2>"Pahami Datanya dengan Analogi Nyata, Lalu Kuasai Email Laptop!"</h2>
+      <p>
+        Sebelum kita belajar mengirim berkas tugas di laptop, kita pahami 3 konsep statistik yang paling sering kamu temui: <strong>Mean</strong>, <strong>Median</strong>, dan <strong>Modus</strong> melalui analogi kehidupan sehari-hari yang seru dan mudah diingat!
+      </p>
+    </div>
+
+    <!-- ANALOGI 1: MEAN -->
+    <div class="card" style="border-left: 4px solid var(--purple);">
+      <div class="card-tag" style="color:var(--purple);">ANALOGI 1: MEAN (RATA-RATA)</div>
+      <div class="card-title">🟣 Mean: Konsep "6 Permen Dibagi Rata ke 3 Anak"</div>
+      <div class="card-lead">
+        Jangan langsung pusing dengan rumus pembagian. Bayangkan kamu membawa <strong>6 permen</strong> untuk dibagikan secara adil kepada <strong>3 orang teman</strong>:
+      </div>
+
+      <div class="visual-box">
+        <div style="font-size:12px;color:var(--text-dim);margin-bottom:4px;">6 Permen yang kita kumpulkan:</div>
+        <div class="emoji-row">🍬 🍬 🍬 🍬 🍬 🍬</div>
+        <div style="font-weight:700;color:var(--yellow);margin:8px 0;font-size:13px;">Jika dibagi sama rata kepada 3 anak:</div>
+        <div class="group-grid">
+          <div class="group-item">👦 Andi mendapat:<br><span style="font-size:22px;">🍬 🍬</span><br><b style="color:var(--purple);">2 permen</b></div>
+          <div class="group-item">👧 Siti mendapat:<br><span style="font-size:22px;">🍬 🍬</span><br><b style="color:var(--purple);">2 permen</b></div>
+          <div class="group-item">👦 Doni mendapat:<br><span style="font-size:22px;">🍬 🍬</span><br><b style="color:var(--purple);">2 permen</b></div>
+        </div>
+      </div>
+
+      <div style="background:rgba(139,92,246,0.12);border:1px solid var(--purple);border-radius:var(--radius-sm);padding:14px;font-size:12px;color:#ddd6fe;">
+        💡 <strong>Inti Kesimpulan Mean:</strong> <i>"Rata-rata (Mean) adalah hasil ketika <strong>SEMUA NILAI DIKUMPULKAN</strong>, lalu <strong>DIBAGI SECARA MERATA</strong>."</i><br>
+        Contoh nilai: 70, 80, 90 ➔ Total <code>70 + 80 + 90 = 240</code> ➔ Dibagi 3 data ➔ <code>240 ÷ 3 = 80</code>!
+      </div>
+    </div>
+
+    <!-- ANALOGI 2: MEDIAN -->
+    <div class="card" style="border-left: 4px solid var(--yellow);">
+      <div class="card-tag" style="color:var(--yellow);">ANALOGI 2: MEDIAN (NILAI TENGAH)</div>
+      <div class="card-title">🟡 Median: Konsep "Orang yang Berdiri di Tengah Antrean"</div>
+      <div class="card-lead">
+        Bayangkan ada 5 anak yang sedang berbaris rapi antre masuk ke laboratorium komputer:
+      </div>
+
+      <div class="visual-box">
+        <div class="emoji-row" style="letter-spacing:12px;">👦 👧 👦 👧 👦</div>
+        <div style="display:flex;justify-content:center;gap:30px;font-weight:bold;color:var(--text-dim);font-size:13px;">
+          <span>1</span><span>2</span><span style="color:var(--yellow);font-size:15px;font-weight:900;">[3] (TENGAH)</span><span>4</span><span>5</span>
+        </div>
+        <div style="margin-top:10px;font-size:13px;color:#e2e8f0;">
+          Siapa yang berdiri tepat di titik tengah antrean? ➔ <strong style="color:var(--yellow);">Anak nomor 3!</strong>
+        </div>
+      </div>
+
+      <div style="background:rgba(245,158,11,0.1);border:1px solid var(--yellow);border-radius:var(--radius-sm);padding:14px;font-size:12px;color:#fef08a;">
+        💡 <strong>Inti Kesimpulan Median:</strong> <i>"Median adalah <strong>nilai yang berada di posisi tengah</strong> setelah data diurutkan dari terkecil ke terbesar."</i><br>
+        • <strong>Data Ganjil:</strong> <code>60, 70, [80], 90, 100</code> ➔ Nilai tengah adalah <b>80</b>.<br>
+        • <strong>Data Genap:</strong> <code>60, 70, 80, 90</code> ➔ Ambil 2 angka tengah: <code>(70 + 80) ÷ 2 = 75</code>.
+      </div>
+    </div>
+
+    <!-- ANALOGI 3: MODUS -->
+    <div class="card" style="border-left: 4px solid var(--green);">
+      <div class="card-tag" style="color:var(--green);">ANALOGI 3: MODUS (PALING SERING MUNCUL)</div>
+      <div class="card-title">🟢 Modus: Konsep "Pesanan Makanan Kantin Paling Laris"</div>
+      <div class="card-lead">
+        Lihat daftar pesanan makanan murid-murid di kantin sekolah saat istirahat:
+      </div>
+
+      <div class="visual-box">
+        <div class="emoji-row" style="gap:16px;">🍕 🍔 🍕 🍕 🌭 🍔</div>
+        <div style="font-weight:700;color:var(--green);font-size:14px;margin-top:6px;">
+          Makanan mana yang paling sering dipesan murid? ➔ 🍕 Pizza (muncul 3 kali)!
+        </div>
+      </div>
+
+      <div style="background:rgba(16,185,129,0.1);border:1px solid var(--green);border-radius:var(--radius-sm);padding:14px;font-size:12px;color:#a7f3d0;">
+        💡 <strong>Inti Kesimpulan Modus:</strong> <i>"Modus adalah <strong>nilai atau data yang frekuensi kemunculannya paling banyak</strong>."</i><br>
+        Contoh angka: <code>70, [80], [80], 90, 95</code> ➔ Angka 80 muncul 2 kali (terbanyak) ➔ Modus = <b>80</b>.
+      </div>
+    </div>
+
+    <!-- IDENTITAS SISWA -->
+    <div class="card">
+      <div class="card-tag">IDENTITAS SISWA</div>
+      <div class="card-title">👤 Masukkan Nama Siswa:</div>
+      <div style="margin-bottom:1.25rem;">
+        <label style="font-size:12px;font-weight:700;color:var(--text-dim);display:block;margin-bottom:6px;">Ketik Nama Lengkapmu untuk Praktik Email & Sertifikat:</label>
+        <input type="text" id="studentNameInput" placeholder="Contoh: Budi Santoso" value="Budi Santoso" oninput="updateStudentName(this.value)" class="ref-input" style="max-width:440px;">
+      </div>
+      <button class="btn btn-primary btn-lg" onclick="startLearning()">🔥 Uji Pemahaman di Lab Data Cepat →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       SECTION 1: LAB DATA CEPAT (INTERAKTIF)
+  ═════════════════════════════════════════════ -->
+  <section class="screen-pane" id="sec1">
+    <div class="card">
+      <div class="card-tag">LABORATORIUM HITUNG MANDIRI</div>
+      <div class="card-title">🧪 Uji Cepat: Analisis Data Nilai [ 60, 70, 70, 80, 90 ]</div>
+      <div class="card-lead">Ketik jawabanmu pada kotak di bawah ini untuk membuktikan pemahamanmu:</div>
+
+      <div style="background:var(--surface-2);border-radius:var(--radius-md);padding:18px;margin-bottom:1.25rem;border:1px solid var(--border);">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;">
+          <div>
+            <label style="font-size:12px;font-weight:bold;color:var(--purple);display:block;margin-bottom:4px;">1. MEAN (Rata-rata):</label>
+            <div style="font-size:11px;color:var(--text-dim);margin-bottom:4px;">Total 370 ÷ 5 data = ?</div>
+            <input type="number" id="quickMean" placeholder="Hasil Mean..." class="ref-input">
+          </div>
+          <div>
+            <label style="font-size:12px;font-weight:bold;color:var(--yellow);display:block;margin-bottom:4px;">2. MEDIAN (Nilai Tengah):</label>
+            <div style="font-size:11px;color:var(--text-dim);margin-bottom:4px;">Angka urutan ke-3 (tengah) = ?</div>
+            <input type="number" id="quickMedian" placeholder="Hasil Median..." class="ref-input">
+          </div>
+          <div>
+            <label style="font-size:12px;font-weight:bold;color:var(--green);display:block;margin-bottom:4px;">3. MODUS (Paling Sering):</label>
+            <div style="font-size:11px;color:var(--text-dim);margin-bottom:4px;">Angka yang muncul 2 kali = ?</div>
+            <input type="number" id="quickModus" placeholder="Hasil Modus..." class="ref-input">
+          </div>
+        </div>
+        <div style="margin-top:14px;text-align:right;">
+          <button class="btn btn-primary" onclick="verifyQuickData()">Periksa Hasil Analisis Data</button>
+        </div>
+        <div id="quickDataFeedback" class="feedback-box"></div>
+      </div>
+    </div>
+
+    <!-- SELESAI PART DATA ➔ MASUK EMAIL -->
+    <div id="dataDoneBanner" style="display:none;" class="card" style="background:linear-gradient(135deg,rgba(16,185,129,0.15),rgba(59,130,246,0.15));border-color:var(--green);text-align:center;padding:1.5rem;">
+      <div style="font-size:28px;margin-bottom:6px;">🎉 📊 🚀</div>
+      <div style="font-size:16px;font-weight:900;color:var(--green);margin-bottom:4px;">DATA SELESAI DENGAN SEMPURNA!</div>
+      <p style="font-size:12px;color:#cbd5e1;max-width:560px;margin:0 auto 12px;">
+        Sekarang kamu sudah paham konsep Mean, Median, dan Modus. Mari kita eksplorasi <strong>bagaimana menggunakan Email di laptop secara nyata!</strong>
+      </p>
+      <button class="btn btn-green" onclick="switchSection(2)">LANJUT KE IMPLEMENTASI EMAIL DI LAPTOP →</button>
+    </div>
+
+    <div class="nav-buttons-row">
+      <button class="btn" onclick="switchSection(0)">← Ringkasan</button>
+      <button class="btn btn-primary" onclick="switchSection(2)">Lanjut ke Email di Laptop →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       SECTION 2: ANATOMI WEBMAIL DI LAPTOP
+  ═════════════════════════════════════════════ -->
+  <section class="screen-pane" id="sec2">
+    <div class="hero-banner">
+      <div class="hero-tag-chip">💻 EMAIL IMPLEMENTATION DI LAPTOP</div>
+      <h2>Bagaimana Cara Membuka & Menggunakan Email di Laptop?</h2>
+      <p>
+        Di laptop atau komputer sekolah, kita menggunakan <strong>Webmail</strong> (seperti Gmail di Google Chrome atau Outlook di Microsoft Edge). Mari kita pelajari tata letak layarnya!
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-tag">ANTARMUKA LAPTOP</div>
+      <div class="card-title">🖥️ Anatomi Layar Webmail di Browser Laptop</div>
+      <div class="card-lead">Perhatikan bagian-bagian penting jendela email laptop di bawah ini:</div>
+
+      <div class="laptop-window">
+        <div class="window-titlebar">
+          <div class="window-dots">
+            <div class="window-dot dot-red"></div>
+            <div class="window-dot dot-yellow"></div>
+            <div class="window-dot dot-green"></div>
+          </div>
+          <span>🌐 mail.google.com — Kotak Masuk Siswa</span>
+          <span>Google Chrome</span>
+        </div>
+        <div class="webmail-layout">
+          <div class="webmail-sidebar">
+            <button class="compose-btn-main" onclick="switchSection(5)">
+              <span>✏️</span> Tulis (Compose)
+            </button>
+            <div class="mail-nav-item active"><span>📥 Kotak Masuk</span> <b>4</b></div>
+            <div class="mail-nav-item"><span>⭐ Berbintang</span></div>
+            <div class="mail-nav-item"><span>📤 Terkirim (Sent)</span></div>
+            <div class="mail-nav-item"><span>📝 Draf (Drafts)</span> <b>1</b></div>
+            <div class="mail-nav-item"><span>🗑️ Sampah</span></div>
+          </div>
+          <div class="webmail-content">
+            <div style="font-size:11px;font-weight:bold;color:#38bdf8;margin-bottom:10px;text-transform:uppercase;">DAFTAR EMAIL MASUK TERBARU:</div>
+            <div style="background:#1e293b;padding:10px 12px;border-radius:6px;margin-bottom:6px;border-left:3px solid var(--cyan);display:flex;justify-content:space-between;font-size:12px;">
+              <div><b>Bu Ratna (Guru Komputer)</b> — <span style="color:#94a3b8;">Pengumuman Tugas Rekap Nilai Excel P6</span></div>
+              <span style="color:#94a3b8;">08:30</span>
+            </div>
+            <div style="background:#1e293b;padding:10px 12px;border-radius:6px;margin-bottom:6px;display:flex;justify-content:space-between;font-size:12px;">
+              <div><b>Pak Rudi (Wali Kelas 7A)</b> — <span style="color:#94a3b8;">Jadwal Ulangan Tengah Semester</span></div>
+              <span style="color:#94a3b8;">Kemarin</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="data-cards-grid">
+        <div class="stat-box" style="text-align:left;">
+          <div style="color:#38bdf8;font-weight:bold;font-size:12px;">1. Tombol Tulis (Compose)</div>
+          <div style="font-size:11px;color:var(--text-dim);margin-top:4px;">Tombol utama untuk memunculkan formulir penulisan surat baru.</div>
+        </div>
+        <div class="stat-box" style="text-align:left;">
+          <div style="color:#38bdf8;font-weight:bold;font-size:12px;">2. Kotak Masuk (Inbox)</div>
+          <div style="font-size:11px;color:var(--text-dim);margin-top:4px;">Tempat semua email kiriman guru dan teman masuk dan tersimpan.</div>
+        </div>
+        <div class="stat-box" style="text-align:left;">
+          <div style="color:#38bdf8;font-weight:bold;font-size:12px;">3. Terkirim (Sent)</div>
+          <div style="font-size:11px;color:var(--text-dim);margin-top:4px;">Bukti resmi bahwa emailmu benar-benar sudah meluncur ke penerima.</div>
+        </div>
+        <div class="stat-box" style="text-align:left;">
+          <div style="color:#38bdf8;font-weight:bold;font-size:12px;">4. Draf (Drafts)</div>
+          <div style="font-size:11px;color:var(--text-dim);margin-top:4px;">Penyelamat! Jika laptop tiba-tiba mati lampu, tulisanmu otomatis tersimpan di sini.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-buttons-row">
+      <button class="btn" onclick="switchSection(1)">← Lab Data</button>
+      <button class="btn btn-primary" onclick="switchSection(3)">Lanjut ke Bedah To, Cc, Bcc & Subject →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       SECTION 3: BEDAH TO, CC, BCC & SUBJECT
+  ═════════════════════════════════════════════ -->
+  <section class="screen-pane" id="sec3">
+    <div class="card">
+      <div class="card-tag">FORMULIR EMAIL</div>
+      <div class="card-title">📮 Bedah Kolom Alamat: To, Cc, Bcc & Format Subject</div>
+      <div class="card-lead">Di laptop, saat kamu klik "Tulis", ada 3 pilihan penerima yang berbeda fungsinya:</div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-bottom:1.5rem;">
+        <div style="background:var(--surface-2);border:1px solid #3b82f6;border-radius:10px;padding:14px;">
+          <div style="color:#60a5fa;font-weight:800;font-size:13px;margin-bottom:4px;">1. Kepada (To)</div>
+          <div style="font-size:12px;color:var(--text-dim);line-height:1.6;">
+            <strong>Penerima Utama</strong> yang wajib membaca dan membalas tugasmu (misal: alamat email guru mata pelajaran).
+          </div>
+        </div>
+
+        <div style="background:var(--surface-2);border:1px solid #f59e0b;border-radius:10px;padding:14px;">
+          <div style="color:#fcd34d;font-weight:800;font-size:13px;margin-bottom:4px;">2. Cc (Carbon Copy / Tembusan)</div>
+          <div style="font-size:12px;color:var(--text-dim);line-height:1.6;">
+            Orang yang <strong>hanya perlu mengetahui</strong> informasinya sebagai saksi (misal: teman sekelompok). Semua penerima bisa melihat alamat email ini.
+          </div>
+        </div>
+
+        <div style="background:var(--surface-2);border:1px solid #10b981;border-radius:10px;padding:14px;">
+          <div style="color:#6ee7b7;font-weight:800;font-size:13px;margin-bottom:4px;">3. Bcc (Blind Carbon Copy)</div>
+          <div style="font-size:12px;color:var(--text-dim);line-height:1.6;">
+            Tembusan <strong>RAHASIA</strong>! Alamat email di Bcc tidak akan terlihat oleh penerima lainnya (cocok menjaga privasi teman).
+          </div>
+        </div>
+      </div>
+
+      <div style="background:rgba(59,130,246,0.1);border:1px solid #3b82f6;border-radius:10px;padding:16px;">
+        <div style="font-weight:800;color:#93c5fd;font-size:14px;margin-bottom:6px;">
+          🏷️ Standar Menulis Subject Email Sekolah / Tugas:
+        </div>
+        <div style="font-family:monospace;background:var(--input-bg);padding:10px 14px;border-radius:6px;color:#fde047;font-size:12px;margin-bottom:8px;">
+          [Kelas] - [Mata Pelajaran] - [Nama Lengkap] - [Judul Tugas]
+        </div>
+        <div style="font-size:12px;color:var(--text-dim);">
+          Contoh: <code>7A - Komputer - Budi Santoso - Tugas Rekap Excel P6</code><br>
+          <i>Guru menerima puluhan email setiap hari. Format subject yang rapi membuat tugasmu langsung ditemukan dan cepat dinilai!</i>
+        </div>
+      </div>
+    </div>
+
+    <!-- KUIS CEPAT CC -->
+    <div class="card">
+      <div class="card-tag">UJI PEMAHAMAN</div>
+      <div class="card-title">🧪 Kapan Kamu Harus Menggunakan Fitur "Cc"?</div>
+      <div class="quiz-grid">
+        <button class="quiz-btn" onclick="checkCcQuiz(this, true)">
+          A. Ketika mengirim tugas kelompok ke guru, dan ingin teman sekelompok tahu tugasnya sudah terkirim.
+        </button>
+        <button class="quiz-btn" onclick="checkCcQuiz(this, false)">
+          B. Untuk menghapus email yang salah kirim.
+        </button>
+        <button class="quiz-btn" onclick="checkCcQuiz(this, false)">
+          C. Untuk melampirkan foto rahasia.
+        </button>
+        <button class="quiz-btn" onclick="checkCcQuiz(this, false)">
+          D. Untuk membalas pesan secara otomatis.
+        </button>
+      </div>
+      <div id="ccQuizFeedback" class="feedback-box"></div>
+    </div>
+
+    <div class="nav-buttons-row">
+      <button class="btn" onclick="switchSection(2)">← Anatomi Webmail</button>
+      <button class="btn btn-primary" onclick="switchSection(4)">Lanjut ke Cara Melampirkan File →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       SECTION 4: LAMPIRKAN FILE DARI LAPTOP (EXPLORER)
+  ═════════════════════════════════════════════ -->
+  <section class="screen-pane" id="sec4">
+    <div class="card">
+      <div class="card-tag">PRAKTIK FILE EXPLORER LAPTOP</div>
+      <div class="card-title">📎 Cara Melampirkan File Nyata dari Laptop (Attachment)</div>
+      <div class="card-lead">
+        Bagaimana berkas Word (`.docx`) atau Excel (`.xlsx`) yang ada di folder laptop bisa masuk ke dalam email?
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:1.5rem;">
+        <div style="background:var(--surface-2);border-radius:10px;padding:14px;border-left:4px solid var(--blue);">
+          <b>Langkah 1: Klik Ikon Klip Kertas 📎 di Toolbar Email</b>
+          <div style="font-size:12px;color:var(--text-dim);margin-top:2px;">Ikon ini bernama <i>Attach Files</i>. Jendela File Explorer laptop akan terbuka otomatis.</div>
+        </div>
+        <div style="background:var(--surface-2);border-radius:10px;padding:14px;border-left:4px solid var(--purple);">
+          <b>Langkah 2: Navigasi ke Folder Tempat File Disimpan</b>
+          <div style="font-size:12px;color:var(--text-dim);margin-top:2px;">Misalnya buka folder <code>Documents ➔ Computer Quest</code>.</div>
+        </div>
+        <div style="background:var(--surface-2);border-radius:10px;padding:14px;border-left:4px solid var(--yellow);">
+          <b>Langkah 3: Pilih File dan Klik "Open"</b>
+          <div style="font-size:12px;color:var(--text-dim);margin-top:2px;">Tunggu bilah biru upload selesai hingga nama file berubah menjadi warna biru/hijau.</div>
+        </div>
+        <div style="background:var(--surface-2);border-radius:10px;padding:14px;border-left:4px solid var(--green);">
+          <b>Langkah 4: Perhatikan Batas Ukuran File (Max 25 MB)</b>
+          <div style="font-size:12px;color:var(--text-dim);margin-top:2px;">Email standar di laptop membatasi ukuran file maksimal 25 MB. Jika file terlalu besar, gunakan Google Drive / link awan.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-buttons-row">
+      <button class="btn" onclick="switchSection(3)">← Bedah Kolom Alamat</button>
+      <button class="btn btn-primary" onclick="switchSection(5)">Masuk ke Simulator Webmail Laptop →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       SECTION 5: SIMULATOR WEBMAIL LAPTOP (REALISTIS)
+  ═════════════════════════════════════════════ -->
+  <section class="screen-pane" id="sec5">
+    <div class="card">
+      <div class="card-tag">SIMULATOR LENGKAP LAPTOP</div>
+      <div class="card-title">🖥️ Simulator Webmail Laptop: Tulis, Attach & Kirim Tugas!</div>
+      <div class="card-lead">
+        Coba seluruh fiturnya langsung di dalam simulator jendela email laptop di bawah ini:
+      </div>
+
+      <div class="compose-modal">
+        <div class="modal-header">
+          <span>✉️ Pesan Baru — Pengiriman Tugas</span>
+          <span style="color:#94a3b8;cursor:pointer;">✕</span>
+        </div>
+
+        <div class="compose-row">
+          <span class="compose-label">Kepada:</span>
+          <input type="text" class="compose-input" id="simTo" value="guru_komputer@sekolah.sch.id" placeholder="Ketik email guru...">
+          <button class="toggle-cc-btn" onclick="toggleCcRow()">Cc / Bcc</button>
+        </div>
+
+        <div class="compose-row" id="simCcRow" style="display:none;background:#162742;">
+          <span class="compose-label" style="color:#fcd34d;">Cc:</span>
+          <input type="text" class="compose-input" id="simCc" placeholder="teman_kelompok@sekolah.sch.id (Tembusan)">
+        </div>
+
+        <div class="compose-row">
+          <span class="compose-label">Subject:</span>
+          <input type="text" class="compose-input" id="simSubject" placeholder="Contoh: 7A - Komputer - Budi Santoso - Tugas Rekap Excel P6">
+        </div>
+
+        <textarea class="compose-textarea" id="simBody" placeholder="Selamat siang Ibu Ratna,&#10;&#10;Saya ingin mengumpulkan tugas Microsoft Excel kalkulasi data nilai yang sudah dilengkapi fungsi SUM dan AVERAGE. File tugas telah saya lampirkan di bawah.&#10;&#10;Terima kasih banyak, Bu.&#10;Hormat saya,&#10;Budi Santoso (Kelas 7A)"></textarea>
+
+        <div id="simAttachedFilesArea"></div>
+
+        <div class="explorer-modal" id="simExplorerPopup">
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:bold;color:#93c5fd;">
+            <span>📁 File Explorer — Folder: Documents / Computer Quest</span>
+            <span style="cursor:pointer;" onclick="closeExplorer()">✕ Tutup</span>
+          </div>
+          <div class="explorer-grid">
+            <div class="file-item" onclick="selectSimFile('rekap_nilai_p6.xlsx', '18 KB', this)">
+              <div class="file-icon">📊</div>
+              <div class="file-name">rekap_nilai_p6.xlsx</div>
+              <div style="font-size:10px;color:#94a3b8;">18 KB</div>
+            </div>
+            <div class="file-item" onclick="selectSimFile('makalah_p3.docx', '34 KB', this)">
+              <div class="file-icon">📄</div>
+              <div class="file-name">makalah_p3.docx</div>
+              <div style="font-size:10px;color:#94a3b8;">34 KB</div>
+            </div>
+            <div class="file-item" onclick="selectSimFile('foto_profil.png', '1.2 MB', this)">
+              <div class="file-icon">🖼️</div>
+              <div class="file-name">foto_profil.png</div>
+              <div style="font-size:10px;color:#94a3b8;">1.2 MB</div>
+            </div>
+          </div>
+          <div style="text-align:right;">
+            <button class="btn btn-green" onclick="confirmAttachFile()">Lampirkan File Terpilih (Attach)</button>
+          </div>
+        </div>
+
+        <div class="compose-toolbar">
+          <div style="display:flex;gap:8px;align-items:center;">
+            <button class="btn btn-primary" onclick="sendSimEmail()">Kirim (Send)</button>
+            <button class="tool-icon-btn" onclick="openExplorer()">📎 Lampirkan File (Attach)</button>
+          </div>
+          <div style="display:flex;gap:6px;">
+            <span class="tool-icon-btn" title="Bold"><b>B</b></span>
+            <span class="tool-icon-btn" title="Italic"><i>I</i></span>
+            <span class="tool-icon-btn" title="Underline"><u>U</u></span>
+          </div>
+        </div>
+      </div>
+
+      <div id="simSendFeedback" class="feedback-box"></div>
+      <div id="undoToast" style="display:none;background:var(--surface-2);border:1px solid var(--border);padding:10px 16px;border-radius:10px;margin-top:10px;align-items:center;justify-content:space-between;">
+        <span style="font-size:12px;">✉️ Email terkirim. Ada yang belum terlampir?</span>
+        <button class="btn btn-yellow" style="padding:4px 10px;font-size:11px;" onclick="undoSendEmail()">↩️ Batalkan Pengiriman (Undo Send)</button>
+      </div>
+    </div>
+
+    <div class="nav-buttons-row">
+      <button class="btn" onclick="switchSection(4)">← Lampirkan File</button>
+      <button class="btn btn-primary" onclick="switchSection(6)">Lanjut ke Download & Reply →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       SECTION 6: DOWNLOAD LAMPIRAN & MEMBALAS (REPLY)
+  ═════════════════════════════════════════════ -->
+  <section class="screen-pane" id="sec6">
+    <div class="card">
+      <div class="card-tag">FITUR LANJUTAN DI LAPTOP</div>
+      <div class="card-title">📥 Cara Download File Guru & Membalas Email (Reply)</div>
+      <div class="card-lead">
+        Ketika guru membalas emailmu dengan melampirkan modul belajar baru, bagaimana caramu membukanya di laptop?
+      </div>
+
+      <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:1.25rem;">
+        <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);padding-bottom:10px;margin-bottom:12px;">
+          <div>
+            <div style="font-size:14px;font-weight:bold;color:#f1f5f9;">Subject: Re: 7A - Komputer - Budi Santoso - Tugas Rekap Excel P6</div>
+            <div style="font-size:11px;color:#94a3b8;">Dari: Ibu Ratna &lt;guru_komputer@sekolah.sch.id&gt;</div>
+          </div>
+          <div style="font-size:11px;color:#94a3b8;">10.15 WIB</div>
+        </div>
+
+        <div style="font-size:12px;line-height:1.7;color:#cbd5e1;margin-bottom:16px;">
+          Halo Budi,<br><br>
+          Tugas Excel yang kamu kirimkan sudah Ibu periksa. Seluruh rumus <b>=SUM()</b> dan <b>=AVERAGE()</b> kamu hasilnya 100% tepat! Ibu lampirkan catatan nilai resmi kamu di bawah ini.<br><br>
+          Pertahankan prestasimu ya!<br>
+          Salam,<br>
+          Ibu Ratna
+        </div>
+
+        <div style="background:var(--input-bg);border:1px solid var(--border);border-radius:8px;padding:12px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="font-size:24px;">📊</span>
+            <div>
+              <div style="font-weight:bold;font-size:12px;color:#93c5fd;">Nilai_Budi_Santoso_P6.xlsx</div>
+              <div style="font-size:10px;color:#94a3b8;">Excel Spreadsheet • 24 KB</div>
+            </div>
+          </div>
+          <button class="btn btn-green" onclick="simulateDownload()">
+            ⬇️ Unduh File ke Laptop (Download)
+          </button>
+        </div>
+        <div id="downloadFeedback" style="font-size:12px;color:var(--green);display:none;margin-bottom:14px;">
+          ✅ Berkas berhasil diunduh dan tersimpan di folder <b>Downloads</b> laptopmu!
+        </div>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn btn-primary" onclick="openReplyBox()">↩️ Balas (Reply)</button>
+          <button class="btn" onclick="alert('Peringatan: Gunakan Reply All hanya bila seluruh orang di email perlu membaca balasanmu. Jangan gunakan Reply All jika hanya membalas guru!')">
+            👥 Balas Semua (Reply All)
+          </button>
+          <button class="btn" onclick="alert('Fitur Teruskan (Forward) digunakan untuk mengirim ulang salinan email ini kepada teman lain.')">
+            ➡️ Teruskan (Forward)
+          </button>
+        </div>
+
+        <div id="replyLaptopArea" style="display:none;margin-top:16px;border-top:1px solid var(--border);padding-top:14px;">
+          <div style="font-size:11px;color:#94a3b8;margin-bottom:6px;">Tulis balasanmu kepada Ibu Ratna:</div>
+          <textarea id="replyLaptopText" placeholder="Baik Bu Ratna, terima kasih banyak atas bimbingan dan nilai yang diberikan..." class="ref-input" style="height:80px;"></textarea>
+          <div style="text-align:right;margin-top:8px;">
+            <button class="btn btn-green" onclick="sendLaptopReply()">Kirim Balasan (Send Reply)</button>
+          </div>
+        </div>
+        <div id="replyLaptopFeedback" class="feedback-box"></div>
+      </div>
+    </div>
+
+    <div class="nav-buttons-row">
+      <button class="btn" onclick="switchSection(5)">← Simulator Webmail</button>
+      <button class="btn btn-primary" onclick="switchSection(7)">Lanjut ke Detektif Error Email →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       SECTION 7: DETEKTIF ERROR EMAIL LAPTOP
+  ═════════════════════════════════════════════ -->
+  <section class="screen-pane" id="sec7">
+    <div class="card">
+      <div class="card-tag">TROUBLESHOOTING EMAIL LAPTOP</div>
+      <div class="card-title">🕵️‍♂️ Detektif Error: Masalah Nyata yang Sering Dialami Siswa</div>
+      <div class="card-lead">Pecahkan 3 masalah email yang sering terjadi saat siswa menggunakan laptop:</div>
+
+      <div style="background:var(--surface-2);border-radius:var(--radius-md);padding:18px;margin-bottom:1.25rem;border:1px solid var(--border);" id="caseContainer">
+        <div style="font-size:11px;font-weight:bold;color:var(--yellow);margin-bottom:6px;" id="caseTag">KASUS 1 DARI 3</div>
+        <div style="font-size:14px;font-weight:bold;color:#f1f5f9;margin-bottom:12px;line-height:1.6;" id="caseDesc">
+          "Doni mengeluh email tugasnya gagal terkirim dan muncul pesan error 'Address not found'. Alamat yang dia ketik adalah: guru.komputer#sekolah.sch.id. Apa kesalahannya?"
+        </div>
+        <div class="quiz-grid" id="caseOptions"></div>
+        <div id="caseFeedback" class="feedback-box"></div>
+      </div>
+    </div>
+
+    <div class="nav-buttons-row">
+      <button class="btn" onclick="switchSection(6)">← Download & Reply</button>
+      <button class="btn btn-primary" onclick="switchSection(8)">Lanjut ke Final Boss & Sertifikat →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       SECTION 8: FINAL BOSS CHECKPOINT & SERTIFIKAT
+  ═════════════════════════════════════════════ -->
+  <section class="screen-pane" id="sec8">
+    <div class="card">
+      <div class="card-tag" style="color:var(--yellow);">UJIAN MANDIRI LEVEL 7</div>
+      <div class="card-title">🏆 Final Boss: Uji Kecakapan Data & Email Laptop</div>
+      <div class="card-lead">Jawab pertanyaan penutup untuk membuktikan kesiapanmu di era digital:</div>
+
+      <div style="background:var(--surface-2);border-radius:10px;padding:16px;margin-bottom:14px;border:1px solid var(--border);">
+        <div style="font-weight:bold;color:#93c5fd;margin-bottom:4px;font-size:13px;">1. Data Nilai Ulangan: [ 70, 80, 80, 90, 100 ]</div>
+        <div style="font-size:11px;color:var(--text-dim);margin-bottom:10px;">Berapakah nilai Rata-rata (Mean) dan Nilai Tengah (Median)?</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div>
+            <label style="font-size:11px;font-weight:bold;">Mean (Total 420 ÷ 5):</label>
+            <input type="number" id="cpMean" placeholder="Jawaban..." class="ref-input" style="margin-top:2px;">
+          </div>
+          <div>
+            <label style="font-size:11px;font-weight:bold;">Median (Urutan Tengah):</label>
+            <input type="number" id="cpMedian" placeholder="Jawaban..." class="ref-input" style="margin-top:2px;">
+          </div>
+        </div>
+      </div>
+
+      <div style="background:var(--surface-2);border-radius:10px;padding:16px;margin-bottom:14px;border:1px solid var(--border);">
+        <div style="font-weight:bold;color:var(--green);margin-bottom:8px;font-size:13px;">2. Praktik Email di Laptop:</div>
+        <div style="font-size:12px;color:#f1f5f9;margin-bottom:8px;">
+          Jika kamu baru saja menekan tombol Kirim, lalu tersadar bahwa kamu <b>lupa melampirkan file tugas Excel</b>, fitur penyelamat apa di laptop yang bisa kamu tekan dalam waktu 5-30 detik pertama?
+        </div>
+        <div class="quiz-grid" id="cpEmailOptions">
+          <button class="quiz-btn" onclick="checkCp2(this, true)">A. Tombol "Undo Send" (Batalkan Pengiriman)</button>
+          <button class="quiz-btn" onclick="checkCp2(this, false)">B. Cabut kabel charger laptop</button>
+          <button class="quiz-btn" onclick="checkCp2(this, false)">C. Tekan tombol Spasi berkali-kali</button>
+          <button class="quiz-btn" onclick="checkCp2(this, false)">D. Tutup layar laptop langsung</button>
+        </div>
+      </div>
+
+      <div style="text-align:center;">
+        <button class="btn btn-yellow btn-lg" onclick="verifyFinalCheckpoint()">
+          ⭐ Verifikasi Hasil & Cetak Sertifikat Kelulusan!
+        </button>
+      </div>
+      <div id="checkpointFeedback" class="feedback-box"></div>
+    </div>
+
+    <!-- CERTIFICATE BLOCK -->
+    <div id="victoryCertBlock" style="display:none;margin-top:1.5rem;">
+      <div class="cert-card">
+        <div style="font-size:36px;margin-bottom:6px;">📊 ✉️ 💻 🏆</div>
+        <div class="hero-tag-chip" style="background:rgba(245,158,11,0.2);color:var(--yellow);border-color:var(--yellow);">LEVEL 7 RESMI LULUS</div>
+        <div class="cert-title">SERTIFIKAT DIGITAL COMMUNICATOR & DATA ANALYST</div>
+        <div class="cert-badge" id="certPlayerLabel">Dianugerahkan kepada: Budi Santoso ⚡</div>
+        <p style="font-size:13px;color:#cbd5e1;max-width:620px;margin:0 auto 16px;line-height:1.7;">
+          Telah berhasil membuktikan kecakapan praktis di era digital: memahami intisari pemrosesan data statistik (Mean, Median, Modus) serta terampil mengoperasikan Webmail di laptop, menulis Subject resmi, melampirkan berkas melalui File Explorer, dan menerapkan etika komunikasi online!
+        </p>
+        <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem;">
+          <span style="background:rgba(16,185,129,0.15);border:1px solid var(--green);color:var(--green);padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;">✓ Mean, Median, Modus</span>
+          <span style="background:rgba(16,185,129,0.15);border:1px solid var(--green);color:var(--green);padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;">✓ Webmail & File Explorer</span>
+          <span style="background:rgba(16,185,129,0.15);border:1px solid var(--green);color:var(--green);padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;">✓ To, Cc, Bcc & Subject Standar</span>
+          <span style="background:rgba(16,185,129,0.15);border:1px solid var(--green);color:var(--green);padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;">✓ Download & Etika Reply</span>
+        </div>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+          <button class="btn" onclick="window.print()">🖨️ Cetak / Simpan Sertifikat Resmi P7 (PDF)</button>
+          <button class="btn btn-green" onclick="switchSection(9)" style="font-size:13px;">
+            <span>💭</span> 👉 Isi Jurnal Refleksi Level 7 (+75 XP) →
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       SECTION 9: JURNAL REFLEKSI (MATCHING SCREENSHOT)
+  ═════════════════════════════════════════════ -->
+  <section class="screen-pane" id="sec9">
+    <div class="reflection-card">
+      <div class="card-tag">JURNAL REFLEKSI LEVEL 7</div>
+      <h3 style="font-size:19px;font-weight:900;color:#fff;margin-bottom:6px;display:flex;align-items:center;gap:8px;">
+        <span>💭</span> Jurnal Pengalaman: Sensasi Mengolah Data & Kirim Email di Laptop!
+      </h3>
+      <p style="font-size:13px;color:#94a3b8;margin-bottom:1.5rem;line-height:1.6;">
+        Tuliskan pemikiranmu hari ini agar keterampilan analisis data dan etika komunikasi email di laptop semakin kuat:
+      </p>
+
+      <!-- PERTANYAAN 1 -->
+      <div style="margin-bottom:1.25rem;">
+        <label style="display:block;font-size:13px;font-weight:700;color:#f1f5f9;margin-bottom:6px;">
+          1. Dari konsep data (Mean, Median, Modus) dan fitur email (To, Cc, Bcc, Undo Send), mana yang menurutmu paling ajaib dan berguna?
+        </label>
+        <input type="text" id="refAns1" placeholder="Contoh: Fitur Undo Send karena gak perlu panik kalau lupa melampirkan berkas tugas..." class="ref-input">
+      </div>
+
+      <!-- PERTANYAAN 2 -->
+      <div style="margin-bottom:1.25rem;">
+        <label style="display:block;font-size:13px;font-weight:700;color:#f1f5f9;margin-bottom:6px;">
+          2. Kapan kamu akan menggunakan email di laptop atau hitungan data ini di sekolah / kehidupan sehari-hari?
+        </label>
+        <input type="text" id="refAns2" placeholder="Contoh: Mengirim tugas rekap nilai ke guru dan tembusan ke teman kelompok pakai Cc..." class="ref-input">
+      </div>
+
+      <!-- PERTANYAAN 3: SLIDER -->
+      <div style="margin-bottom:1.75rem;">
+        <label style="display:block;font-size:13px;font-weight:700;color:#f1f5f9;margin-bottom:6px;">
+          3. Nilai rasa percaya dirimu menggunakan email di laptop & analisis data sekarang: (1 - 5)
+        </label>
+        <div class="slider-container">
+          <span style="font-size:14px;font-weight:800;color:#94a3b8;white-space:nowrap;">😟 1</span>
+          <input type="range" min="1" max="5" step="1" value="5" id="refSlider" class="ref-slider" oninput="updateConfidence(this.value)">
+          <span id="sliderValueLabel" style="font-size:15px;font-weight:900;color:#fff;white-space:nowrap;">5 👑 👑</span>
+        </div>
+      </div>
+
+      <!-- ACTION BUTTON -->
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <button class="btn btn-green btn-lg" onclick="saveReflection()">
+          <span>💾</span> Simpan Jurnal Refleksi (+75 XP)
+        </button>
+        <span id="refSavedText" style="display:none;font-size:13px;font-weight:bold;color:#4ade80;">
+          ✅ Tersimpan di Jurnal Belajar
+        </span>
+      </div>
+    </div>
+
+    <div class="nav-buttons-row">
+      <button class="btn" onclick="switchSection(8)">← Final Boss & Sertifikat</button>
+    </div>
+  </section>
+
+</main>
+
+<script>
+/* ── AUDIO SYNTHESIZER ── */
+let audioEnabled = true;
+let audioCtx = null;
+function getAudioCtx() {
+  if (!audioCtx) {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (AudioContextClass) audioCtx = new AudioContextClass();
+  }
+  if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+  return audioCtx;
+}
+function playSound(type) {
+  if (!audioEnabled) return;
+  try {
+    const ctx = getAudioCtx();
+    if (!ctx) return;
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    if (type === 'click') {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(600, now);
+      osc.frequency.exponentialRampToValueAtTime(320, now + 0.08);
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.linearRampToValueAtTime(0.01, now + 0.08);
+      osc.start(now); osc.stop(now + 0.08);
+    } else if (type === 'success') {
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(523.25, now);
+      osc.frequency.setValueAtTime(659.25, now + 0.09);
+      osc.frequency.setValueAtTime(783.99, now + 0.18);
+      gain.gain.setValueAtTime(0.15, now);
+      gain.gain.linearRampToValueAtTime(0.01, now + 0.35);
+      osc.start(now); osc.stop(now + 0.35);
+    } else if (type === 'wrong') {
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(220, now);
+      osc.frequency.setValueAtTime(150, now + 0.1);
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
+      osc.start(now); osc.stop(now + 0.25);
+    } else if (type === 'fanfare') {
+      [523.25, 659.25, 783.99, 1046.50].forEach((f, idx) => {
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.connect(g); g.connect(ctx.destination);
+        o.type = 'triangle';
+        o.frequency.setValueAtTime(f, now + idx * 0.12);
+        g.gain.setValueAtTime(0.15, now + idx * 0.12);
+        g.gain.linearRampToValueAtTime(0.01, now + idx * 0.12 + 0.35);
+        o.start(now + idx * 0.12); o.stop(now + idx * 0.12 + 0.35);
+      });
+    }
+  } catch(e) {}
+}
+function toggleAudio() {
+  audioEnabled = !audioEnabled;
+  document.getElementById('audioToggle').textContent = audioEnabled ? '🔊 Suara' : '🔇 Mute';
+  if (audioEnabled) playSound('click');
+}
+
+/* ── STATE ── */
+let currentXP = 0;
+const maxXP = 1400;
+let warriorName = 'Budi Santoso';
+let attachedFileList = [];
+let selectedTempFile = null;
+let cp2AnswerCorrect = false;
+
+/* ── NAVIGATION ── */
+function switchSection(idx) {
+  playSound('click');
+  document.querySelectorAll('.screen-pane').forEach((pane, i) => {
+    pane.classList.toggle('active', i === idx);
+  });
+  document.querySelectorAll('.nav-tab').forEach((tab, i) => {
+    tab.classList.toggle('active', i === idx);
+    if (i < idx) tab.classList.add('completed');
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ── XP & PROFILE ── */
+function addXP(amount, reason) {
+  currentXP = Math.min(maxXP, currentXP + amount);
+  updateXPUI();
+  saveState();
+  showXPToast('+' + amount + ' XP ' + (reason ? '(' + reason + ')' : ''));
+}
+
+function updateXPUI() {
+  const pct = Math.min(100, Math.round((currentXP / maxXP) * 100));
+  document.getElementById('xpBarFill').style.width = pct + '%';
+  document.getElementById('xpText').textContent = currentXP + ' / ' + maxXP + ' XP';
+}
+
+function showXPToast(text) {
+  const toast = document.createElement('div');
+  toast.className = 'xp-toast';
+  toast.textContent = text;
+  document.body.appendChild(toast);
+  setTimeout(() => { toast.remove(); }, 2200);
+}
+
+function updateStudentName(val) {
+  const trimmed = val.trim();
+  warriorName = trimmed ? trimmed : 'Siswa';
+  document.getElementById('playerName').textContent = warriorName;
+  saveState();
+}
+
+function promptChangeName() {
+  const name = prompt("Ketik nama siswa untuk sertifikat:", warriorName);
+  if (name && name.trim()) {
+    warriorName = name.trim();
+    document.getElementById('playerName').textContent = warriorName;
+    const input = document.getElementById('studentNameInput');
+    if (input) input.value = warriorName;
+    saveState();
+    playSound('success');
+  }
+}
+
+function startLearning() {
+  const input = document.getElementById('studentNameInput');
+  if (input && input.value.trim()) {
+    warriorName = input.value.trim();
+    document.getElementById('playerName').textContent = warriorName;
+    saveState();
+  }
+  playSound('success');
+  addXP(30, 'Mulai Level 7');
+  switchSection(1);
+}
+
+/* ── SECTION 1: QUICK DATA VERIFICATION ── */
+function verifyQuickData() {
+  const m = parseInt(document.getElementById('quickMean').value, 10);
+  const med = parseInt(document.getElementById('quickMedian').value, 10);
+  const mod = parseInt(document.getElementById('quickModus').value, 10);
+  const fb = document.getElementById('quickDataFeedback');
+
+  // Data: 60, 70, 70, 80, 90. Mean: 370 / 5 = 74. Median: 70. Modus: 70.
+  if (m === 74 && med === 70 && mod === 70) {
+    playSound('fanfare');
+    fb.className = 'feedback-box show ok';
+    fb.innerHTML = `🎉 <strong>Analisis Tepat 100%!</strong><br>
+    • Mean = 370 ÷ 5 = <b>74</b><br>
+    • Median = Nilai urutan tengah = <b>70</b><br>
+    • Modus = Nilai muncul terbanyak = <b>70</b>`;
+    document.getElementById('dataDoneBanner').style.display = 'block';
+    addXP(70, 'Selesai Analisis Data');
+  } else {
+    playSound('wrong');
+    fb.className = 'feedback-box show bad';
+    fb.innerHTML = `⚠️ Periksa kembali: Jumlahkan 60+70+70+80+90 lalu bagi 5 untuk Mean. Ambil posisi tengah untuk Median.`;
+  }
+}
+
+/* ── SECTION 3: CC QUIZ ── */
+function checkCcQuiz(btn, isCorrect) {
+  const parent = btn.parentElement;
+  parent.querySelectorAll('.quiz-btn').forEach(b => b.disabled = true);
+  const fb = document.getElementById('ccQuizFeedback');
+  if (isCorrect) {
+    btn.classList.add('correct');
+    playSound('success');
+    fb.className = 'feedback-box show ok';
+    fb.innerHTML = `✅ <strong>Tepat Sekali!</strong> Cc (Carbon Copy) digunakan sebagai tembusan agar orang lain (seperti teman kelompok) mengetahui pesan tersebut tanpa menjadi penerima tugas utama.`;
+    addXP(35, 'Kuis Cc Tepat');
+  } else {
+    btn.classList.add('wrong');
+    playSound('wrong');
+    fb.className = 'feedback-box show bad';
+    fb.innerHTML = `❌ Kurang tepat. Cc berguna sebagai tembusan saksi penerima kedua.`;
+  }
+}
+
+/* ── SECTION 5: SIMULATOR WEBMAIL LAPTOP ── */
+function toggleCcRow() {
+  const row = document.getElementById('simCcRow');
+  row.style.display = (row.style.display === 'none') ? 'flex' : 'none';
+  playSound('click');
+}
+
+function openExplorer() {
+  playSound('click');
+  document.getElementById('simExplorerPopup').style.display = 'block';
+}
+
+function closeExplorer() {
+  playSound('click');
+  document.getElementById('simExplorerPopup').style.display = 'none';
+}
+
+function selectSimFile(fileName, size, el) {
+  playSound('click');
+  document.querySelectorAll('.file-item').forEach(f => f.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedTempFile = { name: fileName, size: size };
+}
+
+function confirmAttachFile() {
+  if (!selectedTempFile) {
+    alert('Pilih salah satu file terlebih dahulu!');
+    return;
+  }
+  playSound('success');
+  attachedFileList.push(selectedTempFile);
+  renderAttachments();
+  closeExplorer();
+  showXPToast('📎 File ' + selectedTempFile.name + ' Terlampir!');
+  addXP(25, 'Lampirkan File');
+}
+
+function renderAttachments() {
+  const area = document.getElementById('simAttachedFilesArea');
+  area.innerHTML = '';
+  attachedFileList.forEach((file, idx) => {
+    const pill = document.createElement('div');
+    pill.className = 'attachment-pill';
+    pill.innerHTML = `
+      <span>📊 ${file.name} (${file.size})</span>
+      <span style="cursor:pointer;color:#f87171;" onclick="removeAttach(${idx})" title="Hapus Lampiran">✕</span>
+    `;
+    area.appendChild(pill);
+  });
+}
+
+function removeAttach(idx) {
+  playSound('click');
+  attachedFileList.splice(idx, 1);
+  renderAttachments();
+}
+
+let sendTimeout = null;
+function sendSimEmail() {
+  const subj = document.getElementById('simSubject').value.trim();
+  const fb = document.getElementById('simSendFeedback');
+
+  if (!subj) {
+    playSound('wrong');
+    fb.className = 'feedback-box show bad';
+    fb.innerHTML = `❌ <strong>Subject kosong!</strong> Jangan pernah mengirim email tugas di laptop tanpa Subject yang jelas.`;
+    return;
+  }
+  if (attachedFileList.length === 0) {
+    playSound('wrong');
+    fb.className = 'feedback-box show bad';
+    fb.innerHTML = `❌ <strong>File tugas belum dilampirkan!</strong> Klik tombol klip kertas 📎 Lampirkan File terlebih dahulu.`;
+    return;
+  }
+
+  playSound('fanfare');
+  fb.className = 'feedback-box show ok';
+  fb.innerHTML = `✅ <strong>EMAIL BERHASIL TERKIRIM DARI LAPTOP!</strong> Suratmu sudah meluncur ke guru lengkap dengan lampiran Excel.`;
+  addXP(60, 'Kirim Email Laptop');
+
+  const toast = document.getElementById('undoToast');
+  toast.style.display = 'flex';
+  clearTimeout(sendTimeout);
+  sendTimeout = setTimeout(() => {
+    toast.style.display = 'none';
+  }, 7000);
+}
+
+function undoSendEmail() {
+  playSound('click');
+  document.getElementById('undoToast').style.display = 'none';
+  const fb = document.getElementById('simSendFeedback');
+  fb.className = 'feedback-box show bad';
+  fb.innerHTML = `↩️ <strong>Pengiriman Dibatalkan (Undo Send Berhasil)!</strong> Emailmu ditarik kembali ke folder Draf laptop.`;
+  addXP(25, 'Undo Send Sukses');
+}
+
+/* ── SECTION 6: DOWNLOAD & REPLY ── */
+function simulateDownload() {
+  playSound('success');
+  document.getElementById('downloadFeedback').style.display = 'block';
+  showXPToast('⬇️ File Nilai_Budi_Santoso_P6.xlsx Terunduh!');
+  addXP(30, 'Unduh File Laptop');
+}
+
+function openReplyBox() {
+  playSound('click');
+  document.getElementById('replyLaptopArea').style.display = 'block';
+  document.getElementById('replyLaptopText').focus();
+}
+
+function sendLaptopReply() {
+  const txt = document.getElementById('replyLaptopText').value.trim();
+  const fb = document.getElementById('replyLaptopFeedback');
+  if (txt.length >= 6) {
+    playSound('success');
+    fb.className = 'feedback-box show ok';
+    fb.innerHTML = `✅ <strong>Balasan Sopan Terkirim!</strong> Jawabanmu langsung masuk ke thread percakapan email Ibu Ratna.`;
+    addXP(40, 'Membalas Email');
+  } else {
+    playSound('wrong');
+    fb.className = 'feedback-box show bad';
+    fb.innerHTML = `⚠️ Ketik balasan yang sopan terlebih dahulu.`;
+  }
+}
+
+/* ── SECTION 7: DETECTIVE CASES ── */
+const detectiveCases = [
+  {
+    tag: "KASUS 1 DARI 3",
+    desc: `"Doni mengeluh email tugasnya gagal terkirim dan muncul pesan error 'Address not found'. Alamat yang dia ketik adalah: guru.komputer#sekolah.sch.id. Apa kesalahannya?"`,
+    opts: [
+      "Doni menggunakan simbol pagar (#) bukan simbol @ (at) yang wajib untuk email.",
+      "Laptop Doni kehabisan baterai.",
+      "Doni harusnya mengetik di Microsoft Word.",
+      "Ukuran hurufnya terlalu kecil."
+    ],
+    ans: 0,
+    why: "Format alamat email WAJIB menggunakan simbol @ (misal: guru.komputer@sekolah.sch.id)!"
+  },
+  {
+    tag: "KASUS 2 DARI 3",
+    desc: `"Siti mengirim email tugas, tapi guru berkata berkas tugasnya tidak ada. Ternyata ukuran video tugas Siti adalah 85 MB. Mengapa file tersebut tidak ikut terkirim?"`,
+    opts: [
+      "Karena email membatasi ukuran lampiran maksimal 25 MB. File 85 MB harus dikirim lewat link cloud/Google Drive.",
+      "Karena nama file Siti ada spasi.",
+      "Karena guru belum menyalakan laptop.",
+      "Karena internet guru mati."
+    ],
+    ans: 0,
+    why: "Batas lampiran email di laptop rata-rata adalah 25 MB! File di atas 25 MB harus diunggah ke Google Drive / OneDrive terlebih dahulu."
+  },
+  {
+    tag: "KASUS 3 DARI 3",
+    desc: `"Andi mengirim email kepada 30 orang teman sekelas untuk mengingatkan jadwal piket. Agar alamat email teman-temannya tidak saling terlihat demi menjaga privasi, di kolom manakah Andi harus memasukkan 30 alamat email tersebut?"`,
+    opts: [
+      "Di kolom Bcc (Blind Carbon Copy).",
+      "Di kolom Subject.",
+      "Di kolom Isi Pesan.",
+      "Di baris tanda tangan."
+    ],
+    ans: 0,
+    why: "Kolom Bcc menyembunyikan daftar penerima dari satu sama lain, menjaga privasi alamat email!"
+  }
+];
+let caseIdx = 0;
+
+function renderCase() {
+  if (caseIdx >= detectiveCases.length) {
+    document.getElementById('caseContainer').innerHTML = `
+      <div style="text-align:center;padding:1rem;">
+        <div style="font-size:32px;">🕵️‍♂️ 💻 🏆</div>
+        <div style="font-size:16px;font-weight:bold;color:var(--cyan);margin:6px 0;">Semua Masalah Email Laptop Terpecahkan!</div>
+        <p style="font-size:12px;color:var(--text-dim);margin-bottom:12px;">Kamu kini siap menghadapi segala kendala berkirim surat digital di dunia nyata.</p>
+        <button class="btn btn-primary" onclick="caseIdx=0;renderCase();">🔄 Ulangi Kasus Detektif</button>
+      </div>
+    `;
+    playSound('fanfare');
+    return;
+  }
+  const c = detectiveCases[caseIdx];
+  document.getElementById('caseTag').textContent = c.tag;
+  document.getElementById('caseDesc').textContent = c.desc;
+  document.getElementById('caseFeedback').className = 'feedback-box';
+
+  const container = document.getElementById('caseOptions');
+  container.innerHTML = '';
+  c.opts.forEach((opt, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-btn';
+    btn.textContent = opt;
+    btn.onclick = () => answerCase(idx, c.ans, c.why, container);
+    container.appendChild(btn);
+  });
+}
+
+function answerCase(selectedIdx, correctIdx, why, container) {
+  const buttons = container.querySelectorAll('.quiz-btn');
+  buttons.forEach((btn, idx) => {
+    btn.disabled = true;
+    if (idx === correctIdx) btn.classList.add('correct');
+    else if (idx === selectedIdx) btn.classList.add('wrong');
+  });
+
+  const fb = document.getElementById('caseFeedback');
+  if (selectedIdx === correctIdx) {
+    playSound('success');
+    addXP(35, 'Kasus Tepat');
+    fb.className = 'feedback-box show ok';
+    fb.innerHTML = `✅ <strong>Tepat Sekali!</strong> ` + why;
+  } else {
+    playSound('wrong');
+    fb.className = 'feedback-box show bad';
+    fb.innerHTML = `❌ Kurang tepat. ` + why;
+  }
+
+  setTimeout(() => {
+    caseIdx++;
+    renderCase();
+  }, 2200);
+}
+
+/* ── SECTION 8: CHECKPOINT ── */
+function checkCp2(btn, isCorrect) {
+  document.querySelectorAll('#cpEmailOptions .quiz-btn').forEach(b => b.disabled = true);
+  if (isCorrect) {
+    btn.classList.add('correct');
+    cp2AnswerCorrect = true;
+    playSound('success');
+  } else {
+    btn.classList.add('wrong');
+    cp2AnswerCorrect = false;
+    playSound('wrong');
+  }
+}
+
+function verifyFinalCheckpoint() {
+  const m = parseInt(document.getElementById('cpMean').value, 10);
+  const med = parseInt(document.getElementById('cpMedian').value, 10);
+  const fb = document.getElementById('checkpointFeedback');
+
+  const isDataOk = (m === 84 && med === 80);
+
+  if (isDataOk && cp2AnswerCorrect) {
+    playSound('fanfare');
+    fb.className = 'feedback-box show ok';
+    fb.innerHTML = `👑 <strong>Selamat! Semua Jawaban Ujian 100% Benar!</strong> Sertifikat kelulusan resmimu siap dicetak!`;
+    document.getElementById('victoryCertBlock').style.display = 'block';
+    document.getElementById('certPlayerLabel').textContent = 'Dianugerahkan kepada: ' + warriorName + ' ⚡';
+    addXP(150, 'Kelulusan Level 7');
+    launchConfetti();
+  } else {
+    playSound('wrong');
+    fb.className = 'feedback-box show bad';
+    fb.innerHTML = `⚠️ Periksa kembali: Mean = 84, Median = 80, dan tombol penyelamat adalah Undo Send.`;
+  }
+}
+
+/* ── SECTION 9: JURNAL REFLEKSI (MATCHING SCREENSHOT) ── */
+function updateConfidence(val) {
+  playSound('click');
+  const v = parseInt(val, 10);
+  const label = document.getElementById('sliderValueLabel');
+  if (v === 5) {
+    label.textContent = '5 👑 👑';
+  } else if (v === 4) {
+    label.textContent = '4 👑';
+  } else if (v === 3) {
+    label.textContent = '3 🙂';
+  } else if (v === 2) {
+    label.textContent = '2 😐';
+  } else {
+    label.textContent = '1 😟';
+  }
+}
+
+function saveReflection() {
+  const ans1 = document.getElementById('refAns1').value.trim();
+  const ans2 = document.getElementById('refAns2').value.trim();
+  const conf = document.getElementById('refSlider').value;
+
+  playSound('fanfare');
+  addXP(75, 'Jurnal Refleksi Level 7');
+
+  const savedText = document.getElementById('refSavedText');
+  savedText.style.display = 'inline-block';
+
+  try {
+    localStorage.setItem('cq_p7_ref', JSON.stringify({
+      ans1: ans1,
+      ans2: ans2,
+      confidence: conf,
+      studentName: warriorName,
+      time: new Date().toLocaleTimeString('id-ID')
+    }));
+  } catch(e) {}
+}
+
+/* ── CONFETTI ── */
+function launchConfetti() {
+  const canvas = document.getElementById('confettiCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const pieces = [];
+  const colors = ['#3b82f6', '#06b6d4', '#10b981', '#f59e0b', '#8b5cf6', '#ef4444'];
+  for (let i = 0; i < 140; i++) {
+    pieces.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * -canvas.height,
+      size: Math.random() * 8 + 6,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      speedY: Math.random() * 4 + 2,
+      speedX: Math.random() * 2 - 1,
+      rotation: Math.random() * 360,
+      rotSpeed: Math.random() * 4 - 2
+    });
+  }
+
+  let frames = 0;
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pieces.forEach(p => {
+      p.y += p.speedY; p.x += p.speedX; p.rotation += p.rotSpeed;
+      ctx.save(); ctx.translate(p.x, p.y);
+      ctx.rotate((p.rotation * Math.PI) / 180);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+      ctx.restore();
+    });
+    frames++;
+    if (frames < 220) requestAnimationFrame(animate);
+    else ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+  animate();
+}
+
+/* ── PERSISTENCE ── */
+function saveState() {
+  try {
+    localStorage.setItem('kk_p7_xp', currentXP);
+    localStorage.setItem('kk_p7_name', warriorName);
+  } catch(e) {}
+}
+
+function loadState() {
+  try {
+    const sXP = localStorage.getItem('kk_p7_xp');
+    if (sXP) { currentXP = parseInt(sXP, 10) || 0; updateXPUI(); }
+    const sName = localStorage.getItem('kk_p7_name') || localStorage.getItem('cq_p6_name');
+    if (sName) {
+      warriorName = sName;
+      document.getElementById('playerName').textContent = warriorName;
+      const inp = document.getElementById('studentNameInput');
+      if (inp) inp.value = warriorName;
+    }
+    const savedRef = localStorage.getItem('cq_p7_ref');
+    if (savedRef) {
+      const data = JSON.parse(savedRef);
+      if (data.ans1) document.getElementById('refAns1').value = data.ans1;
+      if (data.ans2) document.getElementById('refAns2').value = data.ans2;
+      if (data.confidence) {
+        document.getElementById('refSlider').value = data.confidence;
+        updateConfidence(data.confidence);
+      }
+      document.getElementById('refSavedText').style.display = 'inline-block';
+    }
+  } catch(e) {}
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderCase();
+  loadState();
+});
+</script>
+</body>
+</html>

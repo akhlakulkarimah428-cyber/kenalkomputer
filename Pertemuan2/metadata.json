@@ -1,0 +1,6 @@
+{
+  "name": "Keyboard Force — The Lost Files",
+  "description": "Mini adventure game 2D bertema fantasy RPG edukasi dasar komputer, typing finger placement, keyboard shortcut, dan file explorer puzzles.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

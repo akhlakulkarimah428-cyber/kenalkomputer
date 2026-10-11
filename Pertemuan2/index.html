@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Keyboard Force — The Lost Files</title>
+    <meta name="description" content="Mini adventure game 2D bertema fantasy RPG edukasi dasar komputer, typing finger placement, keyboard shortcut, dan file explorer puzzles." />
+    <meta property="og:title" content="Keyboard Force — The Lost Files" />
+    <meta property="og:description" content="Mini adventure game 2D bertema fantasy RPG edukasi dasar komputer, typing finger placement, keyboard shortcut, dan file explorer puzzles." />
+    <meta property="og:type" content="game" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div id="game-container">
+      <!-- 2D Canvas Viewport -->
+      <canvas id="game-canvas"></canvas>
+
+      <!-- HEADS-UP DISPLAY (HUD) -->
+      <div id="game-hud">
+        <!-- TOP HUD -->
+        <div class="hud-top">
+          <!-- Player Status Card -->
+          <div class="player-status-card hud-interactive" id="player-card">
+            <div class="player-avatar-badge" id="player-avatar">🧙</div>
+            <div class="player-stats">
+              <div class="player-title-row">
+                <span class="player-name" id="hud-player-name">Adventurer</span>
+                <span class="player-level" id="hud-player-level">LV 1</span>
+              </div>
+              <!-- HP Bar -->
+              <div class="stat-bar-container">
+                <span class="stat-icon">❤️</span>
+                <div class="stat-bar-track">
+                  <div class="stat-bar-fill-hp" id="hud-hp-bar" style="width: 100%;"></div>
+                </div>
+                <span class="stat-number" id="hud-player-hp-num">100/100</span>
+              </div>
+              <!-- EXP Bar -->
+              <div class="stat-bar-container">
+                <span class="stat-icon">⭐</span>
+                <div class="stat-bar-track">
+                  <div class="stat-bar-fill-exp" id="hud-exp-bar" style="width: 0%;"></div>
+                </div>
+                <span class="stat-number" id="hud-player-exp-num">0/100</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Top Right Stats & Buttons -->
+          <div class="hud-actions-group hud-interactive">
+            <div class="crystal-counter" id="crystal-counter-display">
+              <span class="crystal-sparkle">💎</span>
+              <span id="hud-crystal-count">0</span>
+              <span style="font-size: 9px; color: var(--text-muted);">CRYSTALS</span>
+            </div>
+            <button class="btn-hud-icon" id="btn-toggle-sound" title="Toggle Sound" aria-label="Toggle Sound">🔊</button>
+            <button class="btn-hud-icon" id="btn-hud-inventory" title="Buka Inventory [I]" aria-label="Inventory">🎒</button>
+            <button class="btn-hud-icon" id="btn-hud-quests" title="Daftar Misi [Q]" aria-label="Quests">📜</button>
+          </div>
+        </div>
+
+        <!-- BOTTOM HUD (Interaction Hint & Quest Pill) -->
+        <div class="hud-bottom">
+          <div class="interaction-prompt" id="interaction-prompt">
+            <span class="key-badge">E</span>
+            <span id="prompt-text">Bicara / Interaksi</span>
+          </div>
+          <div class="active-quest-pill hud-interactive" id="active-quest-pill">
+            <span>📜 Misi:</span> <b>Master the Home Row</b> (0/5)
+          </div>
+        </div>
+      </div>
+
+      <!-- RPG DIALOGUE BOX -->
+      <div id="dialogue-container">
+        <div class="dialogue-content">
+          <div class="dialogue-portrait" id="dialogue-portrait">🧙‍♂️</div>
+          <div class="dialogue-body">
+            <div class="dialogue-speaker" id="dialogue-speaker">Typing Master Alden</div>
+            <div class="dialogue-text" id="dialogue-text">...</div>
+            <div class="dialogue-footer">
+              <div class="dialogue-continue-hint" id="dialogue-continue-btn">
+                <span>[ E ] Lanjutkan</span>
+                <span>▶</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TYPING TUTORIAL & FINGER PLACEMENT MODAL -->
+      <div class="overlay-panel" id="tutorial-overlay">
+        <div class="rpg-box" id="tutorial-box">
+          <div class="rpg-box-header">
+            <div class="rpg-box-title">
+              <span>⌨️</span> Ujian Penempatan Jari (Home Row)
+            </div>
+            <button class="btn-close-modal" aria-label="Close">✕</button>
+          </div>
+
+          <div class="typing-challenge-card">
+            <div style="font-size: 13px; color: var(--text-muted);">Tekan huruf di keyboard menggunakan jari yang tepat:</div>
+            <div class="target-char-display" id="tutorial-target-char">F</div>
+            <div class="typing-feedback-message" id="tutorial-feedback">
+              Gunakan: Jari Telunjuk Kiri (Left Index)
+            </div>
+          </div>
+
+          <!-- On-Screen Visual Keyboard Guide -->
+          <div class="keyboard-guide-wrapper">
+            <!-- Number row -->
+            <div class="kb-row">
+              <div class="kb-key finger-l-pinky">`</div>
+              <div class="kb-key finger-l-pinky">1</div>
+              <div class="kb-key finger-l-pinky">2</div>
+              <div class="kb-key finger-l-ring">3</div>
+              <div class="kb-key finger-l-mid">4</div>
+              <div class="kb-key finger-l-index">5</div>
+              <div class="kb-key finger-l-index">6</div>
+              <div class="kb-key finger-r-index">7</div>
+              <div class="kb-key finger-r-index">8</div>
+              <div class="kb-key finger-r-mid">9</div>
+              <div class="kb-key finger-r-ring">0</div>
+              <div class="kb-key finger-r-pinky">-</div>
+              <div class="kb-key finger-r-pinky">=</div>
+            </div>
+            <!-- Top Row -->
+            <div class="kb-row">
+              <div class="kb-key finger-l-pinky" data-key="Q">Q</div>
+              <div class="kb-key finger-l-ring" data-key="W">W</div>
+              <div class="kb-key finger-l-mid" data-key="E">E</div>
+              <div class="kb-key finger-l-index" data-key="R">R</div>
+              <div class="kb-key finger-l-index" data-key="T">T</div>
+              <div class="kb-key finger-r-index" data-key="Y">Y</div>
+              <div class="kb-key finger-r-index" data-key="U">U</div>
+              <div class="kb-key finger-r-mid" data-key="I">I</div>
+              <div class="kb-key finger-r-ring" data-key="O">O</div>
+              <div class="kb-key finger-r-pinky" data-key="P">P</div>
+            </div>
+            <!-- Home Row -->
+            <div class="kb-row">
+              <div class="kb-key finger-l-pinky" data-key="A">A</div>
+              <div class="kb-key finger-l-ring" data-key="S">S</div>
+              <div class="kb-key finger-l-mid" data-key="D">D</div>
+              <div class="kb-key finger-l-index" data-key="F">F</div>
+              <div class="kb-key finger-l-index" data-key="G">G</div>
+              <div class="kb-key finger-r-index" data-key="H">H</div>
+              <div class="kb-key finger-r-index" data-key="J">J</div>
+              <div class="kb-key finger-r-mid" data-key="K">K</div>
+              <div class="kb-key finger-r-ring" data-key="L">L</div>
+              <div class="kb-key finger-r-pinky" data-key=";">;</div>
+            </div>
+            <!-- Bottom Row -->
+            <div class="kb-row">
+              <div class="kb-key finger-l-pinky" data-key="Z">Z</div>
+              <div class="kb-key finger-l-ring" data-key="X">X</div>
+              <div class="kb-key finger-l-mid" data-key="C">C</div>
+              <div class="kb-key finger-l-index" data-key="V">V</div>
+              <div class="kb-key finger-l-index" data-key="B">B</div>
+              <div class="kb-key finger-r-index" data-key="N">N</div>
+              <div class="kb-key finger-r-index" data-key="M">M</div>
+            </div>
+            <!-- Space Row -->
+            <div class="kb-row">
+              <div class="kb-key key-space" data-key="SPACE">SPACE (Ibu Jari / Thumb)</div>
+            </div>
+          </div>
+
+          <!-- Color legend for finger zones -->
+          <div class="finger-legend">
+            <div class="legend-item"><div class="legend-dot" style="background:#ef4444;"></div> Kelingking Kiri</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#f97316;"></div> Manis Kiri</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#eab308;"></div> Tengah Kiri</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#10b981;"></div> Telunjuk Kiri (F)</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#06b6d4;"></div> Telunjuk Kanan (J)</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#3b82f6;"></div> Tengah Kanan</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#8b5cf6;"></div> Manis Kanan</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#ec4899;"></div> Kelingking Kanan</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COMBAT OVERLAY -->
+      <div class="overlay-panel" id="combat-overlay">
+        <div class="rpg-box" id="combat-box">
+          <div class="rpg-box-header">
+            <div class="rpg-box-title">
+              <span>⚔️</span> Pertarungan Mengetik Mantra!
+            </div>
+            <button class="btn-close-modal" aria-label="Close">✕</button>
+          </div>
+
+          <div class="monster-arena">
+            <div class="monster-sprite" id="combat-monster-sprite">👺</div>
+            <div class="monster-name" id="combat-monster-name">Byte Goblin</div>
+            <div class="monster-hp-bar">
+              <div class="monster-hp-fill" id="combat-monster-hp-fill" style="width: 100%;"></div>
+            </div>
+          </div>
+
+          <div class="combat-word-box">
+            <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 6px;">KETIK MANTRA BERIKUT UNTUK MENYERANG:</div>
+            <div class="combat-word-display" id="combat-word-display">
+              <span class="combat-char-typed"></span><span class="combat-char-remaining">FILE</span>
+            </div>
+            <div class="combat-status-hint">Ketik cepat dan tepat! Kesalahan akan mengurangi HP karaktermu.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SHORTCUT GATE PUZZLE MODAL -->
+      <div class="overlay-panel" id="shortcut-overlay">
+        <div class="rpg-box" id="shortcut-box">
+          <div class="rpg-box-header">
+            <div class="rpg-box-title">
+              <span>⚡</span> Gerbang Shortcut Penjelajah
+            </div>
+            <button class="btn-close-modal" aria-label="Close">✕</button>
+          </div>
+
+          <div class="shortcut-question-box">
+            <div class="shortcut-question-title" id="shortcut-quest-title">Membuka Gerbang Explorer</div>
+            <div style="font-size: 14px; line-height: 1.6; color: var(--text-main);" id="shortcut-quest-desc">
+              Shortcut kombinasi keyboard apa yang digunakan untuk membuka File Explorer di komputer Windows?
+            </div>
+          </div>
+
+          <div class="shortcut-options-grid" id="shortcut-options">
+            <!-- Dynamic shortcut buttons -->
+          </div>
+        </div>
+      </div>
+
+      <!-- FILE EXTENSION SORTING PUZZLE MODAL -->
+      <div class="overlay-panel" id="file-puzzle-overlay">
+        <div class="rpg-box" id="file-puzzle-box">
+          <div class="rpg-box-header">
+            <div class="rpg-box-title">
+              <span>📁</span> Pustaka Arsip: Pengelompokan Berkas
+            </div>
+            <button class="btn-close-modal" aria-label="Close">✕</button>
+          </div>
+
+          <div class="file-puzzle-card">
+            <div class="file-item-preview">
+              <div class="file-icon-badge" id="puzzle-file-icon">📄</div>
+              <div>
+                <div class="file-name-text" id="puzzle-file-name">Laporan-IPA.docx</div>
+                <div class="file-extension-tag" id="puzzle-file-hint">Petunjuk: Dokumen Microsoft Word</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 6px;">Pilih Folder Tujuan yang Tepat:</div>
+          <div class="folders-grid" id="puzzle-folders-grid">
+            <!-- Dynamic folder buttons -->
+          </div>
+        </div>
+      </div>
+
+      <!-- INVENTORY MODAL -->
+      <div class="overlay-panel" id="inventory-overlay">
+        <div class="rpg-box" id="inventory-box">
+          <div class="rpg-box-header">
+            <div class="rpg-box-title">
+              <span>🎒</span> Tas Perlengkapan Petualang
+            </div>
+            <button class="btn-close-modal" aria-label="Close">✕</button>
+          </div>
+          <div style="font-size: 13px; color: var(--text-muted);">Klik item untuk melihat deskripsinya:</div>
+          <div class="inventory-grid" id="inventory-grid">
+            <!-- Dynamic Inventory items -->
+          </div>
+        </div>
+      </div>
+
+      <!-- QUEST LOG MODAL -->
+      <div class="overlay-panel" id="quest-overlay">
+        <div class="rpg-box" id="quest-box">
+          <div class="rpg-box-header">
+            <div class="rpg-box-title">
+              <span>📜</span> Catatan Misi & Petualangan
+            </div>
+            <button class="btn-close-modal" aria-label="Close">✕</button>
+          </div>
+          <div id="quest-list">
+            <!-- Dynamic Quest list -->
+          </div>
+        </div>
+      </div>
+
+      <!-- FINAL BOSS: FILE DRAGON OVERLAY -->
+      <div class="overlay-panel" id="boss-overlay">
+        <div class="rpg-box" id="boss-box">
+          <div class="rpg-box-header">
+            <div class="rpg-box-title" style="color: #f87171;">
+              <span>🐉</span> Pertempuran Puncak: Sang Naga Berkas!
+            </div>
+            <button class="btn-close-modal" aria-label="Close">✕</button>
+          </div>
+
+          <div class="boss-arena-header">
+            <div class="boss-avatar-wrapper" id="boss-sprite">🐲</div>
+            <div class="boss-title-row">
+              <span class="boss-name" id="boss-name">FILE DRAGON — CORRUPT .EXE</span>
+              <span class="boss-phase-badge" id="boss-phase-badge">PHASE 1 / 3</span>
+            </div>
+            <div class="boss-hp-container">
+              <div class="boss-hp-fill" id="boss-hp-fill" style="width: 100%;"></div>
+              <div class="boss-hp-text" id="boss-hp-text">1000 / 1000 HP</div>
+            </div>
+            <div class="boss-dialogue-line" id="boss-dialogue">"ROAAAR! Tak ada yang bisa memulihkan Crystal of Knowledge dari cengkeramanku!"</div>
+          </div>
+
+          <div class="boss-combat-card">
+            <div class="boss-challenge-prompt" id="boss-prompt-text">KETIK MANTRA PEMULIHAN SISTEM DENGAN CEPAT:</div>
+            <div class="boss-word-display" id="boss-word-display">
+              <span class="combat-char-typed"></span><span class="combat-char-remaining">ANTIVIRUS</span>
+            </div>
+            <div class="boss-timer-track">
+              <div class="boss-timer-fill" id="boss-timer-fill"></div>
+            </div>
+            <div id="boss-shortcut-container" style="display: none;">
+              <div class="boss-shortcut-grid" id="boss-shortcut-options"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECRET ROOM / HIDDEN DIRECTORY MODAL -->
+      <div class="overlay-panel" id="secret-room-overlay">
+        <div class="rpg-box" id="secret-room-box">
+          <div class="rpg-box-header">
+            <div class="rpg-box-title" style="color: var(--accent-gold);">
+              <span>⭐</span> Folder Rahasia Ditemukan! (.secret_vault)
+            </div>
+            <button class="btn-close-modal" aria-label="Close">✕</button>
+          </div>
+          <div class="secret-icon-large">🗝️✨</div>
+          <h2 style="font-family: var(--font-rpg); color: var(--accent-gold); font-size: 20px; margin-bottom: 8px;">
+            Pusaka Tersembunyi: Rune Undo & Rahasia File Explorer
+          </h2>
+          <div class="secret-lore-box">
+            <p><b>Selamat Petualang!</b> Kamu berhasil menemukan direktori tersembunyi yang terkunci oleh mantra kuno!</p>
+            <br />
+            <p><b>Pengetahuan Rahasia:</b></p>
+            <ul style="margin-left: 20px; line-height: 1.8; color: var(--text-muted); font-size: 13px;">
+              <li><b style="color: #fff;">Ctrl + Shift + N</b> : Membuat Folder Baru secara instan di mana pun.</li>
+              <li><b style="color: #fff;">Win + . (Titik)</b> : Membuka jendela Emoji & Simbol rahasia sistem.</li>
+              <li><b style="color: #fff;">Ctrl + Z</b> : Rune Pembalik Waktu (Undo) untuk membatalkan kesalahan fatal!</li>
+              <li><b style="color: #fff;">Shift + Delete</b> : Menghapus berkas secara permanen tanpa masuk ke Recycle Bin.</li>
+            </ul>
+          </div>
+          <button class="btn-victory-action" id="btn-claim-secret-reward" style="margin-top: 10px;">
+            💎 AMBIL RUNA KUNCI EMAS (+100 EXP)
+          </button>
+        </div>
+      </div>
+
+      <!-- VICTORY & GAME COMPLETE MODAL -->
+      <div class="overlay-panel" id="victory-overlay">
+        <div class="rpg-box" id="victory-box">
+          <div class="victory-trophy">🏆</div>
+          <div class="victory-title">PETUALANGAN SELESAI!</div>
+          <div style="font-family: var(--font-pixel); font-size: 12px; color: var(--primary-cyan); letter-spacing: 2px; margin-top: 6px;">
+            CRYSTAL OF KNOWLEDGE DIPULIHKAN
+          </div>
+          <p class="victory-desc">
+            Kamu telah menguasai penempatan 10 jari, menaklukkan teka-teki shortcut sistem, mengelompokkan arsip berkas kerajaan, dan mengalahkan Sang Naga Berkas Corrupt! Dunia komputer kini aman dan damai!
+          </p>
+
+          <div class="victory-stats-grid">
+            <div class="v-stat-card">
+              <div class="v-stat-val" id="v-stat-level">LV 5</div>
+              <div class="v-stat-lbl">Level Akhir</div>
+            </div>
+            <div class="v-stat-card">
+              <div class="v-stat-val" id="v-stat-crystals">5/5</div>
+              <div class="v-stat-lbl">Crystals Pulih</div>
+            </div>
+            <div class="v-stat-card">
+              <div class="v-stat-val" id="v-stat-title">MASTER</div>
+              <div class="v-stat-lbl">Gelar Diraih</div>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 12px; justify-content: center;">
+            <button class="btn-victory-action" id="btn-victory-continue">
+              🌟 LANJUT JELAJAH DUNIA
+            </button>
+            <button class="btn-secondary-menu" id="btn-victory-replay" style="margin: 0;">
+              🔄 MAIN DARI AWAL
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ZONE ANNOUNCEMENT BANNER -->
+      <div id="zone-banner">
+        <div class="zone-title" id="zone-banner-title">Desa Baris Beranda</div>
+        <div class="zone-subtitle" id="zone-banner-sub">Area Pemula: Latihan 10 Jari</div>
+      </div>
+
+      <!-- VIRTUAL CONTROLS (For Touch/Tablet Screen) -->
+      <div id="virtual-controls">
+        <div class="v-dpad">
+          <div></div>
+          <div class="v-btn" id="v-up">▲</div>
+          <div></div>
+          <div class="v-btn" id="v-left">◀</div>
+          <div></div>
+          <div class="v-btn" id="v-right">▶</div>
+          <div></div>
+          <div class="v-btn" id="v-down">▼</div>
+          <div></div>
+        </div>
+        <div class="v-action-group">
+          <div class="v-action-btn" id="v-interact">E</div>
+        </div>
+      </div>
+
+      <!-- START SCREEN (Title & Menu) -->
+      <div id="start-screen">
+        <div class="game-logo">
+          <div class="game-title-eyebrow">GAME EDUKASI KOMPUTER UNTUK SMP</div>
+          <h1 class="game-title">KEYBOARD FORCE</h1>
+          <div style="font-family: var(--font-pixel); font-size: 16px; color: var(--primary-cyan); letter-spacing: 3px; margin-top: 6px;">
+            THE LOST FILES
+          </div>
+          <p class="game-subtitle">
+            Jelajahi dunia fantasi 2D, kuasai teknik penempatan 10 jari, buka gerbang rahasia dengan shortcut keyboard, dan pulihkan pecahan <b>Crystal of Knowledge</b>!
+          </p>
+        </div>
+
+        <div class="menu-buttons">
+          <button class="btn-primary-menu" id="btn-start-adventure">
+            ⚔️ MULAI PETUALANGAN BARU
+          </button>
+          <button class="btn-secondary-menu" id="btn-continue-adventure" style="display: none;">
+            🔥 LANJUTKAN DARI CHECKPOINT
+          </button>
+        </div>
+
+        <div style="margin-top: 32px; font-size: 12px; color: var(--text-muted); line-height: 1.6; max-width: 500px;">
+          <div><b>Kontrol:</b> [W][A][S][D] atau [Arrow Keys] untuk berjalan &bull; [E] untuk bicara / interaksi</div>
+          <div>[I] Inventory &bull; [Q] Misi &bull; [ESC] Tutup Menu</div>
+        </div>
+      </div>
+
+      <!-- TOAST NOTIFICATION -->
+      <div id="toast-notification">
+        <span>✨</span> <span>Game Dimulai!</span>
+      </div>
+    </div>
+
+    <!-- PURE VANILLA JAVASCRIPT ENGINE -->
+    <script src="./script.js"></script>
+  </body>
+</html>

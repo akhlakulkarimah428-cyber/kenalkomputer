@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computer Quest P4: Word Lanjutan — Master Tabel, Gambar & Tata Letak</title>
+<meta name="description" content="Modul belajar interaktif Microsoft Word Lanjutan untuk siswa: kuasai tabel canggih, text wrap gambar, orientasi halaman, detektif layout, dan proyek nyata." />
+<style>
+:root {
+  --bg: #0A0D14;
+  --bg-card: #121622;
+  --bg-subtle: #192030;
+  --bg-elevated: #21293D;
+  --border: #2A344A;
+  --text: #F1F5F9;
+  --text-muted: #94A3B8;
+  --blue: #3B82F6;
+  --cyan: #06B6D4;
+  --green: #10B981;
+  --yellow: #F59E0B;
+  --orange: #F97316;
+  --purple: #8B5CF6;
+  --red: #EF4444;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font); background: var(--bg); color: var(--text);
+  min-height: 100vh; line-height: 1.6; font-size: 15px; overflow-x: hidden;
+}
+.top-nav {
+  position: sticky; top: 0; z-index: 100; background: rgba(10, 13, 20, 0.96);
+  backdrop-filter: blur(14px); border-bottom: 1px solid var(--border);
+  padding: 10px 18px; display: flex; align-items: center; justify-content: space-between; gap: 10px;
+}
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand-badge {
+  background: linear-gradient(135deg, var(--purple), var(--cyan));
+  color: #fff; font-size: 11px; font-weight: 800; padding: 4px 8px; border-radius: var(--radius-sm);
+}
+.brand-title { font-size: 14px; font-weight: 700; color: var(--text); }
+.session-switch {
+  display: flex; background: var(--bg-subtle); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 3px; gap: 4px;
+}
+.session-btn {
+  padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 700;
+  border: none; background: transparent; color: var(--text-muted); cursor: pointer; transition: all 0.2s;
+}
+.session-btn.active { background: var(--blue); color: #fff; }
+.nav-actions { display: flex; align-items: center; gap: 8px; }
+.timer-chip {
+  background: var(--bg-subtle); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 4px 10px; font-size: 12px; font-weight: 700;
+  color: var(--cyan); font-variant-numeric: tabular-nums;
+}
+.audio-btn {
+  background: var(--bg-subtle); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 4px 10px; font-size: 12px; color: var(--text); cursor: pointer;
+}
+.container { max-width: 960px; margin: 0 auto; padding: 1.25rem 1rem 5rem; }
+
+.profile-card {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md);
+  padding: 14px 18px; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+}
+.avatar-display {
+  width: 48px; height: 48px; border-radius: 50%; background: var(--bg-subtle);
+  border: 2px solid var(--purple); display: flex; align-items: center; justify-content: center;
+  font-size: 24px; cursor: pointer; box-shadow: 0 0 12px rgba(139, 92, 246, 0.3);
+}
+.hero-info { flex: 1; min-width: 170px; }
+.hero-rank { font-size: 11px; font-weight: 800; color: var(--purple); letter-spacing: 0.08em; }
+.hero-name { font-size: 16px; font-weight: 800; }
+.xp-container { flex: 2; min-width: 220px; }
+.xp-meta { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; margin-bottom: 5px; }
+.xp-bar-bg { height: 10px; background: var(--bg-subtle); border-radius: 20px; overflow: hidden; }
+.xp-bar-fill {
+  height: 100%; width: 0%; background: linear-gradient(90deg, var(--purple), var(--cyan), var(--green));
+  border-radius: 20px; transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.stages-nav {
+  display: flex; gap: 6px; margin-bottom: 1.25rem; overflow-x: auto; padding-bottom: 6px; scrollbar-width: none;
+}
+.stages-nav::-webkit-scrollbar { display: none; }
+.stage-tab {
+  background: var(--bg-card); border: 1px solid var(--border); color: var(--text-muted);
+  padding: 8px 12px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 700;
+  cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 6px; font-family: inherit;
+}
+.stage-tab:hover { border-color: var(--purple); color: var(--text); }
+.stage-tab.active { background: var(--purple); color: #fff; border-color: var(--purple); }
+.stage-tab.completed { border-color: var(--green); color: var(--green); }
+.badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
+.stage-tab.active .badge-dot { background: #fff; }
+.stage-tab.completed .badge-dot { background: var(--green); }
+
+.quest-screen { display: none; animation: fadeIn 0.25s ease-out; }
+.quest-screen.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+.card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 1.25rem;
+}
+.card-header-badge { font-size: 11px; font-weight: 800; color: var(--purple); letter-spacing: 0.1em; margin-bottom: 4px; }
+.card-title { font-size: 18px; font-weight: 800; color: var(--text); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.card-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 1.25rem; line-height: 1.6; }
+
+.intro-hero {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(6, 182, 212, 0.1) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.35); border-radius: var(--radius-lg);
+  padding: 2rem 1.75rem; margin-bottom: 1.5rem; position: relative;
+}
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 6px; background: rgba(139, 92, 246, 0.2);
+  border: 1px solid rgba(139, 92, 246, 0.4); color: #C084FC; font-size: 11px;
+  font-weight: 800; padding: 4px 12px; border-radius: 20px; margin-bottom: 10px;
+}
+.intro-hero h1 { font-size: 24px; font-weight: 900; margin-bottom: 8px; }
+.intro-hero p { font-size: 14px; color: #CBD5E1; line-height: 1.7; }
+
+.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 1.25rem; }
+.compare-box { border-radius: var(--radius-md); padding: 14px; border: 1px solid var(--border); background: var(--bg-subtle); }
+.compare-box.bad { border-left: 4px solid var(--red); }
+.compare-box.good { border-left: 4px solid var(--green); background: rgba(16, 185, 129, 0.05); }
+.sample-paper { background: #fff; color: #222; border-radius: 6px; padding: 12px; font-size: 12px; min-height: 130px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+
+.pillars-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 1.25rem; }
+.pillar-card { background: var(--bg-subtle); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; transition: 0.2s; }
+.pillar-card:hover { transform: translateY(-3px); border-color: var(--purple); }
+.pillar-icon { font-size: 24px; margin-bottom: 6px; }
+.pillar-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; color: var(--text); }
+.pillar-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+.avatar-grid { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 1.25rem; }
+.avatar-choice {
+  background: var(--bg-subtle); border: 2px solid var(--border); border-radius: var(--radius-md);
+  padding: 8px 12px; display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px; font-weight: 700; transition: all 0.15s;
+}
+.avatar-choice.selected { border-color: var(--purple); background: rgba(139, 92, 246, 0.15); color: #C084FC; }
+
+.checklist { display: flex; flex-direction: column; gap: 10px; }
+.check-item {
+  background: var(--bg-subtle); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 12px 14px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: all 0.15s;
+}
+.check-item:hover { border-color: var(--purple); }
+.check-item.done { border-color: var(--green); background: rgba(16, 185, 129, 0.08); }
+.check-box {
+  width: 24px; height: 24px; border-radius: 6px; flex-shrink: 0; border: 2px solid var(--border);
+  display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800;
+}
+.check-item.done .check-box { background: var(--green); border-color: var(--green); color: #fff; }
+.check-info { flex: 1; }
+.check-title { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+.check-desc { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+.check-xp { font-size: 11px; font-weight: 800; color: var(--yellow); flex-shrink: 0; }
+
+.btn {
+  background: var(--bg-subtle); border: 1px solid var(--border); color: var(--text);
+  padding: 8px 16px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 700;
+  cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; font-family: inherit;
+}
+.btn:hover { border-color: var(--purple); }
+.btn-primary { background: var(--blue); color: #fff; border-color: var(--blue); }
+.btn-purple { background: var(--purple); color: #fff; border-color: var(--purple); }
+.btn-cyan { background: var(--cyan); color: #08111D; border-color: var(--cyan); font-weight: 800; }
+.btn-green { background: var(--green); color: #fff; border-color: var(--green); }
+.btn-yellow { background: var(--yellow); color: #1E1202; border-color: var(--yellow); font-weight: 800; }
+.btn-lg { padding: 12px 22px; font-size: 15px; }
+
+.nav-buttons-row { display: flex; justify-content: space-between; align-items: center; margin-top: 1.25rem; gap: 10px; }
+
+/* Table simulator */
+.sim-table-wrap { overflow-x: auto; background: #fff; padding: 16px; border-radius: 6px; margin-bottom: 12px; color: #111; }
+.sim-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.sim-table th, .sim-table td { border: 1px solid #CBD5E1; padding: 8px 10px; text-align: left; }
+.sim-table th { background: #3B82F6; color: #fff; font-weight: 700; }
+
+/* Wrap Text simulator */
+.wrap-demo-box {
+  background: #fff; color: #1e293b; padding: 18px; border-radius: 8px;
+  line-height: 1.7; font-size: 13px; min-height: 180px; position: relative; overflow: hidden;
+}
+.wrap-demo-img {
+  width: 110px; height: 110px; background: linear-gradient(135deg, #8B5CF6, #3B82F6);
+  border-radius: 8px; color: #fff; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; font-size: 11px; font-weight: bold; text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15); border: 2px solid #fff;
+}
+
+/* Quiz & Detective */
+.quiz-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 1rem; }
+.quiz-btn {
+  background: var(--bg-subtle); border: 1px solid var(--border); color: var(--text);
+  padding: 12px 14px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600;
+  text-align: left; cursor: pointer; transition: 0.15s;
+}
+.quiz-btn:hover { border-color: var(--purple); }
+.quiz-btn.correct { background: rgba(16, 185, 129, 0.2); border-color: var(--green); color: var(--green); font-weight: 800; }
+.quiz-btn.wrong { background: rgba(239, 68, 68, 0.2); border-color: var(--red); color: var(--red); }
+.feedback-box { margin-top: 12px; padding: 12px; border-radius: var(--radius-sm); font-size: 13px; display: none; }
+.feedback-box.show { display: block; }
+.feedback-box.ok { background: rgba(16, 185, 129, 0.1); border: 1px solid var(--green); color: var(--green); }
+.feedback-box.bad { background: rgba(239, 68, 68, 0.1); border: 1px solid var(--red); color: var(--red); }
+
+/* Certificate */
+.cert-card {
+  background: radial-gradient(circle at center, #1E1B4B 0%, #0F172A 100%);
+  border: 3px solid #F59E0B; border-radius: var(--radius-lg); padding: 2.5rem 1.5rem;
+  text-align: center; position: relative; box-shadow: 0 0 30px rgba(245, 158, 11, 0.25);
+}
+.cert-title { font-size: 22px; font-weight: 900; color: #F59E0B; letter-spacing: 0.05em; margin: 8px 0; }
+.cert-badge { font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 12px; }
+
+.xp-toast {
+  position: fixed; bottom: 24px; right: 24px; background: rgba(16, 185, 129, 0.95);
+  color: #fff; font-weight: 800; font-size: 13px; padding: 8px 16px; border-radius: 20px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.3); z-index: 1000; animation: toastIn 0.3s ease-out;
+}
+@keyframes toastIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+#confettiCanvas { position: fixed; inset: 0; pointer-events: none; z-index: 999; }
+@media (max-width: 640px) {
+  .compare-grid, .quiz-grid { grid-template-columns: 1fr; }
+  .profile-card { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="confettiCanvas"></canvas>
+
+<!-- TOP NAV -->
+<nav class="top-nav">
+  <div class="brand">
+    <span class="brand-badge">P4 WORD LANJUTAN</span>
+    <div class="brand-title">Computer Quest <span>— Level 4</span></div>
+  </div>
+  <div class="session-switch">
+    <button class="session-btn" onclick="alert('Kamu berada di Pertemuan 4: Word Lanjutan! Beralih antar modul dapat dilakukan dari menu.')">P3: Format Dasar</button>
+    <button class="session-btn active">P4: Word Lanjutan</button>
+  </div>
+  <div class="nav-actions">
+    <div class="timer-chip" id="timerDisplay">⏱️ 45:00</div>
+    <button class="audio-btn" id="audioToggle" onclick="toggleAudio()">🔊 Suara</button>
+  </div>
+</nav>
+
+<main class="container">
+
+  <!-- PROFILE & XP -->
+  <header class="profile-card">
+    <div class="avatar-display" id="playerAvatar" onclick="promptChangeName()">🦊</div>
+    <div class="hero-info">
+      <div class="hero-rank" id="rankBadge">RANK: 🥉 TABLE CADET</div>
+      <div class="hero-name" id="playerName">Budi Santoso</div>
+    </div>
+    <div class="xp-container">
+      <div class="xp-meta">
+        <span>KEMAJUAN BELAJAR LEVEL 4</span>
+        <span id="xpText" style="color:var(--yellow)">0 / 1400 XP</span>
+      </div>
+      <div class="xp-bar-bg">
+        <div class="xp-bar-fill" id="xpBarFill"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- STAGE TABS -->
+  <nav class="stages-nav">
+    <button class="stage-tab active" onclick="switchStage(0)"><span class="badge-dot"></span>0. Pengantar Visual</button>
+    <button class="stage-tab" onclick="switchStage(1)"><span class="badge-dot"></span>1. Anatomi Insert</button>
+    <button class="stage-tab" onclick="switchStage(2)"><span class="badge-dot"></span>2. Dojo Tabel Pro</button>
+    <button class="stage-tab" onclick="switchStage(3)"><span class="badge-dot"></span>3. Gambar & Wrap Text</button>
+    <button class="stage-tab" onclick="switchStage(4)"><span class="badge-dot"></span>4. Tata Letak Kertas</button>
+    <button class="stage-tab" onclick="switchStage(5)"><span class="badge-dot"></span>5. Detektif Layout</button>
+    <button class="stage-tab" onclick="switchStage(6)"><span class="badge-dot"></span>6. Proyek Studio P4</button>
+    <button class="stage-tab" onclick="switchStage(7)"><span class="badge-dot"></span>7. Shortcut Battle P4</button>
+    <button class="stage-tab" onclick="switchStage(8)"><span class="badge-dot"></span>8. Final Boss & Sertifikat</button>
+    <button class="stage-tab" onclick="switchStage(9)"><span class="badge-dot"></span>9. Jurnal Refleksi</button>
+  </nav>
+
+  <!-- ═════════════════════════════════════════════
+       STAGE 0: PENGANTAR VISUAL & BEDAH DOKUMEN
+  ═════════════════════════════════════════════ -->
+  <section class="quest-screen active" id="stage0">
+    <div class="intro-hero">
+      <div class="hero-tag">🌟 PERTEMUAN 4: WORD LANJUTAN</div>
+      <h1>Mengubah Dokumen Polos Menjadi Karya Visual Profesional!</h1>
+      <p>
+        Di Pertemuan 3, kamu sudah mahir mengendalikan huruf dan merapikan paragraf. Sekarang saatnya naik kelas ke <strong>Level Desain Visual</strong>! Dokumen hebat bukan hanya enak dibaca, tetapi juga memiliki <strong>tabel rapi</strong>, <strong>gambar yang terkunci manis di samping tulisan</strong>, dan <strong>tata letak kertas yang pas</strong>.
+      </p>
+    </div>
+
+    <!-- PERBANDINGAN VISUAL INTERAKTIF -->
+    <div class="card">
+      <div class="card-header-badge">BEDAH DOKUMEN: SEBELUM VS SESUDAH</div>
+      <div class="card-title">🔍 Kenapa Dokumen Kita Sangat Butuh Tabel & Gambar?</div>
+      <div class="card-desc">Lihat perbandingan dua cara membuat jadwal piket sekolah di bawah ini:</div>
+
+      <div class="compare-grid">
+        <div class="compare-box bad">
+          <div style="color:var(--red);font-weight:800;font-size:12px;margin-bottom:6px;">❌ CARA KUNO (SPASI MANUAL)</div>
+          <div class="sample-paper" style="font-family:monospace;white-space:pre-wrap;background:#FFF5F5;">
+JADWAL PIKET KELAS
+Senin:  Budi, Siti   (Sapu)
+Selasa: Andi, Rina       (Pel)
+Rabu:   Doni,  Maya (Kaca)
+(Tulisan bergeser saat dicetak, spasi sering meleset & tidak bisa diwarnai!)
+          </div>
+        </div>
+
+        <div class="compare-box good">
+          <div style="color:var(--green);font-weight:800;font-size:12px;margin-bottom:6px;">✅ CARA WORD PRO (TABEL BERWARNA)</div>
+          <div class="sample-paper" style="background:#F0FDF4;">
+            <table style="width:100%;border-collapse:collapse;font-size:11px;text-align:left;">
+              <tr style="background:#3B82F6;color:#fff;">
+                <th style="padding:4px 6px;border:1px solid #93C5FD;">Hari</th>
+                <th style="padding:4px 6px;border:1px solid #93C5FD;">Nama Petugas</th>
+                <th style="padding:4px 6px;border:1px solid #93C5FD;">Tugas</th>
+              </tr>
+              <tr style="background:#fff;">
+                <td style="padding:4px 6px;border:1px solid #E2E8F0;">Senin</td>
+                <td style="padding:4px 6px;border:1px solid #E2E8F0;">Budi & Siti</td>
+                <td style="padding:4px 6px;border:1px solid #E2E8F0;">🧹 Sapu Kelas</td>
+              </tr>
+              <tr style="background:#F8FAFC;">
+                <td style="padding:4px 6px;border:1px solid #E2E8F0;">Selasa</td>
+                <td style="padding:4px 6px;border:1px solid #E2E8F0;">Andi & Rina</td>
+                <td style="padding:4px 6px;border:1px solid #E2E8F0;">🪣 Pel Lantai</td>
+              </tr>
+            </table>
+            <div style="font-size:10px;color:#059669;margin-top:6px;font-weight:bold;">✓ Garis lurus sempurna, kolom presisi, dan tampak rapi seperti majalah!</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.25);border-radius:var(--radius-sm);padding:12px 14px;font-size:13px;color:#C084FC;">
+        💡 <strong>Fakta Desain:</strong> Otak manusia memproses gambar dan tabel terstruktur <strong>60.000 kali lebih cepat</strong> daripada membaca paragraf teks panjang!
+      </div>
+    </div>
+
+    <!-- 4 PILAR UTAMA LEVEL 4 -->
+    <div class="card">
+      <div class="card-header-badge">PETA ILMU PERTEMUAN 4</div>
+      <div class="card-title">🗺️ 4 Pilar Utama Word Lanjutan yang Akan Kamu Kuasai:</div>
+      <div class="pillars-grid">
+        <div class="pillar-card">
+          <div class="pillar-icon">📊</div>
+          <div class="pillar-title">1. Tabel & Desain Sel</div>
+          <div class="pillar-desc">Membuat baris & kolom, memberi warna kepala tabel (Shading), menggabungkan kotak (Merge Cells), dan jurus tombol Tab.</div>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon">🖼️</div>
+          <div class="pillar-title">2. Gambar & Text Wrap</div>
+          <div class="pillar-desc">Menjinakkan gambar agar tidak merusak tulisan dengan jurus <i>Wrap Text: Square</i> dan <i>In Front of Text</i>.</div>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon">📐</div>
+          <div class="pillar-title">3. Tata Letak Kertas (Layout)</div>
+          <div class="pillar-desc">Mengubah kertas tidur (Landscape) vs berdiri (Portrait), Margin Narrow, dan Page Break bersih tanpa spam tombol Enter.</div>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon">📑</div>
+          <div class="pillar-title">4. Header, Footer & Kolom</div>
+          <div class="pillar-desc">Nomor halaman otomatis, kop judul dokumen atas-bawah, serta format 2 kolom gaya buletin koran sekolah.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NAMA SISWA INPUT -->
+    <div class="card">
+      <div class="card-header-badge">NAMA SISWA</div>
+      <div class="card-title">👤 Masukkan Nama Siswa:</div>
+      <div style="margin-bottom:1.25rem;">
+        <label style="font-size:13px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:6px;">Ketik Nama Lengkap atau Nama Panggilanmu:</label>
+        <input type="text" id="studentNameInput" placeholder="Contoh: Budi Santoso" value="Budi Santoso" oninput="updateStudentName(this.value)" style="width:100%;max-width:440px;padding:11px 16px;border-radius:var(--radius-sm);border:1px solid var(--purple);background:var(--bg-subtle);color:var(--text);font-size:15px;font-weight:700;outline:none;">
+      </div>
+      <div style="font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:8px;">Pilih Karakter Desainermu:</div>
+      <div class="avatar-grid" id="avatarPicker">
+        <div class="avatar-choice selected" onclick="chooseAvatar('🦊', 'Fox Architect')">🦊 Fox Architect</div>
+        <div class="avatar-choice" onclick="chooseAvatar('🐱', 'Pixel Cat')">🐱 Pixel Cat</div>
+        <div class="avatar-choice" onclick="chooseAvatar('⚡', 'Tech Ninja')">⚡ Tech Ninja</div>
+        <div class="avatar-choice" onclick="chooseAvatar('🤖', 'Robo Designer')">🤖 Robo Designer</div>
+        <div class="avatar-choice" onclick="chooseAvatar('🚀', 'Cosmic Scribe')">🚀 Cosmic Scribe</div>
+      </div>
+      <button class="btn btn-purple btn-lg" onclick="startAdventure()">🔥 Mulai Petualangan Word Lanjutan! Misi 1 →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       STAGE 1: ANATOMI TAB INSERT & LAYOUT
+  ═════════════════════════════════════════════ -->
+  <section class="quest-screen" id="stage1">
+    <div class="card">
+      <div class="card-header-badge">MISI 1 — MARKAS SISIPAN VISUAL</div>
+      <div class="card-title">🖥️ Mengenal Tab INSERT & Tab LAYOUT di Word</div>
+      <div class="card-desc">Buka Microsoft Word di laptopmu sekarang, lalu centang langkah yang berhasil kamu uji coba:</div>
+      <div class="checklist" id="insertMissionList"></div>
+    </div>
+
+    <!-- ANATOMY EXPLORER P4 -->
+    <div class="card">
+      <div class="card-header-badge">SCANNER ELEMEN TINGKAT LANJUT</div>
+      <div class="card-title">🔍 Klik 5 Bagian Penting Word Lanjutan:</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:1rem;">
+        <button class="btn" style="width:100%;justify-content:center;" onclick="inspectAnatomyP4('insert')">Tab Insert</button>
+        <button class="btn" style="width:100%;justify-content:center;" onclick="inspectAnatomyP4('layout')">Tab Layout</button>
+        <button class="btn" style="width:100%;justify-content:center;" onclick="inspectAnatomyP4('tabletools')">Table Design</button>
+        <button class="btn" style="width:100%;justify-content:center;" onclick="inspectAnatomyP4('pictools')">Picture Format</button>
+        <button class="btn" style="width:100%;justify-content:center;" onclick="inspectAnatomyP4('footer')">Header & Footer</button>
+      </div>
+      <div style="background:var(--bg-subtle);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;" id="anatomyDisplayBox">
+        <div style="font-size:11px;font-weight:800;color:var(--purple);margin-bottom:4px;" id="anatomyTag">BAGIAN: TAB INSERT</div>
+        <div style="font-size:14px;color:var(--text);" id="anatomyText">Tab Insert adalah gerbang utama untuk memasukkan segala benda visual: Tabel, Gambar, Bentuk Kotak/Panah (Shapes), dan Nomor Halaman.</div>
+      </div>
+    </div>
+
+    <!-- CONTEXTUAL TABS SECRET -->
+    <div class="card" style="background:rgba(59,130,246,0.06);border-color:rgba(59,130,246,0.25);">
+      <div class="card-header-badge" style="color:var(--blue)">RAHASIA TAB GAIB (CONTEXTUAL TAB)</div>
+      <div class="card-title">🪄 Tab Rahasia yang Hanya Muncul Saat Benda Diklik!</div>
+      <p style="font-size:13px;color:#CBD5E1;line-height:1.7;">
+        Pernahkah kamu heran melihat tab baru bernama <strong>Table Design</strong> atau <strong>Picture Format</strong> tiba-tiba muncul di bagian atas? Itu adalah <i>Contextual Tab</i>! Tab ini sengaja disembunyikan Word dan <strong>hanya muncul saat kamu mengeklik tabel atau gambar</strong>. Jika kamu klik di kertas kosong luar tabel, tab itu akan bersembunyi kembali.
+      </p>
+    </div>
+
+    <div class="nav-buttons-row">
+      <button class="btn" onclick="switchStage(0)">← Pengantar</button>
+      <button class="btn btn-purple" onclick="switchStage(2)">Lanjut ke Dojo Tabel Canggih →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       STAGE 2: DOJO TABEL PRO (SIMULATOR TABEL)
+  ═════════════════════════════════════════════ -->
+  <section class="quest-screen" id="stage2">
+    <div class="card">
+      <div class="card-header-badge">JURUS STRUKTUR DATA</div>
+      <div class="card-title">📊 Dojo Tabel: Baris, Kolom, dan Shading Sel</div>
+      <div class="card-desc">Kuasai 3 anatomi tabel: <strong>Baris (Row)</strong> = mendatar, <strong>Kolom (Column)</strong> = menurun, dan <strong>Sel (Cell)</strong> = satu kotak pertemuan baris & kolom.</div>
+      <div class="checklist" id="tableMissionList"></div>
+    </div>
+
+    <!-- INTERACTIVE TABLE BUILDER SIMULATOR -->
+    <div class="card">
+      <div class="card-header-badge">SIMULATOR INTERAKTIF</div>
+      <div class="card-title">🧪 Table Studio: Rakit & Warnai Tabelmu Sendiri:</div>
+      <div class="card-desc">Atur jumlah baris & kolom, lalu klik warna untuk mewarnai baris kepala tabel (Header Shading):</div>
+
+      <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:14px;">
+        <label style="font-size:13px;font-weight:bold;">Kolom: 
+          <select id="simTableCols" onchange="generateSimTable()" style="padding:4px 8px;border-radius:4px;background:var(--bg-subtle);color:#fff;border:1px solid var(--border);">
+            <option value="2">2 Kolom</option>
+            <option value="3" selected>3 Kolom</option>
+            <option value="4">4 Kolom</option>
+          </select>
+        </label>
+        <label style="font-size:13px;font-weight:bold;">Baris: 
+          <select id="simTableRows" onchange="generateSimTable()" style="padding:4px 8px;border-radius:4px;background:var(--bg-subtle);color:#fff;border:1px solid var(--border);">
+            <option value="3">3 Baris</option>
+            <option value="4" selected>4 Baris</option>
+            <option value="5">5 Baris</option>
+          </select>
+        </label>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <span style="font-size:13px;font-weight:bold;">Warna Header:</span>
+          <button class="btn" style="padding:4px 8px;background:#3B82F6;color:#fff;" onclick="setTableShading('#3B82F6')">Biru</button>
+          <button class="btn" style="padding:4px 8px;background:#10B981;color:#fff;" onclick="setTableShading('#10B981')">Hijau</button>
+          <button class="btn" style="padding:4px 8px;background:#8B5CF6;color:#fff;" onclick="setTableShading('#8B5CF6')">Ungu</button>
+          <button class="btn" style="padding:4px 8px;background:#F97316;color:#fff;" onclick="setTableShading('#F97316')">Oranye</button>
+        </div>
+      </div>
+
+      <div class="sim-table-wrap" id="simTableContainer">
+        <!-- Rendered by JS -->
+      </div>
+      <div style="font-size:12px;color:var(--text-muted);display:flex;justify-content:space-between;">
+        <span>💡 <i>Tip Guru:</i> Tekan tombol <b>Tab</b> di keyboard saat di sel terakhir untuk membuat baris baru otomatis!</span>
+        <button class="btn btn-green" onclick="addXP(40, 'Eksplorasi Simulator Tabel')">✓ Saya Berhasil Memahami Tabel (+40 XP)</button>
+      </div>
+    </div>
+
+    <div class="nav-buttons-row">
+      <button class="btn" onclick="switchStage(1)">← Anatomi Insert</button>
+      <button class="btn btn-purple" onclick="switchStage(3)">Lanjut ke Gambar & Text Wrap →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       STAGE 3: GAMBAR & TEXT WRAP (SIMULATOR LIVE)
+  ═════════════════════════════════════════════ -->
+  <section class="quest-screen" id="stage3">
+    <div class="card">
+      <div class="card-header-badge">JURUS PENJINAK GAMBAR</div>
+      <div class="card-title">🖼️ Menjinakkan Gambar dengan "Wrap Text"</div>
+      <div class="card-desc">Pernahkah kamu memasukkan gambar di Word dan seluruh tulisanmu mendadak loncat berantakan? Itu karena mode default gambar adalah <strong>In Line with Text</strong> (dianggap huruf raksasa). Kita harus mengubahnya menjadi <strong>Square</strong>!</div>
+      <div class="checklist" id="imageMissionList"></div>
+    </div>
+
+    <!-- INTERACTIVE TEXT WRAP SIMULATOR -->
+    <div class="card">
+      <div class="card-header-badge">LAB SIMULATOR WRAP TEXT</div>
+      <div class="card-title">🧪 Coba Klik 4 Mode Aliran Teks Mengelilingi Gambar:</div>
+      <div class="card-desc">Perhatikan bagaimana susunan paragraf berubah seketika saat mode pembungkus gambar diubah:</div>
+
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+        <button class="btn btn-primary" id="btnWrapInline" onclick="setWrapMode('inline')">1. In Line with Text (Default)</button>
+        <button class="btn btn-purple" id="btnWrapSquare" onclick="setWrapMode('square')">2. Square / Kotak (Rekomendasi!)</button>
+        <button class="btn" id="btnWrapBehind" onclick="setWrapMode('behind')">3. Behind Text (Di Belakang)</button>
+        <button class="btn" id="btnWrapFront" onclick="setWrapMode('front')">4. In Front of Text (Di Depan)</button>
+      </div>
+
+      <div class="wrap-demo-box" id="wrapDemoBox">
+        <div class="wrap-demo-img" id="wrapImg" style="display:inline-block;vertical-align:bottom;margin:4px 10px 4px 0;">
+          <div style="font-size:26px;">🤖</div>
+          <div>ROBOT CQ</div>
+        </div>
+        <span>
+          Di sebuah sekolah masa depan, para siswa belajar komputer menggunakan Microsoft Word canggih. Mereka tidak lagi mengetik tulisan polos yang membosankan. Kini mereka mampu menyisipkan gambar robot penjelajah antariksa dan diagram jadwal pelajaran dengan sangat rapi. Ketika pengaturan pembungkus teks (Wrap Text) diatur dengan tepat, teks akan mengalir lembut di sekitar lekuk gambar tanpa pernah terpotong kaku. Semua dokumen terlihat seperti halaman majalah teknologi kelas dunia yang siap diterbitkan ke perpustakaan sekolah!
+        </span>
+      </div>
+
+      <div style="margin-top:12px;padding:10px 14px;border-radius:6px;background:var(--bg-subtle);border:1px solid var(--border);font-size:13px;" id="wrapExplanation">
+        <strong style="color:var(--yellow)">Penjelasan Mode:</strong> <b>In Line with Text</b> memperlakukan gambar seperti 1 huruf raksasa sehingga membelah baris kalimat menjadi kosong tinggi.
+      </div>
+    </div>
+
+    <div class="nav-buttons-row">
+      <button class="btn" onclick="switchStage(2)">← Tabel Pro</button>
+      <button class="btn btn-purple" onclick="switchStage(4)">Lanjut ke Tata Letak Kertas →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       STAGE 4: TATA LETAK KERTAS & HALAMAN
+  ═════════════════════════════════════════════ -->
+  <section class="quest-screen" id="stage4">
+    <div class="card">
+      <div class="card-header-badge">JURUS ARSITEKTUR KERTAS</div>
+      <div class="card-title">📐 Tab Layout: Portrait vs Landscape & Jurus Ctrl + Enter</div>
+      <div class="card-desc">Jangan pernah membuat halaman baru dengan memencet Enter 25 kali! Pelajari rahasia tata letak halaman yang bersih:</div>
+      <div class="checklist" id="layoutMissionList"></div>
+    </div>
+
+    <!-- PANDUAN ORIENTASI & MARGIN -->
+    <div class="card">
+      <div class="card-header-badge">KARTU PANDUAN CEPAT</div>
+      <div class="card-title">🧭 Kapan Menggunakan Setiap Pengaturan Kertas?</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-top:10px;">
+        <div style="background:var(--bg-subtle);padding:14px;border-radius:8px;border:1px solid var(--border);">
+          <div style="font-weight:800;color:var(--cyan);font-size:14px;margin-bottom:4px;">📄 PORTRAIT (BERDIRI)</div>
+          <p style="font-size:12px;color:var(--text-muted);line-height:1.5;">Standar untuk surat resmi, biodata diri, makalah tugas, dan cerita pendek.</p>
+        </div>
+        <div style="background:var(--bg-subtle);padding:14px;border-radius:8px;border:1px solid var(--border);">
+          <div style="font-weight:800;color:var(--yellow);font-size:14px;margin-bottom:4px;">📜 LANDSCAPE (TIDUR)</div>
+          <p style="font-size:12px;color:var(--text-muted);line-height:1.5;">Wajib dipilih saat membuat tabel yang kolomnya banyak (seperti jadwal pelajaran) agar tidak terpotong ke samping!</p>
+        </div>
+        <div style="background:var(--bg-subtle);padding:14px;border-radius:8px;border:1px solid var(--border);">
+          <div style="font-weight:800;color:var(--green);font-size:14px;margin-bottom:4px;">📏 MARGIN NARROW (SEMPIT)</div>
+          <p style="font-size:12px;color:var(--text-muted);line-height:1.5;">Memperlebar area putih tempat mengetik (hanya 1.27 cm batas tepi), memberi ruang luas untuk tabel besar.</p>
+        </div>
+        <div style="background:var(--bg-subtle);padding:14px;border-radius:8px;border:1px solid var(--border);">
+          <div style="font-weight:800;color:var(--purple);font-size:14px;margin-bottom:4px;">⚡ CTRL + ENTER (PAGE BREAK)</div>
+          <p style="font-size:12px;color:var(--text-muted);line-height:1.5;">Lompat langsung ke halaman baru dengan bersih. Tulisan di halaman 2 tidak akan bergeser turun jika halaman 1 diedit!</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-buttons-row">
+      <button class="btn" onclick="switchStage(3)">← Gambar & Wrap</button>
+      <button class="btn btn-purple" onclick="switchStage(5)">Lanjut ke Detektif Layout →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       STAGE 5: DETEKTIF LAYOUT RUSAK (4 KASUS)
+  ═════════════════════════════════════════════ -->
+  <section class="quest-screen" id="stage5">
+    <div class="card">
+      <div class="card-header-badge">GAME DETEKTIF DOKUMEN LANJUTAN</div>
+      <div class="card-title">🕵️‍♂️ Detektif Layout: Sembuhkan 4 Kasus Dokumen Berantakan!</div>
+      <div class="card-desc">Sebuah dokumen mengalami kerusakan tata letak visual. Analisis penyebabnya dan pilih solusi yang tepat:</div>
+
+      <div style="background:#0D111A;border:1px solid var(--border);border-radius:var(--radius-md);padding:1.5rem;" id="detectiveContainer">
+        <div style="font-size:12px;font-weight:800;color:var(--yellow);margin-bottom:6px;" id="caseNumberLabel">KASUS 1 DARI 4</div>
+        <div style="background:#fff;color:#111;padding:14px;border-radius:6px;margin-bottom:12px;" id="caseDocumentView"></div>
+        <div style="font-size:14px;font-weight:700;margin-bottom:10px;color:var(--cyan);" id="caseQuestion"></div>
+        <div class="quiz-grid" id="caseOptions"></div>
+        <div class="feedback-box" id="caseFeedback"></div>
+      </div>
+    </div>
+
+    <div class="nav-buttons-row">
+      <button class="btn" onclick="switchStage(4)">← Tata Letak Kertas</button>
+      <button class="btn btn-purple" onclick="switchStage(6)">Lanjut ke Proyek Studio P4 →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       STAGE 6: PROYEK STUDIO P4 (3 PILIHAN KARYA)
+  ═════════════════════════════════════════════ -->
+  <section class="quest-screen" id="stage6">
+    <div class="card">
+      <div class="card-header-badge">STUDIO DESAIN PRODUKSI DOKUMEN</div>
+      <div class="card-title">📄 Proyek Nyata Level 4: Buat Karya Visual di Word Aslimu!</div>
+      <div class="card-desc">Pilih salah satu dari 3 proyek lanjutan di bawah ini, lalu buka Microsoft Word di laptopmu dan buat persis seperti panduan:</div>
+
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.25rem;">
+        <button class="btn btn-primary proj-btn active" onclick="selectProjectP4('schedule')">Proyek A: Jadwal Pelajaran Estetik (Tabel)</button>
+        <button class="btn proj-btn" onclick="selectProjectP4('poster')">Proyek B: Poster Mini Lomba (Gambar & Wrap)</button>
+        <button class="btn proj-btn" onclick="selectProjectP4('bulletin')">Proyek C: Buletin Berita 2 Kolom (Tantangan)</button>
+      </div>
+
+      <!-- PROJECT DETAIL PREVIEW -->
+      <div id="projectDetailArea" style="background:#fff;color:#111;padding:22px;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.25);margin-bottom:1.5rem;">
+        <!-- Rendered by JS -->
+      </div>
+
+      <div class="checklist" id="projectMissionList"></div>
+    </div>
+
+    <div class="nav-buttons-row">
+      <button class="btn" onclick="switchStage(5)">← Detektif Layout</button>
+      <button class="btn btn-purple" onclick="switchStage(7)">Lanjut ke Shortcut Battle Level 4 →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       STAGE 7: SHORTCUT BATTLE LEVEL 4 (10 SOAL)
+  ═════════════════════════════════════════════ -->
+  <section class="quest-screen" id="stage7">
+    <div class="card">
+      <div class="card-header-badge">ARENA REFLEKS KEYBOARD TINGKAT LANJUT</div>
+      <div class="card-title">⚔️ Shortcut Battle Level 4: Uji Refleks Tombol Cepat!</div>
+      <div class="card-desc">Kuasai kombinasi tombol rahasia untuk tabel, jeda halaman, cetak, pencarian kata, dan pengaturan font:</div>
+
+      <div style="background:#0D111A;border:1px solid var(--border);border-radius:var(--radius-md);padding:1.5rem;text-align:center;">
+        <div style="font-size:12px;font-weight:800;color:var(--yellow);margin-bottom:6px;" id="scProgress">TANTANGAN 1 DARI 10</div>
+        <div style="margin:10px 0;">
+          <span style="background:var(--bg-subtle);border:2px solid var(--purple);padding:8px 20px;border-radius:8px;font-size:24px;font-weight:900;color:#C084FC;" id="scKeyDisplay">Ctrl + Enter</span>
+        </div>
+        <div style="font-size:16px;font-weight:800;margin-bottom:14px;" id="scQuestion">Fungsi kombinasi tombol ini adalah:</div>
+
+        <div class="quiz-grid" id="scChoices"></div>
+
+        <div style="display:flex;justify-content:center;gap:30px;margin-top:1.25rem;border-top:1px solid var(--border);padding-top:12px;">
+          <div><span style="color:var(--green);font-size:20px;font-weight:800;" id="scHitCount">0</span><br><small style="color:var(--text-muted)">Benar</small></div>
+          <div><span style="color:var(--red);font-size:20px;font-weight:800;" id="scMissCount">0</span><br><small style="color:var(--text-muted)">Salah</small></div>
+          <div><span style="color:var(--cyan);font-size:20px;font-weight:800;" id="scStreakCount">0</span><br><small style="color:var(--text-muted)">Combo Streak</small></div>
+        </div>
+
+        <div id="scResultBox" style="display:none;margin-top:1.25rem;">
+          <div style="font-size:36px;">🏆 ⚡</div>
+          <div style="font-size:18px;font-weight:800;margin:6px 0;" id="scResultTitle">Battle Level 4 Selesai!</div>
+          <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;" id="scResultSub"></p>
+          <button class="btn btn-yellow" onclick="startShortcutBattle()">🔄 Duel Ulang</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHEAT SHEET P4 -->
+    <div class="card" style="background:rgba(139,92,246,0.06);border-color:rgba(139,92,246,0.25);">
+      <div class="card-header-badge" style="color:var(--purple)">KARTU SAKTI SHORTCUT LEVEL 4</div>
+      <div class="card-title">📖 Pintasan Keyboard Word Lanjutan:</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;font-size:12px;margin-top:8px;">
+        <div style="background:var(--bg-subtle);padding:8px 10px;border-radius:6px;border:1px solid var(--border);"><b>Ctrl + Enter:</b> Page Break (Halaman Baru)</div>
+        <div style="background:var(--bg-subtle);padding:8px 10px;border-radius:6px;border:1px solid var(--border);"><b>Tab:</b> Pindah ke sel tabel kanan</div>
+        <div style="background:var(--bg-subtle);padding:8px 10px;border-radius:6px;border:1px solid var(--border);"><b>Shift + Tab:</b> Kembali ke sel tabel kiri</div>
+        <div style="background:var(--bg-subtle);padding:8px 10px;border-radius:6px;border:1px solid var(--border);"><b>Ctrl + P:</b> Buka jendela Print / Cetak</div>
+        <div style="background:var(--bg-subtle);padding:8px 10px;border-radius:6px;border:1px solid var(--border);"><b>Ctrl + F:</b> Find (Cari kata di dokumen)</div>
+        <div style="background:var(--bg-subtle);padding:8px 10px;border-radius:6px;border:1px solid var(--border);"><b>Ctrl + H:</b> Replace (Ganti kata otomatis)</div>
+        <div style="background:var(--bg-subtle);padding:8px 10px;border-radius:6px;border:1px solid var(--border);"><b>Ctrl + ]:</b> Perbesar huruf 1 poin</div>
+        <div style="background:var(--bg-subtle);padding:8px 10px;border-radius:6px;border:1px solid var(--border);"><b>Ctrl + [:</b> Perkecil huruf 1 poin</div>
+      </div>
+    </div>
+
+    <div class="nav-buttons-row">
+      <button class="btn" onclick="switchStage(6)">← Proyek Studio</button>
+      <button class="btn btn-purple" onclick="switchStage(8)">Tantang Final Boss Level 4 →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       STAGE 8: FINAL BOSS & SERTIFIKAT LEVEL 4
+  ═════════════════════════════════════════════ -->
+  <section class="quest-screen" id="stage8">
+    <div class="card">
+      <div class="card-header-badge" style="color:var(--yellow)">UJIAN KELULUSAN MANDIRI LEVEL 4</div>
+      <div class="card-title">🏆 Misi Final Boss: Buktikan Kemandirian Arsitek Dokumen!</div>
+      <div class="card-desc">Lakukan seluruh rangkaian pembuatan dokumen visual ini di Microsoft Word komputermu sendiri tanpa bantuan. Centang saat berhasil:</div>
+
+      <div class="checklist" id="finalBossList"></div>
+
+      <div style="text-align:center;margin-top:1.5rem;">
+        <button class="btn btn-yellow btn-lg" id="claimBadgeBtn" style="display:none;" onclick="triggerVictory()">
+          👑 Klaim Gelar: GRAND WORD ARCHITECT & DESIGNER!
+        </button>
+      </div>
+    </div>
+
+    <!-- CERTIFICATE OF COMPLETION LEVEL 4 -->
+    <div id="victoryBlock" style="display:none;margin-top:1.5rem;">
+      <div class="cert-card">
+        <div style="font-size:36px;margin-bottom:6px;">📊 📜 🏆</div>
+        <div class="hero-tag" style="background:rgba(245,158,11,0.2);color:var(--yellow);border-color:var(--yellow);">LEVEL 4 RESMI LULUS</div>
+        <div class="cert-title">SERTIFIKAT RESMI GRAND WORD ARCHITECT</div>
+        <div class="cert-badge" id="certPlayerLabel">Dianugerahkan kepada: Budi Santoso 🦊</div>
+        <p style="font-size:14px;color:#E2E8F0;max-width:620px;margin:0 auto 16px;line-height:1.7;">
+          Telah berhasil membuktikan kompetensi tinggi dalam arsitektur pengolahan dokumen lanjutan: mendesain tabel berstruktur dengan shading sel, menjinakkan gambar dengan Text Wrap Square, mengelola tata letak kertas Landscape & Margins, serta menyusun laporan visual siap terbit!
+        </p>
+        <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem;">
+          <span style="background:rgba(16,185,129,0.15);border:1px solid var(--green);color:var(--green);padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;">✓ Master Tabel & Shading</span>
+          <span style="background:rgba(16,185,129,0.15);border:1px solid var(--green);color:var(--green);padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;">✓ Penakluk Wrap Text</span>
+          <span style="background:rgba(16,185,129,0.15);border:1px solid var(--green);color:var(--green);padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;">✓ Page Setup & Breaks</span>
+          <span style="background:rgba(16,185,129,0.15);border:1px solid var(--green);color:var(--green);padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;">✓ Level 4 Shortcut Ace</span>
+        </div>
+        <button class="btn btn-green" onclick="window.print()">🖨️ Cetak / Simpan Sertifikat Level 4 (PDF)</button>
+      </div>
+    </div>
+
+    <div class="nav-buttons-row">
+      <button class="btn" onclick="switchStage(7)">← Shortcut Battle</button>
+      <button class="btn btn-purple" onclick="switchStage(9)">Jurnal Refleksi & Misi Rumah →</button>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════
+       STAGE 9: JURNAL REFLEKSI & HOME QUEST P4
+  ═════════════════════════════════════════════ -->
+  <section class="quest-screen" id="stage9">
+    <div class="card">
+      <div class="card-header-badge">JURNAL REFLEKSI LEVEL 4</div>
+      <div class="card-title">💭 Jurnal Arsitek Dokumen: Pelajaran Apa yang Paling Berkesan?</div>
+      <div class="card-desc">Tuliskan pengalaman belajarmu hari ini agar keterampilan barumu menancap kuat:</div>
+
+      <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:1.25rem;">
+        <div>
+          <label style="font-size:13px;font-weight:700;display:block;margin-bottom:4px;">1. Dari fitur Tabel dan Gambar, mana yang menurutmu paling menyenangkan untuk dibuat?</label>
+          <input type="text" id="jnlInput1" placeholder="Contoh: Bikin tabel jadwal beraneka warna, bikin gambar gak loncat lagi..." style="width:100%;padding:10px 14px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--bg-subtle);color:var(--text);font-family:inherit;">
+        </div>
+        <div>
+          <label style="font-size:13px;font-weight:700;display:block;margin-bottom:4px;">2. Karya apa yang paling ingin kamu buat di laptop untuk sekolah atau kamarmu?</label>
+          <input type="text" id="jnlInput2" placeholder="Contoh: Jadwal main game dan belajar, poster klub sains, silsilah keluarga..." style="width:100%;padding:10px 14px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--bg-subtle);color:var(--text);font-family:inherit;">
+        </div>
+        <div>
+          <label style="font-size:13px;font-weight:700;display:block;margin-bottom:4px;">3. Nilai rasa percaya dirimu mendesain dokumen visual sekarang: (1 - 5)</label>
+          <div style="display:flex;align-items:center;gap:14px;margin-top:6px;">
+            <span>😟 1</span>
+            <input type="range" id="jnlConfidence" min="1" max="5" value="5" oninput="document.getElementById('jnlConfEmoji').textContent = ['','😟','😐','🙂','😎','👑'][this.value]" style="flex:1;">
+            <span>5 👑</span>
+            <span id="jnlConfEmoji" style="font-size:24px;">👑</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-green" onclick="saveJournal()">💾 Simpan Jurnal Refleksi (+75 XP)</button>
+      <div id="journalSavedFeedback" style="display:none;background:rgba(16,185,129,0.1);border:1px solid var(--green);color:var(--green);padding:12px;border-radius:var(--radius-sm);margin-top:12px;font-size:13px;">
+        ✨ Jurnal refleksi berhasil disimpan! Catatan ini membuktikan lompatan besar keahlian komputermu.
+      </div>
+    </div>
+
+    <!-- HOME QUEST P4 -->
+    <div class="card">
+      <div class="card-header-badge">MISI RUMAH SANTAI LEVEL 4</div>
+      <div class="card-title">🏠 Home Quest: 3 Misi Menarik di Rumah</div>
+      <div class="card-desc">Cukup luangkan 10–15 menit untuk mengasah naluri desainermu:</div>
+
+      <div class="checklist">
+        <div class="check-item">
+          <div class="check-box">1</div>
+          <div class="check-info">
+            <div class="check-title">Buat Tabel Jadwal Harian Kamarmu Sendiri</div>
+            <div class="check-desc">Buka Word di rumah, buat tabel 3 kolom (Jam, Aktivitas, Keterangan). Beri warna kesukaanmu pada header, lalu simpan sebagai <code>Jadwal_Kamar_[Namamu].docx</code>.</div>
+          </div>
+        </div>
+        <div class="check-item">
+          <div class="check-box">2</div>
+          <div class="check-info">
+            <div class="check-title">Kartu Ucapan Bergambar untuk Sahabat / Keluarga</div>
+            <div class="check-desc">Sisipkan 1 gambar foto/kartun, atur ke <i>Wrap Text: Square</i>, lalu ketik ucapan doa atau terima kasih yang mengalir di sampingnya.</div>
+          </div>
+        </div>
+        <div class="check-item">
+          <div class="check-box">⭐</div>
+          <div class="check-info">
+            <div class="check-title" style="color:var(--yellow)">MISI SPESIAL: Tunjukkan Trik "Gambar Tidak Loncat" ke Orang Tua</div>
+            <div class="check-desc">Peragakan kepada orang tua atau saudaramu bagaimana trik tombol <b>Wrap Text ➔ Square</b> membuat gambar bisa digeser bebas tanpa merusak tulisan!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SNEAK PEEK LEVEL 5 -->
+    <div class="card" style="background:linear-gradient(135deg,rgba(139,92,246,0.15),rgba(6,182,212,0.15));border-color:rgba(139,92,246,0.35);text-align:center;padding:2rem;">
+      <div style="font-size:36px;margin-bottom:8px;">📊 ➔ 📽️</div>
+      <div class="card-header-badge">SNEAK PEEK PERTEMUAN 5</div>
+      <div style="font-size:20px;font-weight:900;color:var(--text);margin-bottom:6px;">Level 5: Master Presentasi & Animasi PowerPoint!</div>
+      <p style="font-size:13px;color:var(--text-muted);max-width:540px;margin:0 auto 16px;">
+        Dokumenmu kini sudah indah. Di level berikutnya, kita akan membuat slide presentasi bergerak dengan transisi mulus dan animasi interaktif untuk memukau teman-teman kelas!
+      </p>
+      <button class="btn btn-purple" onclick="switchStage(0)">🔄 Kembali ke Menu Pengantar P4</button>
+    </div>
+  </section>
+
+</main>
+
+<script>
+/* ── AUDIO SYNTHESIZER ── */
+let audioEnabled = true;
+let audioCtx = null;
+function getAudioCtx() {
+  if (!audioCtx) {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (AudioContext) audioCtx = new AudioContext();
+  }
+  if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+  return audioCtx;
+}
+function playSound(type) {
+  if (!audioEnabled) return;
+  try {
+    const ctx = getAudioCtx();
+    if (!ctx) return;
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    if (type === 'click') {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(650, now);
+      osc.frequency.exponentialRampToValueAtTime(320, now + 0.08);
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.linearRampToValueAtTime(0.01, now + 0.08);
+      osc.start(now); osc.stop(now + 0.08);
+    } else if (type === 'success') {
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(587.33, now);
+      osc.frequency.setValueAtTime(739.99, now + 0.09);
+      osc.frequency.setValueAtTime(880.00, now + 0.18);
+      gain.gain.setValueAtTime(0.15, now);
+      gain.gain.linearRampToValueAtTime(0.01, now + 0.35);
+      osc.start(now); osc.stop(now + 0.35);
+    } else if (type === 'wrong') {
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(240, now);
+      osc.frequency.setValueAtTime(170, now + 0.1);
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
+      osc.start(now); osc.stop(now + 0.25);
+    } else if (type === 'fanfare') {
+      [587.33, 739.99, 880.00, 1174.66].forEach((f, idx) => {
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.connect(g); g.connect(ctx.destination);
+        o.type = 'triangle';
+        o.frequency.setValueAtTime(f, now + idx * 0.12);
+        g.gain.setValueAtTime(0.15, now + idx * 0.12);
+        g.gain.linearRampToValueAtTime(0.01, now + idx * 0.12 + 0.35);
+        o.start(now + idx * 0.12); o.stop(now + idx * 0.12 + 0.35);
+      });
+    }
+  } catch(e) {}
+}
+function toggleAudio() {
+  audioEnabled = !audioEnabled;
+  document.getElementById('audioToggle').textContent = audioEnabled ? '🔊 Suara' : '🔇 Mute';
+  if (audioEnabled) playSound('click');
+}
+
+/* ── GAME STATE ── */
+let currentXP = 0;
+const maxXP = 1400;
+let avatarEmoji = '🦊';
+let warriorName = 'Budi Santoso';
+const completedTasks = new Set();
+
+/* ── MISSIONS DATA P4 ── */
+const insertMissionData = [
+  { id: 'i1', title: 'Temukan Tab INSERT di Pita Ribbon Word', desc: 'Klik tab Insert di sebelah tab Home. Amati tombol Table, Pictures, dan Shapes.', xp: 50 },
+  { id: 'i2', title: 'Temukan Tab LAYOUT (Tata Letak)', desc: 'Klik tab Layout. Perhatikan tombol Margins, Orientation, Size, dan Columns.', xp: 50 },
+  { id: 'i3', title: 'Coba Ubah Orientasi ke Landscape', desc: 'Klik Layout ➔ Orientation ➔ Landscape. Amati bentuk lembar kertas berubah tidur!', xp: 60 },
+  { id: 'i4', title: 'Ubah Margin ke "Narrow" (Sempit)', desc: 'Klik Layout ➔ Margins ➔ Narrow. Perhatikan ruang kertas putih menjadi jauh lebih luas.', xp: 50 }
+];
+
+const tableMissionData = [
+  { id: 't1', title: 'Sisipkan Tabel 3 Kolom x 4 Baris', desc: 'Klik Insert ➔ Table ➔ seret kotak 3x4 ➔ klik. Tabel kotak rapi akan muncul!', xp: 60 },
+  { id: 't2', title: 'Beri Shading (Warna) pada Baris Kepala Tabel', desc: 'Sorot baris paling atas, klik tab Table Design ➔ Shading ➔ pilih warna biru atau hijau.', xp: 60 },
+  { id: 't3', title: 'Coba Lompat Sel dengan Tombol [Tab]', desc: 'Ketik teks di sel pertama, tekan tombol Tab di keyboard untuk otomatis lompat ke sel sebelah kanan!', xp: 50 },
+  { id: 't4', title: 'Latihan Merge Cells (Gabung Kotak)', desc: 'Sorot 2 kotak sel bersebelahan, klik kanan ➔ pilih Merge Cells untuk menyatukannya.', xp: 60 }
+];
+
+const imageMissionData = [
+  { id: 'm1', title: 'Sisipkan 1 Gambar ke Dalam Word', desc: 'Klik Insert ➔ Pictures ➔ This Device (atau Stock Images / Online Pictures).', xp: 60 },
+  { id: 'm2', title: 'Kecilkan Gambar Lewat Titik Sudut (Bukan Titik Tengah!)', desc: 'Tarik lingkaran di pojok sudut gambar agar foto mengecil secara proporsional dan tidak gepeng.', xp: 50 },
+  { id: 'm3', title: 'Ubah Wrap Text Menjadi "Square"', desc: 'Klik ikon tapal kuda di samping gambar atau tab Picture Format ➔ Wrap Text ➔ pilih Square.', xp: 70 },
+  { id: 'm4', title: 'Geser Gambar ke Samping Paragraf', desc: 'Tarik gambar ke tengah teks. Lihat bagaimana teks mengalir rapi di sekeliling kotak gambar!', xp: 60 }
+];
+
+const layoutMissionData = [
+  { id: 'l1', title: 'Jurus Sakti: Halaman Baru dengan [Ctrl + Enter]', desc: 'Letakkan kursor di bawah tulisan, tekan Ctrl + Enter bersamaan. Halaman 2 terbuka instan tanpa spasi berulang!', xp: 70 },
+  { id: 'l2', title: 'Tambahkan Nomor Halaman Otomatis (Page Number)', desc: 'Klik Insert ➔ Page Number ➔ Bottom of Page ➔ pilih Plain Number 3 (kanan bawah).', xp: 60 },
+  { id: 'l3', title: 'Beri Garis Batas Kertas (Page Border)', desc: 'Klik tab Design ➔ Page Borders di pojok kanan ➔ pilih garis Box yang rapi.', xp: 50 }
+];
+
+const projectMissionData = [
+  { id: 'p1', title: '1. Atur Orientasi Kertas Sesuai Template Proyek', desc: 'Gunakan Landscape untuk Jadwal Pelajaran atau Portrait untuk Brosur/Buletin.', xp: 50 },
+  { id: 'p2', title: '2. Bangun Elemen Visual Utama (Tabel / Gambar)', desc: 'Susun tabel bergaris rapi atau sisipkan gambar ilustrasi dengan Wrap Text Square.', xp: 75 },
+  { id: 'p3', title: '3. Beri Sentuhan Warna Elegan & Font Terbaca', desc: 'Tebalkan judul dengan font tegas (Arial/Calibri 16 pt), dan beri shading lembut pada sel tabel.', xp: 65 },
+  { id: 'p4', title: '4. Simpan Dokumen dengan Nama Format Lanjutan', desc: 'Tekan F12 atau File ➔ Save As ➔ Beri nama "Proyek_P4_[Namamu].docx" di folder Computer Quest.', xp: 80 }
+];
+
+const finalBossData = [
+  { id: 'fb1', title: 'Buka Word & Atur Kertas Landscape dengan Margin Narrow', desc: 'Lakukan di tab Layout tanpa petunjuk.', xp: 60 },
+  { id: 'fb2', title: 'Buat Tabel 4 Kolom x 5 Baris Berisi Jadwal atau Rencana', desc: 'Beri warna kepala tabel (Shading) dan tebalkan tulisannya.', xp: 70 },
+  { id: 'fb3', title: 'Sisipkan 1 Gambar & Atur Wrap Text Menjadi Square', desc: 'Pastikan posisi gambar rapi di samping tabel atau judul.', xp: 75 },
+  { id: 'fb4', title: 'Beri Nomor Halaman Otomatis di Bawah Kertas', desc: 'Gunakan fitur Page Number di Tab Insert.', xp: 60 },
+  { id: 'fb5', title: 'Simpan Dokumen Mandiri & Pastikan Siap Cetak', desc: 'Tekan Ctrl + S atau F12, lalu lakukan Ctrl + P untuk pratinjau cetak yang sempurna.', xp: 85 }
+];
+
+/* ── DETECTIVE CASES P4 ── */
+const detectiveCases = [
+  {
+    doc: `<div style="line-height:1.8;">Hari ini kami berkunjung ke museum sains <span style="display:inline-block;width:60px;height:45px;background:#8B5CF6;color:#fff;font-size:9px;text-align:center;line-height:45px;border-radius:4px;">[FOTO]</span> untuk melihat fosil dinosaurus dan bintang raksasa di angkasa.</div>`,
+    q: "Mengapa baris kalimat di atas terbelah dan tampak renggang aneh?",
+    opts: [
+      "Gambar diatur dengan Wrap Text 'In Line with Text' sehingga membelah baris kalimat.",
+      "Ukuran huruf terlalu kecil.",
+      "Museum sainsnya terlalu jauh.",
+      "Monitor komputernya kotor."
+    ],
+    ans: 0,
+    why: "Mode default 'In Line with Text' menganggap gambar sebagai 1 huruf besar yang memotong baris teks. Ubah ke Wrap Text: Square agar teks mengalir mulus di samping gambar!"
+  },
+  {
+    doc: `<div style="border:2px dashed #EF4444;padding:8px;overflow:hidden;">
+            <div style="font-weight:bold;font-size:12px;margin-bottom:4px;">JADWAL EKSTRAKURIKULER (7 KOLOM)</div>
+            <div style="color:#DC2626;font-size:11px;">⚠️ Peringatan Cetak: Kolom ke-6 dan ke-7 terpotong keluar dari tepi kertas sebelah kanan!</div>
+          </div>`,
+    q: "Bagaimana cara terbaik menyelamatkan tabel lebar yang terpotong kertas?",
+    opts: [
+      "Ubah orientasi kertas menjadi Landscape dan atur Margin ke Narrow.",
+      "Hapus saja kolomnya dan tidak usah dibuat.",
+      "Lipat kertas fisik menggunakan gunting.",
+      "Matikan laptop."
+    ],
+    ans: 0,
+    why: "Mengubah orientasi ke Landscape (kertas tidur) dan Margin ke Narrow akan memberikan ruang horizontal yang luas sehingga tabel 7 kolom muat sempurna tanpa terpotong!"
+  },
+  {
+    doc: `<div style="font-size:12px;line-height:1.6;">
+            <div>Halaman 1: Judul Laporan Komputer</div>
+            <div style="color:#94A3B8;font-size:10px;">[Tekan Enter 20 kali...]</div>
+            <div style="color:#DC2626;">Masalah: Ketika 1 kalimat ditambahkan di Halaman 1, judul Halaman 2 malah melorot jatuh ke tengah halaman!</div>
+          </div>`,
+    q: "Apa kesalahan teknik yang menyebabkan halaman berikutnya berantakan saat diedit?",
+    opts: [
+      "Menggunakan tombol Enter berulang-ulang untuk pindah halaman, bukan Page Break (Ctrl+Enter).",
+      "Kabel keyboardnya longgar.",
+      "Tulisannya kurang panjang.",
+      "Font yang dipakai terlalu bagus."
+    ],
+    ans: 0,
+    why: "Spam tombol Enter membuat puluhan baris kosong. Jika ada teks tambahan di atas, semua baris kosong itu terdorong ke bawah! Selalu gunakan Ctrl + Enter (Page Break) untuk halaman baru yang aman."
+  },
+  {
+    doc: `<div style="font-size:12px;line-height:1.6;">
+            <div style="font-weight:bold;">BERITA KELAS: JUARA CODING</div>
+            <div>Budi ingin membuat tampilan berita seperti koran terbagi 2 kolom, tetapi ia mengetik spasi manual di antara paragraf dan hasilnya bergeser berantakan saat diprint.</div>
+          </div>`,
+    q: "Fitur resmi apakah di Word yang tepat untuk membagi tulisan menjadi 2 kolom gaya koran?",
+    opts: [
+      "Tab Layout ➔ Columns ➔ Two.",
+      "Tab Home ➔ Bold.",
+      "Tab Insert ➔ Simbol Bintang.",
+      "Tab File ➔ Print."
+    ],
+    ans: 0,
+    why: "Fitur Layout ➔ Columns ➔ Two akan membagi aliran teks secara otomatis menjadi 2 kolom paralel yang rapi persis seperti artikel koran atau majalah!"
+  }
+];
+let caseIndex = 0;
+
+function loadDetectiveCase() {
+  if (caseIndex >= detectiveCases.length) {
+    document.getElementById('detectiveContainer').innerHTML = `
+      <div style="text-align:center;padding:1.5rem;">
+        <div style="font-size:42px;">🕵️‍♂️ 🎖️</div>
+        <div style="font-size:18px;font-weight:800;color:var(--green);margin:6px 0;">4 Kasus Layout Berhasil Disembuhkan!</div>
+        <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;">Kamu kini memiliki kepekaan tajam untuk memperbaiki dokumen Word yang berantakan.</p>
+        <button class="btn btn-purple" onclick="caseIndex=0;loadDetectiveCase();">🔄 Ulangi Kasus Detektif</button>
+      </div>
+    `;
+    playSound('fanfare');
+    addXP(90, 'Detektif Layout Master');
+    return;
+  }
+  const c = detectiveCases[caseIndex];
+  document.getElementById('caseNumberLabel').textContent = 'KASUS ' + (caseIndex + 1) + ' DARI ' + detectiveCases.length;
+  document.getElementById('caseDocumentView').innerHTML = c.doc;
+  document.getElementById('caseQuestion').textContent = c.q;
+  document.getElementById('caseFeedback').className = 'feedback-box';
+
+  const container = document.getElementById('caseOptions');
+  container.innerHTML = '';
+  c.opts.forEach((opt, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-btn';
+    btn.textContent = String.fromCharCode(65 + idx) + '. ' + opt;
+    btn.onclick = () => answerCase(idx, c.ans, c.why, container);
+    container.appendChild(btn);
+  });
+}
+
+function answerCase(selectedIdx, correctIdx, why, container) {
+  const buttons = container.querySelectorAll('.quiz-btn');
+  buttons.forEach((btn, idx) => {
+    btn.disabled = true;
+    if (idx === correctIdx) btn.classList.add('correct');
+    else if (idx === selectedIdx) btn.classList.add('wrong');
+  });
+
+  const fb = document.getElementById('caseFeedback');
+  if (selectedIdx === correctIdx) {
+    playSound('success');
+    addXP(45, 'Analisis Kasus Tepat');
+    fb.className = 'feedback-box show ok';
+    fb.innerHTML = '✅ <strong>Analisis Tepat!</strong> ' + why;
+  } else {
+    playSound('wrong');
+    fb.className = 'feedback-box show bad';
+    fb.innerHTML = '❌ <strong>Kurang Tepat.</strong> ' + why;
+  }
+
+  setTimeout(() => {
+    caseIndex++;
+    loadDetectiveCase();
+  }, 2300);
+}
+
+/* ── SHORTCUT BATTLE P4 (10 SOAL) ── */
+const scData = [
+  { combo: "Ctrl + Enter", q: "Fungsi kombinasi tombol ini adalah:", opts: ["Page Break (Halaman Baru)", "Hapus Tulisan", "Simpan File", "Tutup Word"], ans: 0 },
+  { combo: "Tombol [Tab] di Tabel", q: "Ketika kursor berada di dalam sel tabel, tombol Tab berguna untuk:", opts: ["Pindah ke sel sebelah kanan", "Membuat huruf tebal", "Menghapus tabel", "Mengubah warna"], ans: 0 },
+  { combo: "Shift + Tab di Tabel", q: "Fungsi kombinasi tombol Shift + Tab di tabel adalah:", opts: ["Mundur ke sel sebelah kiri", "Lompat ke akhir halaman", "Tutup dokumen", "Ubah font"], ans: 0 },
+  { combo: "Ctrl + P", q: "Kombinasi tombol kilat ini membuka jendela:", opts: ["Print / Pratinjau Cetak", "Picture / Gambar", "Paragraph", "Page Layout"], ans: 0 },
+  { combo: "Ctrl + F", q: "Fungsi tombol penyelamat ini adalah:", opts: ["Find (Mencari kata di dokumen)", "Format teks", "File Explorer", "Font Color"], ans: 0 },
+  { combo: "Ctrl + H", q: "Fungsi kombinasi tombol ini adalah:", opts: ["Replace (Ganti kata otomatis)", "Home", "Help / Bantuan", "Header"], ans: 0 },
+  { combo: "Ctrl + ]", q: "Kombinasi tombol ini berguna untuk:", opts: ["Memperbesar ukuran font 1 poin", "Memperkecil font", "Membuat kurung kotak", "Miringkan teks"], ans: 0 },
+  { combo: "Ctrl + [", q: "Kombinasi tombol ini berguna untuk:", opts: ["Memperkecil ukuran font 1 poin", "Perbesar font", "Pindah halaman", "Hapus baris"], ans: 0 },
+  { combo: "F12", q: "Menekan tombol fungsi F12 di keyboard akan:", opts: ["Membuka jendela 'Save As' instan", "Keluar dari Word", "Mematikan layar", "Menghapus teks"], ans: 0 },
+  { combo: "Ctrl + 1", q: "Kombinasi tombol ini mengatur jarak spasi baris menjadi:", opts: ["Spasi Tunggal (Single 1.0)", "Spasi Ganda (2.0)", "Spasi 10", "Tanpa spasi"], ans: 0 }
+];
+let scCurrentIndex = 0, scHits = 0, scMisses = 0, scStreak = 0;
+
+function startShortcutBattle() {
+  scCurrentIndex = 0; scHits = 0; scMisses = 0; scStreak = 0;
+  updateSCStats();
+  document.getElementById('scResultBox').style.display = 'none';
+  loadSCQuestion();
+}
+
+function loadSCQuestion() {
+  if (scCurrentIndex >= scData.length) {
+    endShortcutBattle();
+    return;
+  }
+  const q = scData[scCurrentIndex];
+  document.getElementById('scProgress').textContent = 'TANTANGAN ' + (scCurrentIndex + 1) + ' DARI ' + scData.length;
+  document.getElementById('scKeyDisplay').textContent = q.combo;
+  document.getElementById('scQuestion').textContent = q.q;
+
+  const choicesContainer = document.getElementById('scChoices');
+  choicesContainer.innerHTML = '';
+  q.opts.forEach((opt, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-btn';
+    btn.textContent = opt;
+    btn.onclick = () => answerSC(idx, q.ans, choicesContainer);
+    choicesContainer.appendChild(btn);
+  });
+}
+
+function answerSC(selectedIdx, correctIdx, container) {
+  const buttons = container.querySelectorAll('.quiz-btn');
+  buttons.forEach((btn, idx) => {
+    btn.disabled = true;
+    if (idx === correctIdx) btn.classList.add('correct');
+    else if (idx === selectedIdx) btn.classList.add('wrong');
+  });
+
+  if (selectedIdx === correctIdx) {
+    playSound('success');
+    scHits++; scStreak++;
+    addXP(35, 'Shortcut Lanjutan Tepat');
+  } else {
+    playSound('wrong');
+    scMisses++; scStreak = 0;
+  }
+  updateSCStats();
+
+  setTimeout(() => {
+    scCurrentIndex++;
+    loadSCQuestion();
+  }, 1100);
+}
+
+function updateSCStats() {
+  document.getElementById('scHitCount').textContent = scHits;
+  document.getElementById('scMissCount').textContent = scMisses;
+  document.getElementById('scStreakCount').textContent = scStreak;
+}
+
+function endShortcutBattle() {
+  document.getElementById('scChoices').innerHTML = '';
+  document.getElementById('scResultBox').style.display = 'block';
+  document.getElementById('scResultTitle').textContent = scHits >= 8 ? '⚡ Master Arsitek Shortcut!' : '👍 Latihan Selesai!';
+  document.getElementById('scResultSub').textContent = 'Kamu berhasil menjawab ' + scHits + ' dari ' + scData.length + ' soal dengan tepat.';
+  playSound('fanfare');
+  addXP(85, 'Shortcut Battle Level 4 Selesai');
+}
+
+/* ── PROYEK STUDIO P4 TEMPLATES ── */
+const projectTemplatesP4 = {
+  schedule: `
+    <div style="text-align:center;font-weight:bold;font-size:18px;margin-bottom:12px;color:#1E3A8A;letter-spacing:1px;">
+      JADWAL PELAJARAN KELAS 4 BINTANG
+    </div>
+    <div style="font-size:12px;color:#64748B;text-align:center;margin-bottom:14px;">Tahun Ajaran 2026/2027 • Orientasi Kertas: Landscape</div>
+    <table style="width:100%;border-collapse:collapse;font-size:13px;text-align:center;">
+      <tr style="background:#3B82F6;color:#fff;font-weight:bold;">
+        <th style="padding:8px;border:1px solid #CBD5E1;">WAKTU</th>
+        <th style="padding:8px;border:1px solid #CBD5E1;">SENIN</th>
+        <th style="padding:8px;border:1px solid #CBD5E1;">SELASA</th>
+        <th style="padding:8px;border:1px solid #CBD5E1;">RABU</th>
+        <th style="padding:8px;border:1px solid #CBD5E1;">KAMIS</th>
+        <th style="padding:8px;border:1px solid #CBD5E1;">JUMAT</th>
+      </tr>
+      <tr>
+        <td style="padding:8px;border:1px solid #CBD5E1;background:#F8FAFC;font-weight:bold;">07.30 - 09.00</td>
+        <td style="padding:8px;border:1px solid #CBD5E1;">🇮🇩 Upacara / B. Indo</td>
+        <td style="padding:8px;border:1px solid #CBD5E1;">📐 Matematika</td>
+        <td style="padding:8px;border:1px solid #CBD5E1;">🔬 Sains / IPA</td>
+        <td style="padding:8px;border:1px solid #CBD5E1;">💻 Komputer / IT</td>
+        <td style="padding:8px;border:1px solid #CBD5E1;">🏃 Olahraga</td>
+      </tr>
+      <tr style="background:#FEF3C7;font-weight:bold;color:#92400E;">
+        <td colspan="6" style="padding:6px;border:1px solid #CBD5E1;">🍱 ISTIRAHAT & MAKAN SEHAT BERSAMA (09.00 - 09.30)</td>
+      </tr>
+      <tr>
+        <td style="padding:8px;border:1px solid #CBD5E1;background:#F8FAFC;font-weight:bold;">09.30 - 11.30</td>
+        <td style="padding:8px;border:1px solid #CBD5E1;">📖 Pendidikan Moral</td>
+        <td style="padding:8px;border:1px solid #CBD5E1;">🎨 Seni Rupa</td>
+        <td style="padding:8px;border:1px solid #CBD5E1;">🌍 IPS Sejarah</td>
+        <td style="padding:8px;border:1px solid #CBD5E1;">🇬🇧 Bahasa Inggris</td>
+        <td style="padding:8px;border:1px solid #CBD5E1;">🕌 Bimbingan Karakter</td>
+      </tr>
+    </table>
+  `,
+  poster: `
+    <div style="border:3px double #7C3AED;padding:18px;border-radius:6px;background:#FAF5FF;">
+      <div style="text-align:center;font-size:22px;font-weight:900;color:#7C3AED;letter-spacing:1px;margin-bottom:4px;">
+        🚀 FESTIVAL ROBOTIK & CODING SISWA
+      </div>
+      <div style="text-align:center;font-size:12px;font-weight:bold;color:#4B5563;margin-bottom:14px;">
+        SD BINTANG CEMERLANG • SABTU, 10 OKTOBER 2026
+      </div>
+      <div style="display:flex;gap:16px;align-items:center;">
+        <div style="width:120px;height:120px;background:linear-gradient(135deg,#7C3AED,#3B82F6);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;flex-shrink:0;">
+          <div style="font-size:36px;">🤖</div>
+          <div style="font-size:11px;font-weight:bold;">LOMBA SERU</div>
+        </div>
+        <div style="font-size:13px;line-height:1.7;color:#1F2937;">
+          Ayo daftarkan tim kreatifmu! Tunjukkan kreasi animasi interaktif, game edukasi buatanmu, dan robot sederhana. Tersedia piala bergilir, sertifikat resmi, dan hadiah laptop untuk juara 1!
+          <div style="margin-top:6px;font-weight:bold;color:#7C3AED;">✓ Kategori: Kelas 3 - 6 SD | Pendaftaran Gratis di Lab Komputer</div>
+        </div>
+      </div>
+    </div>
+  `,
+  bulletin: `
+    <div style="border-bottom:2px solid #1E293B;padding-bottom:8px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:flex-end;">
+      <div>
+        <div style="font-size:20px;font-weight:900;color:#0F172A;letter-spacing:1px;">BULETIN KILAS BINTANG</div>
+        <div style="font-size:11px;color:#64748B;">Media Literasi & Kreativitas Siswa Digital</div>
+      </div>
+      <div style="text-align:right;font-size:11px;color:#64748B;">Edisi 04 • September 2026</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:12px;line-height:1.7;text-align:justify;">
+      <div>
+        <strong style="font-size:13px;color:#1E3A8A;display:block;margin-bottom:4px;">Inovasi Lab Komputer Baru</strong>
+        Mulai pekan ini seluruh siswa dapat mencoba perangkat lunak terbaru Microsoft Word di ruang multimedia. Kepala sekolah menyatakan kebanggaannya melihat para siswa sudah mampu menyusun tabel dan merancang karya visual secara mandiri.
+      </div>
+      <div>
+        <strong style="font-size:13px;color:#1E3A8A;display:block;margin-bottom:4px;">Tips Desain dari Para Juara</strong>
+        "Jangan takut mencoba fitur Wrap Text Square ketika meletakkan ilustrasi foto," pesan Budi Santoso, siswa kelas 4 yang baru saja menjuarai kompetisi tata letak dokumen tingkat kota.
+      </div>
+    </div>
+    <div style="margin-top:12px;border-top:1px solid #E2E8F0;padding-top:6px;text-align:center;font-size:11px;color:#94A3B8;">
+      Halaman 1 dari 1 — Dicetak dengan Format 2 Kolom Microsoft Word
+    </div>
+  `
+};
+
+function selectProjectP4(type) {
+  playSound('click');
+  document.querySelectorAll('.proj-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('onclick').includes(type));
+  });
+  document.getElementById('projectDetailArea').innerHTML = projectTemplatesP4[type] || '';
+}
+
+/* ── TABLE SIMULATOR LOGIC ── */
+let currentHeaderColor = '#3B82F6';
+function setTableShading(color) {
+  playSound('click');
+  currentHeaderColor = color;
+  generateSimTable();
+}
+
+function generateSimTable() {
+  const cols = parseInt(document.getElementById('simTableCols').value, 10);
+  const rows = parseInt(document.getElementById('simTableRows').value, 10);
+  const container = document.getElementById('simTableContainer');
+
+  let html = `<table class="sim-table"><thead><tr style="background:${currentHeaderColor};color:#fff;">`;
+  for (let c = 1; c <= cols; c++) {
+    html += `<th contenteditable="true">Header ${c}</th>`;
+  }
+  html += `</tr></thead><tbody>`;
+  for (let r = 2; r <= rows; r++) {
+    html += `<tr>`;
+    for (let c = 1; c <= cols; c++) {
+      html += `<td contenteditable="true">Data ${r},${c}</td>`;
+    }
+    html += `</tr>`;
+  }
+  html += `</tbody></table>`;
+  container.innerHTML = html;
+}
+
+/* ── WRAP TEXT SIMULATOR LOGIC ── */
+function setWrapMode(mode) {
+  playSound('click');
+  const img = document.getElementById('wrapImg');
+  const exp = document.getElementById('wrapExplanation');
+
+  if (mode === 'inline') {
+    img.style.float = 'none';
+    img.style.position = 'static';
+    img.style.display = 'inline-block';
+    img.style.margin = '4px 10px 4px 0';
+    img.style.opacity = '1';
+    exp.innerHTML = '<strong style="color:var(--yellow)">Mode In Line with Text:</strong> Gambar dianggap seperti 1 karakter huruf raksasa. Kalimat di sekelilingnya terputus ke atas dan ke bawah!';
+  } else if (mode === 'square') {
+    img.style.float = 'left';
+    img.style.position = 'static';
+    img.style.display = 'block';
+    img.style.margin = '4px 14px 8px 0';
+    img.style.opacity = '1';
+    exp.innerHTML = '<strong style="color:var(--green)">Mode Square (Juara!):</strong> Teks mengalir rapi membentuk kotak indah di samping kanan dan bawah gambar tanpa celah bolong!';
+  } else if (mode === 'behind') {
+    img.style.float = 'none';
+    img.style.position = 'absolute';
+    img.style.top = '25px';
+    img.style.left = '25px';
+    img.style.zIndex = '0';
+    img.style.opacity = '0.35';
+    exp.innerHTML = '<strong style="color:var(--cyan)">Mode Behind Text:</strong> Gambar berada di latar belakang seperti stempel atau watermark, sedangkan tulisan berada di atas gambar.';
+  } else if (mode === 'front') {
+    img.style.float = 'none';
+    img.style.position = 'absolute';
+    img.style.top = '30px';
+    img.style.left = '40px';
+    img.style.zIndex = '10';
+    img.style.opacity = '1';
+    exp.innerHTML = '<strong style="color:var(--orange)">Mode In Front of Text:</strong> Gambar melayang di atas tulisan. Hati-hati, mode ini bisa menutupi kata-kata penting!';
+  }
+}
+
+/* ── ANATOMY SCANNER P4 ── */
+const anatomyDetailsP4 = {
+  insert: { tag: "TAB INSERT", desc: "Markas utama untuk menyisipkan Tabel, Gambar, Kotak / Panah (Shapes), dan Nomor Halaman ke lembar kerja." },
+  layout: { tag: "TAB LAYOUT", desc: "Tempat mengatur arsitektur kertas: Mengubah kertas Portrait (berdiri) vs Landscape (tidur), batas Margin, dan ukuran kertas A4." },
+  tabletools: { tag: "TAB TABLE DESIGN", desc: "Tab magis yang otomatis muncul saat tabel diklik! Berisi senjata mewarnai kotak (Shading) dan memilih model garis tepi (Borders)." },
+  pictools: { tag: "TAB PICTURE FORMAT", desc: "Tab magis yang otomatis muncul saat gambar diklik! Berisi fitur jurus Wrap Text, memotong gambar (Crop), dan bingkai foto." },
+  footer: { tag: "HEADER & FOOTER", desc: "Area khusus di margin paling atas (Header) dan bawah (Footer) yang otomatis berulang di setiap halaman dokumen." }
+};
+
+function inspectAnatomyP4(key) {
+  playSound('click');
+  const d = anatomyDetailsP4[key];
+  if (!d) return;
+  document.getElementById('anatomyTag').textContent = 'BAGIAN: ' + d.tag;
+  document.getElementById('anatomyText').textContent = d.desc;
+  addXP(20, 'Eksplorasi Anatomi P4');
+}
+
+/* ── AVATAR & NAME ── */
+function updateStudentName(val) {
+  const trimmed = val.trim();
+  warriorName = trimmed ? trimmed : 'Siswa';
+  document.getElementById('playerName').textContent = warriorName;
+  saveState();
+}
+
+function chooseAvatar(emoji, roleName) {
+  playSound('click');
+  avatarEmoji = emoji;
+  document.getElementById('playerAvatar').textContent = emoji;
+  const input = document.getElementById('studentNameInput');
+  if (input && (!input.value.trim() || ['Fox Architect', 'Pixel Cat', 'Tech Ninja', 'Robo Designer', 'Cosmic Scribe', 'Budi Santoso'].includes(input.value.trim()))) {
+    input.value = roleName;
+    warriorName = roleName;
+    document.getElementById('playerName').textContent = warriorName;
+  }
+  document.querySelectorAll('.avatar-choice').forEach(el => {
+    el.classList.toggle('selected', el.textContent.includes(emoji));
+  });
+  saveState();
+}
+
+function promptChangeName() {
+  const name = prompt("Ketik nama siswa untuk sertifikat Level 4:", warriorName);
+  if (name && name.trim()) {
+    warriorName = name.trim();
+    document.getElementById('playerName').textContent = warriorName;
+    const input = document.getElementById('studentNameInput');
+    if (input) input.value = warriorName;
+    saveState();
+    playSound('success');
+  }
+}
+
+function startAdventure() {
+  const input = document.getElementById('studentNameInput');
+  if (input && input.value.trim()) {
+    warriorName = input.value.trim();
+    document.getElementById('playerName').textContent = warriorName;
+    saveState();
+  }
+  playSound('success');
+  addXP(30, 'Selamat Datang di Level 4');
+  switchStage(1);
+}
+
+/* ── STAGE NAVIGATION ── */
+function switchStage(stageIdx) {
+  playSound('click');
+  document.querySelectorAll('.quest-screen').forEach((screen, idx) => {
+    screen.classList.toggle('active', idx === stageIdx);
+  });
+  document.querySelectorAll('.stage-tab').forEach((tab, idx) => {
+    tab.classList.toggle('active', idx === stageIdx);
+    if (idx < stageIdx) tab.classList.add('completed');
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ── XP & RANK SYSTEM ── */
+function addXP(amount, reason) {
+  currentXP = Math.min(maxXP, currentXP + amount);
+  updateXPUI();
+  saveState();
+  showXPToast('+' + amount + ' XP ' + (reason ? '(' + reason + ')' : ''));
+}
+
+function updateXPUI() {
+  const pct = Math.min(100, Math.round((currentXP / maxXP) * 100));
+  document.getElementById('xpBarFill').style.width = pct + '%';
+  document.getElementById('xpText').textContent = currentXP + ' / ' + maxXP + ' XP';
+
+  const rankBadge = document.getElementById('rankBadge');
+  if (currentXP >= 1200) {
+    rankBadge.textContent = 'RANK: 👑 GRAND WORD ARCHITECT';
+    rankBadge.style.color = '#F59E0B';
+  } else if (currentXP >= 800) {
+    rankBadge.textContent = 'RANK: 🥇 DOCUMENT DESIGNER';
+    rankBadge.style.color = '#10B981';
+  } else if (currentXP >= 400) {
+    rankBadge.textContent = 'RANK: 🥈 LAYOUT EXPLORER';
+    rankBadge.style.color = '#C084FC';
+  } else {
+    rankBadge.textContent = 'RANK: 🥉 TABLE CADET';
+    rankBadge.style.color = '#94A3B8';
+  }
+}
+
+function showXPToast(text) {
+  const toast = document.createElement('div');
+  toast.className = 'xp-toast';
+  toast.textContent = text;
+  document.body.appendChild(toast);
+  setTimeout(() => { toast.remove(); }, 2200);
+}
+
+/* ── CHECKLIST RENDERER ── */
+function renderChecklist(containerId, data) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  container.innerHTML = '';
+  data.forEach((item, index) => {
+    const el = document.createElement('div');
+    el.className = 'check-item' + (completedTasks.has(item.id) ? ' done' : '');
+    el.id = 'task-' + item.id;
+    el.innerHTML = `
+      <div class="check-box">${completedTasks.has(item.id) ? '✓' : index + 1}</div>
+      <div class="check-info">
+        <div class="check-title">${item.title}</div>
+        <div class="check-desc">${item.desc}</div>
+      </div>
+      <div class="check-xp">+${item.xp} XP</div>
+    `;
+    el.onclick = () => toggleTask(item.id, item.xp);
+    container.appendChild(el);
+  });
+}
+
+function toggleTask(id, xp) {
+  if (completedTasks.has(id)) return;
+  completedTasks.add(id);
+  const el = document.getElementById('task-' + id);
+  if (el) {
+    el.classList.add('done');
+    el.querySelector('.check-box').textContent = '✓';
+  }
+  addXP(xp, 'Tugas Selesai');
+  playSound('success');
+
+  if (id.startsWith('fb')) {
+    const allDone = finalBossData.every(item => completedTasks.has(item.id));
+    if (allDone) {
+      document.getElementById('claimBadgeBtn').style.display = 'inline-flex';
+      playSound('fanfare');
+    }
+  }
+}
+
+/* ── FINAL VICTORY & CONFETTI ── */
+function triggerVictory() {
+  playSound('fanfare');
+  document.getElementById('claimBadgeBtn').style.display = 'none';
+  document.getElementById('victoryBlock').style.display = 'block';
+  document.getElementById('certPlayerLabel').textContent = 'Dianugerahkan kepada: ' + warriorName + ' ' + avatarEmoji;
+  addXP(150, 'Kelulusan Grand Word Architect');
+  launchConfetti();
+}
+
+function launchConfetti() {
+  const canvas = document.getElementById('confettiCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const pieces = [];
+  const colors = ['#8B5CF6', '#3B82F6', '#06B6D4', '#10B981', '#F59E0B', '#EF4444'];
+  for (let i = 0; i < 150; i++) {
+    pieces.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * -canvas.height,
+      size: Math.random() * 8 + 6,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      speedY: Math.random() * 4 + 2,
+      speedX: Math.random() * 2 - 1,
+      rotation: Math.random() * 360,
+      rotSpeed: Math.random() * 4 - 2
+    });
+  }
+
+  let frames = 0;
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pieces.forEach(p => {
+      p.y += p.speedY; p.x += p.speedX; p.rotation += p.rotSpeed;
+      ctx.save(); ctx.translate(p.x, p.y);
+      ctx.rotate((p.rotation * Math.PI) / 180);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+      ctx.restore();
+    });
+    frames++;
+    if (frames < 240) requestAnimationFrame(animate);
+    else ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+  animate();
+}
+
+/* ── JOURNAL & LOCAL STORAGE ── */
+function saveJournal() {
+  playSound('success');
+  const in1 = document.getElementById('jnlInput1').value.trim();
+  const in2 = document.getElementById('jnlInput2').value.trim();
+  const conf = document.getElementById('jnlConfidence').value;
+  try {
+    localStorage.setItem('cq_p4_journal', JSON.stringify({ in1, in2, conf, date: new Date().toISOString() }));
+  } catch(e) {}
+  document.getElementById('journalSavedFeedback').style.display = 'block';
+  addXP(75, 'Jurnal Level 4 Selesai');
+}
+
+function loadSavedState() {
+  try {
+    const savedXP = localStorage.getItem('cq_p4_xp');
+    if (savedXP) { currentXP = parseInt(savedXP, 10) || 0; updateXPUI(); }
+    const savedAvatar = localStorage.getItem('cq_p4_avatar');
+    if (savedAvatar) { avatarEmoji = savedAvatar; document.getElementById('playerAvatar').textContent = avatarEmoji; }
+    const savedName = localStorage.getItem('cq_p4_name') || localStorage.getItem('cq_p3_name');
+    if (savedName) {
+      warriorName = savedName;
+      document.getElementById('playerName').textContent = warriorName;
+      const input = document.getElementById('studentNameInput');
+      if (input) input.value = warriorName;
+    }
+  } catch(e) {}
+}
+
+function saveState() {
+  try {
+    localStorage.setItem('cq_p4_xp', currentXP);
+    localStorage.setItem('cq_p4_avatar', avatarEmoji);
+    localStorage.setItem('cq_p4_name', warriorName);
+  } catch(e) {}
+}
+
+/* ── TIMER ── */
+let timerSeconds = 2700;
+function startTimer() {
+  setInterval(() => {
+    if (timerSeconds <= 0) return;
+    timerSeconds--;
+    const mins = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+    const secs = String(timerSeconds % 60).padStart(2, '0');
+    const display = document.getElementById('timerDisplay');
+    if (display) display.textContent = '⏱️ ' + mins + ':' + secs;
+  }, 1000);
+}
+
+/* ── INIT ── */
+document.addEventListener('DOMContentLoaded', () => {
+  renderChecklist('insertMissionList', insertMissionData);
+  renderChecklist('tableMissionList', tableMissionData);
+  renderChecklist('imageMissionList', imageMissionData);
+  renderChecklist('layoutMissionList', layoutMissionData);
+  renderChecklist('projectMissionList', projectMissionData);
+  renderChecklist('finalBossList', finalBossData);
+  generateSimTable();
+  selectProjectP4('schedule');
+  loadDetectiveCase();
+  startShortcutBattle();
+  startTimer();
+  loadSavedState();
+});
+</script>
+</body>
+</html>

@@ -1395,6 +1395,401 @@
       color: var(--text-p);
       line-height: 1.55
     }
+    
+/* ════════════════════════════════════════════
+   FINAL EXAM — MINI PROJECT
+════════════════════════════════════════════ */
+.exam-sec {
+  padding: 76px 0 0;
+  position: relative;
+  z-index: 1;
+}
+
+.exam-shell {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 285px;
+  border: 1px solid rgba(0, 229, 160, 0.25);
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(79, 31, 212, 0.20), transparent 42%),
+    linear-gradient(135deg, var(--navy-2), #0A1820);
+}
+
+.exam-main {
+  min-width: 0;
+  padding: 42px;
+}
+
+.exam-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px;
+  border: 1px solid rgba(0, 229, 160, 0.25);
+  border-radius: 100px;
+  color: var(--mint);
+  background: rgba(0, 229, 160, 0.08);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  margin-bottom: 20px;
+}
+
+.exam-title {
+  font-family: 'Goldman', sans-serif;
+  font-size: clamp(1.8rem, 3.4vw, 2.7rem);
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+  margin-bottom: 14px;
+}
+
+.exam-title span {
+  display: block;
+  color: var(--mint);
+}
+
+.exam-desc {
+  max-width: 590px;
+  color: var(--text-p);
+  font-size: 0.88rem;
+  line-height: 1.8;
+  margin-bottom: 26px;
+}
+
+.exam-meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.exam-meta-item {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-m);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.exam-meta-icon {
+  display: block;
+  font-size: 1.2rem;
+  margin-bottom: 7px;
+}
+
+.exam-meta-label {
+  display: block;
+  color: var(--text-d);
+  font-size: 0.66rem;
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+
+.exam-meta-value {
+  display: block;
+  color: var(--white);
+  font-size: 0.76rem;
+  font-weight: 700;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.exam-subheading {
+  font-family: 'Goldman', sans-serif;
+  font-size: 1.05rem;
+  margin-bottom: 15px;
+}
+
+.exam-steps {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.exam-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 15px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-m);
+  background: rgba(255, 255, 255, 0.025);
+  transition: background 0.2s, border-color 0.2s,
+    transform 0.2s;
+}
+
+.exam-step:hover {
+  background: rgba(0, 229, 160, 0.045);
+  border-color: rgba(0, 229, 160, 0.2);
+  transform: translateY(-2px);
+}
+
+.exam-step-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: rgba(79, 31, 212, 0.24);
+  border: 1px solid rgba(124, 79, 246, 0.25);
+  color: #B9A1FF;
+  font-size: 0.77rem;
+  font-weight: 800;
+}
+
+.exam-step-title {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--white);
+  margin-bottom: 4px;
+}
+
+.exam-step-desc {
+  color: var(--text-p);
+  font-size: 0.73rem;
+  line-height: 1.65;
+}
+
+.exam-deliverables {
+  padding: 20px;
+  border: 1px solid rgba(0, 229, 160, 0.17);
+  border-radius: var(--r-m);
+  background: rgba(0, 229, 160, 0.035);
+  margin-bottom: 27px;
+}
+
+.exam-deliverables-title {
+  font-size: 0.83rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.exam-deliverable-list {
+  display: grid;
+  gap: 10px;
+}
+
+.exam-deliverable {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  font-size: 0.77rem;
+  line-height: 1.65;
+  color: var(--text-p);
+}
+
+.exam-check {
+  flex-shrink: 0;
+  color: var(--mint);
+  font-weight: 800;
+}
+
+.exam-note {
+  color: var(--text-p);
+  font-size: 0.76rem;
+  line-height: 1.7;
+  padding-left: 13px;
+  border-left: 2px solid var(--amber);
+  margin-bottom: 27px;
+}
+
+.exam-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.exam-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 46px;
+  padding: 12px 21px;
+  border-radius: 100px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  transition: transform 0.2s, box-shadow 0.2s,
+    background 0.2s;
+}
+
+.exam-btn-primary {
+  background: var(--mint);
+  color: var(--ink);
+}
+
+.exam-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px var(--mint-glow);
+}
+
+.exam-btn-secondary {
+  color: var(--white);
+  border: 1px solid var(--border-lt);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.exam-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-2px);
+}
+
+/* Panel ilustrasi di sebelah kanan */
+.exam-aside {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 32px 24px;
+  border-left: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.018);
+  text-align: center;
+}
+
+.exam-art {
+  width: 142px;
+  height: 142px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 34px;
+  border: 1px solid rgba(0, 229, 160, 0.23);
+  background:
+    radial-gradient(circle, rgba(0, 229, 160, 0.13), transparent 72%),
+    rgba(255, 255, 255, 0.025);
+  box-shadow: 0 0 55px rgba(0, 229, 160, 0.06);
+  font-size: 4.2rem;
+  margin-bottom: 24px;
+  animation: examFloat 4s ease-in-out infinite;
+}
+
+@keyframes examFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.exam-aside-title {
+  font-family: 'Goldman', sans-serif;
+  font-size: 1.05rem;
+  margin-bottom: 9px;
+}
+
+.exam-aside-desc {
+  color: var(--text-p);
+  font-size: 0.77rem;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.exam-tools {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.exam-tool {
+  padding: 6px 10px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-p);
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+/* Responsif */
+@media (max-width: 860px) {
+  .exam-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .exam-main {
+    padding: 32px;
+  }
+
+  .exam-aside {
+    border-left: none;
+    border-top: 1px solid var(--border);
+    padding: 28px;
+  }
+
+  .exam-art {
+    width: 100px;
+    height: 100px;
+    font-size: 3rem;
+    border-radius: 25px;
+    margin-bottom: 15px;
+  }
+
+  .exam-aside-desc {
+    max-width: 340px;
+  }
+}
+
+@media (max-width: 600px) {
+  .exam-main {
+    padding: 25px 20px;
+  }
+
+  .exam-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .exam-meta-item {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    column-gap: 10px;
+    align-items: center;
+    padding: 11px 13px;
+  }
+
+  .exam-meta-icon {
+    grid-row: span 2;
+    margin: 0;
+  }
+
+  .exam-steps {
+    grid-template-columns: 1fr;
+  }
+
+  .exam-actions {
+    flex-direction: column;
+  }
+
+  .exam-btn {
+    width: 100%;
+  }
+}
+/* Status Ujian Akhir */
+.exam-btn-locked {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-d);
+  border: 1px solid var(--border);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.exam-btn-locked:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+#exam-lock-message {
+  margin-top: 14px;
+  color: var(--amber);
+  font-size: 0.76rem;
+  line-height: 1.7;
+}
+
+#exam-lock-message.exam-unlocked-message {
+  color: var(--mint);
+}
 
     /* ════════════════════════════════════════════
    FOOTER
@@ -1963,6 +2358,7 @@
       <ul class="nav-links" role="list">
         <li><a href="#hero" class="nav-a">Beranda</a></li>
         <li><a href="#sessions" class="nav-a">Pertemuan</a></li>
+        <li><a href="#exam" class="nav-a">Ujian Akhir</a></li>
         <li><a href="#game-center" class="nav-a">Game</a></li>
         <li><a href="#about" class="nav-a">Tentang</a></li>
       </ul>
@@ -1975,6 +2371,7 @@
   <div class="mob-menu" id="mob-menu" aria-hidden="true">
     <a href="#hero" class="mob-a">Beranda</a>
     <a href="#sessions" class="mob-a">Pertemuan</a>
+    <a href="#exam" class="mob-a">Ujian Akhir</a>
     <a href="#game-center" class="mob-a">Game</a>
     <a href="#about" class="mob-a">Tentang</a>
   </div>
@@ -2161,9 +2558,12 @@
       <div class="wrap">
         <div class="sessions-head">
           <p class="sec-eyebrow">Perjalanan Belajar</p>
-          <h2 class="sec-h" id="sessions-h">10 Level, 10 Langkah Maju</h2>
-          <p class="sec-p">Setiap pertemuan membuka level berikutnya. Selesaikan satu per satu dan kamu akan terkejut
-            seberapa jauh kamu bisa pergi.</p>
+          <h2 class="sec-h" id="sessions-h">10 Pertemuan, 1 Ujian Akhir</h2>
+          <p class="sec-p">
+              Kuasai materi dari pertemuan pertama hingga kesepuluh.
+              Setelah itu, tunjukkan kemampuanmu melalui Ujian Akhir
+              berupa Mini Project Makalah Sekolah.
+            </p>
         </div>
 
         <div class="level-map" id="level-map" role="list">
@@ -2175,7 +2575,217 @@
       </div>
     </section>
 
+
+
     <!-- ABOUT -->
+     
+<!-- ═══ UJIAN AKHIR — PERTEMUAN 11 ═══ -->
+<section class="exam-sec" id="exam" aria-labelledby="exam-title">
+  <div class="wrap">
+    <div class="exam-shell">
+
+      <div class="exam-main">
+        <p class="exam-eyebrow">🏆 PENILAIAN AKHIR · PERTEMUAN 11</p>
+
+        <h2 class="exam-title" id="exam-title">
+          Mini Project
+          <span>Makalah Sekolah</span>
+        </h2>
+
+        <p class="exam-desc">
+          Saatnya membuktikan kemampuanmu! Gabungkan keterampilan
+          Microsoft Word, Excel, desain digital, AI, dan email untuk
+          menyelesaikan satu tugas sekolah sederhana dari awal sampai
+          siap dikumpulkan.
+        </p>
+
+        <div class="exam-meta">
+          <div class="exam-meta-item">
+            <span class="exam-meta-icon">🎯</span>
+            <span class="exam-meta-label">Jenis kegiatan</span>
+            <span class="exam-meta-value">Ujian praktik</span>
+          </div>
+
+          <div class="exam-meta-item">
+            <span class="exam-meta-icon">📁</span>
+            <span class="exam-meta-label">Hasil akhir</span>
+            <span class="exam-meta-value">Makalah dan file pendukung</span>
+          </div>
+
+          <div class="exam-meta-item">
+            <span class="exam-meta-icon">💡</span>
+            <span class="exam-meta-label">Cara mengerjakan</span>
+            <span class="exam-meta-value">Mandiri dan kreatif</span>
+          </div>
+        </div>
+
+        <h3 class="exam-subheading">Misi yang harus diselesaikan</h3>
+
+        <div class="exam-steps">
+          <article class="exam-step">
+            <span class="exam-step-num">01</span>
+            <div>
+              <h4 class="exam-step-title">Susun Makalah di Word</h4>
+              <p class="exam-step-desc">
+                Buat makalah dengan judul, pendahuluan, pembahasan,
+                penutup, serta format tulisan yang rapi.
+              </p>
+            </div>
+          </article>
+
+          <article class="exam-step">
+            <span class="exam-step-num">02</span>
+            <div>
+              <h4 class="exam-step-title">Olah Data dengan Excel</h4>
+              <p class="exam-step-desc">
+                Buat tabel data yang sesuai dengan topik makalah.
+                Gunakan rumus sederhana yang sudah dipelajari.
+              </p>
+            </div>
+          </article>
+
+          <article class="exam-step">
+            <span class="exam-step-num">03</span>
+            <div>
+              <h4 class="exam-step-title">Buat Desain Pendukung</h4>
+              <p class="exam-step-desc">
+                Rancang sampul atau visual pendukung yang menarik,
+                selaras dengan isi makalah, dan mudah dibaca.
+              </p>
+            </div>
+          </article>
+
+          <article class="exam-step">
+            <span class="exam-step-num">04</span>
+            <div>
+              <h4 class="exam-step-title">Manfaatkan AI dengan Bijak</h4>
+              <p class="exam-step-desc">
+                Gunakan AI untuk mencari ide atau menyusun kerangka.
+                Periksa kebenaran informasi dan tulis ulang dengan
+                pemahamanmu sendiri.
+              </p>
+            </div>
+          </article>
+
+          <article class="exam-step">
+            <span class="exam-step-num">05</span>
+            <div>
+              <h4 class="exam-step-title">Rapikan Hasil Pekerjaan</h4>
+              <p class="exam-step-desc">
+                Periksa ejaan, format halaman, tabel, desain,
+                dan kesesuaian seluruh isi sebelum dikumpulkan.
+              </p>
+            </div>
+          </article>
+
+          <article class="exam-step">
+            <span class="exam-step-num">06</span>
+            <div>
+              <h4 class="exam-step-title">Kirim Melalui Email</h4>
+              <p class="exam-step-desc">
+                Tulis subjek dan pesan email yang sopan, lampirkan
+                berkas yang diperlukan, lalu kirim kepada pengajar.
+              </p>
+            </div>
+          </article>
+        </div>
+
+        <div class="exam-deliverables">
+          <h3 class="exam-deliverables-title">
+            📦 Berkas yang harus dikumpulkan
+          </h3>
+
+          <div class="exam-deliverable-list">
+            <div class="exam-deliverable">
+              <span class="exam-check">✓</span>
+              <span>
+                <strong>Makalah (.docx)</strong> — dokumen utama
+                dengan susunan dan format yang rapi.
+              </span>
+            </div>
+
+            <div class="exam-deliverable">
+              <span class="exam-check">✓</span>
+              <span>
+                <strong>Data Excel (.xlsx)</strong> — tabel dan
+                perhitungan sederhana yang mendukung topik.
+              </span>
+            </div>
+
+            <div class="exam-deliverable">
+              <span class="exam-check">✓</span>
+              <span>
+                <strong>Desain pendukung</strong> — sampul atau
+                visual yang dimasukkan ke dalam makalah.
+              </span>
+            </div>
+
+            <div class="exam-deliverable">
+              <span class="exam-check">✓</span>
+              <span>
+                <strong>Pengiriman melalui email</strong> — semua
+                berkas dilampirkan sesuai instruksi pengajar.
+              </span>
+            </div>
+          </div>
+        </div>
+
+      
+        <p class="exam-note">
+          <strong>Ingat:</strong> AI adalah alat bantu, bukan pengganti
+          pemikiranmu. Pastikan isi makalah kamu pahami, datanya masuk
+          akal, dan hasil akhirnya merupakan pekerjaanmu sendiri.
+        </p>
+
+        <!-- TOMBOL UJIAN -->
+        <div class="exam-actions">
+          <a
+            href="#exam"
+            id="exam-start-btn"
+            class="exam-btn exam-btn-primary exam-btn-locked"
+            aria-disabled="true"
+          >
+            Ujian Terkunci 🔒
+          </a>
+
+          <a href="#sessions" class="exam-btn exam-btn-secondary">
+            Ulangi Materi
+          </a>
+        </div>
+
+        <!-- PESAN STATUS -->
+        <p id="exam-lock-message" aria-live="polite">
+          🔒 Selesaikan seluruh 10 pertemuan untuk membuka Ujian Akhir.
+        </p>
+
+      </div><!-- Penutup exam-main -->
+
+      <!-- PANEL ILUSTRASI -->
+      <aside class="exam-aside" aria-label="Ringkasan proyek akhir">
+        <div class="exam-art" aria-hidden="true">🎓</div>
+
+        <h3 class="exam-aside-title">Final Challenge</h3>
+
+        <p class="exam-aside-desc">
+          Satu proyek untuk menunjukkan bahwa kamu bukan hanya
+          mengenal komputer, tetapi juga mampu menggunakannya
+          untuk menyelesaikan tugas nyata.
+        </p>
+
+        <div class="exam-tools">
+          <span class="exam-tool">📄 Word</span>
+          <span class="exam-tool">📊 Excel</span>
+          <span class="exam-tool">🎨 Desain</span>
+          <span class="exam-tool">🤖 AI</span>
+          <span class="exam-tool">📧 Email</span>
+        </div>
+      </aside>
+
+    </div><!-- Penutup exam-shell -->
+  </div><!-- Penutup wrap -->
+</section>
+
+
     <section class="about-sec" id="about" aria-labelledby="about-h">
       <div class="wrap">
         <div class="about-grid">
@@ -2343,57 +2953,60 @@
       {
         n: 3, title: "Microsoft Word — Dasar",
         desc: "Ketik, format, dan simpan dokumenmu sendiri. Kenali bold, italic, dan pengaturan teks.",
-        matUrl: "https://kenalkomputer3.vercel.app", gameUrl: "https://game-pertemuan3.vercel.app", status: "completed"
+        matUrl: "Pertemuan3/Materi/pertemuan3.html", gameUrl: "Pertemuan3/Game/game-pertemuan3.html", status: "completed"
       },
       {
         n: 4, title: "Microsoft Word — Lanjutan",
         desc: "Masukkan gambar, buat tabel, dan hasilkan dokumen yang siap cetak.",
-        matUrl: "https://kenalkomputer4.vercel.app", gameUrl: "https://game-pertemuan4.vercel.app", status: "completed"
+        matUrl: "Pertemuan4/pertemuan4.html", gameUrl: "Pertemuan4/game-pertemuan4.html", status: "completed"
       },
       {
         n: 5, title: "Microsoft Excel — Dasar",
         desc: "Kenalan dengan Excel, pahami cell, row, dan column, lalu buat tabel data yang rapi.",
-        matUrl: "https://kenalkomputer5.vercel.app", gameUrl: "", status: "completed"
+        matUrl: "pertemuan5/pertemuan5.html", gameUrl: "", status: "completed"
       },
       {
         n: 6, title: "Microsoft Excel — Lanjutan",
         desc: "Belajar formula sederhana, menggunakan SUM dan AVERAGE, lalu membuat Excel menghitung data untukmu.",
-        matUrl: "https://kenalkomputer6.vercel.app", gameUrl: "", status: "completed"
+        matUrl: "pertemuan6/pertemuan6.html", gameUrl: "", status: "completed"
       },
       {
         n: 7, title: "Data & Komunikasi Digital",
         desc: "Dari Angka sampai Email, Belajar Memahami dan Menyampaikan Informasi.",
-        matUrl: "https://kenalkomputer7.vercel.app", gameUrl: "", status: "completed"
+        matUrl: "pertemuan7/pertemuan7.html", gameUrl: "", status: "completed"
       },
       {
         n: 8, title: "Microsoft PowerPoint Dasar",
         desc: "Bikin Ide Jadi Presentasi.",
-        matUrl: "https://kenalkomputer8.vercel.app", gameUrl: "#", status: "current"
+        matUrl: "pertemuan8/pertemuan8.html", gameUrl: "#", status: "completed"
       },
       {
-        n: 9, title: "Segera Hadir",
-        desc: "Materi dan game sedang disiapkan dengan penuh semangat.",
-        matUrl: "#", gameUrl: "#", status: "locked"
+        n: 9, title: "Canva Dasar — Desain Digital Kreatif",
+        desc: "Belajar membuat poster, memilih template, mengatur warna, font, gambar, dan komposisi desain.",
+        matUrl: "pertemuan9/pertemuan9.html", gameUrl: "#", status: "current"
       },
       {
-        n: 10, title: "Segera Hadir",
-        desc: "Materi dan game sedang disiapkan dengan penuh semangat.",
-        matUrl: "#", gameUrl: "#", status: "locked"
+        n: 10, title: "AI & Digital Productivity",
+        desc: "Memanfaatkan AI untuk mencari ide, menyusun kerangka tulisan, dan membantu menyelesaikan tugas sekolah secara bertanggung jawab.",
+        matUrl: "pertemuan10/pertemuan10.html", gameUrl: "#", status: "current"
       }
     ];
 
-    /* ── BOOT ── */
-    document.addEventListener("DOMContentLoaded", () => {
-      setStudentName();
-      renderProgress();
-      renderLevelMap(meetings);
-      initSearch();
-      initNav();
-      initMobMenu();
-      initTyping();
-      initHeroVideoObserver();
-      initPopup();
-    });
+  /* ── BOOT ── */
+document.addEventListener("DOMContentLoaded", () => {
+  setStudentName();
+  renderProgress();
+  renderLevelMap(meetings);
+  initSearch();
+  initNav();
+  initMobMenu();
+  initTyping();
+  initHeroVideoObserver();
+  initPopup();
+
+  // Periksa apakah Ujian Akhir sudah boleh dibuka
+  updateExamAccess();
+});
 
     /* ── HERO VIDEO AUTOPLAY ON INTERSECTION ── */
     function initHeroVideoObserver() {
@@ -2510,6 +3123,71 @@
         if (fill) fill.style.width = pct + "%";
       }, 300));
     }
+
+    /* ── FINAL EXAM ACCESS ── */
+function updateExamAccess() {
+  const btn = document.getElementById("exam-start-btn");
+  const message = document.getElementById("exam-lock-message");
+
+  if (!btn) return;
+
+  // Ujian hanya terbuka jika tepat 10 pertemuan
+  // tersedia dan semuanya berstatus completed.
+  const completedCount = meetings.filter(
+    meeting => meeting.status === "completed"
+  ).length;
+
+  const allCompleted =
+    meetings.length === 10 &&
+    completedCount === 10;
+
+  if (allCompleted) {
+    // Buka akses ujian
+    btn.href = "pertemuan11/pertemuan11.html";
+    btn.setAttribute("aria-disabled", "false");
+    btn.classList.remove("exam-btn-locked");
+
+    btn.innerHTML = `
+      Mulai Ujian Akhir
+      <span aria-hidden="true">→</span>
+    `;
+
+    if (message) {
+      message.textContent =
+        "✅ Semua pertemuan selesai. Ujian Akhir sudah terbuka!";
+      message.classList.add("exam-unlocked-message");
+    }
+  } else {
+    // Kunci akses ujian
+    btn.href = "#exam";
+    btn.setAttribute("aria-disabled", "true");
+    btn.classList.add("exam-btn-locked");
+
+    btn.textContent = "Ujian Terkunci 🔒";
+
+    if (message) {
+      message.textContent =
+        `🔒 Ujian terkunci. Progress: ${completedCount}/10 pertemuan selesai. Selesaikan semua pertemuan terlebih dahulu.`;
+      message.classList.remove("exam-unlocked-message");
+    }
+  }
+
+  // Cegah navigasi ketika ujian masih terkunci
+  if (!btn.dataset.gateAttached) {
+    btn.addEventListener("click", event => {
+      if (btn.getAttribute("aria-disabled") === "true") {
+        event.preventDefault();
+
+        alert(
+          "Ujian Akhir masih terkunci. " +
+          "Selesaikan seluruh 10 pertemuan terlebih dahulu!"
+        );
+      }
+    });
+
+    btn.dataset.gateAttached = "true";
+  }
+}
     function set(id, v) { const el = document.getElementById(id); if (el) el.textContent = v; }
 
     /* ── HELPERS: detect empty/placeholder URL ── */

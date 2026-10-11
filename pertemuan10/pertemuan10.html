@@ -1,0 +1,2334 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kenal Komputer P10: AI & Digital Productivity — Mengenal AI & Mengembangkan Ide</title>
+<meta name="description" content="Modul belajar interaktif Artificial Intelligence (AI) dasar, prompt engineering TKFB, metode BACA, privasi data, etika sekolah, dan mini project kerangka tulisan untuk siswa SMP Kelas 7.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-body: #0B0B10;
+  --bg-card: #14141C;
+  --bg-card-hover: #191924;
+  --bg-surface: #1B1B25;
+  --bg-surface-2: #222230;
+  --border: #2A2A36;
+  --border-light: rgba(255, 255, 255, 0.08);
+  --purple: #7C3AED;
+  --purple-glow: rgba(124, 58, 237, 0.35);
+  --violet: #8B5CF6;
+  --cyan: #06B6D4;
+  --yellow: #FDE047;
+  --green: #10B981;
+  --red: #EF4444;
+  --text-main: #F5F5F5;
+  --text-muted: #A1A1AA;
+  --text-dim: #71717A;
+  --radius-lg: 18px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background-color: var(--bg-body);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  padding-bottom: 90px;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+.container { max-width: 1060px; margin: 0 auto; padding: 0 20px; }
+
+/* Sticky Top Navigation Bar */
+.top-nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(11, 11, 16, 0.96); backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border); padding: 8px 0;
+}
+.nav-wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.brand-group { display: flex; align-items: center; gap: 10px; }
+.brand-badge {
+  background: linear-gradient(135deg, #7C3AED, #06B6D4); color: #fff;
+  font-weight: 900; font-size: 13px; padding: 6px 12px; border-radius: var(--radius-sm);
+  display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 14px var(--purple-glow);
+}
+.brand-text h1 { font-size: 15px; font-weight: 800; color: #fff; line-height: 1.2; }
+.brand-text p { font-size: 11px; color: var(--text-muted); }
+
+.meeting-nav-row {
+  display: flex; align-items: center; gap: 4px; background: rgba(0, 0, 0, 0.4);
+  padding: 3px 6px; border-radius: 999px; border: 1px solid var(--border);
+}
+.meeting-tab { font-size: 11px; font-weight: 700; color: var(--text-dim); padding: 4px 9px; border-radius: 999px; text-decoration: none; }
+.meeting-tab.active { background: var(--purple); color: #fff; font-weight: 800; box-shadow: 0 2px 8px var(--purple-glow); }
+
+.user-panel {
+  display: flex; align-items: center; gap: 8px; background: var(--bg-card);
+  border: 1px solid var(--border); padding: 4px 12px; border-radius: 999px;
+}
+.avatar-btn { font-size: 18px; background: transparent; border: none; cursor: pointer; line-height: 1; }
+.name-input { background: transparent; border: none; color: #fff; font-weight: 700; font-size: 13px; outline: none; width: 125px; }
+.xp-pill {
+  display: inline-flex; align-items: center; gap: 4px; background: rgba(253, 224, 71, 0.12);
+  color: var(--yellow); border: 1px solid rgba(253, 224, 71, 0.3); font-size: 11px; font-weight: 800;
+  padding: 3px 8px; border-radius: 999px;
+}
+.sound-toggle-btn {
+  background: transparent; border: 1px solid var(--border); color: var(--text-muted);
+  width: 28px; height: 28px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+
+/* Stepper Subnav */
+.subnav-stages {
+  display: flex; align-items: center; gap: 6px; overflow-x: auto;
+  padding: 8px 0 2px; border-top: 1px solid rgba(255, 255, 255, 0.05); margin-top: 6px; scrollbar-width: none;
+}
+.subnav-stages::-webkit-scrollbar { display: none; }
+.stage-step-btn {
+  background: transparent; color: var(--text-muted); font-size: 11px; font-weight: 700;
+  padding: 5px 11px; border-radius: 999px; border: 1px solid transparent; cursor: pointer;
+  white-space: nowrap; transition: all 0.2s;
+}
+.stage-step-btn:hover { color: #fff; background: rgba(255, 255, 255, 0.05); }
+.stage-step-btn.active {
+  background: var(--purple); color: #fff; border-color: var(--purple);
+  box-shadow: 0 2px 10px var(--purple-glow);
+}
+.stage-step-btn.done { border-color: rgba(16, 185, 129, 0.4); color: var(--green); }
+
+.global-progress-wrap { width: 100%; background: rgba(255, 255, 255, 0.05); height: 3px; position: absolute; bottom: 0; left: 0; }
+.global-progress-fill { height: 100%; width: 9%; background: linear-gradient(90deg, #7C3AED, #06B6D4, #10B981); transition: width 0.35s ease; }
+
+.page-stepper-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border);
+  padding: 8px 16px; border-radius: var(--radius-md); margin-top: 18px; font-size: 12.5px;
+}
+.page-counter-badge {
+  background: rgba(124, 58, 237, 0.18); color: var(--violet); font-weight: 900;
+  padding: 3px 9px; border-radius: var(--radius-sm); font-size: 11.5px;
+}
+
+/* Page Container */
+.mission-page { display: none; animation: pageFadeIn 0.3s ease; margin-top: 16px; }
+.mission-page.active-page { display: block; }
+@keyframes pageFadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Cards & Layout */
+.card-mission {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  padding: 26px; position: relative; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+.mission-hero-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06); padding-bottom: 16px; margin-bottom: 20px;
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap;
+}
+.mission-title-group h2 { font-size: 22px; font-weight: 900; color: #fff; line-height: 1.25; }
+.mission-title-group p { font-size: 13.5px; color: var(--text-muted); margin-top: 4px; }
+.mission-xp-badge {
+  background: rgba(253, 224, 71, 0.12); color: var(--yellow); border: 1px solid rgba(253, 224, 71, 0.3);
+  font-size: 12px; font-weight: 800; padding: 5px 12px; border-radius: 999px;
+}
+
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
+
+.box-info { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; transition: all 0.2s; }
+.box-info.accent { border-color: var(--purple); box-shadow: 0 0 16px var(--purple-glow); }
+.box-icon { font-size: 24px; margin-bottom: 6px; }
+.box-title { font-size: 14.5px; font-weight: 800; color: #fff; margin-bottom: 5px; }
+.box-desc { font-size: 13px; color: var(--text-muted); line-height: 1.55; }
+
+.notice-box {
+  display: flex; gap: 12px; background: rgba(124, 58, 237, 0.1); border-left: 4px solid var(--purple);
+  border-radius: var(--radius-sm); padding: 12px 14px; margin: 14px 0; font-size: 13px; color: #DDD6FE;
+}
+.notice-icon { font-size: 20px; flex-shrink: 0; }
+
+/* Student Identity & Character Card */
+.identity-card {
+  background: linear-gradient(135deg, rgba(27, 27, 37, 0.8), rgba(20, 20, 28, 0.95));
+  border: 1.5px solid rgba(124, 58, 237, 0.35); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 20px;
+}
+.identity-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.identity-tag { background: linear-gradient(135deg, var(--purple), var(--cyan)); color: #fff; font-size: 11px; font-weight: 900; padding: 4px 10px; border-radius: var(--radius-sm); }
+.avatar-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 8px; margin-top: 10px; }
+.avatar-choice-card {
+  background: rgba(255, 255, 255, 0.04); border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+  padding: 8px 6px; text-align: center; cursor: pointer; transition: all 0.2s;
+}
+.avatar-choice-card:hover { border-color: var(--violet); }
+.avatar-choice-card.selected { border-color: var(--purple); background: rgba(124, 58, 237, 0.18); box-shadow: 0 0 12px var(--purple-glow); }
+.avatar-choice-emoji { font-size: 22px; display: block; margin-bottom: 3px; }
+.avatar-choice-name { font-size: 11px; font-weight: 700; color: #cbd5e1; }
+
+/* Checkpoint Quiz */
+.session-quiz {
+  background: linear-gradient(135deg, rgba(27, 27, 37, 0.9), rgba(20, 20, 28, 0.95));
+  border: 1.5px solid rgba(124, 58, 237, 0.4); border-radius: var(--radius-md);
+  padding: 16px; margin: 18px 0;
+}
+.session-quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.session-quiz-tag {
+  background: var(--purple); color: #fff; font-size: 10px; font-weight: 900;
+  padding: 3px 8px; border-radius: 4px; text-transform: uppercase;
+}
+.quiz-q-title { font-size: 13.5px; font-weight: 800; color: #fff; margin-bottom: 10px; }
+.quiz-opt-btn {
+  display: block; width: 100%; text-align: left; background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 12px;
+  color: #cbd5e1; font-size: 12.5px; margin-bottom: 6px; cursor: pointer; transition: all 0.2s;
+}
+.quiz-opt-btn:hover { background: rgba(255, 255, 255, 0.08); border-color: var(--violet); }
+.quiz-opt-btn.correct { background: rgba(16, 185, 129, 0.2) !important; border-color: var(--green) !important; color: #34d399 !important; font-weight: 800; }
+.quiz-opt-btn.wrong { background: rgba(239, 68, 68, 0.2) !important; border-color: var(--red) !important; color: #f87171 !important; }
+.quiz-feedback-box { font-size: 12px; margin-top: 6px; padding: 7px 10px; border-radius: var(--radius-sm); display: none; line-height: 1.45; }
+
+/* Buttons */
+.btn {
+  background: rgba(255, 255, 255, 0.08); border: 1px solid var(--border); color: #fff;
+  padding: 9px 16px; border-radius: var(--radius-sm); font-size: 12.5px; font-weight: 800;
+  cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; text-decoration: none;
+}
+.btn:hover { background: rgba(255, 255, 255, 0.14); border-color: var(--violet); }
+.btn.primary { background: var(--purple); border-color: var(--purple); box-shadow: 0 4px 14px var(--purple-glow); }
+.btn.primary:hover { background: #6D28D9; }
+.btn.success { background: var(--green); border-color: var(--green); color: #022c22; font-weight: 900; }
+.btn.secondary { background: var(--bg-surface); color: #cbd5e1; }
+
+.page-bottom-nav {
+  display: flex; justify-content: space-between; align-items: center; margin-top: 24px;
+  padding-top: 18px; border-top: 1px solid rgba(255, 255, 255, 0.06); flex-wrap: wrap; gap: 12px;
+}
+
+/* Chat Simulator Visual */
+.chat-window {
+  background: var(--bg-body); border: 1px solid var(--border); border-radius: var(--radius-md);
+  padding: 16px; margin: 16px 0; display: flex; flex-direction: column; gap: 12px;
+}
+.chat-bubble { max-width: 85%; padding: 12px 16px; border-radius: 12px; font-size: 13px; line-height: 1.55; }
+.chat-user {
+  align-self: flex-end; background: linear-gradient(135deg, #6D28D9, #7C3AED);
+  color: #fff; border-bottom-right-radius: 2px;
+}
+.chat-ai {
+  align-self: flex-start; background: var(--bg-surface); border: 1px solid var(--border);
+  color: #E2E8F0; border-bottom-left-radius: 2px;
+}
+.chat-ai-header { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 800; color: var(--cyan); margin-bottom: 6px; }
+
+/* Prompt Box */
+.prompt-box {
+  background: rgba(0, 0, 0, 0.35); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 12px 14px; font-family: monospace; font-size: 12.5px; color: #A5F3FC; position: relative; margin: 8px 0;
+}
+.copy-btn-slot {
+  position: absolute; top: 8px; right: 8px; background: rgba(255,255,255,0.08);
+  border: 1px solid var(--border); color: #fff; font-size: 10.5px; font-weight: 700;
+  padding: 3px 8px; border-radius: 4px; cursor: pointer; transition: all 0.2s;
+}
+.copy-btn-slot:hover { background: var(--purple); }
+
+/* Final Quiz Arena Styles */
+.quiz-arena-wrap {
+  background: linear-gradient(135deg, rgba(20, 20, 28, 0.95), rgba(11, 11, 16, 0.98));
+  border: 1.5px solid rgba(124, 58, 237, 0.4);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5), 0 0 24px var(--purple-glow);
+  margin-top: 10px;
+}
+.quiz-arena-hud {
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
+  gap: 12px; padding-bottom: 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); margin-bottom: 20px;
+}
+.quiz-hud-title { display: flex; align-items: center; gap: 10px; }
+.quiz-hud-badge {
+  background: linear-gradient(135deg, var(--purple), var(--cyan));
+  color: #fff; font-weight: 900; font-size: 11px; padding: 4px 10px; border-radius: var(--radius-sm);
+  letter-spacing: 0.5px; box-shadow: 0 2px 8px var(--purple-glow);
+}
+.quiz-stepper-dots { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.quiz-dot-item {
+  width: 30px; height: 30px; border-radius: 50%; background: rgba(255, 255, 255, 0.05);
+  border: 1.5px solid var(--border); color: var(--text-dim); font-size: 11px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s;
+}
+.quiz-dot-item.active { border-color: var(--purple); background: rgba(124, 58, 237, 0.25); color: #fff; box-shadow: 0 0 12px var(--purple-glow); }
+.quiz-dot-item.solved { border-color: var(--green); background: rgba(16, 185, 129, 0.2); color: var(--green); }
+
+.quiz-card-stage { display: none; animation: pageFadeIn 0.3s ease; }
+.quiz-card-stage.active-stage { display: block; }
+.quiz-option-card {
+  background: rgba(255, 255, 255, 0.03); border: 1.5px solid var(--border); border-radius: var(--radius-md);
+  padding: 13px 16px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: all 0.2s; text-align: left;
+  margin-bottom: 10px;
+}
+.quiz-option-card:hover { background: rgba(255, 255, 255, 0.06); border-color: var(--violet); transform: translateX(3px); }
+.quiz-opt-letter {
+  width: 30px; height: 30px; border-radius: 8px; background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border); color: #fff; font-weight: 900; font-size: 12px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.quiz-opt-text { font-size: 13px; font-weight: 700; color: #e2e8f0; line-height: 1.45; }
+.quiz-option-card.correct { background: rgba(16, 185, 129, 0.15) !important; border-color: var(--green) !important; }
+.quiz-option-card.correct .quiz-opt-letter { background: var(--green); color: #022c22; border-color: var(--green); }
+.quiz-option-card.correct .quiz-opt-text { color: #6ee7b7; }
+.quiz-option-card.wrong { background: rgba(239, 68, 68, 0.15) !important; border-color: var(--red) !important; }
+.quiz-option-card.wrong .quiz-opt-letter { background: var(--red); color: #fff; border-color: var(--red); }
+.quiz-option-card.wrong .quiz-opt-text { color: #fca5a5; }
+
+.quiz-explanation-banner {
+  background: var(--bg-surface); border-radius: var(--radius-md); padding: 14px 16px;
+  margin-top: 14px; font-size: 13px; line-height: 1.55; display: none; animation: pageFadeIn 0.25s ease;
+}
+
+/* Certificate */
+.cert-wrapper {
+  background: linear-gradient(135deg, #14141C, #0B0B10); border: 2px solid var(--yellow);
+  border-radius: var(--radius-lg); padding: 30px 18px; text-align: center; position: relative;
+  box-shadow: 0 16px 36px rgba(0,0,0,0.6);
+}
+.cert-wrapper::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, #7C3AED, #06B6D4, #FDE047); }
+.cert-name-text { font-size: 25px; font-weight: 900; color: #fff; border-bottom: 2px dashed rgba(255, 255, 255, 0.25); display: inline-block; padding: 2px 20px; margin: 8px 0; }
+.cert-p { font-size: 13px; color: var(--text-muted); max-width: 580px; margin: 0 auto 14px; }
+.cert-stamps { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+.cert-stamp-badge { border: 2px solid var(--purple); color: var(--violet); font-size: 10px; font-weight: 900; padding: 4px 10px; border-radius: var(--radius-sm); }
+
+/* Checklist Item */
+.check-item {
+  display: flex; align-items: flex-start; gap: 12px; padding: 12px; background: var(--bg-surface);
+  border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s;
+  margin-bottom: 8px; user-select: none;
+}
+.check-item:hover { border-color: var(--violet); }
+.check-item.done { border-color: var(--green); background: rgba(16, 185, 129, 0.08); }
+.check-box-icon {
+  width: 22px; height: 22px; border-radius: 6px; border: 2px solid var(--border);
+  display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 12px; flex-shrink: 0;
+}
+.check-item.done .check-box-icon { background: var(--green); border-color: var(--green); color: #022c22; }
+
+/* Toast */
+.toast-notice {
+  position: fixed; bottom: 24px; right: 24px; background: var(--purple); color: #fff;
+  padding: 10px 18px; border-radius: 8px; font-size: 12.5px; font-weight: 800;
+  box-shadow: 0 4px 20px var(--purple-glow); z-index: 999; display: none; animation: pageFadeIn 0.2s ease;
+}
+
+/* Print */
+@media print {
+  body * { visibility: hidden; }
+  #certArea, #certArea * { visibility: visible; }
+  #certArea {
+    position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 30px;
+    border: 2px solid #000; background: #fff !important; color: #000 !important;
+  }
+  .cert-name-text { color: #000 !important; }
+}
+/* AI Tools & Study Cases */
+.ai-tool-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin: 14px 0; }
+.ai-tool-card {
+  background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 12px; transition: all 0.2s; display: flex; flex-direction: column; justify-content: space-between;
+}
+.ai-tool-card:hover { border-color: var(--violet); transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,0.4); }
+.ai-tool-badge {
+  font-size: 9.5px; font-weight: 800; padding: 2px 7px; border-radius: 4px; text-transform: uppercase;
+}
+.case-tab-bar {
+  display: flex; gap: 8px; border-bottom: 1px solid var(--border);
+  padding-bottom: 12px; margin-bottom: 16px; flex-wrap: wrap;
+}
+.case-tab-btn {
+  background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border);
+  color: var(--text-muted); font-size: 12.5px; font-weight: 800;
+  padding: 8px 16px; border-radius: 999px; cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; gap: 6px;
+}
+.case-tab-btn:hover { color: #fff; background: rgba(255, 255, 255, 0.08); border-color: var(--violet); }
+.case-tab-btn.active {
+  background: var(--purple); border-color: var(--purple); color: #fff;
+  box-shadow: 0 2px 10px var(--purple-glow);
+}
+.case-study-pane { display: none; animation: pageFadeIn 0.3s ease; }
+.case-study-pane.active-pane { display: block; }
+
+@media (max-width: 768px) {
+  .grid-2 { grid-template-columns: 1fr; }
+  .card-mission { padding: 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Floating Header -->
+<header class="top-nav">
+  <div class="container">
+    <div class="nav-wrap">
+      <div class="brand-group">
+        <div class="brand-badge"><span>🤖</span> QUEST P10</div>
+        <div class="brand-text">
+          <h1>Kenal Komputer — Ruang Belajarmu</h1>
+          <p>Pertemuan 10 — AI & Digital Productivity: Mengenal AI dan Mengembangkan Ide</p>
+        </div>
+      </div>
+
+      <nav class="meeting-nav-row" aria-label="Pilihan Pertemuan">
+        <span class="meeting-tab">P7 Email</span>
+        <span class="meeting-tab">P8 PowerPoint</span>
+        <span class="meeting-tab">P9 Canva</span>
+        <span class="meeting-tab active">⭐ P10 AI & Produktivitas</span>
+      </nav>
+
+      <div class="user-panel">
+        <button class="avatar-btn" id="avatarDisplayBtn" title="Ganti Avatar" onclick="cycleAvatar()">🤖</button>
+        <input type="text" class="name-input" id="studentNameInput" placeholder="Ketik Nama Siswa..." value="Siswa Kelas 7" oninput="handleNameChange(this.value)">
+        <div class="xp-pill"><span>⭐</span> <span id="xpDisplay">0</span> XP</div>
+        <button class="sound-toggle-btn" id="soundToggleBtn" onclick="toggleSound()" title="Aktif/Nonaktifkan Suara">🔊</button>
+      </div>
+    </div>
+
+    <!-- Stepper Navigation (11 Misi) -->
+    <nav class="subnav-stages" id="subnavStages" aria-label="Navigasi Halaman Misi">
+      <button class="stage-step-btn active" id="navBtn1" onclick="switchPage(1)">01 Apa Itu AI?</button>
+      <button class="stage-step-btn" id="navBtn2" onclick="switchPage(2)">02 Kemampuan AI</button>
+      <button class="stage-step-btn" id="navBtn3" onclick="switchPage(3)">03 Asisten vs Nyontek</button>
+      <button class="stage-step-btn" id="navBtn4" onclick="switchPage(4)">04 Kekuatan Prompt</button>
+      <button class="stage-step-btn" id="navBtn5" onclick="switchPage(5)">05 Formula TKFB</button>
+      <button class="stage-step-btn" id="navBtn6" onclick="switchPage(6)">06 Prompt Lab</button>
+      <button class="stage-step-btn" id="navBtn7" onclick="switchPage(7)">07 Cek & Metode BACA</button>
+      <button class="stage-step-btn" id="navBtn8" onclick="switchPage(8)">08 Privasi & Aman</button>
+      <button class="stage-step-btn" id="navBtn9" onclick="switchPage(9)">09 Etika di Sekolah</button>
+      <button class="stage-step-btn" id="navBtn10" onclick="switchPage(10)">10 Mini Project P11</button>
+      <button class="stage-step-btn" id="navBtn11" onclick="switchPage(11)">11 Final Challenge & Cert 🏆</button>
+    </nav>
+  </div>
+  <div class="global-progress-wrap"><div class="global-progress-fill" id="globalProgressFill"></div></div>
+</header>
+
+<main class="container">
+
+  <!-- Stepper Banner -->
+  <div class="page-stepper-bar">
+    <div>
+      <span class="page-counter-badge" id="stepperBadge">MISI 01 / 11</span>
+      <strong style="color:#fff; margin-left:8px;" id="stepperTitle">Apa Itu AI? — Kenalan dengan Asisten Digital</strong>
+    </div>
+    <div style="color:var(--text-muted); font-size:12px;">
+      Gelar: <strong style="color:var(--yellow);" id="rankTitle">AI Explorer</strong>
+    </div>
+  </div>
+
+  <!-- ════════════ MISI 01: APA ITU AI? ════════════ -->
+  <div class="mission-page active-page" id="page1">
+    <div class="card-mission">
+      <div class="mission-hero-header">
+        <div class="mission-title-group">
+          <h2>Misi 01: Apa Itu Artificial Intelligence (AI)?</h2>
+          <p>Membongkar rahasia kecerdasan buatan: AI bisa membantu kita berpikir, tetapi kita tetap harus menggunakan pikiran sendiri!</p>
+        </div>
+        <div class="mission-xp-badge">⭐ Reward: +100 XP</div>
+      </div>
+
+      <!-- Identity Card -->
+      <div class="identity-card">
+        <div class="identity-header">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span class="identity-tag">👤 IDENTITAS SISWA</span>
+            <h3 style="font-size:14px; font-weight:800; color:#fff;">Ketik Nama & Pilih Karakter Pembajarmu</h3>
+          </div>
+          <span style="font-size:11px; color:var(--green); font-weight:700;">● Otomatis Tersinkronisasi</span>
+        </div>
+        <div class="grid-2">
+          <div>
+            <label style="font-size:11.5px; font-weight:800; color:var(--text-muted); display:block; margin-bottom:4px;">Nama Lengkap Siswa:</label>
+            <input type="text" id="m1NameInput" value="Siswa Kelas 7" oninput="syncStudentNameFromM1(this.value)" style="width:100%; background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-sm); color:#fff; padding:9px 12px; font-size:13.5px; font-weight:700; outline:none;">
+          </div>
+          <div>
+            <label style="font-size:11.5px; font-weight:800; color:var(--text-muted); display:block; margin-bottom:4px;">Pilih Kelas:</label>
+            <select id="m1ClassSelect" onchange="syncClassFromM1(this.value)" style="width:100%; background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-sm); color:#fff; padding:9px 12px; font-size:13px; font-weight:700; outline:none;">
+              <option value="7A">Kelas 7A</option>
+              <option value="7B">Kelas 7B</option>
+              <option value="7C">Kelas 7C</option>
+              <option value="7D">Kelas 7D</option>
+              <option value="7E">Kelas 7E</option>
+            </select>
+          </div>
+        </div>
+        <div style="margin-top:12px;">
+          <label style="font-size:11.5px; font-weight:800; color:var(--text-muted); display:block; margin-bottom:5px;">Pilih Maskot AI:</label>
+          <div class="avatar-grid">
+            <div class="avatar-choice-card selected" onclick="pickAvatarIndex(0, this)"><span class="avatar-choice-emoji">🤖</span><span class="avatar-choice-name">Bot Pintar</span></div>
+            <div class="avatar-choice-card" onclick="pickAvatarIndex(1, this)"><span class="avatar-choice-emoji">🧠</span><span class="avatar-choice-name">Otak Logika</span></div>
+            <div class="avatar-choice-card" onclick="pickAvatarIndex(2, this)"><span class="avatar-choice-emoji">⚡</span><span class="avatar-choice-name">Kilat Ide</span></div>
+            <div class="avatar-choice-card" onclick="pickAvatarIndex(3, this)"><span class="avatar-choice-emoji">🔍</span><span class="avatar-choice-name">Detektif Fakta</span></div>
+            <div class="avatar-choice-card" onclick="pickAvatarIndex(4, this)"><span class="avatar-choice-emoji">🚀</span><span class="avatar-choice-name">Kreator Muda</span></div>
+            <div class="avatar-choice-card" onclick="pickAvatarIndex(5, this)"><span class="avatar-choice-emoji">🛡️</span><span class="avatar-choice-name">Penjaga Data</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="notice-box">
+        <span class="notice-icon">🤔</span>
+        <div>
+          <strong>Pernah Mengalami Ini?</strong>
+          <p>"Pernahkah kamu mengetik pesan di HP, lalu keyboard otomatis menyarankan kata berikutnya? Atau melihat aplikasi yang bisa merangkum teks panjang dan menjawab pertanyaanmu dalam sekejap? Itulah sentuhan <strong>Artificial Intelligence (AI)</strong>!"</p>
+        </div>
+      </div>
+
+      <!-- Definisi Sederhana AI -->
+      <div style="margin:20px 0; background:var(--bg-surface); border:1px solid var(--border); border-radius:var(--radius-md); padding:18px;">
+        <h3 style="font-size:15px; font-weight:800; color:#fff; margin-bottom:8px;">💡 Definisi Sederhana untuk Siswa Kelas 7</h3>
+        <p style="font-size:13px; color:#E2E8F0; line-height:1.6;">
+          <strong>Artificial Intelligence (AI)</strong> atau <em>Kecerdasan Buatan</em> adalah program komputer canggih yang dilatih mengenali pola, memahami bahasa manusia, dan menghasilkan jawaban berdasarkan data yang dipelajarinya.
+        </p>
+        <div style="background:rgba(253, 224, 71, 0.1); border-left:3px solid var(--yellow); padding:8px 12px; border-radius:4px; font-size:12px; color:#FEF08A; margin-top:10px;">
+          ⚠️ <strong>Ingat Baik-Baik:</strong> AI adalah <strong>alat bantu digital</strong> buatan manusia, <em>bukan manusia ajaib yang tahu segala hal</em>! Tidak semua aplikasi digital otomatis memakai AI.
+        </div>
+      </div>
+
+      <!-- 📱 5 Contoh AI yang Biasa Digunakan Siswa SMP -->
+      <div style="margin:20px 0; background:rgba(27, 27, 37, 0.6); border:1px solid rgba(124, 58, 237, 0.3); border-radius:var(--radius-md); padding:18px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:18px;">📱</span>
+            <h3 style="font-size:14.5px; font-weight:800; color:#fff;">Contoh Alat AI Populer yang Sering Digunakan Pelajar:</h3>
+          </div>
+          <span style="font-size:10.5px; color:var(--cyan); font-weight:700; background:rgba(6, 182, 212, 0.1); border:1px solid rgba(6, 182, 212, 0.25); padding:3px 8px; border-radius:4px;">Alat Bantu Belajar</span>
+        </div>
+        <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Berikut aplikasi AI yang sering digunakan kakak kelas atau teman-temanmu untuk mempermudah tugas sekolah:</p>
+
+        <div class="ai-tool-grid">
+          <div class="ai-tool-card">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                <strong style="font-size:13px; color:#34D399;">🟢 ChatGPT</strong>
+                <span class="ai-tool-badge" style="background:rgba(16,185,129,0.2); color:#34D399;">Chatbot AI</span>
+              </div>
+              <p style="font-size:11.5px; color:#CBD5E1; line-height:1.45;">Paling populer untuk tanya jawab, meminta penjelasan konsep materi, latihan bahasa, dan ide tugas.</p>
+            </div>
+            <div style="font-size:10.5px; color:var(--text-dim); margin-top:6px;">OpenAI • Berbasis Teks</div>
+          </div>
+
+          <div class="ai-tool-card">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                <strong style="font-size:13px; color:#38BDF8;">🔵 Google Gemini</strong>
+                <span class="ai-tool-badge" style="background:rgba(6,182,212,0.2); color:#38BDF8;">Asisten Google</span>
+              </div>
+              <p style="font-size:11.5px; color:#CBD5E1; line-height:1.45;">Bagus untuk merangkum materi dan terhubung langsung ke mesin pencarian Google.</p>
+            </div>
+            <div style="font-size:10.5px; color:var(--text-dim); margin-top:6px;">Google • Cepat & Multimodal</div>
+          </div>
+
+          <div class="ai-tool-card">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                <strong style="font-size:13px; color:#A78BFA;">🟣 Microsoft Copilot</strong>
+                <span class="ai-tool-badge" style="background:rgba(124,58,237,0.2); color:#A78BFA;">Office AI</span>
+              </div>
+              <p style="font-size:11.5px; color:#CBD5E1; line-height:1.45;">Terpasang di Word dan Edge, berguna saat menyusun draf laporan tugas sekolah.</p>
+            </div>
+            <div style="font-size:10.5px; color:var(--text-dim); margin-top:6px;">Microsoft • Terintegrasi Office</div>
+          </div>
+
+          <div class="ai-tool-card">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                <strong style="font-size:13px; color:#FB923C;">🟠 Photomath / Math AI</strong>
+                <span class="ai-tool-badge" style="background:rgba(251,146,60,0.2); color:#FB923C;">Pakar Matematika</span>
+              </div>
+              <p style="font-size:11.5px; color:#CBD5E1; line-height:1.45;">Pindai rumus atau soal hitungan menggunakan kamera untuk melihat langkah-langkah solusinya.</p>
+            </div>
+            <div style="font-size:10.5px; color:var(--text-dim); margin-top:6px;">Kamera & Grafik • Step-by-Step</div>
+          </div>
+
+          <div class="ai-tool-card">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                <strong style="font-size:13px; color:#FDE047;">🟡 DeepL / Grammarly</strong>
+                <span class="ai-tool-badge" style="background:rgba(253,224,71,0.2); color:#FDE047;">Bahasa & Grammar</span>
+              </div>
+              <p style="font-size:11.5px; color:#CBD5E1; line-height:1.45;">Membantu mengoreksi ejaan kata dan grammar bahasa Inggris agar kalimat tugas rapi.</p>
+            </div>
+            <div style="font-size:10.5px; color:var(--text-dim); margin-top:6px;">Pemeriksa Tata Bahasa</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interaktif: AI atau Bukan AI? -->
+      <div style="margin:20px 0;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+          <h3 style="font-size:15px; font-weight:800; color:#fff;">🎮 Latihan Detektif: Mana yang Menggunakan AI?</h3>
+          <span style="font-size:11px; color:var(--yellow); font-weight:700;">+20 XP Tiap Tebakan Benar!</span>
+        </div>
+        <p style="font-size:12.5px; color:var(--text-muted); margin-bottom:12px;">Klik pilihan pada 4 situasi teknologi sehari-hari berikut:</p>
+
+        <div class="grid-2">
+          <!-- Kasus 1 -->
+          <div style="background:var(--bg-surface); border:1px solid var(--border); border-radius:10px; padding:14px;">
+            <div style="font-size:13px; font-weight:800; color:#fff; margin-bottom:6px;">1. Mengetik Tugas di Microsoft Word</div>
+            <p style="font-size:12px; color:var(--text-muted); margin-bottom:10px;">Kamu membuka lembar kosong di laptop lalu mengetik laporan praktikum dengan jari sendiri.</p>
+            <div style="display:flex; gap:8px;">
+              <button class="btn secondary" style="font-size:11.5px; padding:6px 12px;" onclick="checkAiDetect(1, false, this)">Menggunakan AI Langsung</button>
+              <button class="btn secondary" style="font-size:11.5px; padding:6px 12px;" onclick="checkAiDetect(1, true, this)">Aplikasi Biasa (Bukan AI Langsung)</button>
+            </div>
+            <div id="aiDet1_fb" style="font-size:11.5px; margin-top:8px; display:none;"></div>
+          </div>
+
+          <!-- Kasus 2 -->
+          <div style="background:var(--bg-surface); border:1px solid var(--border); border-radius:10px; padding:14px;">
+            <div style="font-size:13px; font-weight:800; color:#fff; margin-bottom:6px;">2. Chatbot Pintar Menjawab Soal Belajar</div>
+            <p style="font-size:12px; color:var(--text-muted); margin-bottom:10px;">Kamu bertanya: "Jelaskan apa itu fotosintesis dengan analogi memasak di dapur." Lalu sistem merangkum jawabannya.</p>
+            <div style="display:flex; gap:8px;">
+              <button class="btn secondary" style="font-size:11.5px; padding:6px 12px;" onclick="checkAiDetect(2, true, this)">Menggunakan AI Langsung</button>
+              <button class="btn secondary" style="font-size:11.5px; padding:6px 12px;" onclick="checkAiDetect(2, false, this)">Aplikasi Biasa (Bukan AI Langsung)</button>
+            </div>
+            <div id="aiDet2_fb" style="font-size:11.5px; margin-top:8px; display:none;"></div>
+          </div>
+
+          <!-- Kasus 3 -->
+          <div style="background:var(--bg-surface); border:1px solid var(--border); border-radius:10px; padding:14px;">
+            <div style="font-size:13px; font-weight:800; color:#fff; margin-bottom:6px;">3. Kalkulator Menghitung 25 x 40 = 1000</div>
+            <p style="font-size:12px; color:var(--text-muted); margin-bottom:10px;">Kalkulator menjalankan rumus matematika kaku dengan sirkuit elektronik bawaan.</p>
+            <div style="display:flex; gap:8px;">
+              <button class="btn secondary" style="font-size:11.5px; padding:6px 12px;" onclick="checkAiDetect(3, false, this)">Menggunakan AI Langsung</button>
+              <button class="btn secondary" style="font-size:11.5px; padding:6px 12px;" onclick="checkAiDetect(3, true, this)">Aplikasi Biasa (Bukan AI Langsung)</button>
+            </div>
+            <div id="aiDet3_fb" style="font-size:11.5px; margin-top:8px; display:none;"></div>
+          </div>
+
+          <!-- Kasus 4 -->
+          <div style="background:var(--bg-surface); border:1px solid var(--border); border-radius:10px; padding:14px;">
+            <div style="font-size:13px; font-weight:800; color:#fff; margin-bottom:6px;">4. Kamera HP Mengenali Wajah & Objek Daun</div>
+            <p style="font-size:12px; color:var(--text-muted); margin-bottom:10px;">Kamera menyorot tanaman lalu otomatis mendeteksi: "Ini tanaman lidah buaya."</p>
+            <div style="display:flex; gap:8px;">
+              <button class="btn secondary" style="font-size:11.5px; padding:6px 12px;" onclick="checkAiDetect(4, true, this)">Menggunakan AI Langsung</button>
+              <button class="btn secondary" style="font-size:11.5px; padding:6px 12px;" onclick="checkAiDetect(4, false, this)">Aplikasi Biasa (Bukan AI Langsung)</button>
+            </div>
+            <div id="aiDet4_fb" style="font-size:11.5px; margin-top:8px; display:none;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kuis Checkpoint Misi 01 -->
+      <div class="session-quiz">
+        <div class="session-quiz-header">
+          <span class="session-quiz-tag">🎯 Tantangan Misi 01</span>
+          <span style="font-size:11px; color:var(--yellow);">+30 XP</span>
+        </div>
+        <div class="quiz-q-title">Pernyataan mana yang paling benar mengenai sifat Artificial Intelligence (AI)?</div>
+        <button class="quiz-opt-btn" onclick="checkSessionQuiz('sq1', this, false)">A. AI adalah manusia super yang tahu segalanya dan jawabannya pasti selalu 100% benar.</button>
+        <button class="quiz-opt-btn" onclick="checkSessionQuiz('sq1', this, true)">B. AI adalah alat bantu digital cerdas yang mengenali pola dan bahasa, tetapi kita tetap harus memikirkan dan memeriksa jawabannya.</button>
+        <button class="quiz-opt-btn" onclick="checkSessionQuiz('sq1', this, false)">C. Semua aplikasi di HP dan komputer otomatis sudah menggunakan AI.</button>
+        <div class="quiz-feedback-box" id="sq1_fb"></div>
+      </div>
+
+      <div class="page-bottom-nav">
+        <span style="font-size:12px; color:var(--text-muted);">Misi 1 dari 11</span>
+        <button class="btn primary" onclick="switchPage(2)">Lanjut ke Misi 02 (Kemampuan AI) ➡️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════ MISI 02: KEMAMPUAN & KETERBATASAN AI ════════════ -->
+  <div class="mission-page" id="page2">
+    <div class="card-mission">
+      <div class="mission-hero-header">
+        <div class="mission-title-group">
+          <h2>Misi 02: Apa yang Bisa & Belum Bisa Dilakukan AI?</h2>
+          <p>Ketahui kekuatan super AI dan hal-hal yang tidak boleh kamu percayakan begitu saja kepada AI.</p>
+        </div>
+        <div class="mission-xp-badge">⭐ Reward: +100 XP</div>
+      </div>
+
+      <div class="notice-box">
+        <span class="notice-icon">✨</span>
+        <div>
+          <strong>Peta Kekuatan AI untuk Pelajar</strong>
+          <p>AI sangat hebat dalam mengolah bahasa, meringkas teks panjang, dan memberikan variasi ide saat otak kita sedang buntu (*stuck*). Klik kartu di bawah untuk melihat contohnya!</p>
+        </div>
+      </div>
+
+      <!-- 4 Kartu Kemampuan AI (Bisa Diklik) -->
+      <div class="grid-2" style="margin:16px 0;">
+        <div class="box-info accent" onclick="inspectAiCapability('explain')" style="cursor:pointer;">
+          <div class="box-icon">📖</div>
+          <div class="box-title">1. Membantu Memahami Materi Rumit</div>
+          <div class="box-desc">Meminta penjelasan topik susah dengan bahasa yang santai dan analogi sederhana untuk anak kelas 7.</div>
+        </div>
+        <div class="box-info" onclick="inspectAiCapability('brainstorm')" style="cursor:pointer;">
+          <div class="box-icon">💡</div>
+          <div class="box-title">2. Membantu Mencari Ide Kreatif</div>
+          <div class="box-desc">Memberikan 5-10 alternatif ide saat membuat judul presentasi, ide lomba mading, atau tema drama kelas.</div>
+        </div>
+        <div class="box-info" onclick="inspectAiCapability('outline')" style="cursor:pointer;">
+          <div class="box-icon">📑</div>
+          <div class="box-title">3. Membantu Menyusun Kerangka Tulisan</div>
+          <div class="box-desc">Menata struktur awal tulisan (Pendahuluan, Pembahasan, Kesimpulan) agar tugas makalah tidak berantakan.</div>
+        </div>
+        <div class="box-info" onclick="inspectAiCapability('proofread')" style="cursor:pointer;">
+          <div class="box-icon">✏️</div>
+          <div class="box-title">4. Membantu Merapikan Kalimat</div>
+          <div class="box-desc">Memeriksa kalimat yang terlalu berbelit-belit agar lebih enak dibaca tanpa mengubah makna aslinya.</div>
+        </div>
+      </div>
+
+      <!-- Panel Detail Kemampuan yang Diklik -->
+      <div id="aiCapDetailBox" style="background:var(--bg-surface); border:1px solid var(--purple); border-radius:var(--radius-sm); padding:14px 16px; font-size:13px; color:#DDD6FE; margin-bottom:20px;">
+        👉 <strong>Klik salah satu dari 4 kartu kemampuan di atas</strong> untuk melihat contoh perintah nyata yang bisa kamu gunakan!
+      </div>
+
+      <!-- Apa yang BELUM Bisa Dilakukan AI -->
+      <div style="background:rgba(239, 68, 68, 0.08); border:1.5px solid rgba(239, 68, 68, 0.3); border-radius:var(--radius-md); padding:16px;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+          <span style="font-size:18px;">🚫</span>
+          <h3 style="font-size:14.5px; font-weight:800; color:#FCA5A5;">Keterbatasan: Apa yang BELUM Bisa Dilakukan AI?</h3>
+        </div>
+        <ul style="font-size:12.5px; color:#FECACA; padding-left:20px; line-height:1.6;">
+          <li><strong>Tidak punya perasaan & empati nyata:</strong> AI hanya mencocokkan kata, bukan merasakan empati atau persahabatan sesungguhnya.</li>
+          <li><strong>Bisa membuat data palsu (*Halusinasi*):</strong> AI terkadang mengarang angka statistik, nama tokoh, atau fakta sejarah fiktif dengan nada sangat meyakinkan!</li>
+          <li><strong>Tidak bisa menggantikan tanggung jawab belajarmu:</strong> Mengetahui materi dan ujian tetap harus ada di dalam kepalamu sendiri.</li>
+        </ul>
+      </div>
+
+      <!-- 🎓 STUDI KASUS PRAKTIS: CARA MEMAKAI CHATGPT UNTUK MATEMATIKA & BAHASA INGGRIS -->
+      <div style="margin:24px 0; background:linear-gradient(135deg, rgba(27, 27, 37, 0.95), rgba(20, 20, 28, 0.98)); border:1.5px solid var(--purple); border-radius:var(--radius-lg); padding:22px;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px; margin-bottom:14px;">
+          <div>
+            <span style="background:rgba(253, 224, 71, 0.15); color:var(--yellow); border:1px solid rgba(253, 224, 71, 0.3); font-size:10.5px; font-weight:800; padding:3px 8px; border-radius:4px; text-transform:uppercase; display:inline-block; margin-bottom:6px;">💡 STUDI KASUS NYATA PELAJAR</span>
+            <h3 style="font-size:16px; font-weight:800; color:#fff;">Cara Menggunakan ChatGPT untuk Mudah Memahami Matematika & Bahasa Inggris</h3>
+          </div>
+          <span style="font-size:11px; color:var(--green); font-weight:700; background:rgba(16, 185, 129, 0.1); border:1px solid rgba(16, 185, 129, 0.3); padding:4px 10px; border-radius:999px;">Trik Siswa Juara</span>
+        </div>
+
+        <p style="font-size:12.5px; color:var(--text-muted); margin-bottom:16px; line-height:1.6;">
+          Banyak siswa salah kaprah: hanya menyuruh AI menghitung jawaban instan. Akibatnya saat ulangan di kelas tanpa HP, nilai tetap anjlok! <strong>Gunakan ChatGPT sebagai tutor pribadi yang mengajarkan konsep dengan cara asyik:</strong>
+        </p>
+
+        <!-- Tab Selector: Matematika vs Bahasa Inggris -->
+        <div class="case-tab-bar">
+          <button class="case-tab-btn active" id="btnCaseMath" onclick="switchCaseStudyTab('math')">
+            <span>📐</span> 1. Kasus Matematika: Aljabar & Timbangan
+          </button>
+          <button class="case-tab-btn" id="btnCaseEnglish" onclick="switchCaseStudyTab('english')">
+            <span>🇬🇧</span> 2. Kasus Bahasa Inggris: Tenses & Dialog Santai
+          </button>
+        </div>
+
+        <!-- PANE 1: MATEMATIKA -->
+        <div class="case-study-pane active-pane" id="paneCaseMath">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+            <strong style="font-size:13.5px; color:#38BDF8;">Kasus Matematika: Pusing Belajar Persamaan Aljabar (2x + 7 = 19)</strong>
+            <span style="font-size:11px; color:var(--yellow); font-weight:700;">+20 XP Salin Prompt!</span>
+          </div>
+
+          <!-- Perbandingan Cara Salah vs Benar -->
+          <div class="grid-2" style="margin-bottom:14px;">
+            <div style="background:rgba(239,68,68,0.08); border:1px dashed #EF4444; border-radius:8px; padding:12px;">
+              <span style="font-size:10.5px; font-weight:800; color:#F87171;">❌ CARA SALAH (Cuma Minta Kunci Jawaban):</span>
+              <div style="font-family:monospace; font-size:11.5px; color:#FECACA; margin:6px 0;">"Berapa hasil dari 2x + 7 = 19?"</div>
+              <p style="font-size:11.5px; color:var(--text-dim);">Dampak: AI langsung menjawab 'x = 6'. Siswa tidak tahu dari mana asalnya angka 6, dan saat ujian di sekolah tetap bingung.</p>
+            </div>
+            <div style="background:rgba(16,185,129,0.08); border:1px solid #10B981; border-radius:8px; padding:12px;">
+              <span style="font-size:10.5px; font-weight:800; color:#34D399;">✅ CARA BENAR (Jadikan ChatGPT Guru Privat Interaktif):</span>
+              <div style="font-family:monospace; font-size:11.5px; color:#A7F3D0; margin:6px 0;">"Tolong jelaskan langkah demi langkah persamaan 2x + 7 = 19 dengan analogi timbangan neraca..."</div>
+              <p style="font-size:11.5px; color:var(--text-dim);">Dampak: Otak memahami logika keseimbangan timbangan, rumus jadi terasa mudah dan masuk akal!</p>
+            </div>
+          </div>
+
+          <!-- Template Prompt Matematika -->
+          <div style="background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:8px; padding:12px; margin-bottom:14px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <span style="font-size:11.5px; font-weight:800; color:#fff;">📋 Prompt Emas untuk Belajar Matematika:</span>
+              <button class="btn primary" style="font-size:10.5px; padding:3px 10px;" onclick="copyCasePrompt('math')">📋 Salin Prompt Matematika</button>
+            </div>
+            <div id="promptCaseMathText" class="prompt-box" style="margin:0;">Saya siswa SMP kelas 7 yang sedang belajar aljabar persamaan linear. Tolong jelaskan langkah demi langkah cara menyelesaikan persamaan 2x + 7 = 19 menggunakan analogi timbangan neraca kelereng. Jangan langsung berikan jawaban akhirnya, ajarkan saya konsep menyeimbangkan kedua sisi timbangannya dulu!</div>
+          </div>
+
+          <!-- Mock Chat Simulation Matematika -->
+          <div class="chat-window" style="margin-top:12px;">
+            <div class="chat-bubble chat-user">
+              Saya siswa SMP kelas 7... tolong jelaskan 2x + 7 = 19 pakai analogi timbangan neraca kelereng ya!
+            </div>
+            <div class="chat-bubble chat-ai">
+              <div class="chat-ai-header">🤖 ChatGPT (Tutor Matematika):</div>
+              Halo! Bayangkan di depanmu ada <strong>timbangan neraca</strong> yang kedua sisinya seimbang sempurna:<br><br>
+              ⚖️ <strong>Sisi Kiri:</strong> Ada 2 kantong misterius (kita sebut <code>2x</code>) dan 7 butir kelereng lepas.<br>
+              ⚖️ <strong>Sisi Kanan:</strong> Ada 19 butir kelereng lepas.<br><br>
+              Tujuan kita adalah mengetahui isi <strong>1 kantong (x)</strong>. Agar timbangan tetap seimbang, aturan emasnya: <em>apapun yang kamu buang dari sisi kiri, wajib kamu buang juga dari sisi kanan</em>!<br><br>
+              <strong>Langkah 1: Singkirkan 7 kelereng lepas!</strong><br>
+              • Sisi kiri buang 7 kelereng → sisa <code>2 kantong (2x)</code>.<br>
+              • Sisi kanan buang 7 kelereng → <code>19 - 7 = 12 kelereng</code>.<br><br>
+              <strong>Langkah 2: Bagi sama rata!</strong><br>
+              Sekarang 2 kantong seimbang dengan 12 kelereng. Maka isi 1 kantong adalah <code>12 ÷ 2 = 6 kelereng</code>. Jadi, <strong>x = 6</strong>! Sekarang, mau coba tantangan 1 soal lagi dengan angka berbeda?
+            </div>
+          </div>
+        </div>
+
+        <!-- PANE 2: BAHASA INGGRIS -->
+        <div class="case-study-pane" id="paneCaseEnglish">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+            <strong style="font-size:13.5px; color:#FDE047;">Kasus Bahasa Inggris: Latihan Percakapan Ramah & Memahami Tenses</strong>
+            <span style="font-size:11px; color:var(--yellow); font-weight:700;">+20 XP Salin Prompt!</span>
+          </div>
+
+          <div class="grid-2" style="margin-bottom:14px;">
+            <div style="background:rgba(124,58,237,0.08); border:1px solid rgba(124,58,237,0.3); border-radius:8px; padding:12px;">
+              <span style="font-size:10.5px; font-weight:800; color:#C084FC;">🗣️ METODE 1: Teman Ngobrol Ramah (Roleplay Tanpa Takut Salah)</span>
+              <p style="font-size:11.5px; color:#CBD5E1; margin-top:6px; line-height:1.45;">Banyak siswa takut ngomong bahasa Inggris karena malu diketawain teman. Dengan ChatGPT, kamu bisa latihan ngobrol santai kapan saja dan AI akan mengoreksi dengan sangat lembut!</p>
+            </div>
+            <div style="background:rgba(6,182,212,0.08); border:1px solid rgba(6,182,212,0.3); border-radius:8px; padding:12px;">
+              <span style="font-size:10.5px; font-weight:800; color:#38BDF8;">📖 METODE 2: Belajar Simple Past Tense (V2) Lewat Cerita Pendek</span>
+              <p style="font-size:11.5px; color:#CBD5E1; margin-top:6px; line-height:1.45;">Daripada ngafal tabel rumus yang kaku, minta ChatGPT membuatkan cerita mini 4 kalimat dengan kata kerja bentuk lampau (Verb 2) dan artinya.</p>
+            </div>
+          </div>
+
+          <!-- Template Prompt Bahasa Inggris -->
+          <div style="background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:8px; padding:12px; margin-bottom:14px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <span style="font-size:11.5px; font-weight:800; color:#fff;">📋 Prompt Emas Roleplay Bahasa Inggris:</span>
+              <button class="btn primary" style="font-size:10.5px; padding:3px 10px;" onclick="copyCasePrompt('english')">📋 Salin Prompt Bahasa Inggris</button>
+            </div>
+            <div id="promptCaseEnglishText" class="prompt-box" style="margin:0;">Berperanlah sebagai teman sebaya dari Australia yang ramah. Ajak saya mengobrol santai tentang hobi dan hewan peliharaan dalam bahasa Inggris sederhana level pemula siswa kelas 7 SMP. Jika ada kalimat saya yang salah tata bahasanya (grammar), tolong koreksi dengan lembut dan beri tahu contoh kalimat yang lebih natural!</div>
+          </div>
+
+          <!-- Mock Chat Simulation Bahasa Inggris -->
+          <div class="chat-window" style="margin-top:12px;">
+            <div class="chat-bubble chat-user">
+              Hello! Yesterday I go to beach with my family and I see big fish.
+            </div>
+            <div class="chat-bubble chat-ai">
+              <div class="chat-ai-header">🤖 ChatGPT (Friendly Native Pal):</div>
+              Hi there! That sounds awesome! Going to the beach is always so refreshing! 🌊<br><br>
+              💡 <em>Quick friendly grammar tip:</em><br>
+              Karena liburannya terjadi kemarin (<em>yesterday / masa lalu</em>), kita memakai <strong>Simple Past Tense (Verb 2)</strong> ya:<br>
+              • Kata <code>go</code> berubah menjadi <code>went</code><br>
+              • Kata <code>see</code> berubah menjadi <code>saw</code><br><br>
+              Jadi kalimat kerenmu menjadi: <strong>"Yesterday I went to the beach with my family and I saw a big fish."</strong><br><br>
+              Did you go swimming in the sea too, or did you just build sandcastles? (Apakah kamu berenang di laut juga, atau membuat istana pasir?)
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kuis Checkpoint Misi 02 -->
+      <div class="session-quiz">
+        <div class="session-quiz-header">
+          <span class="session-quiz-tag">🎯 Tantangan Misi 02</span>
+          <span style="font-size:11px; color:var(--yellow);">+30 XP</span>
+        </div>
+        <div class="quiz-q-title">Situasi manakah yang merupakan pemanfaatan AI yang paling tepat bagi seorang pelajar?</div>
+        <button class="quiz-opt-btn" onclick="checkSessionQuiz('sq2', this, false)">A. Meminta AI menulis seluruh makalah 5 halaman dari awal sampai akhir lalu langsung dikumpulkan ke guru tanpa dibaca.</button>
+        <button class="quiz-opt-btn" onclick="checkSessionQuiz('sq2', this, true)">B. Meminta AI memberi ide kerangka pembahasan tentang cara menghemat air, lalu memilih ide terbaik dan menuliskannya dengan kata-kata sendiri.</button>
+        <button class="quiz-opt-btn" onclick="checkSessionQuiz('sq2', this, false)">C. Meminta AI mengerjakan soal ujian online saat ujian berlangsung diam-diam.</button>
+        <div class="quiz-feedback-box" id="sq2_fb"></div>
+      </div>
+
+      <div class="page-bottom-nav">
+        <button class="btn secondary" onclick="switchPage(1)">⬅️ Kembali ke Misi 01</button>
+        <button class="btn primary" onclick="switchPage(3)">Lanjut ke Misi 03 (Asisten vs Nyontek) ➡️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════ MISI 03: ASISTEN BUKAN PENGGANTI ════════════ -->
+  <div class="mission-page" id="page3">
+    <div class="card-mission">
+      <div class="mission-hero-header">
+        <div class="mission-title-group">
+          <h2>Misi 03: AI sebagai Asisten Belajar, Bukan Pengganti Dirimu</h2>
+          <p>Membedakan antara siswa yang cerdas memanfaatkan teknologi dan siswa yang malas berpikir.</p>
+        </div>
+        <div class="mission-xp-badge">⭐ Reward: +100 XP</div>
+      </div>
+
+      <div class="notice-box">
+        <span class="notice-icon">🤝</span>
+        <div>
+          <strong>Analogi Guru Privat Cerdas:</strong>
+          <p>"Bayangkan kamu punya kakak pembimbing di rumah. Kakak itu boleh membantumu menjelaskan soal yang sulit dan memancing ide. Tapi kalau kamu menyuruh kakak itu mengerjakan PR-mu dan kamu tidur, siapa yang tambah pintar? Kakakmu, bukan kamu!"</p>
+        </div>
+      </div>
+
+      <!-- Studi Kasus Andi vs Budi -->
+      <div style="margin:20px 0;">
+        <h3 style="font-size:15px; font-weight:800; color:#fff; margin-bottom:12px;">⚖️ Bandingkan 2 Kebiasaan Siswa Ini:</h3>
+        <div class="grid-2">
+          <!-- Kasus Andi -->
+          <div style="background:rgba(16, 185, 129, 0.08); border:1.5px solid #10B981; border-radius:12px; padding:16px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <span style="font-size:11px; font-weight:900; color:#34D399; background:rgba(16,185,129,0.2); padding:2px 8px; border-radius:4px;">✅ SISWA A: ANDI (Bertanggung Jawab)</span>
+            </div>
+            <p style="font-size:12.5px; color:#E2E8F0; line-height:1.5; margin-bottom:10px;">
+              Andi mendapat tugas makalah tentang "Pengolahan Sampah". Andi meminta AI menjelaskan apa beda sampah organik dan anorganik. Andi membaca jawabannya, memverifikasi dengan buku paket IPA, lalu menyusun rangkuman tugas dengan kata-katanya sendiri.
+            </p>
+            <div style="font-size:11.5px; color:#A7F3D0; font-weight:700;">
+              🌟 Hasil: Andi paham materinya, nilai tugasnya jujur, dan siap saat ditanya guru di kelas!
+            </div>
+          </div>
+
+          <!-- Kasus Budi -->
+          <div style="background:rgba(239, 68, 68, 0.08); border:1.5px solid #EF4444; border-radius:12px; padding:16px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <span style="font-size:11px; font-weight:900; color:#F87171; background:rgba(239,68,68,0.2); padding:2px 8px; border-radius:4px;">❌ SISWA B: BUDI (Asal Copy-Paste)</span>
+            </div>
+            <p style="font-size:12.5px; color:#E2E8F0; line-height:1.5; margin-bottom:10px;">
+              Budi menyuruh AI: "Buatkan makalah 3 halaman tentang sampah." Begitu AI selesai menjawab, Budi langsung meng-copy seluruh teks, mem-paste di Word, dan mengumpulkannya tanpa dibaca sama sekali.
+            </p>
+            <div style="font-size:11.5px; color:#FCA5A5; font-weight:700;">
+              ⚠️ Dampak: Saat guru bertanya di kelas, Budi bengong dan tidak tahu apa isi tulisannya. Budi tidak bertambah pintar sama sekali.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kuis Checkpoint Misi 03 -->
+      <div class="session-quiz">
+        <div class="session-quiz-header">
+          <span class="session-quiz-tag">🎯 Tantangan Misi 03</span>
+          <span style="font-size:11px; color:var(--yellow);">+30 XP</span>
+        </div>
+        <div class="quiz-q-title">Mengapa sekadar menyalin seluruh teks AI tanpa memahaminya sangat merugikan diri sendiri?</div>
+        <button class="quiz-opt-btn" onclick="checkSessionQuiz('sq3', this, true)">A. Karena otak kita tidak belajar memproses informasi, dan jika ada data palsu atau salah dari AI, kita tidak mengetahuinya.</button>
+        <button class="quiz-opt-btn" onclick="checkSessionQuiz('sq3', this, false)">B. Karena AI akan marah jika tulisannya disalin manusia.</button>
+        <button class="quiz-opt-btn" onclick="checkSessionQuiz('sq3', this, false)">C. Karena listrik laptop akan lebih boros saat melakukan copy-paste.</button>
+        <div class="quiz-feedback-box" id="sq3_fb"></div>
+      </div>
+
+      <div class="page-bottom-nav">
+        <button class="btn secondary" onclick="switchPage(2)">⬅️ Kembali ke Misi 02</button>
+        <button class="btn primary" onclick="switchPage(4)">Lanjut ke Misi 04 (Kekuatan Prompt) ➡️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════ MISI 04: KEKUATAN PROMPT ════════════ -->
+  <div class="mission-page" id="page4">
+    <div class="card-mission">
+      <div class="mission-hero-header">
+        <div class="mission-title-group">
+          <h2>Misi 04: Apa Itu Prompt & Mengapa Kualitas Perintah Menentukan Hasil?</h2>
+          <p>Jika kamu memberi perintah yang samar, AI akan bingung. Perintah yang jelas menghasilkan jawaban bermutu!</p>
+        </div>
+        <div class="mission-xp-badge">⭐ Reward: +100 XP</div>
+      </div>
+
+      <div class="notice-box">
+        <span class="notice-icon">💬</span>
+        <div>
+          <strong>Apa itu Prompt?</strong>
+          <p><strong>Prompt</strong> adalah instruksi, pertanyaan, atau kalimat permintaan yang kamu ketikkan kepada AI agar AI melakukan sesuatu sesuai keinginanmu.</p>
+        </div>
+      </div>
+
+      <!-- Eksperimen Bandingkan 2 Prompt -->
+      <div style="margin:20px 0;">
+        <h3 style="font-size:15px; font-weight:800; color:#fff; margin-bottom:12px;">🔬 Eksperimen: Prompt Samar vs Prompt Jelas</h3>
+        <div class="grid-2">
+          <!-- Prompt A -->
+          <div style="background:var(--bg-surface); border:1.5px dashed #EF4444; border-radius:12px; padding:16px;">
+            <span style="font-size:10.5px; font-weight:900; color:#EF4444; text-transform:uppercase;">❌ PROMPT A (Terlalu Samar & Lemah)</span>
+            <div class="prompt-box" style="border-color:#EF4444; color:#FCA5A5; margin-top:8px;">
+              "Jelaskan belajar."
+            </div>
+            <p style="font-size:12px; color:var(--text-muted); margin-top:10px;">
+              <strong>Respon AI:</strong> Menghasilkan esai filosofis tentang teori belajar manusia dewasa, sangat panjang, membosankan, dan tidak menjawab kebutuhan tugas siswa.
+            </p>
+          </div>
+
+          <!-- Prompt B -->
+          <div style="background:var(--bg-surface); border:1.5px solid #10B981; border-radius:12px; padding:16px;">
+            <span style="font-size:10.5px; font-weight:900; color:#10B981; text-transform:uppercase;">✅ PROMPT B (Jelas, Terarah & Spesifik)</span>
+            <div class="prompt-box" style="border-color:#10B981; color:#A7F3D0; margin-top:8px;">
+              "Jelaskan tiga manfaat membuat jadwal belajar untuk siswa SMP kelas 7. Gunakan bahasa sederhana dan berikan contoh kegiatan sehari-hari."
+            </div>
+            <p style="font-size:12px; color:var(--text-muted); margin-top:10px;">
+              <strong>Respon AI:</strong> Menghasilkan 3 poin ringkas yang pas dengan kehidupan siswa kelas 7 (misal: bagi waktu belajar vs main game, tidak begadang).
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kuis Checkpoint Misi 04 -->
+      <div class="session-quiz">
+        <div class="session-quiz-header">
+          <span class="session-quiz-tag">🎯 Tantangan Misi 04</span>
+          <span style="font-size:11px; color:var(--yellow);">+30 XP</span>
+        </div>
+        <div class="quiz-q-title">Apa yang membuat Prompt B menghasilkan jawaban yang jauh lebih bagus dibanding Prompt A?</div>
+        <button class="quiz-opt-btn" onclick="checkSessionQuiz('sq4', this, true)">A. Karena Prompt B menyebutkan tugas spesifik (3 manfaat), target pembaca (siswa SMP kelas 7), dan gaya bahasa yang diinginkan.</button>
+        <button class="quiz-opt-btn" onclick="checkSessionQuiz('sq4', this, false)">B. Karena Prompt B diketik menggunakan huruf kapital semua.</button>
+        <button class="quiz-opt-btn" onclick="checkSessionQuiz('sq4', this, false)">C. Karena Prompt B menggunakan bahasa Inggris rahasia.</button>
+        <div class="quiz-feedback-box" id="sq4_fb"></div>
+      </div>
+
+      <div class="page-bottom-nav">
+        <button class="btn secondary" onclick="switchPage(3)">⬅️ Kembali ke Misi 03</button>
+        <button class="btn primary" onclick="switchPage(5)">Lanjut ke Misi 05 (Formula TKFB) ➡️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════ MISI 05: FORMULA PROMPT TKFB ════════════ -->
+  <div class="mission-page" id="page5">
+    <div class="card-mission">
+      <div class="mission-hero-header">
+        <div class="mission-title-group">
+          <h2>Misi 05: Formula Ajaib Prompt — T • K • F • B</h2>
+          <p>Rumus 4 pilar praktis untuk menyusun prompt berkualitas tinggi layaknya prompt engineer muda!</p>
+        </div>
+        <div class="mission-xp-badge">⭐ Reward: +100 XP</div>
+      </div>
+
+      <div class="notice-box">
+        <span class="notice-icon">🧩</span>
+        <div>
+          <strong>Rumus Mudah Diingat:</strong>
+          <p><strong>T</strong>ugas + <strong>K</strong>onteks + <strong>F</strong>ormat + <strong>B</strong>atasan = Prompt yang Tajam & Terarah!</p>
+        </div>
+      </div>
+
+      <!-- 4 Kartu Komponen TKFB (Bisa Diklik) -->
+      <div class="grid-2" style="margin:16px 0;">
+        <div class="box-info accent" onclick="inspectTkfb('T')" style="cursor:pointer;" id="tkfbCardT">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+            <span style="background:var(--purple); color:#fff; font-size:12px; font-weight:900; width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center;">T</span>
+            <strong style="font-size:14px; color:#fff;">TUGAS (Apa yang diminta?)</strong>
+          </div>
+          <div class="box-desc">Instruksi tindakan utama yang harus dikerjakan AI (misal: "Bantu saya mencari ide", "Jelaskan konsep").</div>
+        </div>
+
+        <div class="box-info" onclick="inspectTkfb('K')" style="cursor:pointer;" id="tkfbCardK">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+            <span style="background:var(--cyan); color:#083344; font-size:12px; font-weight:900; width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center;">K</span>
+            <strong style="font-size:14px; color:#fff;">KONTEKS (Untuk siapa & situasinya apa?)</strong>
+          </div>
+          <div class="box-desc">Informasi latar belakang agar AI tahu gaya penjelasannya (misal: "Topik ini untuk tugas siswa SMP kelas 7").</div>
+        </div>
+
+        <div class="box-info" onclick="inspectTkfb('F')" style="cursor:pointer;" id="tkfbCardF">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+            <span style="background:var(--yellow); color:#713F12; font-size:12px; font-weight:900; width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center;">F</span>
+            <strong style="font-size:14px; color:#fff;">FORMAT (Bentuk hasilnya seperti apa?)</strong>
+          </div>
+          <div class="box-desc">Tampilan output yang diinginkan (misal: "Sajikan dalam 5 poin", "Buat tabel perbandingan", "Kerangka 3 bagian").</div>
+        </div>
+
+        <div class="box-info" onclick="inspectTkfb('B')" style="cursor:pointer;" id="tkfbCardB">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+            <span style="background:var(--green); color:#064E3B; font-size:12px; font-weight:900; width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center;">B</span>
+            <strong style="font-size:14px; color:#fff;">BATASAN (Aturan apa yang harus dipatuhi?)</strong>
+          </div>
+          <div class="box-desc">Larangan atau batasan yang mencegah AI ngawur (misal: "Gunakan bahasa santai, jangan mengarang data penelitian fiktif").</div>
+        </div>
+      </div>
+
+      <!-- Panel Detail TKFB -->
+      <div id="tkfbDetailBox" style="background:var(--bg-surface); border:1px solid var(--purple); border-radius:var(--radius-sm); padding:14px 16px; font-size:13px; color:#DDD6FE; margin-bottom:20px;">
+        👉 Klik salah satu huruf <strong>T, K, F, atau B</strong> di atas untuk melihat bedah komponen dan tipsnya!
+      </div>
+
+      <!-- Contoh Prompt Lengkap TKFB Berwarna -->
+      <div style="background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:10px; padding:16px;">
+        <h4 style="font-size:13.5px; font-weight:800; color:#fff; margin-bottom:10px;">🎨 Contoh Prompt Lengkap dengan Warna Formula TKFB:</h4>
+        <div style="font-family:monospace; font-size:13px; line-height:1.7; background:var(--bg-body); padding:14px; border-radius:8px; border:1px solid var(--border);">
+          "<span style="color:#C084FC; font-weight:bold;">[Tugas] Bantu saya mencari ide kegiatan positif akhir pekan</span>,
+          <span style="color:#38BDF8; font-weight:bold;">[Konteks] untuk tugas siswa SMP kelas 7 di rumah</span>.
+          <span style="color:#FDE047; font-weight:bold;">[Format] Buatkan dalam 5 poin bernomor dengan penjelasan 1 kalimat</span>.
+          <span style="color:#4ADE80; font-weight:bold;">[Batasan] Gunakan bahasa santai dan kegiatan yang tidak memerlukan biaya mahal</span>."
+        </div>
+      </div>
+
+      <!-- Kuis Checkpoint Misi 05 -->
+      <div class="session-quiz">
+        <div class="session-quiz-header">
+          <span class="session-quiz-tag">🎯 Tantangan Misi 05</span>
+          <span style="font-size:11px; color:var(--yellow);">+30 XP</span>
+        </div>
+        <div class="quiz-q-title">Dalam formula TKFB, jika kamu menulis: "Sajikan jawaban dalam bentuk tabel 3 kolom", komponen apa yang sedang kamu tentukan?</div>
+        <button class="quiz-opt-btn" onclick="checkSessionQuiz('sq5', this, false)">A. Tugas (T)</button>
+        <button class="quiz-opt-btn" onclick="checkSessionQuiz('sq5', this, false)">B. Konteks (K)</button>
+        <button class="quiz-opt-btn" onclick="checkSessionQuiz('sq5', this, true)">C. Format (F)</button>
+        <button class="quiz-opt-btn" onclick="checkSessionQuiz('sq5', this, false)">D. Batasan (B)</button>
+        <div class="quiz-feedback-box" id="sq5_fb"></div>
+      </div>
+
+      <div class="page-bottom-nav">
+        <button class="btn secondary" onclick="switchPage(4)">⬅️ Kembali ke Misi 04</button>
+        <button class="btn primary" onclick="switchPage(6)">Lanjut ke Misi 06 (Prompt Lab) ➡️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════ MISI 06: PROMPT LAB & BUILDER ════════════ -->
+  <div class="mission-page" id="page6">
+    <div class="card-mission">
+      <div class="mission-hero-header">
+        <div class="mission-title-group">
+          <h2>Misi 06: Prompt Lab & Interactive Prompt Builder</h2>
+          <p>Latih kemampuan memperbaiki prompt dan gunakan generator interaktif untuk menyusun prompt siap pakai!</p>
+        </div>
+        <div class="mission-xp-badge">⭐ Reward: +100 XP</div>
+      </div>
+
+      <!-- Latihan Perbaiki Prompt (3 Skenario) -->
+      <div style="margin-bottom:24px;">
+        <h3 style="font-size:15px; font-weight:800; color:#fff; margin-bottom:12px;">🛠️ Bagian 1: Latihan Detektif Perbaiki Prompt</h3>
+
+        <!-- Latihan 1 -->
+        <div style="background:var(--bg-surface); border:1px solid var(--border); border-radius:10px; padding:14px; margin-bottom:12px;">
+          <div style="font-size:12.5px; color:#F87171; font-weight:800; margin-bottom:4px;">❌ Prompt Awal: "Buat tulisan."</div>
+          <div style="font-size:13px; color:#E2E8F0; margin-bottom:8px;">Pilih versi perbaikan yang paling baik untuk tugas membuat kerangka kebersihan kelas:</div>
+          <button class="quiz-opt-btn" onclick="checkPromptFix(1, false, this)">A. "Buat tulisan yang sangat panjang sekali."</button>
+          <button class="quiz-opt-btn" onclick="checkPromptFix(1, true, this)">B. "Bantu saya membuat kerangka tulisan tentang menjaga kebersihan kelas untuk siswa SMP kelas 7. Susun menjadi judul dan 3 bagian pembahasan dengan bahasa sederhana."</button>
+          <div id="pfix1_fb" style="font-size:11.5px; margin-top:6px; display:none;"></div>
+        </div>
+
+        <!-- Latihan 2 -->
+        <div style="background:var(--bg-surface); border:1px solid var(--border); border-radius:10px; padding:14px;">
+          <div style="font-size:12.5px; color:#F87171; font-weight:800; margin-bottom:4px;">❌ Prompt Awal: "Kasih ide hemat air."</div>
+          <div style="font-size:13px; color:#E2E8F0; margin-bottom:8px;">Pilih versi perbaikan yang menyertakan konteks dan format terukur:</div>
+          <button class="quiz-opt-btn" onclick="checkPromptFix(2, true, this)">A. "Berikan 5 ide praktis menghemat air di sekolah untuk siswa kelas 7 dalam bentuk poin bernomor. Sertakan contoh tindakan nyata yang bisa dilakukan saat wudhu atau cuci tangan."</button>
+          <button class="quiz-opt-btn" onclick="checkPromptFix(2, false, this)">B. "Kasih ide hemat air sebanyak-banyaknya ya."</button>
+          <div id="pfix2_fb" style="font-size:11.5px; margin-top:6px; display:none;"></div>
+        </div>
+      </div>
+
+      <!-- Bagian 2: Interactive Prompt Builder Tool -->
+      <div style="background:linear-gradient(135deg, rgba(27, 27, 37, 0.95), rgba(20, 20, 28, 0.98)); border:1.5px solid var(--purple); border-radius:var(--radius-lg); padding:20px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:20px;">⚡</span>
+            <h3 style="font-size:15px; font-weight:800; color:#fff;">Interactive Prompt Builder (Alat Perakit Prompt Otomatis)</h3>
+          </div>
+          <span style="font-size:11px; color:var(--cyan); font-weight:700;">Formula TKFB Langsung Jadi!</span>
+        </div>
+        <p style="font-size:12.5px; color:var(--text-muted); margin-bottom:14px;">
+          Pilih opsi di bawah, dan lihat bagaimana rumus TKFB otomatis menyusun prompt yang rapi di kotak output:
+        </p>
+
+        <div class="grid-2">
+          <div>
+            <label style="font-size:11.5px; font-weight:800; color:#A78BFA; display:block; margin-bottom:4px;">1. Pilih Topik Tugas:</label>
+            <select id="pbTopic" onchange="updatePromptBuilder()" style="width:100%; background:var(--bg-body); border:1px solid var(--border); border-radius:6px; color:#fff; padding:8px 10px; font-size:12.5px; outline:none;">
+              <option value="cara mengatur waktu belajar dan bermain">Cara Mengatur Waktu Belajar & Bermain</option>
+              <option value="tips menghemat listrik di rumah">Tips Menghemat Listrik di Rumah</option>
+              <option value="pentingnya sikap anti-bullying di sekolah">Pentingnya Sikap Anti-Bullying di Sekolah</option>
+              <option value="cara menjaga kesehatan mata saat belajar online">Menjaga Kesehatan Mata Saat Depan Layar</option>
+            </select>
+          </div>
+
+          <div>
+            <label style="font-size:11.5px; font-weight:800; color:#38BDF8; display:block; margin-bottom:4px;">2. Pilih Tugas Utama (T):</label>
+            <select id="pbTask" onchange="updatePromptBuilder()" style="width:100%; background:var(--bg-body); border:1px solid var(--border); border-radius:6px; color:#fff; padding:8px 10px; font-size:12.5px; outline:none;">
+              <option value="Bantu saya membuat kerangka tulisan">Bantu saya membuat kerangka tulisan</option>
+              <option value="Bantu saya mencari 5 ide kreatif">Bantu saya mencari 5 ide kreatif</option>
+              <option value="Jelaskan penjelasan materi dengan bahasa sederhana">Jelaskan materi dengan bahasa sederhana</option>
+            </select>
+          </div>
+
+          <div>
+            <label style="font-size:11.5px; font-weight:800; color:#FDE047; display:block; margin-bottom:4px;">3. Pilih Format Hasil (F):</label>
+            <select id="pbFormat" onchange="updatePromptBuilder()" style="width:100%; background:var(--bg-body); border:1px solid var(--border); border-radius:6px; color:#fff; padding:8px 10px; font-size:12.5px; outline:none;">
+              <option value="Susun dalam 3 bagian: Pendahuluan, Pembahasan, dan Kesimpulan">Kerangka 3 Bagian (Pendahuluan, Pembahasan, Kesimpulan)</option>
+              <option value="Buatkan dalam bentuk 5 poin bernomor singkat">5 Poin Bernomor Singkat</option>
+              <option value="Sajikan dalam format tabel perbandingan">Tabel Perbandingan Ringkas</option>
+            </select>
+          </div>
+
+          <div>
+            <label style="font-size:11.5px; font-weight:800; color:#4ADE80; display:block; margin-bottom:4px;">4. Pilih Batasan (B):</label>
+            <select id="pbConstraint" onchange="updatePromptBuilder()" style="width:100%; background:var(--bg-body); border:1px solid var(--border); border-radius:6px; color:#fff; padding:8px 10px; font-size:12.5px; outline:none;">
+              <option value="Gunakan bahasa sederhana untuk siswa SMP kelas 7 dan jangan membuat data palsu.">Bahasa SMP Kelas 7, jangan data palsu</option>
+              <option value="Maksimal 150 kata dan sertakan contoh kegiatan sehari-hari.">Maksimal 150 kata + contoh nyata</option>
+              <option value="Jangan menuliskan seluruh makalah, hanya berikan ide intinya saja.">Hanya ide inti, bukan makalah penuh</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Output Box Prompt Builder -->
+        <div style="margin-top:16px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <span style="font-size:12px; font-weight:800; color:#fff;">📋 Hasil Prompt Siap Pakai:</span>
+            <button class="btn primary" style="font-size:11px; padding:4px 12px;" onclick="copyPromptBuilderResult()">📋 Salin Prompt (Copy)</button>
+          </div>
+          <div id="pbOutputBox" class="prompt-box" style="white-space:pre-wrap; min-height:60px;">
+            Memuat prompt...
+          </div>
+        </div>
+      </div>
+
+      <div class="page-bottom-nav">
+        <button class="btn secondary" onclick="switchPage(5)">⬅️ Kembali ke Misi 05</button>
+        <button class="btn primary" onclick="switchPage(7)">Lanjut ke Misi 07 (Cek Jawaban & BACA) ➡️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════ MISI 07: CEK JAWABAN & METODE BACA ════════════ -->
+  <div class="mission-page" id="page7">
+    <div class="card-mission">
+      <div class="mission-hero-header">
+        <div class="mission-title-group">
+          <h2>Misi 07: Apakah Jawaban AI Selalu Benar? & Metode BACA</h2>
+          <p>Membongkar fenomena halusinasi AI dan 4 langkah cerdas memeriksa kebenaran informasi.</p>
+        </div>
+        <div class="mission-xp-badge">⭐ Reward: +100 XP</div>
+      </div>
+
+      <div class="notice-box">
+        <span class="notice-icon">🕵️</span>
+        <div>
+          <strong>Fakta Mengejutkan: AI Bisa Salah & Sok Tahu!</strong>
+          <p>"AI tidak memiliki mata untuk melihat dunia nyata. AI merangkai kata berdasarkan kemungkinan probabilitas kata berikutnya. Terkadang AI memberikan angka atau sumber buku yang tidak pernah ada (*AI Hallucination*) dengan bahasa yang terdengar sangat meyakinkan!"</p>
+        </div>
+      </div>
+
+      <!-- Trust It or Check It? -->
+      <div style="margin:20px 0;">
+        <h3 style="font-size:15px; font-weight:800; color:#fff; margin-bottom:12px;">🔍 Eksperimen: Trust It or Check It? (Langsung Percaya atau Cek Ulang?)</h3>
+        <div class="grid-2">
+          <!-- Klaim A -->
+          <div style="background:var(--bg-surface); border:1px solid var(--border); border-radius:12px; padding:16px;">
+            <div style="font-size:11px; font-weight:900; color:var(--cyan); margin-bottom:6px;">KASUS 1: KLAIM ANGKA EKSTREM</div>
+            <p style="font-size:12.5px; color:#E2E8F0; line-height:1.5; margin-bottom:10px;">
+              AI menyatakan: <em>"Semua siswa SMP kelas 7 wajib belajar tepat 8 jam setiap hari setelah pulang sekolah agar bisa berhasil."</em>
+            </p>
+            <div style="background:rgba(239,68,68,0.1); border-left:3px solid var(--red); padding:8px 10px; border-radius:4px; font-size:11.5px; color:#FCA5A5;">
+              ❌ <strong>Wajib Dicek Ulang!</strong> Belajar 8 jam setelah sekolah tidak realistis bagi anak SMP (kapan istirahat, tidur, dan makan?). Ini contoh saran AI yang tidak masuk akal.
+            </div>
+          </div>
+
+          <!-- Klaim B -->
+          <div style="background:var(--bg-surface); border:1px solid var(--border); border-radius:12px; padding:16px;">
+            <div style="font-size:11px; font-weight:900; color:var(--green); margin-bottom:6px;">KASUS 2: SARAN STRATEGI UMUM</div>
+            <p style="font-size:12.5px; color:#E2E8F0; line-height:1.5; margin-bottom:10px;">
+              AI menyarankan: <em>"Buat jadwal belajar harian, sisihkan waktu 15 menit istirahat, dan hindari menunda tugas PR."</em>
+            </p>
+            <div style="background:rgba(16,185,129,0.1); border-left:3px solid var(--green); padding:8px 10px; border-radius:4px; font-size:11.5px; color:#A7F3D0;">
+              ✅ <strong>Masuk Akal & Bermanfaat!</strong> Ini saran logis yang selaras dengan panduan guru dan orang tua, siap disesuaikan dengan rutinitasmu.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Metode BACA -->
+      <div style="background:var(--bg-surface); border:1.5px solid var(--purple); border-radius:var(--radius-lg); padding:20px; margin:20px 0;">
+        <h3 style="font-size:15px; font-weight:800; color:#fff; margin-bottom:6px;">🛡️ 4 Langkah Metode BACA untuk Siswa Kritis:</h3>
+        <p style="font-size:12.5px; color:var(--text-muted); margin-bottom:14px;">Gunakan metode ini setiap kali kamu menerima jawaban dari AI:</p>
+
+        <div class="grid-2">
+          <div class="box-info" style="border-left:4px solid var(--purple);">
+            <div style="font-size:13.5px; font-weight:900; color:#fff; margin-bottom:4px;">B — BACA Jawabannya</div>
+            <p style="font-size:12px; color:var(--text-muted);">Jangan asal klik tombol salin. Baca seluruh kalimat dari awal sampai akhir dengan saksama.</p>
+          </div>
+          <div class="box-info" style="border-left:4px solid var(--cyan);">
+            <div style="font-size:13.5px; font-weight:900; color:#fff; margin-bottom:4px;">A — AMATI Kesesuaiannya</div>
+            <p style="font-size:12px; color:var(--text-muted);">Apakah jawaban ini benar-benar nyambung dengan instruksi tugas yang diberikan guru?</p>
+          </div>
+          <div class="box-info" style="border-left:4px solid var(--yellow);">
+            <div style="font-size:13.5px; font-weight:900; color:#fff; margin-bottom:4px;">C — CEK Faktanya</div>
+            <p style="font-size:12px; color:var(--text-muted);">Bila ada angka statistik, nama pasal, atau tahun sejarah, cek di buku pelajaran atau tanya gurumu!</p>
+          </div>
+          <div class="box-info" style="border-left:4px solid var(--green);">
+            <div style="font-size:13.5px; font-weight:900; color:#fff; margin-bottom:4px;">A — ATUR dengan Bahasamu Sendiri</div>
+            <p style="font-size:12px; color:var(--text-muted);">Pilih poin yang bagus, lalu rangkai kembali menjadi tulisan menggunakan gayamu sendiri.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kuis Checkpoint Misi 07 -->
+      <div class="session-quiz">
+        <div class="session-quiz-header">
+          <span class="session-quiz-tag">🎯 Tantangan Misi 07</span>
+          <span style="font-size:11px; color:var(--yellow);">+30 XP</span>
+        </div>
+        <div class="quiz-q-title">Jika AI memberikan jawaban yang memuat data: "Menurut survei tahun 2026, 99.8% pohon di dunia menghasilkan emas", apa tindakan yang benar?</div>
+        <button class="quiz-opt-btn" onclick="checkSessionQuiz('sq7', this, false)">A. Langsung percaya dan menuliskannya di makalah karena AI sangat pintar.</button>
+        <button class="quiz-opt-btn" onclick="checkSessionQuiz('sq7', this, true)">B. Menerapkan langkah 'C' (Cek Faktanya) karena klaim tersebut tidak masuk akal dan kemungkinan besar adalah halusinasi data.</button>
+        <button class="quiz-opt-btn" onclick="checkSessionQuiz('sq7', this, false)">C. Menyalahkan laptop dan mematikannya seketika.</button>
+        <div class="quiz-feedback-box" id="sq7_fb"></div>
+      </div>
+
+      <div class="page-bottom-nav">
+        <button class="btn secondary" onclick="switchPage(6)">⬅️ Kembali ke Misi 06</button>
+        <button class="btn primary" onclick="switchPage(8)">Lanjut ke Misi 08 (Privasi & Aman) ➡️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════ MISI 08: PRIVASI & KEAMANAN DATA ════════════ -->
+  <div class="mission-page" id="page8">
+    <div class="card-mission">
+      <div class="mission-hero-header">
+        <div class="mission-title-group">
+          <h2>Misi 08: Privasi & Keamanan Data — Jaga Rahasiamu!</h2>
+          <p>Ketahui data penting apa saja yang HARAM hukumnya dibagikan ke dalam percakapan AI.</p>
+        </div>
+        <div class="mission-xp-badge">⭐ Reward: +100 XP</div>
+      </div>
+
+      <div class="notice-box">
+        <span class="notice-icon">🔒</span>
+        <div>
+          <strong>Aturan Emas Privasi Digital:</strong>
+          <p>Teks yang kamu masukkan ke AI disimpan di server cloud pengembang. Jangan pernah menganggap kolom chat AI seperti buku harian yang terkunci rapat!</p>
+        </div>
+      </div>
+
+      <!-- Daftar Data Terlarang -->
+      <div style="background:rgba(239, 68, 68, 0.08); border:1.5px solid rgba(239, 68, 68, 0.3); border-radius:var(--radius-md); padding:16px; margin:16px 0;">
+        <h4 style="font-size:14px; font-weight:800; color:#FCA5A5; margin-bottom:8px;">🚫 7 Informasi Pribadi yang Tidak Boleh Dibagikan ke AI:</h4>
+        <div class="grid-2" style="font-size:12.5px; color:#FECACA;">
+          <div>
+            1. 🔑 Password / Kata Sandi Akun apapun<br>
+            2. 📲 Kode OTP SMS / WhatsApp<br>
+            3. 🏠 Alamat Rumah Lengkap & Nomor RT/RW<br>
+            4. 📞 Nomor Telepon Pribadi & Orang Tua
+          </div>
+          <div>
+            5. 💳 Nomor Rekening Bank & Kartu Keluarga<br>
+            6. 🪪 Nomor Induk Siswa Nasional (NISN) rahasia<br>
+            7. 📸 Foto wajah orang lain tanpa izin
+          </div>
+        </div>
+      </div>
+
+      <!-- Mini Game: Safe or Unsafe Simulator -->
+      <div style="margin:20px 0;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+          <h3 style="font-size:15px; font-weight:800; color:#fff;">🛡️ Safe or Unsafe Simulator (Aman atau Berbahaya?)</h3>
+          <span style="font-size:11px; color:var(--yellow); font-weight:700;">+25 XP Tiap Tebakan Benar!</span>
+        </div>
+        <p style="font-size:12.5px; color:var(--text-muted); margin-bottom:12px;">Uji kepekaanmu terhadap keamanan data dengan memilih apakah perintah ini Aman atau Bahaya:</p>
+
+        <div class="grid-2">
+          <!-- Kasus 1 -->
+          <div style="background:var(--bg-surface); border:1px solid var(--border); border-radius:10px; padding:14px;">
+            <div style="font-size:12.5px; font-weight:800; color:#fff; margin-bottom:6px;">Kasus 1: "Bantu saya membuat jadwal belajar. Saya biasanya pulang sekolah pukul 15.00."</div>
+            <div style="display:flex; gap:8px; margin-top:8px;">
+              <button class="btn success" style="font-size:11.5px; padding:6px 12px;" onclick="checkPrivacyCase(1, true, this)">✅ AMAN</button>
+              <button class="btn" style="background:#EF4444; border-color:#EF4444; font-size:11.5px; padding:6px 12px;" onclick="checkPrivacyCase(1, false, this)">❌ BERBAHAYA</button>
+            </div>
+            <div id="privFb1" style="font-size:11.5px; margin-top:8px; display:none;"></div>
+          </div>
+
+          <!-- Kasus 2 -->
+          <div style="background:var(--bg-surface); border:1px solid var(--border); border-radius:10px; padding:14px;">
+            <div style="font-size:12.5px; font-weight:800; color:#fff; margin-bottom:6px;">Kasus 2: "Ini password akun Instagram saya: rahasia123. Tolong ingatkan saya kalau lupa."</div>
+            <div style="display:flex; gap:8px; margin-top:8px;">
+              <button class="btn success" style="font-size:11.5px; padding:6px 12px;" onclick="checkPrivacyCase(2, false, this)">✅ AMAN</button>
+              <button class="btn" style="background:#EF4444; border-color:#EF4444; font-size:11.5px; padding:6px 12px;" onclick="checkPrivacyCase(2, true, this)">❌ BERBAHAYA</button>
+            </div>
+            <div id="privFb2" style="font-size:11.5px; margin-top:8px; display:none;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kuis Checkpoint Misi 08 -->
+      <div class="session-quiz">
+        <div class="session-quiz-header">
+          <span class="session-quiz-tag">🎯 Tantangan Misi 08</span>
+          <span style="font-size:11px; color:var(--yellow);">+30 XP</span>
+        </div>
+        <div class="quiz-q-title">Jika ada aplikasi chatbot AI yang meminta kamu memasukkan alamat rumah lengkap dan nomor telepon untuk melanjutkan, apa yang harus kamu lakukan?</div>
+        <button class="quiz-opt-btn" onclick="checkSessionQuiz('sq8', this, true)">A. Jangan masukkan data tersebut dan tanyakan kepada guru atau orang tua terlebih dahulu.</button>
+        <button class="quiz-opt-btn" onclick="checkSessionQuiz('sq8', this, false)">B. Berikan saja karena AI pasti bisa menjaga rahasia.</button>
+        <button class="quiz-opt-btn" onclick="checkSessionQuiz('sq8', this, false)">C. Berikan nomor telepon teman sebangku.</button>
+        <div class="quiz-feedback-box" id="sq8_fb"></div>
+      </div>
+
+      <div class="page-bottom-nav">
+        <button class="btn secondary" onclick="switchPage(7)">⬅️ Kembali ke Misi 07</button>
+        <button class="btn primary" onclick="switchPage(9)">Lanjut ke Misi 09 (Etika di Sekolah) ➡️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════ MISI 09: ETIKA DI SEKOLAH ════════════ -->
+  <div class="mission-page" id="page9">
+    <div class="card-mission">
+      <div class="mission-hero-header">
+        <div class="mission-title-group">
+          <h2>Misi 09: 5 Aturan Emas Etika Menggunakan AI di Sekolah</h2>
+          <p>Jadilah siswa berintegritas tinggi: menggunakan AI untuk bertambah cerdas, bukan untuk menipu diri sendiri.</p>
+        </div>
+        <div class="mission-xp-badge">⭐ Reward: +100 XP</div>
+      </div>
+
+      <div class="notice-box">
+        <span class="notice-icon">⚖️</span>
+        <div>
+          <strong>Prinsip Utama:</strong>
+          <p>"AI bukan jalan pintas untuk menghindari belajar. AI adalah alat canggih yang membantu kita belajar dengan lebih baik!"</p>
+        </div>
+      </div>
+
+      <!-- 5 Aturan Emas -->
+      <div class="grid-3" style="margin:20px 0;">
+        <div class="box-info" style="border-top:3px solid var(--purple);">
+          <div style="font-size:13.5px; font-weight:800; color:#fff; margin-bottom:4px;">1. Bantuan Pemahaman</div>
+          <p style="font-size:12px; color:var(--text-muted);">Gunakan AI untuk memahami materi yang belum jelas di kelas atau mencari analogi sederhana.</p>
+        </div>
+        <div class="box-info" style="border-top:3px solid var(--cyan);">
+          <div style="font-size:13.5px; font-weight:800; color:#fff; margin-bottom:4px;">2. Jangan Asal Copy-Paste</div>
+          <p style="font-size:12px; color:var(--text-muted);">Pahami isi teksnya terlebih dahulu. Jangan pernah mengumpulkan tulisan yang kamu sendiri tidak mengerti artinya.</p>
+        </div>
+        <div class="box-info" style="border-top:3px solid var(--yellow);">
+          <div style="font-size:13.5px; font-weight:800; color:#fff; margin-bottom:4px;">3. Cek Fakta Penting</div>
+          <p style="font-size:12px; color:var(--text-muted);">Periksa angka, klaim ilmiah, dan tanggal sejarah dengan buku pelajaran atau bertanya kepada gurumu.</p>
+        </div>
+        <div class="box-info" style="border-top:3px solid var(--green);">
+          <div style="font-size:13.5px; font-weight:800; color:#fff; margin-bottom:4px;">4. Gunakan Bahasa Sendiri</div>
+          <p style="font-size:12px; color:var(--text-muted);">Ambil intisari idenya, lalu rumuskan kembali menjadi kalimat orisinal dengan gaya tulisanmu.</p>
+        </div>
+        <div class="box-info" style="border-top:3px solid var(--violet);">
+          <div style="font-size:13.5px; font-weight:800; color:#fff; margin-bottom:4px;">5. Patuhi Aturan Guru</div>
+          <p style="font-size:12px; color:var(--text-muted);">Jika guru meminta tugas dibuat murni tanpa bantuan AI, patuhi dengan jujur dan penuh tanggung jawab.</p>
+        </div>
+      </div>
+
+      <!-- Kuis Checkpoint Misi 09 -->
+      <div class="session-quiz">
+        <div class="session-quiz-header">
+          <span class="session-quiz-tag">🎯 Tantangan Misi 09</span>
+          <span style="font-size:11px; color:var(--yellow);">+30 XP</span>
+        </div>
+        <div class="quiz-q-title">Guru Bahasa Indonesia meminta: "Tuliskan kesimpulan pendapatmu sendiri tentang pentingnya membaca buku". Bagaimana etika penggunaan AI yang benar?</div>
+        <button class="quiz-opt-btn" onclick="checkSessionQuiz('sq9', this, false)">A. Menyuruh AI menulis kesimpulan lalu mengumpulkannya langsung seolah-olah itu pendapat pribadi.</button>
+        <button class="quiz-opt-btn" onclick="checkSessionQuiz('sq9', this, true)">B. Boleh berdiskusi dengan AI untuk mencari sudut pandang, tetapi kalimat kesimpulan akhir harus dirumuskan dari pemikiran dan pemahaman sendiri.</button>
+        <button class="quiz-opt-btn" onclick="checkSessionQuiz('sq9', this, false)">C. Menyalin kesimpulan dari artikel internet tanpa membaca.</button>
+        <div class="quiz-feedback-box" id="sq9_fb"></div>
+      </div>
+
+      <div class="page-bottom-nav">
+        <button class="btn secondary" onclick="switchPage(8)">⬅️ Kembali ke Misi 08</button>
+        <button class="btn primary" onclick="switchPage(10)">Lanjut ke Misi 10 (Mini Project) ➡️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════ MISI 10: MINI PROJECT ════════════ -->
+  <div class="mission-page" id="page10">
+    <div class="card-mission">
+      <div class="mission-hero-header">
+        <div class="mission-title-group">
+          <h2>Misi 10: Mini Project — AI Study Assistant: Kerangka Makalah P11</h2>
+          <p>Persiapan nyata untuk Pertemuan 11: Menyusun kerangka makalah terstruktur dengan bantuan AI!</p>
+        </div>
+        <div class="mission-xp-badge">⭐ Reward: +150 XP</div>
+      </div>
+
+      <div class="notice-box">
+        <span class="notice-icon">🚀</span>
+        <div>
+          <strong>Skenario Project:</strong>
+          <p>Di Pertemuan 11 mendatang, kamu akan menulis makalah sederhana bertema: <strong>"Cara Mengatur Waktu Belajar dan Bermain bagi Siswa SMP"</strong>. Hari ini di P10, gunakan AI untuk membantumu menyusun <strong>kerangka (outline)</strong> yang kokoh!</p>
+        </div>
+      </div>
+
+      <!-- Langkah 1 & 2: Template Prompt -->
+      <div style="background:var(--bg-surface); border:1px solid var(--border); border-radius:12px; padding:18px; margin-bottom:16px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:8px;">
+          <h4 style="font-size:14px; font-weight:800; color:#fff;">📌 Langkah 1 & 2: Gunakan Template Prompt Standar Ini</h4>
+          <button class="btn primary" style="font-size:11px; padding:4px 12px;" onclick="copyProjectPrompt()">📋 Salin Prompt Project</button>
+        </div>
+        <div id="projectPromptText" class="prompt-box">Bantu saya membuat kerangka makalah tentang cara mengatur waktu belajar dan bermain bagi siswa SMP kelas 7.
+
+Susun dalam tiga bagian:
+1. Pendahuluan
+2. Pembahasan
+3. Kesimpulan
+
+Berikan dua ide untuk bagian pembahasan. Gunakan bahasa sederhana. Jangan membuat data penelitian dan jangan menulis seluruh makalah untuk saya.</div>
+      </div>
+
+      <!-- Langkah 3: Simulasi Respon AI Realistis -->
+      <div style="background:var(--bg-surface); border:1px solid var(--border); border-radius:12px; padding:18px; margin-bottom:16px;">
+        <h4 style="font-size:14px; font-weight:800; color:#fff; margin-bottom:4px;">💬 Langkah 3: Simulasi Respon Asisten AI (Contoh Terstruktur)</h4>
+        <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Berikut adalah simulasi jawaban AI berkualitas tinggi yang dihasilkan dari prompt di atas:</p>
+
+        <div class="chat-window">
+          <div class="chat-bubble chat-user">
+            Bantu saya membuat kerangka makalah tentang cara mengatur waktu belajar dan bermain bagi siswa SMP kelas 7...
+          </div>
+          <div class="chat-bubble chat-ai">
+            <div class="chat-ai-header">🤖 AI Study Assistant:</div>
+            Halo! Ini usulan kerangka makalah yang rapi untukmu:<br><br>
+            <strong>I. PENDAHULUAN</strong><br>
+            • Latar belakang: Mengapa siswa kelas 7 sering keasyikan main HP sampai lupa tugas sekolah.<br>
+            • Tujuan: Mengetahui cara membagi waktu agar nilai tetap bagus dan tetap bisa bermain.<br><br>
+            <strong>II. PEMBAHASAN</strong><br>
+            • Ide 1: <em>Membuat Jadwal Harian Realistis</em> (misal: 16.00-17.30 belajar, 17.30-18.30 main game santai).<br>
+            • Ide 2: <em>Aturan Belajar Fokus 25 Menit</em> (teknik konsentrasi tanpa diganggu notifikasi HP).<br><br>
+            <strong>III. KESIMPULAN</strong><br>
+            • Mengatur waktu bukan berarti melarang bermain, melainkan membuat waktu bermain terasa lebih tenang karena tugas sudah selesai.
+          </div>
+        </div>
+      </div>
+
+      <!-- Langkah 4 & 5: Olah Ide dengan Bahasa Sendiri -->
+      <div style="background:linear-gradient(135deg, rgba(27, 27, 37, 0.95), rgba(20, 20, 28, 0.98)); border:1.5px solid #10B981; border-radius:12px; padding:18px; margin-bottom:16px;">
+        <h4 style="font-size:14px; font-weight:800; color:#34D399; margin-bottom:6px;">✍️ Langkah 4 & 5: Pilih Ide & Rumuskan dengan Bahasamu Sendiri!</h4>
+        <p style="font-size:12.5px; color:#E2E8F0; margin-bottom:12px;">
+          Tuliskan 1 atau 2 kalimat kesimpulan intimu sendiri berdasarkan kerangka di atas (ini akan otomatis tersimpan di catatan tugasmu):
+        </p>
+        <textarea id="myOwnWordsInput" rows="3" placeholder="Contoh: Menurut saya, membuat jadwal harian membantu saya tahu kapan harus belajar dan kapan bisa santai main game tanpa rasa bersalah..." style="width:100%; background:var(--bg-body); border:1px solid var(--border); border-radius:8px; color:#fff; padding:10px 12px; font-size:13px; font-family:var(--font-sans); outline:none; margin-bottom:10px;" oninput="saveMyOwnWords(this.value)"></textarea>
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <span style="font-size:11.5px; color:var(--green); font-weight:700;" id="saveWordsStatus">✓ Tersimpan otomatis</span>
+          <button class="btn success" style="font-size:11px; padding:5px 14px;" onclick="confirmSaveWords()">💾 Simpan Kalimat Sendiri (+50 XP)</button>
+        </div>
+      </div>
+
+      <!-- Checklist Project -->
+      <div style="margin-top:20px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <h4 style="font-size:14px; font-weight:800; color:#fff;">📋 Checklist Kesiapan Kerangka Makalah P11:</h4>
+          <span style="font-size:11.5px; color:var(--yellow); font-weight:800;"><span id="p10CheckDoneCount">0</span> / 4 Selesai</span>
+        </div>
+        <div class="check-item" onclick="toggleP10Check(0)">
+          <div class="check-box-icon" id="chkP10_0"></div>
+          <div><strong>1. Membaca Kerangka AI</strong>: Membaca bagian Pendahuluan, Pembahasan, dan Kesimpulan.</div>
+        </div>
+        <div class="check-item" onclick="toggleP10Check(1)">
+          <div class="check-box-icon" id="chkP10_1"></div>
+          <div><strong>2. Memilih Ide Realistis</strong>: Menandai ide jadwal harian dan fokus 25 menit yang cocok untuk anak kelas 7.</div>
+        </div>
+        <div class="check-item" onclick="toggleP10Check(2)">
+          <div class="check-box-icon" id="chkP10_2"></div>
+          <div><strong>3. Merumuskan Bahasa Sendiri</strong>: Sudah mengetik kalimat hasil olahan sendiri di kotak atas.</div>
+        </div>
+        <div class="check-item" onclick="toggleP10Check(3)">
+          <div class="check-box-icon" id="chkP10_3"></div>
+          <div><strong>4. Siap untuk Pertemuan 11</strong>: Kerangka tulisan siap dikembangkan menjadi makalah utuh di P11.</div>
+        </div>
+      </div>
+
+      <div class="page-bottom-nav">
+        <button class="btn secondary" onclick="switchPage(9)">⬅️ Kembali ke Misi 09</button>
+        <button class="btn primary" onclick="switchPage(11)">Lanjut ke Misi 11 (Final Challenge & Cert) 🏆</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════ MISI 11: FINAL CHALLENGE & SERTIFIKAT ════════════ -->
+  <div class="mission-page" id="page11">
+    <div class="card-mission">
+      <div class="mission-hero-header">
+        <div class="mission-title-group">
+          <h2>Misi 11: Final Challenge Arena & Sertifikat Resmi P10</h2>
+          <p>Selesaikan 7 tantangan komprehensif untuk membuka Sertifikat Kelulusan "AI Smart User"!</p>
+        </div>
+        <div class="mission-xp-badge">⭐ Reward: +150 XP</div>
+      </div>
+
+      <!-- Quiz Arena HUD -->
+      <div class="quiz-arena-wrap" id="quizArenaContainer">
+        <div class="quiz-arena-hud">
+          <div class="quiz-hud-title">
+            <span class="quiz-hud-badge">⚔️ FINAL QUIZ ARENA</span>
+            <strong style="color:#fff; font-size:13.5px;" id="arenaStageIndicator">Tantangan 1 dari 7: Definisi & Hakikat AI</strong>
+          </div>
+          <div class="quiz-stepper-dots">
+            <div class="quiz-dot-item active" id="qDot1" onclick="jumpQuizStage(1)">1</div>
+            <div class="quiz-dot-item" id="qDot2" onclick="jumpQuizStage(2)">2</div>
+            <div class="quiz-dot-item" id="qDot3" onclick="jumpQuizStage(3)">3</div>
+            <div class="quiz-dot-item" id="qDot4" onclick="jumpQuizStage(4)">4</div>
+            <div class="quiz-dot-item" id="qDot5" onclick="jumpQuizStage(5)">5</div>
+            <div class="quiz-dot-item" id="qDot6" onclick="jumpQuizStage(6)">6</div>
+            <div class="quiz-dot-item" id="qDot7" onclick="jumpQuizStage(7)">7</div>
+          </div>
+        </div>
+
+        <!-- Soal 1 -->
+        <div class="quiz-card-stage active-stage" id="qStage1">
+          <div class="quiz-q-title">1. Apa arti Artificial Intelligence (AI) yang paling tepat untuk seorang pelajar?</div>
+          <div class="quiz-option-card" onclick="submitArenaAnswer(1, this, false)"><span class="quiz-opt-letter">A</span><span class="quiz-opt-text">Robot hidup yang memiliki perasaan dan tahu semua masa depan.</span></div>
+          <div class="quiz-option-card" onclick="submitArenaAnswer(1, this, true)"><span class="quiz-opt-letter">B</span><span class="quiz-opt-text">Teknologi komputer yang dilatih mengenali pola, memahami bahasa, dan membantu tugas tertentu.</span></div>
+          <div class="quiz-option-card" onclick="submitArenaAnswer(1, this, false)"><span class="quiz-opt-letter">C</span><span class="quiz-opt-text">Aplikasi kalkulator biasa yang dipasang di proyektor kelas.</span></div>
+          <div class="quiz-explanation-banner" id="qExpl1"></div>
+        </div>
+
+        <!-- Soal 2 -->
+        <div class="quiz-card-stage" id="qStage2">
+          <div class="quiz-q-title">2. Mengapa prompt yang jelas sangat penting saat berinteraksi dengan AI?</div>
+          <div class="quiz-option-card" onclick="submitArenaAnswer(2, this, true)"><span class="quiz-opt-letter">A</span><span class="quiz-opt-text">Karena AI membutuhkan instruksi spesifik (konteks, tugas, format) agar menghasilkan jawaban yang sesuai kebutuhan.</span></div>
+          <div class="quiz-option-card" onclick="submitArenaAnswer(2, this, false)"><span class="quiz-opt-letter">B</span><span class="quiz-opt-text">Karena jika prompt terlalu jelas, AI akan menolak menjawab.</span></div>
+          <div class="quiz-option-card" onclick="submitArenaAnswer(2, this, false)"><span class="quiz-opt-letter">C</span><span class="quiz-opt-text">Agar kuota internet yang digunakan lebih sedikit.</span></div>
+          <div class="quiz-explanation-banner" id="qExpl2"></div>
+        </div>
+
+        <!-- Soal 3 -->
+        <div class="quiz-card-stage" id="qStage3">
+          <div class="quiz-q-title">3. Manakah kepanjangan dari formula praktis TKFB?</div>
+          <div class="quiz-option-card" onclick="submitArenaAnswer(3, this, false)"><span class="quiz-opt-letter">A</span><span class="quiz-opt-text">Tulis, Ketik, Foto, Bagikan</span></div>
+          <div class="quiz-option-card" onclick="submitArenaAnswer(3, this, true)"><span class="quiz-opt-letter">B</span><span class="quiz-opt-text">Tugas, Konteks, Format, Batasan</span></div>
+          <div class="quiz-option-card" onclick="submitArenaAnswer(3, this, false)"><span class="quiz-opt-letter">C</span><span class="quiz-opt-text">Tanya, Koreksi, Filter, Balas</span></div>
+          <div class="quiz-explanation-banner" id="qExpl3"></div>
+        </div>
+
+        <!-- Soal 4 -->
+        <div class="quiz-card-stage" id="qStage4">
+          <div class="quiz-q-title">4. Apa yang dimaksud dengan fenomena Halusinasi AI (AI Hallucination)?</div>
+          <div class="quiz-option-card" onclick="submitArenaAnswer(4, this, false)"><span class="quiz-opt-letter">A</span><span class="quiz-opt-text">AI tertidur karena baterai laptop habis.</span></div>
+          <div class="quiz-option-card" onclick="submitArenaAnswer(4, this, true)"><span class="quiz-opt-letter">B</span><span class="quiz-opt-text">AI memberikan informasi atau data palsu yang tidak nyata namun disajikan dengan bahasa meyakinkan.</span></div>
+          <div class="quiz-option-card" onclick="submitArenaAnswer(4, this, false)"><span class="quiz-opt-letter">C</span><span class="quiz-opt-text">AI bisa melihat hantu di dalam kamera.</span></div>
+          <div class="quiz-explanation-banner" id="qExpl4"></div>
+        </div>
+
+        <!-- Soal 5 -->
+        <div class="quiz-card-stage" id="qStage5">
+          <div class="quiz-q-title">5. Huruf 'C' dalam metode BACA memiliki arti apa?</div>
+          <div class="quiz-option-card" onclick="submitArenaAnswer(5, this, true)"><span class="quiz-opt-letter">A</span><span class="quiz-opt-text">Cek Faktanya (periksa data penting dengan buku teks atau tanya guru)</span></div>
+          <div class="quiz-option-card" onclick="submitArenaAnswer(5, this, false)"><span class="quiz-opt-letter">B</span><span class="quiz-opt-text">Copy Langsung seluruh teks ke lembar Word</span></div>
+          <div class="quiz-option-card" onclick="submitArenaAnswer(5, this, false)"><span class="quiz-opt-letter">C</span><span class="quiz-opt-text">Cari Gambar lucu di Canva</span></div>
+          <div class="quiz-explanation-banner" id="qExpl5"></div>
+        </div>
+
+        <!-- Soal 6 -->
+        <div class="quiz-card-stage" id="qStage6">
+          <div class="quiz-q-title">6. Informasi mana yang HARAM dibagikan saat berinteraksi dengan AI?</div>
+          <div class="quiz-option-card" onclick="submitArenaAnswer(6, this, false)"><span class="quiz-opt-letter">A</span><span class="quiz-opt-text">Topik tugas sekolah tentang menghemat listrik.</span></div>
+          <div class="quiz-option-card" onclick="submitArenaAnswer(6, this, true)"><span class="quiz-opt-letter">B</span><span class="quiz-opt-text">Password akun pribadi, kode OTP, dan alamat rumah lengkap.</span></div>
+          <div class="quiz-option-card" onclick="submitArenaAnswer(6, this, false)"><span class="quiz-opt-letter">C</span><span class="quiz-opt-text">Pertanyaan tentang rumus luas segitiga.</span></div>
+          <div class="quiz-explanation-banner" id="qExpl6"></div>
+        </div>
+
+        <!-- Soal 7 -->
+        <div class="quiz-card-stage" id="qStage7">
+          <div class="quiz-q-title">7. Bagaimana cara terbaik menggunakan AI untuk tugas sekolah?</div>
+          <div class="quiz-option-card" onclick="submitArenaAnswer(7, this, false)"><span class="quiz-opt-letter">A</span><span class="quiz-opt-text">Menyuruh AI mengerjakan seluruh tugas agar kita bisa bermain game seharian.</span></div>
+          <div class="quiz-option-card" onclick="submitArenaAnswer(7, this, true)"><span class="quiz-opt-letter">B</span><span class="quiz-opt-text">Memakai AI sebagai asisten pencari ide & kerangka, memeriksa kebenarannya, lalu menulis dengan pemahaman sendiri.</span></div>
+          <div class="quiz-option-card" onclick="submitArenaAnswer(7, this, false)"><span class="quiz-opt-letter">C</span><span class="quiz-opt-text">Menyalin tugas teman tanpa bantuan AI.</span></div>
+          <div class="quiz-explanation-banner" id="qExpl7"></div>
+        </div>
+
+        <!-- Victory Card -->
+        <div id="quizVictoryCard" style="display:none; text-align:center; padding:24px 16px;">
+          <div style="font-size:48px; margin-bottom:8px;">🏆✨</div>
+          <h3 style="font-size:20px; font-weight:900; color:#fff; margin-bottom:6px;">Luar Biasa! Final Quiz Selesai!</h3>
+          <p style="font-size:13px; color:var(--text-muted); max-width:480px; margin:0 auto 16px;">
+            Kamu berhasil menyelesaikan seluruh tantangan Pertemuan 10 dengan skor sempurna <span style="color:var(--yellow); font-weight:800;" id="finalScoreVal">7</span> / 7!
+          </p>
+          <button class="btn success" onclick="scrollToCert()">📜 Buka Sertifikat Kelulusan Resmi P10 ↓</button>
+        </div>
+      </div>
+
+      <!-- Sertifikat Resmi Kelulusan P10 -->
+      <div style="margin-top:40px;" id="certSectionAnchor">
+        <div class="cert-wrapper" id="certArea">
+          <div style="font-size:11px; font-weight:900; color:var(--yellow); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:4px;">
+            SERTIFIKAT RESMI KELULUSAN
+          </div>
+          <h3 style="font-size:20px; font-weight:900; color:#fff; margin-bottom:10px;">
+            AI SMART USER & DIGITAL PRODUCTIVITY
+          </h3>
+          <p style="font-size:12px; color:var(--text-muted);">Diberikan dengan bangga kepada:</p>
+          <div class="cert-name-text" id="certNameSlot">Siswa Kelas 7</div>
+          <p class="cert-p">
+            Telah menyelesaikan seluruh misi <strong>Kenal Komputer Pertemuan 10</strong> dengan pemahaman istimewa dalam <em>Dasar Artificial Intelligence, Formula Prompt TKFB, Metode BACA, Perlindungan Privasi Data, dan Penyusunan Kerangka Tulisan Produktif</em>.
+          </p>
+          <div class="cert-stamps">
+            <span class="cert-stamp-badge">🤖 AI LITERATE</span>
+            <span class="cert-stamp-badge">🧩 TKFB MASTER</span>
+            <span class="cert-stamp-badge">🛡️ PRIVACY SAFE</span>
+            <span class="cert-stamp-badge">⚖️ ETHICAL USER</span>
+          </div>
+          <div style="margin-top:20px; font-size:11px; color:var(--text-dim);">
+            Kenal Komputer — Ruang Belajarmu • <span id="certDateSlot">Oktober 2026</span>
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:center; gap:12px; margin-top:16px; flex-wrap:wrap;">
+          <button class="btn primary" onclick="window.print()">🖨️ Cetak / Simpan PDF Sertifikat</button>
+          <button class="btn secondary" onclick="switchPage(1)">🔄 Ulangi Materi dari Misi 01</button>
+        </div>
+      </div>
+
+      <!-- Halaman Jurnal Refleksi 3-2-1 -->
+      <div style="margin-top:34px; background:linear-gradient(135deg, rgba(27, 27, 37, 0.9), rgba(20, 20, 28, 0.98)); border:1.5px solid var(--purple); border-radius:var(--radius-lg); padding:22px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+          <div>
+            <span style="background:var(--purple); color:#fff; font-size:10px; font-weight:900; padding:3px 8px; border-radius:4px; text-transform:uppercase;">💭 JURNAL REFLEKSI LEVEL 10</span>
+            <h3 style="font-size:16px; font-weight:800; color:#fff; margin-top:4px;">Refleksi Pengalaman Belajar: Sensasi Berpikir Kritis Bersama AI</h3>
+          </div>
+          <span style="font-size:11px; color:var(--yellow); font-weight:800;">+75 XP</span>
+        </div>
+
+        <div style="margin-bottom:12px;">
+          <label style="font-size:12px; font-weight:800; color:#E2E8F0; display:block; margin-bottom:4px;">1. Dari materi AI, prompt TKFB, dan metode BACA, bagian mana yang paling membuka wawasanmu?</label>
+          <input type="text" id="refQ1" placeholder="Contoh: Saya baru tahu kalau AI bisa mengarang data palsu, jadi metode BACA sangat penting..." style="width:100%; background:var(--bg-body); border:1px solid var(--border); border-radius:6px; color:#fff; padding:8px 10px; font-size:12.5px; outline:none;">
+        </div>
+
+        <div style="margin-bottom:12px;">
+          <label style="font-size:12px; font-weight:800; color:#E2E8F0; display:block; margin-bottom:4px;">2. Apa hal yang paling menantang bagimu saat menyusun prompt?</label>
+          <input type="text" id="refQ2" placeholder="Contoh: Menentukan batasan (B) agar jawaban AI tidak terlalu panjang..." style="width:100%; background:var(--bg-body); border:1px solid var(--border); border-radius:6px; color:#fff; padding:8px 10px; font-size:12.5px; outline:none;">
+        </div>
+
+        <div style="margin-bottom:14px;">
+          <label style="font-size:12px; font-weight:800; color:#E2E8F0; display:block; margin-bottom:4px;">3. Nilai rasa percaya dirimu menggunakan AI secara bijak sekarang: (1 - 5)</label>
+          <div style="display:flex; align-items:center; gap:12px;">
+            <span style="font-size:14px;">😟 1</span>
+            <input type="range" id="refSlider" min="1" max="5" value="5" oninput="updateRefSlider(this.value)" style="flex:1; accent-color:var(--purple);">
+            <span style="font-size:14px; font-weight:800; color:var(--yellow);" id="sliderValDisplay">5 👑 👑</span>
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <span style="font-size:11.5px; color:var(--green); font-weight:700;" id="refSaveStatus"></span>
+          <button class="btn success" onclick="saveReflection()">💾 Simpan Jurnal Refleksi (+75 XP)</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<!-- Confetti Canvas -->
+<canvas id="confettiCanvas" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:9999; display:none;"></canvas>
+
+<!-- Toast Notification -->
+<div class="toast-notice" id="toastNotice">Teks berhasil disalin ke clipboard!</div>
+
+<script>
+// Web Audio API Synthesis
+let audioCtx = null;
+let isAudioMuted = false;
+
+function initAudio() {
+  if (!audioCtx && typeof window !== 'undefined') {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (AudioContextClass) audioCtx = new AudioContextClass();
+  }
+}
+
+function playSfx(type) {
+  if (isAudioMuted) return;
+  initAudio();
+  if (!audioCtx) return;
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+
+  const now = audioCtx.currentTime;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+
+  if (type === 'click') {
+    osc.frequency.setValueAtTime(600, now);
+    osc.frequency.exponentialRampToValueAtTime(800, now + 0.05);
+    gain.gain.setValueAtTime(0.08, now);
+    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+    osc.start(now);
+    osc.stop(now + 0.05);
+  } else if (type === 'correct') {
+    osc.frequency.setValueAtTime(523.25, now);
+    osc.frequency.setValueAtTime(659.25, now + 0.08);
+    osc.frequency.setValueAtTime(783.99, now + 0.16);
+    gain.gain.setValueAtTime(0.12, now);
+    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.28);
+    osc.start(now);
+    osc.stop(now + 0.28);
+  } else if (type === 'wrong') {
+    osc.frequency.setValueAtTime(320, now);
+    osc.frequency.setValueAtTime(240, now + 0.1);
+    gain.gain.setValueAtTime(0.12, now);
+    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.22);
+    osc.start(now);
+    osc.stop(now + 0.22);
+  } else if (type === 'fanfare') {
+    const notes = [523.25, 659.25, 783.99, 1046.50];
+    notes.forEach((freq, idx) => {
+      const o = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      o.connect(g);
+      g.connect(audioCtx.destination);
+      o.frequency.value = freq;
+      g.gain.setValueAtTime(0.12, now + idx * 0.1);
+      g.gain.exponentialRampToValueAtTime(0.01, now + idx * 0.1 + 0.25);
+      o.start(now + idx * 0.1);
+      o.stop(now + idx * 0.1 + 0.25);
+    });
+  }
+}
+
+function toggleSound() {
+  isAudioMuted = !isAudioMuted;
+  const btn = document.getElementById('soundToggleBtn');
+  btn.textContent = isAudioMuted ? '🔇' : '🔊';
+  btn.title = isAudioMuted ? 'Suara Dinonaktifkan' : 'Suara Aktif';
+  showToast(isAudioMuted ? 'Suara dinonaktifkan' : 'Suara diaktifkan');
+}
+
+// State Management
+const gameState = {
+  xp: 0,
+  studentName: "Siswa Kelas 7",
+  selectedClass: "7A",
+  avatarIndex: 0,
+  missionsDone: {},
+  p10Checklist: [false, false, false, false],
+  myOwnWords: "",
+  reflectionSaved: false
+};
+
+const avatars = ["🤖", "🧠", "⚡", "🔍", "🚀", "🛡️"];
+const missionTitles = [
+  "",
+  "Apa Itu AI? — Kenalan dengan Asisten Digital",
+  "Kemampuan AI — Yang Bisa & Belum Bisa Dilakukan",
+  "Asisten vs Nyontek — Tanggung Jawab Siswa Cerdas",
+  "Kekuatan Prompt — Perintah Jelas vs Samar",
+  "Formula TKFB — Tugas, Konteks, Format, Batasan",
+  "Prompt Lab & Builder — Perakit Perintah Otomatis",
+  "Cek Jawaban & Metode BACA — Membongkar Halusinasi",
+  "Privasi & Keamanan Data — Safe or Unsafe?",
+  "Etika di Sekolah — 5 Aturan Emas Pelajar",
+  "Mini Project — Kerangka Makalah P11",
+  "Final Challenge & Sertifikat Kelulusan Resmi 🏆"
+];
+
+function loadProgress() {
+  try {
+    const saved = localStorage.getItem('quest_p10_state');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      Object.assign(gameState, parsed);
+    }
+  } catch (e) {}
+
+  document.getElementById('xpDisplay').textContent = gameState.xp;
+  document.getElementById('studentNameInput').value = gameState.studentName;
+  document.getElementById('m1NameInput').value = gameState.studentName;
+  document.getElementById('certNameSlot').textContent = gameState.studentName;
+  document.getElementById('m1ClassSelect').value = gameState.selectedClass || "7A";
+  document.getElementById('avatarDisplayBtn').textContent = avatars[gameState.avatarIndex] || "🤖";
+  if (gameState.myOwnWords) {
+    document.getElementById('myOwnWordsInput').value = gameState.myOwnWords;
+  }
+  updateP10ChecklistUI();
+  updateRankTitle();
+}
+
+function saveProgress() {
+  try {
+    localStorage.setItem('quest_p10_state', JSON.stringify(gameState));
+  } catch (e) {}
+}
+
+function addXP(amount, key) {
+  if (key && gameState.missionsDone[key]) return;
+  if (key) gameState.missionsDone[key] = true;
+  gameState.xp += amount;
+  document.getElementById('xpDisplay').textContent = gameState.xp;
+  updateRankTitle();
+  saveProgress();
+}
+
+function updateRankTitle() {
+  let rank = "AI Explorer";
+  if (gameState.xp >= 300) rank = "Prompt Apprentice";
+  if (gameState.xp >= 600) rank = "Critical Thinker";
+  if (gameState.xp >= 900) rank = "AI Smart Master";
+  document.getElementById('rankTitle').textContent = rank;
+}
+
+// Navigation Stepper
+function switchPage(pageNum) {
+  playSfx('click');
+  for (let i = 1; i <= 11; i++) {
+    const page = document.getElementById('page' + i);
+    const navBtn = document.getElementById('navBtn' + i);
+    if (page) page.classList.toggle('active-page', i === pageNum);
+    if (navBtn) navBtn.classList.toggle('active', i === pageNum);
+  }
+  document.getElementById('stepperBadge').textContent = `MISI ${pageNum < 10 ? '0' + pageNum : pageNum} / 11`;
+  document.getElementById('stepperTitle').textContent = missionTitles[pageNum] || "";
+  window.scrollTo({ top: 60, behavior: 'smooth' });
+  document.getElementById('globalProgressFill').style.width = Math.round((pageNum / 11) * 100) + '%';
+  saveProgress();
+}
+
+// Avatar & Identity
+function cycleAvatar() {
+  playSfx('click');
+  gameState.avatarIndex = (gameState.avatarIndex + 1) % avatars.length;
+  document.getElementById('avatarDisplayBtn').textContent = avatars[gameState.avatarIndex];
+  updateAvatarSelectionGrid(gameState.avatarIndex);
+  saveProgress();
+}
+
+function pickAvatarIndex(idx, cardEl) {
+  playSfx('click');
+  gameState.avatarIndex = idx;
+  document.getElementById('avatarDisplayBtn').textContent = avatars[idx];
+  updateAvatarSelectionGrid(idx);
+  saveProgress();
+}
+
+function updateAvatarSelectionGrid(idx) {
+  document.querySelectorAll('.avatar-choice-card').forEach((c, i) => {
+    c.classList.toggle('selected', i === idx);
+  });
+}
+
+function syncStudentNameFromM1(val) {
+  const clean = val.trim() || "Siswa Kelas 7";
+  gameState.studentName = clean;
+  document.getElementById('studentNameInput').value = val;
+  document.getElementById('certNameSlot').textContent = clean;
+  saveProgress();
+}
+
+function handleNameChange(val) {
+  const clean = val.trim() || "Siswa Kelas 7";
+  gameState.studentName = clean;
+  document.getElementById('m1NameInput').value = val;
+  document.getElementById('certNameSlot').textContent = clean;
+  saveProgress();
+}
+
+function syncClassFromM1(val) {
+  gameState.selectedClass = val;
+  saveProgress();
+}
+
+// Misi 1 AI Categorizer
+const aiDetectAnswered = {};
+function checkAiDetect(num, isCorrect, btn) {
+  const fb = document.getElementById('aiDet' + num + '_fb');
+  fb.style.display = 'block';
+  btn.parentElement.querySelectorAll('button').forEach(b => b.disabled = true);
+
+  if (isCorrect) {
+    btn.classList.add('primary');
+    fb.style.color = 'var(--green)';
+    fb.innerHTML = '✅ <strong>Tepat Sekali! (+20 XP)</strong> Pemahamanmu tentang teknologi sangat akurat!';
+    playSfx('correct');
+    if (!aiDetectAnswered[num]) {
+      aiDetectAnswered[num] = true;
+      addXP(20, 'aiDet' + num);
+    }
+  } else {
+    fb.style.color = 'var(--red)';
+    fb.innerHTML = '❌ <strong>Kurang tepat.</strong> Ingat, tidak semua program digital otomatis menggunakan model AI!';
+    playSfx('wrong');
+  }
+}
+
+// Checkpoint Quiz Handler
+const sessionQuizAnswered = {};
+function checkSessionQuiz(qid, btn, isCorrect) {
+  const fb = document.getElementById(qid + '_fb');
+  if (!fb) return;
+  fb.style.display = 'block';
+  btn.parentElement.querySelectorAll('.quiz-opt-btn').forEach(b => b.disabled = true);
+
+  if (isCorrect) {
+    btn.classList.add('correct');
+    fb.style.background = 'rgba(16, 185, 129, 0.15)';
+    fb.style.color = '#34d399';
+    fb.innerHTML = '✅ <strong>Tepat Sekali! (+30 XP)</strong> Jawabanmu sangat tajam dan benar!';
+    playSfx('correct');
+    if (!sessionQuizAnswered[qid]) {
+      sessionQuizAnswered[qid] = true;
+      addXP(30, qid);
+    }
+  } else {
+    btn.classList.add('wrong');
+    fb.style.background = 'rgba(239, 68, 68, 0.15)';
+    fb.style.color = '#f87171';
+    fb.innerHTML = '❌ <strong>Kurang tepat.</strong> Pelajari materi panduan di atas dan ingat perannya sebagai asisten!';
+    playSfx('wrong');
+  }
+}
+
+// Misi 2 Capability Inspector
+const aiCapDetails = {
+  explain: "📖 <strong>Contoh Prompt Penjelasan:</strong> <em>'Jelaskan mengapa bumi berputar pada porosnya dengan analogi bola gasing yang diputar anak kecil. Buat dalam 3 kalimat sederhana untuk anak SMP kelas 7.'</em>",
+  brainstorm: "💡 <strong>Contoh Prompt Ide:</strong> <em>'Berikan 5 ide judul menarik untuk poster kampanye kebersihan toilet sekolah. Gunakan kata-kata yang seru dan berima.'</em>",
+  outline: "📑 <strong>Contoh Prompt Kerangka:</strong> <em>'Bantu saya membuat kerangka tulisan tentang bahaya jajanan sembarangan. Susun menjadi: Pendahuluan, 2 Contoh Bahaya, dan Tips Memilih Jajanan Sehat.'</em>",
+  proofread: "✏️ <strong>Contoh Prompt Perbaikan:</strong> <em>'Perbaiki kalimat ini agar tidak berbelit-belit tanpa mengubah maksudnya: \"Kami kemarin hari selasa bersama-sama pergi ke perpustakaan untuk membaca buku-buku yang ada di sana\".'</em>"
+};
+function inspectAiCapability(key) {
+  playSfx('click');
+  document.getElementById('aiCapDetailBox').innerHTML = aiCapDetails[key] || "";
+}
+
+// Misi 2 ChatGPT Case Study Tabs & Prompt Copy
+function switchCaseStudyTab(tabKey) {
+  playSfx('click');
+  const btnMath = document.getElementById('btnCaseMath');
+  const btnEng = document.getElementById('btnCaseEnglish');
+  const paneMath = document.getElementById('paneCaseMath');
+  const paneEng = document.getElementById('paneCaseEnglish');
+
+  if (tabKey === 'math') {
+    if (btnMath) btnMath.classList.add('active');
+    if (btnEng) btnEng.classList.remove('active');
+    if (paneMath) paneMath.classList.add('active-pane');
+    if (paneEng) paneEng.classList.remove('active-pane');
+  } else {
+    if (btnEng) btnEng.classList.add('active');
+    if (btnMath) btnMath.classList.remove('active');
+    if (paneEng) paneEng.classList.add('active-pane');
+    if (paneMath) paneMath.classList.remove('active-pane');
+  }
+}
+
+function copyCasePrompt(type) {
+  playSfx('click');
+  const id = type === 'math' ? 'promptCaseMathText' : 'promptCaseEnglishText';
+  const el = document.getElementById(id);
+  if (!el) return;
+  copyTextToClipboard(el.textContent.trim());
+  showToast(type === 'math' ? 'Prompt Matematika disalin (+20 XP)!' : 'Prompt Bahasa Inggris disalin (+20 XP)!');
+  addXP(20, 'copyCasePrompt_' + type);
+}
+
+// Misi 5 TKFB Inspector
+const tkfbDetails = {
+  T: "🟣 <strong>TUGAS (Task):</strong> Instruksi langsung mengenai apa yang harus dikerjakan AI. Contoh kata kerja: <em>Jelaskan, Rangkum, Buatkan kerangka, Berikan 5 ide, Bandingkan</em>.",
+  K: "🔵 <strong>KONTEKS (Context):</strong> Menjelaskan siapa dirimu dan untuk apa tugas ini dibuat. Contoh: <em>'Saya siswa SMP kelas 7 yang sedang belajar IPA bab ekosistem'</em>. Tanpa konteks, AI bisa memberikan penjelasan untuk mahasiswa kedokteran!",
+  F: "🟡 <strong>FORMAT (Format):</strong> Menentukan wujud jawaban yang kamu mau. Contoh: <em>'Buat dalam 5 poin bernomor', 'Tabel 3 kolom', 'Format tanya jawab', 'Maksimal 2 paragraf'</em>.",
+  B: "🟢 <strong>BATASAN (Constraint):</strong> Pagar pengaman agar AI tidak ngawur. Contoh: <em>'Gunakan bahasa santai', 'Jangan membuat data penelitian palsu', 'Hanya berikan ide kegiatan yang aman di rumah'</em>."
+};
+function inspectTkfb(letter) {
+  playSfx('click');
+  document.getElementById('tkfbDetailBox').innerHTML = tkfbDetails[letter] || "";
+}
+
+// Misi 6 Prompt Fix Lab
+const promptFixAnswered = {};
+function checkPromptFix(num, isCorrect, btn) {
+  const fb = document.getElementById('pfix' + num + '_fb');
+  fb.style.display = 'block';
+  btn.parentElement.querySelectorAll('.quiz-opt-btn').forEach(b => b.disabled = true);
+
+  if (isCorrect) {
+    btn.classList.add('correct');
+    fb.style.color = 'var(--green)';
+    fb.innerHTML = '✅ <strong>Pilihan Tepat! (+25 XP)</strong> Prompt ini memiliki tujuan, konteks, dan format yang jauh lebih terarah!';
+    playSfx('correct');
+    if (!promptFixAnswered[num]) {
+      promptFixAnswered[num] = true;
+      addXP(25, 'pfix' + num);
+    }
+  } else {
+    btn.classList.add('wrong');
+    fb.style.color = 'var(--red)';
+    fb.innerHTML = '❌ <strong>Kurang tepat.</strong> Pilihlah versi yang lebih spesifik menyebutkan topik dan batasan!';
+    playSfx('wrong');
+  }
+}
+
+// Misi 6 Interactive Prompt Builder
+function updatePromptBuilder() {
+  const topic = document.getElementById('pbTopic').value;
+  const task = document.getElementById('pbTask').value;
+  const format = document.getElementById('pbFormat').value;
+  const constraint = document.getElementById('pbConstraint').value;
+
+  const result = `${task} tentang "${topic}".\nTopik ini untuk tugas siswa SMP kelas 7.\n${format}.\n${constraint}`;
+  document.getElementById('pbOutputBox').textContent = result;
+}
+
+function copyPromptBuilderResult() {
+  playSfx('click');
+  const text = document.getElementById('pbOutputBox').textContent;
+  copyTextToClipboard(text);
+  showToast('Prompt berhasil disalin!');
+  addXP(20, 'copyBuilder');
+}
+
+// Misi 8 Privacy Cases
+const privacyAnswered = {};
+function checkPrivacyCase(num, isCorrect, btn) {
+  const fb = document.getElementById('privFb' + num);
+  fb.style.display = 'block';
+  btn.parentElement.querySelectorAll('button').forEach(b => b.disabled = true);
+
+  if (isCorrect) {
+    btn.classList.add('primary');
+    fb.style.color = 'var(--green)';
+    fb.innerHTML = '✅ <strong>Keputusan Tepat! (+25 XP)</strong> Kamu memiliki kepekaan tinggi dalam menjaga privasi data!';
+    playSfx('correct');
+    if (!privacyAnswered[num]) {
+      privacyAnswered[num] = true;
+      addXP(25, 'priv' + num);
+    }
+  } else {
+    fb.style.color = 'var(--red)';
+    fb.innerHTML = '❌ <strong>Berbahaya!</strong> Informasi pribadi sensitif seperti password, alamat, atau no HP tidak boleh dimasukkan ke AI!';
+    playSfx('wrong');
+  }
+}
+
+// Misi 10 Project Actions
+function copyProjectPrompt() {
+  playSfx('click');
+  const text = document.getElementById('projectPromptText').textContent;
+  copyTextToClipboard(text);
+  showToast('Prompt project berhasil disalin!');
+  addXP(20, 'copyProjectPrompt');
+}
+
+function saveMyOwnWords(val) {
+  gameState.myOwnWords = val;
+  saveProgress();
+}
+
+function confirmSaveWords() {
+  playSfx('correct');
+  const val = document.getElementById('myOwnWordsInput').value.trim();
+  if (!val) {
+    showToast('Ketik kalimatmu terlebih dahulu!');
+    return;
+  }
+  document.getElementById('saveWordsStatus').textContent = '✅ Kalimat berhasil disimpan di Jurnal Tugas!';
+  showToast('Kalimat tersimpan (+50 XP)!');
+  addXP(50, 'saveWordsP10');
+  toggleP10Check(2, true);
+}
+
+function toggleP10Check(idx, forceTrue) {
+  playSfx('click');
+  if (forceTrue) {
+    gameState.p10Checklist[idx] = true;
+  } else {
+    gameState.p10Checklist[idx] = !gameState.p10Checklist[idx];
+  }
+  updateP10ChecklistUI();
+  saveProgress();
+}
+
+function updateP10ChecklistUI() {
+  let done = 0;
+  const items = document.querySelectorAll('.check-item');
+  gameState.p10Checklist.forEach((isDone, i) => {
+    if (items[i]) {
+      items[i].classList.toggle('done', isDone);
+      const chk = document.getElementById('chkP10_' + i);
+      if (chk) chk.textContent = isDone ? '✓' : '';
+    }
+    if (isDone) done++;
+  });
+  const counter = document.getElementById('p10CheckDoneCount');
+  if (counter) counter.textContent = done;
+  if (done === 4) addXP(50, 'p10CheckAll');
+}
+
+// Misi 11 Final Quiz Arena Engine (7 Soal)
+let currentQuizStage = 1;
+const arenaQuestionsState = { q1: false, q2: false, q3: false, q4: false, q5: false, q6: false, q7: false };
+const arenaStageNames = [
+  "",
+  "Tantangan 1 dari 7: Definisi & Hakikat AI",
+  "Tantangan 2 dari 7: Mengapa Prompt Harus Jelas",
+  "Tantangan 3 dari 7: Formula TKFB",
+  "Tantangan 4 dari 7: Bahaya Halusinasi AI",
+  "Tantangan 5 dari 7: Langkah 'C' dalam BACA",
+  "Tantangan 6 dari 7: Privasi & Informasi Terlarang",
+  "Tantangan 7 dari 7: Etika Terbaik Pelajar Cerdas"
+];
+
+const arenaExplanations = {
+  1: { correct: "✅ <strong>LUAR BIASA! (+30 XP)</strong> AI adalah program cerdas yang mengenali pola dan bahasa untuk membantu tugas manusia.", wrong: "❌ <strong>KURANG TEPAT!</strong> AI bukan makhluk hidup berkesadaran, melainkan program komputer." },
+  2: { correct: "✅ <strong>TEPAT SEKALI! (+30 XP)</strong> Semakin jelas instruksi yang kamu berikan, semakin tepat sasaran jawaban yang dihasilkan AI.", wrong: "❌ <strong>KURANG TEPAT!</strong> Prompt yang jelas justru membuat AI bekerja secara optimal." },
+  3: { correct: "✅ <strong>SEMPURNA! (+30 XP)</strong> T = Tugas, K = Konteks, F = Format, B = Batasan. Empat pilar pengunci kualitas prompt!", wrong: "❌ <strong>KURANG TEPAT!</strong> TKFB adalah Tugas, Konteks, Format, dan Batasan." },
+  4: { correct: "✅ <strong>MANTAP! (+30 XP)</strong> Halusinasi AI adalah saat AI mengarang data fiktif atau fakta salah namun terdengar meyakinkan.", wrong: "❌ <strong>KURANG TEPAT!</strong> Halusinasi adalah istilah teknis ketika AI memproduksi data palsu." },
+  5: { correct: "✅ <strong>BENAR SEKALI! (+30 XP)</strong> 'C' artinya Cek Faktanya! Jangan telan mentah-mentah angka atau klaim sebelum verifikasi.", wrong: "❌ <strong>KURANG TEPAT!</strong> 'C' adalah Cek Faktanya melalui buku atau guru." },
+  6: { correct: "✅ <strong>TANGKAS! (+30 XP)</strong> Password, nomor HP, dan alamat rumah adalah data sensitif yang tidak boleh dibagikan ke AI.", wrong: "❌ <strong>KURANG TEPAT!</strong> Jangan pernah memberikan informasi privasi dan rahasia ke AI." },
+  7: { correct: "✅ <strong>MASTER AI SMART USER! (+30 XP)</strong> Gunakan AI sebagai asisten pencari ide, tetapi kamu yang berpikir dan menulis!", wrong: "❌ <strong>KURANG TEPAT!</strong> AI adalah teman diskusi, bukan joki tugas." }
+};
+
+function jumpQuizStage(num) {
+  playSfx('click');
+  currentQuizStage = num;
+  for (let i = 1; i <= 7; i++) {
+    const stage = document.getElementById('qStage' + i);
+    const dot = document.getElementById('qDot' + i);
+    if (stage) stage.classList.toggle('active-stage', i === num);
+    if (dot) dot.classList.toggle('active', i === num);
+  }
+  document.getElementById('arenaStageIndicator').textContent = arenaStageNames[num] || "";
+}
+
+function submitArenaAnswer(qNum, cardEl, isCorrect) {
+  const stage = document.getElementById('qStage' + qNum);
+  stage.querySelectorAll('.quiz-option-card').forEach(c => c.style.pointerEvents = 'none');
+  const expl = document.getElementById('qExpl' + qNum);
+  expl.style.display = 'block';
+
+  if (isCorrect) {
+    cardEl.classList.add('correct');
+    expl.style.background = 'rgba(16, 185, 129, 0.12)';
+    expl.style.border = '1px solid #10B981';
+    expl.style.color = '#34D399';
+    expl.innerHTML = arenaExplanations[qNum].correct;
+    playSfx('correct');
+    arenaQuestionsState['q' + qNum] = true;
+    addXP(30, 'quizQ' + qNum);
+  } else {
+    cardEl.classList.add('wrong');
+    expl.style.background = 'rgba(239, 68, 68, 0.12)';
+    expl.style.border = '1px solid #EF4444';
+    expl.style.color = '#FCA5A5';
+    expl.innerHTML = arenaExplanations[qNum].wrong;
+    playSfx('wrong');
+  }
+
+  const dot = document.getElementById('qDot' + qNum);
+  if (dot) {
+    dot.classList.add('solved');
+    dot.textContent = isCorrect ? '✓' : '✗';
+  }
+
+  const solvedCount = Object.values(arenaQuestionsState).filter(Boolean).length;
+  document.getElementById('finalScoreVal').textContent = solvedCount;
+
+  setTimeout(() => {
+    if (qNum < 7) {
+      jumpQuizStage(qNum + 1);
+    } else {
+      document.getElementById('quizVictoryCard').style.display = 'block';
+      for (let i = 1; i <= 7; i++) {
+        const s = document.getElementById('qStage' + i);
+        if (s) s.style.display = 'none';
+      }
+      playSfx('fanfare');
+      triggerConfetti();
+      addXP(50, 'quizCompleteP10');
+    }
+  }, 1600);
+}
+
+function scrollToCert() {
+  playSfx('click');
+  const el = document.getElementById('certSectionAnchor');
+  if (el) el.scrollIntoView({ behavior: 'smooth' });
+}
+
+// Confetti Effect
+function triggerConfetti() {
+  const canvas = document.getElementById('confettiCanvas');
+  if (!canvas) return;
+  canvas.style.display = 'block';
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const pieces = [];
+  const colors = ['#7C3AED', '#06B6D4', '#FDE047', '#10B981', '#EC4899', '#8B5CF6'];
+
+  for (let i = 0; i < 110; i++) {
+    pieces.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height - canvas.height,
+      size: Math.random() * 8 + 4,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      speedY: Math.random() * 3 + 2,
+      speedX: Math.random() * 2 - 1,
+      rotation: Math.random() * 360
+    });
+  }
+
+  let animFrame;
+  let timer = 0;
+  function render() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pieces.forEach(p => {
+      p.y += p.speedY;
+      p.x += p.speedX;
+      p.rotation += 2;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate((p.rotation * Math.PI) / 180);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+      ctx.restore();
+    });
+    timer++;
+    if (timer < 200) {
+      animFrame = requestAnimationFrame(render);
+    } else {
+      cancelAnimationFrame(animFrame);
+      canvas.style.display = 'none';
+    }
+  }
+  render();
+}
+
+// Reflection Slider & Save
+function updateRefSlider(val) {
+  const emojis = ["1 😟", "2 😐", "3 🙂", "4 😊 🌟", "5 👑 👑"];
+  document.getElementById('sliderValDisplay').textContent = emojis[val - 1] || val;
+}
+
+function saveReflection() {
+  playSfx('correct');
+  const q1 = document.getElementById('refQ1').value.trim();
+  const q2 = document.getElementById('refQ2').value.trim();
+  const slider = document.getElementById('refSlider').value;
+
+  gameState.reflection = { q1, q2, confidence: slider };
+  gameState.reflectionSaved = true;
+  document.getElementById('refSaveStatus').textContent = '✅ Tersimpan di Jurnal Belajar Siswa!';
+  showToast('Jurnal Refleksi disimpan (+75 XP)!');
+  addXP(75, 'refSavedP10');
+  saveProgress();
+}
+
+// Clipboard Fallback Helper
+function copyTextToClipboard(text) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).catch(() => fallbackCopyText(text));
+  } else {
+    fallbackCopyText(text);
+  }
+}
+
+function fallbackCopyText(text) {
+  const textArea = document.createElement("textarea");
+  textArea.value = text;
+  textArea.style.position = "fixed";
+  textArea.style.top = "0";
+  textArea.style.left = "0";
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+  try {
+    document.execCommand('copy');
+  } catch (err) {}
+  document.body.removeChild(textArea);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toastNotice');
+  if (!t) return;
+  t.textContent = msg;
+  t.style.display = 'block';
+  setTimeout(() => { t.style.display = 'none'; }, 2400);
+}
+
+// Initial Boot
+window.addEventListener('DOMContentLoaded', () => {
+  loadProgress();
+  updatePromptBuilder();
+  const d = new Date();
+  const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+  const certDate = `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+  const dateSlot = document.getElementById('certDateSlot');
+  if (dateSlot) dateSlot.textContent = certDate;
+});
+</script>
+</body>
+</html>

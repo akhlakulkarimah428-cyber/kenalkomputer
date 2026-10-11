@@ -1,0 +1,1879 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kenal Komputer P11: Mini Project — Digital Student</title>
+<meta name="description" content="Panduan interaktif siswa SMP Kelas 7 menyelesaikan tugas sekolah terpadu: mengolah data di Excel, menyusun makalah di Word, asisten AI kerangka tulisan, karya visual PowerPoint/Canva, dan pengumpulan email.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-body: #0B0B10;
+  --bg-card: #14141C;
+  --bg-card-hover: #191924;
+  --bg-surface: #1B1B25;
+  --bg-surface-2: #222230;
+  --border: #2A2A36;
+  --border-light: rgba(255, 255, 255, 0.08);
+  --purple: #7C3AED;
+  --purple-glow: rgba(124, 58, 237, 0.35);
+  --violet: #8B5CF6;
+  --cyan: #06B6D4;
+  --yellow: #FDE047;
+  --green: #10B981;
+  --red: #EF4444;
+  --text-main: #F5F5F5;
+  --text-muted: #A1A1AA;
+  --text-dim: #71717A;
+  --radius-lg: 18px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background-color: var(--bg-body);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  padding-bottom: 90px;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+.container { max-width: 1060px; margin: 0 auto; padding: 0 20px; }
+
+/* Sticky Top Navigation Bar */
+.top-nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(11, 11, 16, 0.96); backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border); padding: 8px 0;
+}
+.nav-wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.brand-group { display: flex; align-items: center; gap: 10px; }
+.brand-badge {
+  background: linear-gradient(135deg, #7C3AED, #06B6D4); color: #fff;
+  font-weight: 900; font-size: 13px; padding: 6px 12px; border-radius: var(--radius-sm);
+  display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 14px var(--purple-glow);
+}
+.brand-text h1 { font-size: 15px; font-weight: 800; color: #fff; line-height: 1.2; }
+.brand-text p { font-size: 11px; color: var(--text-muted); }
+
+.meeting-nav-row {
+  display: flex; align-items: center; gap: 4px; background: rgba(0, 0, 0, 0.4);
+  padding: 3px 6px; border-radius: 999px; border: 1px solid var(--border);
+}
+.meeting-tab { font-size: 11px; font-weight: 700; color: var(--text-dim); padding: 4px 9px; border-radius: 999px; text-decoration: none; }
+.meeting-tab.active { background: var(--purple); color: #fff; font-weight: 800; box-shadow: 0 2px 8px var(--purple-glow); }
+
+.user-panel {
+  display: flex; align-items: center; gap: 8px; background: var(--bg-card);
+  border: 1px solid var(--border); padding: 4px 12px; border-radius: 999px;
+}
+.avatar-btn { font-size: 18px; background: transparent; border: none; cursor: pointer; line-height: 1; }
+.name-input { background: transparent; border: none; color: #fff; font-weight: 700; font-size: 13px; outline: none; width: 125px; }
+.xp-pill {
+  display: inline-flex; align-items: center; gap: 4px; background: rgba(253, 224, 71, 0.12);
+  color: var(--yellow); border: 1px solid rgba(253, 224, 71, 0.3); font-size: 11px; font-weight: 800;
+  padding: 3px 8px; border-radius: 999px;
+}
+.sound-toggle-btn {
+  background: transparent; border: 1px solid var(--border); color: var(--text-muted);
+  width: 28px; height: 28px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+
+/* Stepper Subnav */
+.subnav-stages {
+  display: flex; align-items: center; gap: 6px; overflow-x: auto;
+  padding: 8px 0 2px; border-top: 1px solid rgba(255, 255, 255, 0.05); margin-top: 6px; scrollbar-width: none;
+}
+.subnav-stages::-webkit-scrollbar { display: none; }
+.stage-step-btn {
+  background: transparent; color: var(--text-muted); font-size: 11px; font-weight: 700;
+  padding: 5px 11px; border-radius: 999px; border: 1px solid transparent; cursor: pointer;
+  white-space: nowrap; transition: all 0.2s;
+}
+.stage-step-btn:hover { color: #fff; background: rgba(255, 255, 255, 0.05); }
+.stage-step-btn.active {
+  background: var(--purple); color: #fff; border-color: var(--purple);
+  box-shadow: 0 2px 10px var(--purple-glow);
+}
+.stage-step-btn.done { border-color: rgba(16, 185, 129, 0.4); color: var(--green); }
+
+.global-progress-wrap { width: 100%; background: rgba(255, 255, 255, 0.05); height: 3px; position: absolute; bottom: 0; left: 0; }
+.global-progress-fill { height: 100%; width: 10%; background: linear-gradient(90deg, #7C3AED, #06B6D4, #10B981); transition: width 0.35s ease; }
+
+.page-stepper-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border);
+  padding: 8px 16px; border-radius: var(--radius-md); margin-top: 18px; font-size: 12.5px;
+}
+.page-counter-badge {
+  background: rgba(124, 58, 237, 0.18); color: var(--violet); font-weight: 900;
+  padding: 3px 9px; border-radius: var(--radius-sm); font-size: 11.5px;
+}
+
+/* Page Container */
+.mission-page { display: none; animation: pageFadeIn 0.3s ease; margin-top: 16px; }
+.mission-page.active-page { display: block; }
+@keyframes pageFadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Cards & Layout */
+.card-mission {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  padding: 26px; position: relative; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+.mission-hero-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06); padding-bottom: 16px; margin-bottom: 20px;
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap;
+}
+.mission-title-group h2 { font-size: 22px; font-weight: 900; color: #fff; line-height: 1.25; }
+.mission-title-group p { font-size: 13.5px; color: var(--text-muted); margin-top: 4px; }
+.mission-xp-badge {
+  background: rgba(253, 224, 71, 0.12); color: var(--yellow); border: 1px solid rgba(253, 224, 71, 0.3);
+  font-size: 12px; font-weight: 800; padding: 5px 12px; border-radius: 999px;
+}
+
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
+
+.box-info { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; transition: all 0.2s; }
+.box-info.accent { border-color: var(--purple); box-shadow: 0 0 16px var(--purple-glow); }
+.box-icon { font-size: 24px; margin-bottom: 6px; }
+.box-title { font-size: 14.5px; font-weight: 800; color: #fff; margin-bottom: 5px; }
+.box-desc { font-size: 13px; color: var(--text-muted); line-height: 1.55; }
+
+.notice-box {
+  display: flex; gap: 12px; background: rgba(124, 58, 237, 0.1); border-left: 4px solid var(--purple);
+  border-radius: var(--radius-sm); padding: 12px 14px; margin: 14px 0; font-size: 13px; color: #DDD6FE;
+}
+.notice-icon { font-size: 20px; flex-shrink: 0; }
+
+/* Student Identity Card */
+.identity-card {
+  background: linear-gradient(135deg, rgba(27, 27, 37, 0.8), rgba(20, 20, 28, 0.95));
+  border: 1.5px solid rgba(124, 58, 237, 0.35); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 20px;
+}
+.identity-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.identity-tag { background: linear-gradient(135deg, var(--purple), var(--cyan)); color: #fff; font-size: 11px; font-weight: 900; padding: 4px 10px; border-radius: var(--radius-sm); }
+.avatar-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 8px; margin-top: 10px; }
+.avatar-choice-card {
+  background: rgba(255, 255, 255, 0.04); border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+  padding: 8px 6px; text-align: center; cursor: pointer; transition: all 0.2s;
+}
+.avatar-choice-card:hover { border-color: var(--violet); }
+.avatar-choice-card.selected { border-color: var(--purple); background: rgba(124, 58, 237, 0.18); box-shadow: 0 0 12px var(--purple-glow); }
+.avatar-choice-emoji { font-size: 22px; display: block; margin-bottom: 3px; }
+.avatar-choice-name { font-size: 11px; font-weight: 700; color: #cbd5e1; }
+
+/* Custom Excel Table */
+.data-table-wrap { overflow-x: auto; margin: 14px 0; }
+.custom-excel-table {
+  width: 100%; border-collapse: collapse; font-size: 13px; text-align: center;
+  background: var(--bg-surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
+}
+.custom-excel-table th { background: #1E293B; color: #38BDF8; font-weight: 800; padding: 10px 14px; border: 1px solid var(--border); }
+.custom-excel-table td { padding: 9px 14px; border: 1px solid var(--border); color: #E2E8F0; }
+.custom-excel-table tr:nth-child(even) td { background: rgba(255, 255, 255, 0.02); }
+.custom-excel-table tfoot td { font-weight: 800; background: rgba(124, 58, 237, 0.15); color: #FDE047; }
+
+/* Prompt Box */
+.prompt-box {
+  background: rgba(0, 0, 0, 0.35); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 12px 14px; font-family: monospace; font-size: 12.5px; color: #A5F3FC; position: relative; margin: 8px 0;
+  white-space: pre-wrap; line-height: 1.6;
+}
+
+/* Chat Simulator Visual */
+.chat-window {
+  background: var(--bg-body); border: 1px solid var(--border); border-radius: var(--radius-md);
+  padding: 16px; margin: 16px 0; display: flex; flex-direction: column; gap: 12px;
+}
+.chat-bubble { max-width: 85%; padding: 12px 16px; border-radius: 12px; font-size: 13px; line-height: 1.55; }
+.chat-user {
+  align-self: flex-end; background: linear-gradient(135deg, #6D28D9, #7C3AED);
+  color: #fff; border-bottom-right-radius: 2px;
+}
+.chat-ai {
+  align-self: flex-start; background: var(--bg-surface); border: 1px solid var(--border);
+  color: #E2E8F0; border-bottom-left-radius: 2px;
+}
+.chat-ai-header { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 800; color: var(--cyan); margin-bottom: 6px; }
+
+/* Interactive Checklist Items */
+.check-item {
+  display: flex; align-items: flex-start; gap: 12px; padding: 12px; background: var(--bg-surface);
+  border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s;
+  margin-bottom: 8px; user-select: none;
+}
+.check-item:hover { border-color: var(--violet); }
+.check-item.done { border-color: var(--green); background: rgba(16, 185, 129, 0.08); }
+.check-box-icon {
+  width: 22px; height: 22px; border-radius: 6px; border: 2px solid var(--border);
+  display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 12px; flex-shrink: 0;
+}
+.check-item.done .check-box-icon { background: var(--green); border-color: var(--green); color: #022c22; }
+
+/* Visual Studio Choice Tabs */
+.visual-choice-btn {
+  background: rgba(255, 255, 255, 0.04); border: 1.5px solid var(--border);
+  color: var(--text-muted); font-size: 13px; font-weight: 800; padding: 10px 18px;
+  border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; gap: 8px; flex: 1; justify-content: center;
+}
+.visual-choice-btn:hover { border-color: var(--violet); color: #fff; }
+.visual-choice-btn.active {
+  background: var(--purple); border-color: var(--purple); color: #fff;
+  box-shadow: 0 4px 16px var(--purple-glow);
+}
+
+/* Final Quiz Arena Styles */
+.quiz-arena-wrap {
+  background: linear-gradient(135deg, rgba(20, 20, 28, 0.95), rgba(11, 11, 16, 0.98));
+  border: 1.5px solid rgba(124, 58, 237, 0.4); border-radius: var(--radius-lg);
+  padding: 24px; box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5), 0 0 24px var(--purple-glow);
+  margin-top: 10px;
+}
+.quiz-arena-hud {
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
+  gap: 12px; padding-bottom: 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); margin-bottom: 20px;
+}
+.quiz-hud-badge {
+  background: linear-gradient(135deg, var(--purple), var(--cyan));
+  color: #fff; font-weight: 900; font-size: 11px; padding: 4px 10px; border-radius: var(--radius-sm);
+  box-shadow: 0 2px 8px var(--purple-glow);
+}
+.quiz-stepper-dots { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.quiz-dot-item {
+  width: 30px; height: 30px; border-radius: 50%; background: rgba(255, 255, 255, 0.05);
+  border: 1.5px solid var(--border); color: var(--text-dim); font-size: 11px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s;
+}
+.quiz-dot-item.active { border-color: var(--purple); background: rgba(124, 58, 237, 0.25); color: #fff; box-shadow: 0 0 12px var(--purple-glow); }
+.quiz-dot-item.solved { border-color: var(--green); background: rgba(16, 185, 129, 0.2); color: var(--green); }
+
+.quiz-card-stage { display: none; animation: pageFadeIn 0.3s ease; }
+.quiz-card-stage.active-stage { display: block; }
+.quiz-q-title { font-size: 14px; font-weight: 800; color: #fff; margin-bottom: 12px; }
+.quiz-option-card {
+  background: rgba(255, 255, 255, 0.03); border: 1.5px solid var(--border); border-radius: var(--radius-md);
+  padding: 13px 16px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: all 0.2s; text-align: left;
+  margin-bottom: 10px;
+}
+.quiz-option-card:hover { background: rgba(255, 255, 255, 0.06); border-color: var(--violet); transform: translateX(3px); }
+.quiz-opt-letter {
+  width: 30px; height: 30px; border-radius: 8px; background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border); color: #fff; font-weight: 900; font-size: 12px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.quiz-opt-text { font-size: 13px; font-weight: 700; color: #e2e8f0; line-height: 1.45; }
+.quiz-option-card.correct { background: rgba(16, 185, 129, 0.15) !important; border-color: var(--green) !important; }
+.quiz-option-card.correct .quiz-opt-letter { background: var(--green); color: #022c22; border-color: var(--green); }
+.quiz-option-card.correct .quiz-opt-text { color: #6ee7b7; }
+.quiz-option-card.wrong { background: rgba(239, 68, 68, 0.15) !important; border-color: var(--red) !important; }
+.quiz-option-card.wrong .quiz-opt-letter { background: var(--red); color: #fff; border-color: var(--red); }
+.quiz-option-card.wrong .quiz-opt-text { color: #fca5a5; }
+
+.quiz-explanation-banner {
+  background: var(--bg-surface); border-radius: var(--radius-md); padding: 14px 16px;
+  margin-top: 14px; font-size: 13px; line-height: 1.55; display: none; animation: pageFadeIn 0.25s ease;
+}
+
+/* Certificate */
+.cert-wrapper {
+  background: linear-gradient(135deg, #14141C, #0B0B10); border: 2px solid var(--yellow);
+  border-radius: var(--radius-lg); padding: 32px 20px; text-align: center; position: relative;
+  box-shadow: 0 16px 36px rgba(0,0,0,0.6); margin-top: 24px;
+}
+.cert-wrapper::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, #7C3AED, #06B6D4, #FDE047); }
+.cert-name-text { font-size: 26px; font-weight: 900; color: #fff; border-bottom: 2px dashed rgba(255, 255, 255, 0.25); display: inline-block; padding: 2px 24px; margin: 8px 0; }
+.cert-p { font-size: 13px; color: var(--text-muted); max-width: 600px; margin: 0 auto 16px; }
+.cert-stamps { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+.cert-stamp-badge { border: 2px solid var(--purple); color: var(--violet); font-size: 10px; font-weight: 900; padding: 4px 10px; border-radius: var(--radius-sm); }
+
+/* Buttons */
+.btn {
+  background: rgba(255, 255, 255, 0.08); border: 1px solid var(--border); color: #fff;
+  padding: 9px 16px; border-radius: var(--radius-sm); font-size: 12.5px; font-weight: 800;
+  cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; text-decoration: none;
+}
+.btn:hover { background: rgba(255, 255, 255, 0.14); border-color: var(--violet); }
+.btn.primary { background: var(--purple); border-color: var(--purple); box-shadow: 0 4px 14px var(--purple-glow); }
+.btn.primary:hover { background: #6D28D9; }
+.btn.success { background: var(--green); border-color: var(--green); color: #022c22; font-weight: 900; }
+.btn.secondary { background: var(--bg-surface); color: #cbd5e1; }
+
+.page-bottom-nav {
+  display: flex; justify-content: space-between; align-items: center; margin-top: 24px;
+  padding-top: 18px; border-top: 1px solid rgba(255, 255, 255, 0.06); flex-wrap: wrap; gap: 12px;
+}
+
+/* Toast */
+.toast-notice {
+  position: fixed; bottom: 24px; right: 24px; background: var(--purple); color: #fff;
+  padding: 10px 18px; border-radius: 8px; font-size: 12.5px; font-weight: 800;
+  box-shadow: 0 4px 20px var(--purple-glow); z-index: 999; display: none; animation: pageFadeIn 0.2s ease;
+}
+
+/* Print */
+@media print {
+  body * { visibility: hidden; }
+  #certArea, #certArea * { visibility: visible; }
+  #certArea {
+    position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 30px;
+    border: 2px solid #000; background: #fff !important; color: #000 !important;
+  }
+  .cert-name-text { color: #000 !important; }
+}
+@media (max-width: 768px) {
+  .grid-2 { grid-template-columns: 1fr; }
+  .card-mission { padding: 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Floating Header -->
+<header class="top-nav">
+  <div class="container">
+    <div class="nav-wrap">
+      <div class="brand-group">
+        <div class="brand-badge"><span>💻</span> QUEST P11</div>
+        <div class="brand-text">
+          <h1>Kenal Komputer — Ruang Belajarmu</h1>
+          <p>Pertemuan 11 — Digital Student Project: Menyelesaikan Tugas Sekolah Terpadu</p>
+        </div>
+      </div>
+
+      <nav class="meeting-nav-row" aria-label="Pilihan Pertemuan">
+        <span class="meeting-tab">P8 PowerPoint</span>
+        <span class="meeting-tab">P9 Canva</span>
+        <span class="meeting-tab">P10 AI Prompt</span>
+        <span class="meeting-tab active">⭐ P11 Mini Project</span>
+      </nav>
+
+      <div class="user-panel">
+        <button class="avatar-btn" id="avatarDisplayBtn" title="Ganti Avatar" onclick="cycleAvatar()">🧑‍🎓</button>
+        <input type="text" class="name-input" id="studentNameInput" placeholder="Ketik Nama Siswa..." value="Siswa Kelas 7" oninput="handleNameChange(this.value)">
+        <div class="xp-pill"><span>⭐</span> <span id="xpDisplay">0</span> XP</div>
+        <button class="sound-toggle-btn" id="soundToggleBtn" onclick="toggleSound()" title="Aktif/Nonaktifkan Suara">🔊</button>
+      </div>
+    </div>
+
+    <!-- Stepper Navigation (10 Misi Terpadu) -->
+    <nav class="subnav-stages" id="subnavStages" aria-label="Navigasi Tahapan Proyek">
+      <button class="stage-step-btn active" id="navBtn1" onclick="switchPage(1)">01 Hero & Brief</button>
+      <button class="stage-step-btn" id="navBtn2" onclick="switchPage(2)">02 Kenali Tugasmu</button>
+      <button class="stage-step-btn" id="navBtn3" onclick="switchPage(3)">03 Step 1 — Excel</button>
+      <button class="stage-step-btn" id="navBtn4" onclick="switchPage(4)">04 Step 2 — AI</button>
+      <button class="stage-step-btn" id="navBtn5" onclick="switchPage(5)">05 Step 3 — Word</button>
+      <button class="stage-step-btn" id="navBtn6" onclick="switchPage(6)">06 Step 4 — Visual</button>
+      <button class="stage-step-btn" id="navBtn7" onclick="switchPage(7)">07 Step 5 — Email</button>
+      <button class="stage-step-btn" id="navBtn8" onclick="switchPage(8)">08 Master Checklist</button>
+      <button class="stage-step-btn" id="navBtn9" onclick="switchPage(9)">09 Final Quiz</button>
+      <button class="stage-step-btn" id="navBtn10" onclick="switchPage(10)">10 Completion & Cert 🏆</button>
+    </nav>
+  </div>
+  <div class="global-progress-wrap"><div class="global-progress-fill" id="globalProgressFill"></div></div>
+</header>
+
+<main class="container">
+
+  <!-- Stepper Banner -->
+  <div class="page-stepper-bar">
+    <div>
+      <span class="page-counter-badge" id="stepperBadge">TAHAP 01 / 10</span>
+      <strong style="color:#fff; margin-left:8px;" id="stepperTitle">Digital Student Project — Selesaikan Tugas Sekolah Mandiri</strong>
+    </div>
+    <div style="color:var(--text-muted); font-size:12px;">
+      Gelar: <strong style="color:var(--yellow);" id="rankTitle">Digital Explorer</strong>
+    </div>
+  </div>
+
+  <!-- ════════════ SECTION 1: HERO & IDENTITAS ════════════ -->
+  <div class="mission-page active-page" id="page1">
+    <div class="card-mission">
+      <div class="mission-hero-header">
+        <div class="mission-title-group">
+          <h2>Pertemuan 11: Digital Student Project</h2>
+          <p>Selesaikan satu tugas sekolah nyata dari mengolah data, membuat kerangka, menyusun makalah, karya visual, hingga mengirimkannya!</p>
+        </div>
+        <div class="mission-xp-badge">⭐ Reward: +100 XP</div>
+      </div>
+
+      <!-- Identity Card -->
+      <div class="identity-card">
+        <div class="identity-header">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span class="identity-tag">👤 IDENTITAS SISWA</span>
+            <h3 style="font-size:14px; font-weight:800; color:#fff;">Ketik Nama & Pilih Karakter Proyekmu</h3>
+          </div>
+          <span style="font-size:11px; color:var(--green); font-weight:700;">● Otomatis Masuk ke Format Tugas & Sertifikat</span>
+        </div>
+        <div class="grid-2">
+          <div>
+            <label style="font-size:11.5px; font-weight:800; color:var(--text-muted); display:block; margin-bottom:4px;">Nama Lengkap Siswa:</label>
+            <input type="text" id="m1NameInput" value="Siswa Kelas 7" oninput="syncStudentNameFromM1(this.value)" style="width:100%; background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-sm); color:#fff; padding:9px 12px; font-size:13.5px; font-weight:700; outline:none;">
+          </div>
+          <div>
+            <label style="font-size:11.5px; font-weight:800; color:var(--text-muted); display:block; margin-bottom:4px;">Pilih Kelas:</label>
+            <select id="m1ClassSelect" onchange="syncClassFromM1(this.value)" style="width:100%; background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-sm); color:#fff; padding:9px 12px; font-size:13px; font-weight:700; outline:none;">
+              <option value="7A">Kelas 7A</option>
+              <option value="7B">Kelas 7B</option>
+              <option value="7C">Kelas 7C</option>
+              <option value="7D">Kelas 7D</option>
+              <option value="7E">Kelas 7E</option>
+            </select>
+          </div>
+        </div>
+        <div style="margin-top:12px;">
+          <label style="font-size:11.5px; font-weight:800; color:var(--text-muted); display:block; margin-bottom:5px;">Pilih Maskot Pembelajar:</label>
+          <div class="avatar-grid">
+            <div class="avatar-choice-card selected" onclick="pickAvatarIndex(0, this)"><span class="avatar-choice-emoji">🧑‍🎓</span><span class="avatar-choice-name">Pelajar Digital</span></div>
+            <div class="avatar-choice-card" onclick="pickAvatarIndex(1, this)"><span class="avatar-choice-emoji">📊</span><span class="avatar-choice-name">Analis Data</span></div>
+            <div class="avatar-choice-card" onclick="pickAvatarIndex(2, this)"><span class="avatar-choice-emoji">✍️</span><span class="avatar-choice-name">Penulis Makalah</span></div>
+            <div class="avatar-choice-card" onclick="pickAvatarIndex(3, this)"><span class="avatar-choice-emoji">🎨</span><span class="avatar-choice-name">Desainer Visual</span></div>
+            <div class="avatar-choice-card" onclick="pickAvatarIndex(4, this)"><span class="avatar-choice-emoji">🚀</span><span class="avatar-choice-name">Inovator Cepat</span></div>
+            <div class="avatar-choice-card" onclick="pickAvatarIndex(5, this)"><span class="avatar-choice-emoji">🏆</span><span class="avatar-choice-name">Bintang Kelas</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="notice-box">
+        <span class="notice-icon">💡</span>
+        <div>
+          <strong>Misi Terpadu Siswa SMP:</strong>
+          <p>"Selamat datang di puncak pembelajaran komputer kelas 7! Website ini adalah <strong>panduan langkah demi langkah</strong> untuk membimbingmu menyelesaikan satu proyek tugas sekolah mandiri. Kamu tetap membuka Excel, Word, PowerPoint/Canva, dan AI di perangkatmu secara nyata!"</p>
+        </div>
+      </div>
+
+      <!-- 4 Pilar Hasil Akhir Proyek -->
+      <div class="grid-2" style="margin-top:18px;">
+        <div class="box-info">
+          <div class="box-icon">📊</div>
+          <div class="box-title">1. File Excel (.xlsx)</div>
+          <div class="box-desc">Mengolah data jadwal belajar dan bermain menggunakan rumus <code>SUM</code> dan <code>AVERAGE</code>.</div>
+        </div>
+        <div class="box-info">
+          <div class="box-icon">📝</div>
+          <div class="box-title">2. Makalah Word (.docx)</div>
+          <div class="box-desc">Menyusun dokumen makalah rapi 2–3 halaman berisi Pendahuluan, Pembahasan data, dan Kesimpulan.</div>
+        </div>
+        <div class="box-info">
+          <div class="box-icon">🎨</div>
+          <div class="box-title">3. Karya Visual (Pilih Salah Satu)</div>
+          <div class="box-desc">Membuat 3 slide di <strong>PowerPoint</strong> ATAU 1 infografik menarik di <strong>Canva</strong>.</div>
+        </div>
+        <div class="box-info">
+          <div class="box-icon">✉️</div>
+          <div class="box-title">4. Pengiriman Email Resmi</div>
+          <div class="box-desc">Menulis email sopan dengan subject standar dan melampirkan ketiga file tugas ke guru.</div>
+        </div>
+      </div>
+
+      <div class="page-bottom-nav">
+        <span style="font-size:12px; color:var(--text-muted);">Tahap 1 dari 10</span>
+        <button class="btn primary" onclick="switchPage(2)">Mulai Proyek: Kenali Tugasmu ➡️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════ SECTION 2: BRIEF STUDI KASUS ════════════ -->
+  <div class="mission-page" id="page2">
+    <div class="card-mission">
+      <div class="mission-hero-header">
+        <div class="mission-title-group">
+          <h2>Brief Studi Kasus: Kenali Tugasmu</h2>
+          <p>Pahami skenario tugas sekolah agar kamu tahu persis apa yang harus kamu selesaikan.</p>
+        </div>
+        <div class="mission-xp-badge">⭐ Reward: +100 XP</div>
+      </div>
+
+      <div style="background:var(--bg-surface); border:1.5px solid var(--purple); border-radius:var(--radius-md); padding:20px; margin-bottom:18px;">
+        <span style="background:var(--purple); color:#fff; font-size:10.5px; font-weight:900; padding:3px 8px; border-radius:4px; text-transform:uppercase;">📌 TOPIK MAKALAH SEKOLAH</span>
+        <h3 style="font-size:18px; font-weight:900; color:#fff; margin:8px 0 6px;">“CARA MENGATUR WAKTU BELAJAR DAN BERMAIN BAGI SISWA SMP”</h3>
+        <p style="font-size:13px; color:#E2E8F0; line-height:1.65;">
+          Kamu mendapat tugas sekolah untuk membuat makalah sederhana tentang cara membagi waktu belajar dan bermain. Kamu akan mengolah data contoh menggunakan <strong>Excel</strong>, meminta bantuan <strong>AI</strong> untuk menyusun kerangka, menyusun makalah menggunakan <strong>Word</strong>, membuat satu karya visual pendukung (<strong>PowerPoint ATAU Canva</strong>), lalu mengirim tugas melalui <strong>Email</strong> lengkap dengan lampirannya.
+        </p>
+      </div>
+
+      <div class="notice-box">
+        <span class="notice-icon">🛡️</span>
+        <div>
+          <strong>Bebas Survei & Praktis:</strong>
+          <p>Kamu <strong>tidak perlu melakukan survei</strong> atau bertanya ke teman sekelas. Seluruh data angka contoh sudah disiapkan rapi di halaman berikutnya agar kamu bisa langsung fokus belajar mengolahnya!</p>
+        </div>
+      </div>
+
+      <div style="margin-top:20px;">
+        <h4 style="font-size:14px; font-weight:800; color:#fff; margin-bottom:10px;">🗺️ Alur Kerja Proyek Digitalmu:</h4>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:8px; padding:10px 14px; display:flex; align-items:center; gap:10px;">
+            <span style="background:#06B6D4; color:#083344; font-weight:900; font-size:11px; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center;">1</span>
+            <span style="font-size:12.5px; color:#E2E8F0;"><strong>Step 1 (Excel):</strong> Masukkan data jadwal belajar & bermain, hitung Total (SUM) dan Rata-rata (AVERAGE).</span>
+          </div>
+          <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:8px; padding:10px 14px; display:flex; align-items:center; gap:10px;">
+            <span style="background:#7C3AED; color:#fff; font-weight:900; font-size:11px; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center;">2</span>
+            <span style="font-size:12.5px; color:#E2E8F0;"><strong>Step 2 (AI Assistant):</strong> Gunakan prompt terarah untuk meminta kerangka 3 bab (Pendahuluan, Pembahasan, Kesimpulan).</span>
+          </div>
+          <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:8px; padding:10px 14px; display:flex; align-items:center; gap:10px;">
+            <span style="background:#3B82F6; color:#fff; font-weight:900; font-size:11px; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center;">3</span>
+            <span style="font-size:12.5px; color:#E2E8F0;"><strong>Step 3 (Word):</strong> Tulis makalah 2–3 halaman rapi dengan memasukkan hasil hitungan data Excel.</span>
+          </div>
+          <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:8px; padding:10px 14px; display:flex; align-items:center; gap:10px;">
+            <span style="background:#F59E0B; color:#78350F; font-weight:900; font-size:11px; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center;">4</span>
+            <span style="font-size:12.5px; color:#E2E8F0;"><strong>Step 4 (Visual Studio):</strong> Pilih salah satu: Buat 3 slide PowerPoint ATAU 1 infografik Canva.</span>
+          </div>
+          <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:8px; padding:10px 14px; display:flex; align-items:center; gap:10px;">
+            <span style="background:#10B981; color:#022C22; font-weight:900; font-size:11px; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center;">5</span>
+            <span style="font-size:12.5px; color:#E2E8F0;"><strong>Step 5 (Email):</strong> Susun pesan pengumpulan resmi dan lampirkan 3 berkas tugasmu.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-bottom-nav">
+        <button class="btn secondary" onclick="switchPage(1)">⬅️ Kembali ke Hero</button>
+        <button class="btn primary" onclick="switchPage(3)">Lanjut ke Step 1 (Excel) ➡️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════ SECTION 3: STEP 1 — EXCEL ════════════ -->
+  <div class="mission-page" id="page3">
+    <div class="card-mission">
+      <div class="mission-hero-header">
+        <div class="mission-title-group">
+          <h2>Step 1: Olah Data dengan Microsoft Excel</h2>
+          <p>Masukkan data contoh aktivitas harian siswa, gunakan rumus SUM dan AVERAGE untuk menemukan angka kuncinya.</p>
+        </div>
+        <div class="mission-xp-badge">⭐ Reward: +150 XP</div>
+      </div>
+
+      <!-- Tabel Data Contoh Asli -->
+      <div style="background:var(--bg-surface); border:1px solid var(--border); border-radius:12px; padding:18px; margin-bottom:18px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+          <h4 style="font-size:14px; font-weight:800; color:#fff;">📊 Data Contoh: Waktu Belajar vs Bermain Siswa (Senin - Jumat)</h4>
+          <button class="btn secondary" style="font-size:11px; padding:4px 12px;" onclick="copyTableText()">📋 Salin Teks Data</button>
+        </div>
+        <p style="font-size:12px; color:var(--text-muted); margin-bottom:10px;">Salin atau ketik data ini ke dalam lembar kerja Microsoft Excel di laptopmu:</p>
+
+        <div class="data-table-wrap">
+          <table class="custom-excel-table" id="excelDataTable">
+            <thead>
+              <tr>
+                <th style="width:20%;">Baris / Kolom</th>
+                <th style="width:28%;">A (Hari)</th>
+                <th style="width:26%;">B (Belajar - menit)</th>
+                <th style="width:26%;">C (Bermain - menit)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="color:var(--text-dim); font-weight:bold;">Baris 2</td>
+                <td>Senin</td>
+                <td>30</td>
+                <td>120</td>
+              </tr>
+              <tr>
+                <td style="color:var(--text-dim); font-weight:bold;">Baris 3</td>
+                <td>Selasa</td>
+                <td>45</td>
+                <td>90</td>
+              </tr>
+              <tr>
+                <td style="color:var(--text-dim); font-weight:bold;">Baris 4</td>
+                <td>Rabu</td>
+                <td>30</td>
+                <td>120</td>
+              </tr>
+              <tr>
+                <td style="color:var(--text-dim); font-weight:bold;">Baris 5</td>
+                <td>Kamis</td>
+                <td>60</td>
+                <td>60</td>
+              </tr>
+              <tr>
+                <td style="color:var(--text-dim); font-weight:bold;">Baris 6</td>
+                <td>Jumat</td>
+                <td>45</td>
+                <td>90</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="2">Rumus Total</td>
+                <td><code>=SUM(B2:B6)</code></td>
+                <td><code>=SUM(C2:C6)</code></td>
+              </tr>
+              <tr>
+                <td colspan="2">Rumus Rata-rata</td>
+                <td><code>=AVERAGE(B2:B6)</code></td>
+                <td><code>=AVERAGE(C2:C6)</code></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+
+      <!-- Instruksi Langkah Excel -->
+      <div style="margin:20px 0;">
+        <h4 style="font-size:14px; font-weight:800; color:#fff; margin-bottom:10px;">🛠️ Instruksi Pengerjaan di Excel:</h4>
+        <ol style="font-size:12.5px; color:#E2E8F0; padding-left:20px; line-height:1.7;">
+          <li>Buka aplikasi <strong>Microsoft Excel</strong> di laptop/komputer.</li>
+          <li>Ketik judul tabel di baris 1: <code>Hari</code> di sel A1, <code>Belajar (menit)</code> di B1, dan <code>Bermain (menit)</code> di C1.</li>
+          <li>Masukkan data Senin sampai Jumat dari baris 2 sampai 6 sesuai tabel di atas.</li>
+          <li>Di sel B7, ketik rumus total belajar: <code>=SUM(B2:B6)</code> lalu tekan Enter.</li>
+          <li>Di sel C7, ketik rumus total bermain: <code>=SUM(C2:C6)</code> lalu tekan Enter.</li>
+          <li>Di sel B8, ketik rumus rata-rata belajar: <code>=AVERAGE(B2:B6)</code> lalu tekan Enter.</li>
+          <li>Di sel C8, ketik rumus rata-rata bermain: <code>=AVERAGE(C2:C6)</code> lalu tekan Enter.</li>
+          <li>Simpan file dengan nama: <strong style="color:var(--yellow);" id="excelFileNameDisplay">Data_Jadwal_NamaSiswa.xlsx</strong>.</li>
+        </ol>
+      </div>
+
+      <!-- Kunci Pengecekan Interaktif (Bisa Dibuka/Tutup) -->
+      <div style="background:rgba(6, 182, 212, 0.08); border:1.5px solid rgba(6, 182, 212, 0.35); border-radius:10px; padding:16px; margin:18px 0;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <div>
+            <span style="font-size:11px; font-weight:800; color:var(--cyan);">🔍 PANEL KUNCI JAWABAN EXCEL</span>
+            <h4 style="font-size:14px; font-weight:800; color:#fff;">Sudah Selesai Menghitung? Cocokkan Hasilmu!</h4>
+          </div>
+          <button class="btn secondary" style="font-size:11px; padding:5px 12px;" onclick="toggleExcelKey()">Buka / Tutup Kunci Hitungan</button>
+        </div>
+
+        <div id="excelKeyPanel" style="display:none; margin-top:14px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.08);">
+          <div class="grid-2">
+            <div style="background:var(--bg-body); padding:10px; border-radius:6px; border:1px solid var(--border);">
+              <div style="font-size:11px; color:var(--text-muted);">Total Waktu Belajar (SUM):</div>
+              <strong style="font-size:16px; color:#34D399;">210 menit</strong>
+            </div>
+            <div style="background:var(--bg-body); padding:10px; border-radius:6px; border:1px solid var(--border);">
+              <div style="font-size:11px; color:var(--text-muted);">Total Waktu Bermain (SUM):</div>
+              <strong style="font-size:16px; color:#F87171;">480 menit</strong>
+            </div>
+            <div style="background:var(--bg-body); padding:10px; border-radius:6px; border:1px solid var(--border);">
+              <div style="font-size:11px; color:var(--text-muted);">Rata-rata Belajar Harian (AVERAGE):</div>
+              <strong style="font-size:16px; color:var(--yellow);">42 menit / hari</strong>
+            </div>
+            <div style="background:var(--bg-body); padding:10px; border-radius:6px; border:1px solid var(--border);">
+              <div style="font-size:11px; color:var(--text-muted);">Rata-rata Bermain Harian (AVERAGE):</div>
+              <strong style="font-size:16px; color:var(--cyan);">96 menit / hari</strong>
+            </div>
+          </div>
+          <p style="font-size:11.5px; color:var(--text-dim); margin-top:10px;">
+            💡 <em>Kesimpulan awal data:</em> Siswa menghabiskan waktu bermain (96 menit) lebih dari dua kali lipat waktu belajar (42 menit). Angka ini akan kita bahas di dalam makalah!
+          </p>
+        </div>
+      </div>
+
+      <!-- Checklist Step 1 -->
+      <div style="margin-top:18px;">
+        <h4 style="font-size:13.5px; font-weight:800; color:#fff; margin-bottom:8px;">Checklist Tahap 1 (Excel):</h4>
+        <div class="check-item" onclick="toggleTaskCheck('xl1')">
+          <div class="check-box-icon" id="chk_xl1"></div>
+          <div>Tabel data Senin–Jumat sudah diketik rapi di Microsoft Excel.</div>
+        </div>
+        <div class="check-item" onclick="toggleTaskCheck('xl2')">
+          <div class="check-box-icon" id="chk_xl2"></div>
+          <div>Rumus <code>=SUM</code> sudah menghitung Total Belajar (210) dan Total Bermain (480).</div>
+        </div>
+        <div class="check-item" onclick="toggleTaskCheck('xl3')">
+          <div class="check-box-icon" id="chk_xl3"></div>
+          <div>Rumus <code>=AVERAGE</code> sudah menghitung Rata-rata Belajar (42) dan Rata-rata Bermain (96).</div>
+        </div>
+        <div class="check-item" onclick="toggleTaskCheck('xl4')">
+          <div class="check-box-icon" id="chk_xl4"></div>
+          <div>File Excel sudah disimpan dengan nama <code>Data_Jadwal_NamaSiswa.xlsx</code>.</div>
+        </div>
+      </div>
+
+      <div class="page-bottom-nav">
+        <button class="btn secondary" onclick="switchPage(2)">⬅️ Kembali ke Brief</button>
+        <button class="btn primary" onclick="switchPage(4)">Lanjut ke Step 2 (Bantuan AI) ➡️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════ SECTION 4: STEP 2 — AI ASSISTANT ════════════ -->
+  <div class="mission-page" id="page4">
+    <div class="card-mission">
+      <div class="mission-hero-header">
+        <div class="mission-title-group">
+          <h2>Step 2: Minta Bantuan AI untuk Kerangka Makalah</h2>
+          <p>Gunakan AI sebagai teman diskusi brainstorming kerangka, bukan untuk menyuruhnya menulis seluruh makalah secara instan!</p>
+        </div>
+        <div class="mission-xp-badge">⭐ Reward: +150 XP</div>
+      </div>
+
+      <div class="notice-box">
+        <span class="notice-icon">🤖</span>
+        <div>
+          <strong>Prinsip Penggunaan AI di P11:</strong>
+          <p>"AI kita gunakan untuk membuat <strong>kerangka 3 bab</strong> (outline) agar tulisan kita terarah. Jangan menyalin seluruh esai AI mentah-mentah; isi dan kata-katanya tetap kamu kembangkan dengan pemahamanmu sendiri!"</p>
+        </div>
+      </div>
+
+      <!-- Prompt Standar TKFB -->
+      <div style="background:var(--bg-surface); border:1px solid var(--border); border-radius:12px; padding:18px; margin-bottom:16px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:8px;">
+          <h4 style="font-size:14px; font-weight:800; color:#fff;">📋 Prompt Standar Siap Salin untuk Asisten AI:</h4>
+          <button class="btn primary" style="font-size:11px; padding:4px 12px;" onclick="copyAiPromptP11()">📋 Salin Prompt AI</button>
+        </div>
+        <div id="aiPromptBoxP11" class="prompt-box">Bantu saya membuat kerangka makalah tentang cara mengatur waktu belajar dan bermain bagi siswa SMP kelas 7.
+
+Susun menjadi tiga bagian:
+1. Pendahuluan
+2. Pembahasan
+3. Kesimpulan
+
+Berikan ide sederhana untuk setiap bagian. Gunakan bahasa yang mudah dipahami. Jangan membuat data penelitian dan jangan menulis seluruh makalah untuk saya.</div>
+      </div>
+
+      <!-- Simulasi Respon AI -->
+      <div style="background:var(--bg-surface); border:1px solid var(--border); border-radius:12px; padding:18px; margin-bottom:16px;">
+        <h4 style="font-size:14px; font-weight:800; color:#fff; margin-bottom:4px;">💬 Simulasi Hasil Kerangka dari AI (Contoh Edukatif):</h4>
+        <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Berikut contoh struktur kerangka yang rapi untuk memandu ketikanmu di Microsoft Word:</p>
+
+        <div class="chat-window">
+          <div class="chat-bubble chat-user">
+            Bantu saya membuat kerangka makalah tentang cara mengatur waktu belajar dan bermain bagi siswa SMP kelas 7...
+          </div>
+          <div class="chat-bubble chat-ai">
+            <div class="chat-ai-header">🤖 Asisten AI (Kerangka Makalah):</div>
+            Tentu! Ini rancangan kerangka 3 bab yang pas untuk tugas siswa kelas 7:<br><br>
+            <strong>BAB I: PENDAHULUAN</strong><br>
+            • Mengapa mengatur waktu itu penting (banyak siswa asyik main game sampai lupa PR).<br>
+            • Tujuan tulisan: Membantu teman-teman membagi waktu secara seimbang tanpa stres.<br><br>
+            <strong>BAB II: PEMBAHASAN</strong><br>
+            • Manfaat mengatur waktu (tidak begadang, tugas tuntas tepat waktu).<br>
+            • Masukkan Tabel Data Excel (Rata-rata belajar 42 menit vs bermain 96 menit).<br>
+            • 3 Tips praktis membagi waktu (jadwal harian, belajar fokus 25 menit, istirahat cukup).<br><br>
+            <strong>BAB III: KESIMPULAN DAN SARAN</strong><br>
+            • Kesimpulan: Bermain itu boleh dan menyenangkan, asalkan kewajiban belajar sudah selesai.<br>
+            • Saran: Buat jadwal tempel di dekat meja belajar kamar.
+          </div>
+        </div>
+      </div>
+
+      <!-- Checklist Step 2 -->
+      <div style="margin-top:18px;">
+        <h4 style="font-size:13.5px; font-weight:800; color:#fff; margin-bottom:8px;">Checklist Tahap 2 (AI):</h4>
+        <div class="check-item" onclick="toggleTaskCheck('ai1')">
+          <div class="check-box-icon" id="chk_ai1"></div>
+          <div>Prompt AI sudah dipelajari atau disalin untuk mencari kerangka 3 bab.</div>
+        </div>
+        <div class="check-item" onclick="toggleTaskCheck('ai2')">
+          <div class="check-box-icon" id="chk_ai2"></div>
+          <div>Kerangka Pendahuluan, Pembahasan, dan Kesimpulan sudah dipahami.</div>
+        </div>
+        <div class="check-item" onclick="toggleTaskCheck('ai3')">
+          <div class="check-box-icon" id="chk_ai3"></div>
+          <div>Ide kerangka siap dikembangkan dengan bahasa dan kata-kata sendiri di Word.</div>
+        </div>
+      </div>
+
+      <div class="page-bottom-nav">
+        <button class="btn secondary" onclick="switchPage(3)">⬅️ Kembali ke Step 1 (Excel)</button>
+        <button class="btn primary" onclick="switchPage(5)">Lanjut ke Step 3 (Word) ➡️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════ SECTION 5: STEP 3 — WORD ════════════ -->
+  <div class="mission-page" id="page5">
+    <div class="card-mission">
+      <div class="mission-hero-header">
+        <div class="mission-title-group">
+          <h2>Step 3: Susun Makalah Rapi dengan Microsoft Word</h2>
+          <p>Tulis makalah sederhana 2–3 halaman (termasuk halaman judul) dengan struktur yang rapi dan nyaman dibaca.</p>
+        </div>
+        <div class="mission-xp-badge">⭐ Reward: +150 XP</div>
+      </div>
+
+      <div class="notice-box">
+        <span class="notice-icon">📝</span>
+        <div>
+          <strong>Target Dokumen Word:</strong>
+          <p>Panjang cukup <strong>2–3 halaman</strong>. Tidak perlu memakai format skripsi atau karya ilmiah rumit! Yang paling penting adalah judul jelas, paragraf rapi, tabel data dimasukkan, dan spasi nyaman dibaca.</p>
+        </div>
+      </div>
+
+      <!-- Struktur Makalah Lengkap -->
+      <div class="grid-2" style="margin:16px 0;">
+        <div class="box-info">
+          <div style="font-size:11px; font-weight:800; color:var(--cyan); margin-bottom:4px;">BAGIAN 1: HALAMAN JUDUL (COVER)</div>
+          <h4 style="font-size:14px; font-weight:800; color:#fff; margin-bottom:6px;">Cover Depan Makalah</h4>
+          <ul style="font-size:12px; color:var(--text-muted); padding-left:18px; line-height:1.6;">
+            <li>Judul: <strong>Cara Mengatur Waktu Belajar dan Bermain bagi Siswa SMP</strong></li>
+            <li>Nama: <span style="color:#fff;" class="syncStudentSpan">Siswa Kelas 7</span></li>
+            <li>Kelas: <span style="color:#fff;" class="syncClassSpan">Kelas 7A</span></li>
+            <li>Nama Sekolah: (Ketik nama SMP kamu)</li>
+          </ul>
+        </div>
+
+        <div class="box-info">
+          <div style="font-size:11px; font-weight:800; color:var(--green); margin-bottom:4px;">BAGIAN 2: PENDAHULUAN</div>
+          <h4 style="font-size:14px; font-weight:800; color:#fff; margin-bottom:6px;">Latar Belakang & Tujuan</h4>
+          <p style="font-size:12px; color:var(--text-muted); line-height:1.55;">
+            Jelaskan mengapa siswa kelas 7 sering kesulitan membagi waktu antara main game/HP dan belajar, serta apa tujuan tulisan ini dibuat.
+          </p>
+        </div>
+
+        <div class="box-info">
+          <div style="font-size:11px; font-weight:800; color:var(--yellow); margin-bottom:4px;">BAGIAN 3: PEMBAHASAN & DATA</div>
+          <h4 style="font-size:14px; font-weight:800; color:#fff; margin-bottom:6px;">Hasil Hitungan Data Excel</h4>
+          <p style="font-size:12px; color:var(--text-muted); line-height:1.55;">
+            Masukkan tabel data jadwal dan sebutkan hasil hitungan: <strong>Rata-rata belajar 42 menit/hari</strong> dan <strong>Rata-rata bermain 96 menit/hari</strong>, lalu berikan 3 tips membagi waktu.
+          </p>
+        </div>
+
+        <div class="box-info">
+          <div style="font-size:11px; font-weight:800; color:var(--violet); margin-bottom:4px;">BAGIAN 4: KESIMPULAN & SARAN</div>
+          <h4 style="font-size:14px; font-weight:800; color:#fff; margin-bottom:6px;">Penutup yang Mengesankan</h4>
+          <p style="font-size:12px; color:var(--text-muted); line-height:1.55;">
+            Tuliskan kesimpulan bahwa bermain dan belajar bisa seimbang asalkan punya jadwal teratur, serta saran praktis untuk teman sebaya.
+          </p>
+        </div>
+      </div>
+
+      <!-- Contoh Paragraf Pembuka -->
+      <div style="background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:10px; padding:16px; margin:16px 0;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <h4 style="font-size:13.5px; font-weight:800; color:#fff;">💡 Contoh Paragraf Pendahuluan untuk Membantumu Memulai:</h4>
+          <button class="btn secondary" style="font-size:10.5px; padding:3px 10px;" onclick="copyDraftParagraph()">📋 Salin Contoh Paragraf</button>
+        </div>
+        <p id="sampleDraftParagraph" style="font-size:12.5px; color:#A7F3D0; line-height:1.6; font-style:italic;">
+          "Sebagai siswa SMP, kita sering dihadapkan pada godaan bermain game di HP atau mengobrol bersama teman sampai lupa mengerjakan tugas sekolah. Padahal, belajar dan bermain adalah dua hal yang sama-sama penting untuk tumbuh kembang kita. Melalui makalah ini, penulis ingin membagikan analisis waktu belajar dan bermain harian serta tips praktis agar kita bisa berprestasi di sekolah tanpa kehilangan waktu bermain yang menyenangkan."
+        </p>
+      </div>
+
+      <!-- Tips Format Rapi di Word -->
+      <div style="background:var(--bg-surface); border:1px solid var(--border); border-radius:10px; padding:14px; font-size:12.5px; color:#E2E8F0; line-height:1.6;">
+        <strong style="color:var(--cyan);">✨ Aturan Emas Format Word Pelajar Rapi:</strong><br>
+        • Jenis Font: Gunakan font standar yang jelas (misal: Arial, Calibri, atau Times New Roman ukuran 12pt).<br>
+        • Judul Bab: Ukuran 14pt tebal (Bold).<br>
+        • Spasi Paragraf: Berikan jarak antarparagraf 1.15 atau 1.5 agar tulisan tidak bertumpuk sesak.<br>
+        • Simpan File: Simpan dengan nama <strong style="color:var(--yellow);" id="wordFileNameDisplay">Makalah_NamaSiswa.docx</strong>.
+      </div>
+
+      <!-- Checklist Step 3 -->
+      <div style="margin-top:18px;">
+        <h4 style="font-size:13.5px; font-weight:800; color:#fff; margin-bottom:8px;">Checklist Tahap 3 (Word):</h4>
+        <div class="check-item" onclick="toggleTaskCheck('wd1')">
+          <div class="check-box-icon" id="chk_wd1"></div>
+          <div>Halaman Judul (Cover) lengkap dengan nama siswa, kelas, dan nama sekolah.</div>
+        </div>
+        <div class="check-item" onclick="toggleTaskCheck('wd2')">
+          <div class="check-box-icon" id="chk_wd2"></div>
+          <div>Pendahuluan menjelaskan alasan pentingnya mengatur waktu bagi anak SMP.</div>
+        </div>
+        <div class="check-item" onclick="toggleTaskCheck('wd3')">
+          <div class="check-box-icon" id="chk_wd3"></div>
+          <div>Pembahasan memuat data Excel (rata-rata 42 menit belajar & 96 menit bermain).</div>
+        </div>
+        <div class="check-item" onclick="toggleTaskCheck('wd4')">
+          <div class="check-box-icon" id="chk_wd4"></div>
+          <div>Kesimpulan dan saran sudah ditulis dengan bahasa sendiri.</div>
+        </div>
+        <div class="check-item" onclick="toggleTaskCheck('wd5')">
+          <div class="check-box-icon" id="chk_wd5"></div>
+          <div>Dokumen disimpan dengan nama <code>Makalah_NamaSiswa.docx</code>.</div>
+        </div>
+      </div>
+
+      <div class="page-bottom-nav">
+        <button class="btn secondary" onclick="switchPage(4)">⬅️ Kembali ke Step 2 (AI)</button>
+        <button class="btn primary" onclick="switchPage(6)">Lanjut ke Step 4 (Karya Visual) ➡️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════ SECTION 6: STEP 4 — KARYA VISUAL ════════════ -->
+  <div class="mission-page" id="page6">
+    <div class="card-mission">
+      <div class="mission-hero-header">
+        <div class="mission-title-group">
+          <h2>Step 4: Buat Satu Karya Visual — Pilih PowerPoint ATAU Canva</h2>
+          <p>Kamu hanya perlu memilih salah satu: membuat slide presentasi PowerPoint ATAU membuat infografik di Canva!</p>
+        </div>
+        <div class="mission-xp-badge">⭐ Reward: +150 XP</div>
+      </div>
+
+      <div class="notice-box">
+        <span class="notice-icon">🎨</span>
+        <div>
+          <strong>Pilih yang Paling Kamu Sukai:</strong>
+          <p>Kamu <strong>tidak wajib membuat keduanya</strong>! Pilih alat yang paling kamu kuasai: <strong>Pilihan A (PowerPoint 3 Slide)</strong> atau <strong>Pilihan B (Canva Infografik 1 Lembar)</strong>.</p>
+        </div>
+      </div>
+
+      <!-- Selector Pilihan Visual A / B -->
+      <div style="display:flex; gap:12px; margin:16px 0; flex-wrap:wrap;">
+        <button class="visual-choice-btn active" id="btnChoicePpt" onclick="setVisualChoice('ppt')">
+          <span>🟧</span> PILIHAN A: PowerPoint (3 Slide)
+        </button>
+        <button class="visual-choice-btn" id="btnChoiceCanva" onclick="setVisualChoice('canva')">
+          <span>🟣</span> PILIHAN B: Canva (Infografik Poster)
+        </button>
+      </div>
+
+      <!-- KONTEN PILIHAN A: POWERPOINT -->
+      <div id="visualContentPpt" style="background:var(--bg-surface); border:1.5px solid #EA580C; border-radius:12px; padding:20px; margin-bottom:16px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <h3 style="font-size:16px; font-weight:800; color:#fff;">🟧 Pilihan A: Panduan 3 Slide Presentasi PowerPoint</h3>
+          <span style="font-size:11px; color:#FB923C; font-weight:800; background:rgba(234,88,12,0.2); padding:3px 8px; border-radius:4px;">Format: .pptx</span>
+        </div>
+        <p style="font-size:12.5px; color:var(--text-muted); margin-bottom:14px;">
+          Buka PowerPoint di laptopmu dan buat presentasi ringkas 3 slide dengan konten berikut:
+        </p>
+
+        <div class="grid-3">
+          <div style="background:var(--bg-body); padding:14px; border-radius:8px; border:1px solid var(--border);">
+            <div style="font-size:11px; font-weight:800; color:#FB923C; margin-bottom:4px;">SLIDE 1: JUDUL & IDENTITAS</div>
+            <strong style="font-size:13px; color:#fff; display:block; margin-bottom:6px;">Cover Presentasi</strong>
+            <p style="font-size:12px; color:var(--text-muted);">
+              • Judul: <em>Mengatur Waktu Belajar & Bermain</em><br>
+              • Nama Siswa & Kelas 7<br>
+              • Ilustrasi laptop/jam dinding.
+            </p>
+          </div>
+
+          <div style="background:var(--bg-body); padding:14px; border-radius:8px; border:1px solid var(--border);">
+            <div style="font-size:11px; font-weight:800; color:#FB923C; margin-bottom:4px;">SLIDE 2: HASIL DATA EXCEL</div>
+            <strong style="font-size:13px; color:#fff; display:block; margin-bottom:6px;">Fakta Angka Harian</strong>
+            <p style="font-size:12px; color:var(--text-muted);">
+              • Rata-rata Belajar: <strong>42 menit/hari</strong><br>
+              • Rata-rata Bermain: <strong>96 menit/hari</strong><br>
+              • Poin: Waktu bermain 2x lebih banyak!
+            </p>
+          </div>
+
+          <div style="background:var(--bg-body); padding:14px; border-radius:8px; border:1px solid var(--border);">
+            <div style="font-size:11px; font-weight:800; color:#FB923C; margin-bottom:4px;">SLIDE 3: TIPS KESEIMBANGAN</div>
+            <strong style="font-size:13px; color:#fff; display:block; margin-bottom:6px;">Kesimpulan & Tips</strong>
+            <p style="font-size:12px; color:var(--text-muted);">
+              • Buat jadwal harian tertulis<br>
+              • Terapkan belajar fokus 25 menit<br>
+              • Selesaikan tugas sebelum main game!
+            </p>
+          </div>
+        </div>
+
+        <div style="margin-top:14px; font-size:12px; color:#E2E8F0;">
+          Simpan file PowerPoint dengan nama: <strong style="color:var(--yellow);" id="pptFileNameDisplay">Presentasi_NamaSiswa.pptx</strong>
+        </div>
+      </div>
+
+      <!-- KONTEN PILIHAN B: CANVA -->
+      <div id="visualContentCanva" style="display:none; background:var(--bg-surface); border:1.5px solid var(--cyan); border-radius:12px; padding:20px; margin-bottom:16px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <h3 style="font-size:16px; font-weight:800; color:#fff;">🟣 Pilihan B: Panduan Infografik Poster Canva</h3>
+          <span style="font-size:11px; color:var(--cyan); font-weight:800; background:rgba(6,182,212,0.2); padding:3px 8px; border-radius:4px;">Format: .png / .pdf</span>
+        </div>
+        <p style="font-size:12.5px; color:var(--text-muted); margin-bottom:14px;">
+          Buka Canva di browser, pilih template poster/infografik bertema <em>"Tips Mengatur Waktu Belajar dan Bermain"</em>.
+        </p>
+
+        <div style="background:var(--bg-body); padding:14px; border-radius:8px; border:1px solid var(--border); margin-bottom:12px;">
+          <strong style="font-size:13px; color:#fff; display:block; margin-bottom:6px;">4 Poin Konten Wajib Infografik Canva:</strong>
+          <ul style="font-size:12px; color:#CBD5E1; padding-left:18px; line-height:1.65;">
+            <li>1. <strong>Judul Menarik:</strong> <em>"4 Jurus Atur Waktu Belajar & Main Anak SMP"</em></li>
+            <li>2. <strong>Tips 1:</strong> Buat jadwal harian tertulis di dekat meja kamar.</li>
+            <li>3. <strong>Tips 2:</strong> Belajar fokus 25 menit bebas notifikasi HP.</li>
+            <li>4. <strong>Tips 3 & 4:</strong> Sisihkan waktu istirahat dan bermain santai setelah PR tuntas.</li>
+            <li>5. <strong>Identitas Pembuat:</strong> Cantumkan nama siswa dan kelas di bagian bawah poster.</li>
+          </ul>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+          <a href="https://www.canva.com/" target="_blank" rel="noopener noreferrer" class="btn primary" style="font-size:12px;">
+            🌐 Buka Canva di Tab Baru (canva.com) ↗
+          </a>
+          <span style="font-size:12px; color:#E2E8F0;">
+            Unduh file sebagai gambar: <strong style="color:var(--yellow);" id="canvaFileNameDisplay">Infografik_NamaSiswa.png</strong>
+          </span>
+        </div>
+      </div>
+
+      <!-- Checklist Step 4 Dinamis -->
+      <div style="margin-top:18px;">
+        <h4 style="font-size:13.5px; font-weight:800; color:#fff; margin-bottom:8px;">Checklist Tahap 4 (Karya Visual):</h4>
+        <div class="check-item" onclick="toggleTaskCheck('vis1')">
+          <div class="check-box-icon" id="chk_vis1"></div>
+          <div id="visCheckLabel1">Sudah memilih salah satu alat: PowerPoint (3 slide) ATAU Canva (infografik).</div>
+        </div>
+        <div class="check-item" onclick="toggleTaskCheck('vis2')">
+          <div class="check-box-icon" id="chk_vis2"></div>
+          <div>Pesan utama mengatur waktu dan data disajikan secara rapi dan mudah dibaca.</div>
+        </div>
+        <div class="check-item" onclick="toggleTaskCheck('vis3')">
+          <div class="check-box-icon" id="chk_vis3"></div>
+          <div>File visual sudah disimpan dengan nama yang sesuai di komputer/laptop.</div>
+        </div>
+      </div>
+
+      <div class="page-bottom-nav">
+        <button class="btn secondary" onclick="switchPage(5)">⬅️ Kembali ke Step 3 (Word)</button>
+        <button class="btn primary" onclick="switchPage(7)">Lanjut ke Step 5 (Email) ➡️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════ SECTION 7: STEP 5 — EMAIL ════════════ -->
+  <div class="mission-page" id="page7">
+    <div class="card-mission">
+      <div class="mission-hero-header">
+        <div class="mission-title-group">
+          <h2>Step 5: Pengiriman Tugas Sekolah Melalui Email</h2>
+          <p>Kirimkan seluruh hasil kerjamu kepada guru dengan etika surat elektronik yang sopan dan lampiran lengkap.</p>
+        </div>
+        <div class="mission-xp-badge">⭐ Reward: +150 XP</div>
+      </div>
+
+      <div class="notice-box">
+        <span class="notice-icon">✉️</span>
+        <div>
+          <strong>Aturan Pengumpulan Email Resmi:</strong>
+          <p>Email pengumpulan tugas harus memiliki <strong>Subjek yang jelas</strong>, sapaan pembuka sopan, identitas lengkap, dan <strong>3 file lampiran</strong> yang sudah kamu buat di langkah sebelumnya.</p>
+        </div>
+      </div>
+
+      <!-- Format Email Lengkap -->
+      <div style="background:var(--bg-surface); border:1px solid var(--border); border-radius:12px; padding:18px; margin:16px 0;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <h4 style="font-size:14px; font-weight:800; color:#fff;">📨 Draf Format Email Standar Pelajar:</h4>
+          <button class="btn primary" style="font-size:11px; padding:4px 12px;" onclick="copyEmailDraft()">📋 Salin Teks Email</button>
+        </div>
+
+        <div style="font-size:12.5px; color:#E2E8F0; line-height:1.7;">
+          <div style="border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:6px;">
+            <strong style="color:var(--text-muted);">Kepada (To):</strong> <span style="color:#fff;">(Alamat email guru / tutor sekolahmu)</span>
+          </div>
+          <div style="border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:10px;">
+            <strong style="color:var(--text-muted);">Subject:</strong> <span style="color:var(--yellow); font-weight:bold;" id="emailSubjectSlot">Pengumpulan Tugas P11 — Siswa Kelas 7 (7A)</span>
+          </div>
+
+          <div id="emailBodyText" style="background:var(--bg-body); padding:14px; border-radius:8px; border:1px solid var(--border); white-space:pre-wrap; font-family:var(--font-sans);">Yth. Bapak/Ibu Guru,
+
+Saya mengirimkan tugas proyek akhir Pertemuan 11 (Digital Student Project) bertema "Cara Mengatur Waktu Belajar dan Bermain bagi Siswa SMP".
+
+Bersama email ini, saya lampirkan 3 berkas tugas:
+1. Makalah_NamaSiswa.docx (Makalah Word)
+2. Data_Jadwal_NamaSiswa.xlsx (Pengolahan Data Excel)
+3. Karya Visual pendukung (Presentasi PowerPoint / Infografik Canva)
+
+Terima kasih atas bimbingan Bapak/Ibu Guru selama pembelajaran komputer.
+
+Hormat saya,
+[Nama Siswa] — Kelas 7</div>
+        </div>
+      </div>
+
+      <!-- Panduan 3 Lampiran File -->
+      <div style="background:rgba(124,58,237,0.08); border:1.5px solid rgba(124,58,237,0.35); border-radius:10px; padding:16px; margin-bottom:18px;">
+        <h4 style="font-size:13.5px; font-weight:800; color:#C084FC; margin-bottom:8px;">📎 Ceklist 3 File Lampiran Wajib (Attachments):</h4>
+        <div style="font-size:12px; color:#E2E8F0; line-height:1.6;">
+          • File 1: 📄 <code>Makalah_NamaSiswa.docx</code> (Dokumen tulisan lengkap)<br>
+          • File 2: 📊 <code>Data_Jadwal_NamaSiswa.xlsx</code> (File hitungan SUM & AVERAGE)<br>
+          • File 3: 🎨 <code>Presentasi_NamaSiswa.pptx</code> ATAU <code>Infografik_NamaSiswa.png</code>
+        </div>
+      </div>
+
+      <!-- Checklist Step 5 -->
+      <div>
+        <h4 style="font-size:13.5px; font-weight:800; color:#fff; margin-bottom:8px;">Checklist Tahap 5 (Email):</h4>
+        <div class="check-item" onclick="toggleTaskCheck('em1')">
+          <div class="check-box-icon" id="chk_em1"></div>
+          <div>Alamat email guru penerima sudah dimasukkan dengan benar.</div>
+        </div>
+        <div class="check-item" onclick="toggleTaskCheck('em2')">
+          <div class="check-box-icon" id="chk_em2"></div>
+          <div>Subject email sudah ditulis dengan format: <code>Pengumpulan Tugas P11 — [Nama Siswa]</code>.</div>
+        </div>
+        <div class="check-item" onclick="toggleTaskCheck('em3')">
+          <div class="check-box-icon" id="chk_em3"></div>
+          <div>Isi surat (body email) menggunakan bahasa yang sopan dan santun.</div>
+        </div>
+        <div class="check-item" onclick="toggleTaskCheck('em4')">
+          <div class="check-box-icon" id="chk_em4"></div>
+          <div>Ketiga file tugas (Word, Excel, dan Visual) sudah dilampirkan sebelum menekan Kirim.</div>
+        </div>
+      </div>
+
+      <div class="page-bottom-nav">
+        <button class="btn secondary" onclick="switchPage(6)">⬅️ Kembali ke Step 4 (Visual)</button>
+        <button class="btn primary" onclick="switchPage(8)">Buka Master Checklist Proyek ➡️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════ SECTION 8: MASTER FINAL CHECKLIST ════════════ -->
+  <div class="mission-page" id="page8">
+    <div class="card-mission">
+      <div class="mission-hero-header">
+        <div class="mission-title-group">
+          <h2>Master Final Checklist: Pusat Kendali Proyek Digital</h2>
+          <p>Pastikan setiap tahapan telah kamu periksa. Checklist tersimpan otomatis di perangkatmu.</p>
+        </div>
+        <div class="mission-xp-badge">⭐ Reward: +150 XP</div>
+      </div>
+
+      <!-- Progress Meter Checklist -->
+      <div style="background:var(--bg-surface); border:1px solid var(--border); border-radius:12px; padding:18px; margin-bottom:20px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:8px;">
+          <div>
+            <span style="font-size:11px; font-weight:800; color:var(--cyan);">STATUS KELENGKAPAN PROYEK</span>
+            <h4 style="font-size:16px; font-weight:800; color:#fff;">Kemajuan Pengerjaan Tugas Mandiri</h4>
+          </div>
+          <div style="font-size:18px; font-weight:900; color:var(--yellow);" id="masterChecklistPercent">0%</div>
+        </div>
+        <div style="width:100%; height:8px; background:rgba(255,255,255,0.06); border-radius:999px; overflow:hidden;">
+          <div id="masterChecklistBar" style="width:0%; height:100%; background:linear-gradient(90deg, #7C3AED, #06B6D4, #10B981); transition:width 0.3s ease;"></div>
+        </div>
+      </div>
+
+      <!-- 5 Kelompok Checklist Komprehensif -->
+      <div class="grid-2">
+        <!-- Excel -->
+        <div style="background:var(--bg-surface); border:1px solid var(--border); border-radius:10px; padding:14px;">
+          <div style="font-size:13px; font-weight:800; color:#38BDF8; margin-bottom:8px;">📊 1. Modul Excel</div>
+          <div class="check-item" onclick="toggleTaskCheck('xl1')"><div class="check-box-icon" id="chk2_xl1"></div><div style="font-size:12px;">Tabel data Senin–Jumat selesai dibuat.</div></div>
+          <div class="check-item" onclick="toggleTaskCheck('xl2')"><div class="check-box-icon" id="chk2_xl2"></div><div style="font-size:12px;">Rumus Total (SUM) selesai dihitung.</div></div>
+          <div class="check-item" onclick="toggleTaskCheck('xl3')"><div class="check-box-icon" id="chk2_xl3"></div><div style="font-size:12px;">Rumus Rata-rata (AVERAGE) selesai dihitung.</div></div>
+          <div class="check-item" onclick="toggleTaskCheck('xl4')"><div class="check-box-icon" id="chk2_xl4"></div><div style="font-size:12px;">File Excel disimpan sesuai nama standar.</div></div>
+        </div>
+
+        <!-- AI -->
+        <div style="background:var(--bg-surface); border:1px solid var(--border); border-radius:10px; padding:14px;">
+          <div style="font-size:13px; font-weight:800; color:#C084FC; margin-bottom:8px;">🤖 2. Asisten AI</div>
+          <div class="check-item" onclick="toggleTaskCheck('ai1')"><div class="check-box-icon" id="chk2_ai1"></div><div style="font-size:12px;">Prompt terarah sudah digunakan/dipelajari.</div></div>
+          <div class="check-item" onclick="toggleTaskCheck('ai2')"><div class="check-box-icon" id="chk2_ai2"></div><div style="font-size:12px;">Kerangka 3 bab telah disesuaikan dengan topik.</div></div>
+          <div class="check-item" onclick="toggleTaskCheck('ai3')"><div class="check-box-icon" id="chk2_ai3"></div><div style="font-size:12px;">Ide dikembangkan dengan bahasa sendiri (bukan copas).</div></div>
+        </div>
+
+        <!-- Word -->
+        <div style="background:var(--bg-surface); border:1px solid var(--border); border-radius:10px; padding:14px;">
+          <div style="font-size:13px; font-weight:800; color:#60A5FA; margin-bottom:8px;">📝 3. Makalah Word</div>
+          <div class="check-item" onclick="toggleTaskCheck('wd1')"><div class="check-box-icon" id="chk2_wd1"></div><div style="font-size:12px;">Halaman judul & identitas lengkap.</div></div>
+          <div class="check-item" onclick="toggleTaskCheck('wd2')"><div class="check-box-icon" id="chk2_wd2"></div><div style="font-size:12px;">Pendahuluan dan latar belakang tersedia.</div></div>
+          <div class="check-item" onclick="toggleTaskCheck('wd3')"><div class="check-box-icon" id="chk2_wd3"></div><div style="font-size:12px;">Data Excel dimasukkan ke dalam Pembahasan.</div></div>
+          <div class="check-item" onclick="toggleTaskCheck('wd4')"><div class="check-box-icon" id="chk2_wd4"></div><div style="font-size:12px;">Kesimpulan & saran sudah ditulis rapi.</div></div>
+          <div class="check-item" onclick="toggleTaskCheck('wd5')"><div class="check-box-icon" id="chk2_wd5"></div><div style="font-size:12px;">File Word disimpan sesuai format nama.</div></div>
+        </div>
+
+        <!-- Visual & Email -->
+        <div style="background:var(--bg-surface); border:1px solid var(--border); border-radius:10px; padding:14px;">
+          <div style="font-size:13px; font-weight:800; color:#FDE047; margin-bottom:8px;">🎨 4. Visual & ✉️ 5. Email</div>
+          <div class="check-item" onclick="toggleTaskCheck('vis1')"><div class="check-box-icon" id="chk2_vis1"></div><div style="font-size:12px;">Karya visual (PPT atau Canva) sudah dibuat.</div></div>
+          <div class="check-item" onclick="toggleTaskCheck('vis2')"><div class="check-box-icon" id="chk2_vis2"></div><div style="font-size:12px;">Pesan utama dan data visual jelas dibaca.</div></div>
+          <div class="check-item" onclick="toggleTaskCheck('em2')"><div class="check-box-icon" id="chk2_em2"></div><div style="font-size:12px;">Subject email dan pesan sopan sudah disiapkan.</div></div>
+          <div class="check-item" onclick="toggleTaskCheck('em4')"><div class="check-box-icon" id="chk2_em4"></div><div style="font-size:12px;">Ketiga file lampiran siap dikirimkan ke guru.</div></div>
+        </div>
+      </div>
+
+      <div class="page-bottom-nav">
+        <button class="btn secondary" onclick="switchPage(7)">⬅️ Kembali ke Step 5 (Email)</button>
+        <button class="btn primary" onclick="switchPage(9)">Lanjut ke Final Quiz (5 Soal) ➡️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════ SECTION 9: FINAL QUIZ ARENA ════════════ -->
+  <div class="mission-page" id="page9">
+    <div class="card-mission">
+      <div class="mission-hero-header">
+        <div class="mission-title-group">
+          <h2>Final Quiz: Uji Pemahaman Digital Student (5 Soal)</h2>
+          <p>Buktikan pemahamanmu seputar rumus Excel, peran AI, format Word, dan etika pengiriman email.</p>
+        </div>
+        <div class="mission-xp-badge">⭐ Reward: +150 XP</div>
+      </div>
+
+      <!-- Quiz HUD -->
+      <div class="quiz-arena-wrap">
+        <div class="quiz-arena-hud">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span class="quiz-hud-badge">⚔️ FINAL QUIZ ARENA</span>
+            <strong style="color:#fff; font-size:13.5px;" id="p11QuizIndicator">Soal 1 dari 5: Fungsi SUM di Excel</strong>
+          </div>
+          <div class="quiz-stepper-dots">
+            <div class="quiz-dot-item active" id="p11Dot1" onclick="jumpP11Quiz(1)">1</div>
+            <div class="quiz-dot-item" id="p11Dot2" onclick="jumpP11Quiz(2)">2</div>
+            <div class="quiz-dot-item" id="p11Dot3" onclick="jumpP11Quiz(3)">3</div>
+            <div class="quiz-dot-item" id="p11Dot4" onclick="jumpP11Quiz(4)">4</div>
+            <div class="quiz-dot-item" id="p11Dot5" onclick="jumpP11Quiz(5)">5</div>
+          </div>
+        </div>
+
+        <!-- Soal 1 -->
+        <div class="quiz-card-stage active-stage" id="p11Stage1">
+          <div class="quiz-q-title">1. Di Microsoft Excel, apa fungsi utama dari rumus <code>=SUM(B2:B6)</code>?</div>
+          <div class="quiz-option-card" onclick="submitP11Quiz(1, this, true)"><span class="quiz-opt-letter">A</span><span class="quiz-opt-text">Menjumlahkan seluruh angka dari sel B2 sampai B6 secara otomatis.</span></div>
+          <div class="quiz-option-card" onclick="submitP11Quiz(1, this, false)"><span class="quiz-opt-letter">B</span><span class="quiz-opt-text">Mencari nilai rata-rata dari data sel B2 sampai B6.</span></div>
+          <div class="quiz-option-card" onclick="submitP11Quiz(1, this, false)"><span class="quiz-opt-letter">C</span><span class="quiz-opt-text">Mengubah huruf kecil menjadi huruf kapital semua.</span></div>
+          <div class="quiz-explanation-banner" id="p11Expl1"></div>
+        </div>
+
+        <!-- Soal 2 -->
+        <div class="quiz-card-stage" id="p11Stage2">
+          <div class="quiz-q-title">2. Kapan sebaiknya kita menggunakan rumus <code>=AVERAGE</code> di lembar kerja Excel?</div>
+          <div class="quiz-option-card" onclick="submitP11Quiz(2, this, false)"><span class="quiz-opt-letter">A</span><span class="quiz-opt-text">Saat ingin mengalikan dua buah angka yang sangat besar.</span></div>
+          <div class="quiz-option-card" onclick="submitP11Quiz(2, this, true)"><span class="quiz-opt-letter">B</span><span class="quiz-opt-text">Saat ingin menghitung nilai rata-rata dari sekumpulan data angka.</span></div>
+          <div class="quiz-option-card" onclick="submitP11Quiz(2, this, false)"><span class="quiz-opt-letter">C</span><span class="quiz-opt-text">Saat ingin mewarnai baris tabel menjadi hijau.</span></div>
+          <div class="quiz-explanation-banner" id="p11Expl2"></div>
+        </div>
+
+        <!-- Soal 3 -->
+        <div class="quiz-card-stage" id="p11Stage3">
+          <div class="quiz-q-title">3. Apa peran AI yang paling tepat dan bertanggung jawab saat menyusun tugas makalah sekolah?</div>
+          <div class="quiz-option-card" onclick="submitP11Quiz(3, this, false)"><span class="quiz-opt-letter">A</span><span class="quiz-opt-text">Menyuruh AI menuliskan seluruh makalah dari awal sampai akhir lalu langsung dikumpulkan tanpa dibaca.</span></div>
+          <div class="quiz-option-card" onclick="submitP11Quiz(3, this, true)"><span class="quiz-opt-letter">B</span><span class="quiz-opt-text">Membantu menyusun kerangka tulisan dan mencari ide, lalu kita kembangkan sendiri dengan pemahaman pribadi.</span></div>
+          <div class="quiz-option-card" onclick="submitP11Quiz(3, this, false)"><span class="quiz-opt-letter">C</span><span class="quiz-opt-text">Menyuruh AI mengirim email ke guru secara otomatis.</span></div>
+          <div class="quiz-explanation-banner" id="p11Expl3"></div>
+        </div>
+
+        <!-- Soal 4 -->
+        <div class="quiz-card-stage" id="p11Stage4">
+          <div class="quiz-q-title">4. Mengapa memberi jarak antarparagraf dan ukuran font yang seragam di Word sangat penting?</div>
+          <div class="quiz-option-card" onclick="submitP11Quiz(4, this, true)"><span class="quiz-opt-letter">A</span><span class="quiz-opt-text">Agar makalah terlihat rapi, terstruktur, dan nyaman dibaca oleh guru penilai.</span></div>
+          <div class="quiz-option-card" onclick="submitP11Quiz(4, this, false)"><span class="quiz-opt-letter">B</span><span class="quiz-opt-text">Agar ukuran file dokumen Word menjadi berukuran gigabyte.</span></div>
+          <div class="quiz-option-card" onclick="submitP11Quiz(4, this, false)"><span class="quiz-opt-letter">C</span><span class="quiz-opt-text">Agar laptop tidak mengalami kepanasan (*overheat*).</span></div>
+          <div class="quiz-explanation-banner" id="p11Expl4"></div>
+        </div>
+
+        <!-- Soal 5 -->
+        <div class="quiz-card-stage" id="p11Stage5">
+          <div class="quiz-q-title">5. Hal apa yang paling krusial diperiksa sebelum menekan tombol 'Kirim' pada email tugas sekolah?</div>
+          <div class="quiz-option-card" onclick="submitP11Quiz(5, this, false)"><span class="quiz-opt-letter">A</span><span class="quiz-opt-text">Mengisi baris To dengan 20 alamat email teman sekelas.</span></div>
+          <div class="quiz-option-card" onclick="submitP11Quiz(5, this, true)"><span class="quiz-opt-letter">B</span><span class="quiz-opt-text">Memastikan alamat email penerima benar, subjek terisi jelas, bahasa sopan, dan seluruh berkas sudah terlampir.</span></div>
+          <div class="quiz-option-card" onclick="submitP11Quiz(5, this, false)"><span class="quiz-opt-letter">C</span><span class="quiz-opt-text">Memastikan warna tema kotak masuk sudah diubah menjadi ungu.</span></div>
+          <div class="quiz-explanation-banner" id="p11Expl5"></div>
+        </div>
+
+        <!-- Victory Banner Quiz -->
+        <div id="p11QuizVictory" style="display:none; text-align:center; padding:22px 14px;">
+          <div style="font-size:44px; margin-bottom:8px;">🏆✨</div>
+          <h3 style="font-size:20px; font-weight:900; color:#fff; margin-bottom:6px;">Selamat! Kuis Final Selesai!</h3>
+          <p style="font-size:13px; color:var(--text-muted); max-width:480px; margin:0 auto 16px;">
+            Kamu berhasil menjawab dengan skor <span style="color:var(--yellow); font-weight:800;" id="p11ScoreDisplay">5</span> / 5!
+          </p>
+          <button class="btn success" onclick="switchPage(10)">Buka Halaman Kelulusan Resmi P11 📜 ➡️</button>
+        </div>
+      </div>
+
+      <div class="page-bottom-nav">
+        <button class="btn secondary" onclick="switchPage(8)">⬅️ Kembali ke Checklist</button>
+        <button class="btn primary" onclick="switchPage(10)">Lanjut ke Halaman Kelulusan ➡️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════ SECTION 10: COMPLETION & SERTIFIKAT ════════════ -->
+  <div class="mission-page" id="page10">
+    <div class="card-mission">
+      <div class="mission-hero-header">
+        <div class="mission-title-group">
+          <h2>DIGITAL STUDENT PROJECT COMPLETE!</h2>
+          <p>Selamat! Kamu sudah mempelajari cara menyelesaikan tugas sekolah menggunakan berbagai alat digital secara terpadu.</p>
+        </div>
+        <div class="mission-xp-badge">⭐ Total Reward: +200 XP</div>
+      </div>
+
+      <!-- Ringkasan Pencapaian Proyek -->
+      <div style="background:var(--bg-surface); border:1.5px solid var(--green); border-radius:12px; padding:20px; margin-bottom:20px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+          <div>
+            <span style="font-size:10.5px; font-weight:900; color:var(--green); background:rgba(16,185,129,0.2); padding:3px 8px; border-radius:4px;">STATUS PROYEK TUNTAS</span>
+            <h3 style="font-size:18px; font-weight:900; color:#fff; margin-top:4px;">Ringkasan Keterampilan Digital yang Dikuasai:</h3>
+          </div>
+          <span style="font-size:12px; color:var(--yellow); font-weight:800;">Pelajar Mandiri Kelas 7</span>
+        </div>
+
+        <div class="grid-2">
+          <div style="font-size:12.5px; color:#E2E8F0; line-height:1.7;">
+            ✅ <strong>Mengolah Data di Excel:</strong> Menguasai tabel dan rumus <code>=SUM</code> serta <code>=AVERAGE</code>.<br>
+            ✅ <strong>Asisten AI Beretika:</strong> Memanfaatkan prompt kerangka tanpa menyalin mentah.<br>
+            ✅ <strong>Menyusun Makalah Word:</strong> Membuat struktur Pendahuluan, Data, dan Kesimpulan.
+          </div>
+          <div style="font-size:12.5px; color:#E2E8F0; line-height:1.7;">
+            ✅ <strong>Karya Visual Mandiri:</strong> Menyajikan fakta dalam slide presentasi atau infografik poster.<br>
+            ✅ <strong>Komunikasi Email Resmi:</strong> Menulis pesan sopan dengan lampiran berkas lengkap.<br>
+            ✅ <strong>Verifikasi Checklist:</strong> Memeriksa kebenaran berkas sebelum dikumpulkan.
+          </div>
+        </div>
+      </div>
+
+      <!-- Sertifikat Resmi P11 -->
+      <div class="cert-wrapper" id="certArea">
+        <div style="font-size:11px; font-weight:900; color:var(--yellow); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:4px;">
+          SERTIFIKAT KELULUSAN PROYEK RESMI
+        </div>
+        <h3 style="font-size:22px; font-weight:900; color:#fff; margin-bottom:10px;">
+          DIGITAL STUDENT MASTER — PENYELESAIAN TUGAS TERPADU
+        </h3>
+        <p style="font-size:12px; color:var(--text-muted);">Diberikan dengan bangga kepada:</p>
+        <div class="cert-name-text" id="certNameSlotP11">Siswa Kelas 7</div>
+        <p class="cert-p">
+          Telah berhasil menyelesaikan panduan proyek akhir <strong>Kenal Komputer Pertemuan 11</strong> dengan kemampuan terpadu dalam <em>Pengolahan Data Excel, Perancangan Makalah Word, Pemanfaatan AI Bijak, Desain Visual Mandiri, dan Etika Surat Elektronik</em>.
+        </p>
+        <div class="cert-stamps">
+          <span class="cert-stamp-badge">📊 EXCEL ANALYST</span>
+          <span class="cert-stamp-badge">📝 WORD CREATOR</span>
+          <span class="cert-stamp-badge">🤖 AI ETHICAL USER</span>
+          <span class="cert-stamp-badge">🎨 VISUAL DESIGNER</span>
+          <span class="cert-stamp-badge">✉️ EMAIL COMMUNICATOR</span>
+        </div>
+        <div style="margin-top:22px; font-size:11.5px; color:var(--text-dim);">
+          Kenal Komputer — Ruang Belajarmu • <span id="certDateSlotP11">Oktober 2026</span>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:center; gap:12px; margin-top:20px; flex-wrap:wrap;">
+        <button class="btn primary" onclick="window.print()">🖨️ Cetak / Simpan PDF Sertifikat Proyek</button>
+        <button class="btn secondary" onclick="switchPage(1)">🔄 Review Proyek dari Tahap 1</button>
+      </div>
+
+      <!-- Jurnal Refleksi Siswa P11 -->
+      <div style="margin-top:34px; background:linear-gradient(135deg, rgba(27, 27, 37, 0.9), rgba(20, 20, 28, 0.98)); border:1.5px solid var(--purple); border-radius:var(--radius-lg); padding:22px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+          <div>
+            <span style="background:var(--purple); color:#fff; font-size:10px; font-weight:900; padding:3px 8px; border-radius:4px; text-transform:uppercase;">💭 JURNAL REFLEKSI PROYEK DIGITAL</span>
+            <h3 style="font-size:16px; font-weight:800; color:#fff; margin-top:4px;">Refleksi Pengalaman Mengerjakan Tugas Terpadu</h3>
+          </div>
+          <span style="font-size:11px; color:var(--yellow); font-weight:800;">+75 XP</span>
+        </div>
+
+        <div style="margin-bottom:12px;">
+          <label style="font-size:12px; font-weight:800; color:#E2E8F0; display:block; margin-bottom:4px;">1. Dari 5 aplikasi (Excel, AI, Word, PowerPoint/Canva, Email), alat mana yang paling menyenangkan untukmu?</label>
+          <input type="text" id="refP11_Q1" placeholder="Contoh: Saya paling suka mengolah data di Excel karena rumusnya otomatis menghitung..." style="width:100%; background:var(--bg-body); border:1px solid var(--border); border-radius:6px; color:#fff; padding:8px 10px; font-size:12.5px; outline:none;">
+        </div>
+
+        <div style="margin-bottom:12px;">
+          <label style="font-size:12px; font-weight:800; color:#E2E8F0; display:block; margin-bottom:4px;">2. Apa tantangan terbesar yang kamu hadapi saat menghubungkan tugas antar-aplikasi?</label>
+          <input type="text" id="refP11_Q2" placeholder="Contoh: Memasukkan tabel angka dari Excel ke dalam naskah makalah Word..." style="width:100%; background:var(--bg-body); border:1px solid var(--border); border-radius:6px; color:#fff; padding:8px 10px; font-size:12.5px; outline:none;">
+        </div>
+
+        <div style="margin-bottom:14px;">
+          <label style="font-size:12px; font-weight:800; color:#E2E8F0; display:block; margin-bottom:4px;">3. Nilai rasa percaya dirimu mengerjakan tugas sekolah mandiri memakai komputer sekarang: (1 - 5)</label>
+          <div style="display:flex; align-items:center; gap:12px;">
+            <span style="font-size:14px;">😟 1</span>
+            <input type="range" id="refP11_Slider" min="1" max="5" value="5" oninput="updateP11Slider(this.value)" style="flex:1; accent-color:var(--purple);">
+            <span style="font-size:14px; font-weight:800; color:var(--yellow);" id="sliderValDisplayP11">5 👑 👑</span>
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <span style="font-size:11.5px; color:var(--green); font-weight:700;" id="refSaveStatusP11"></span>
+          <button class="btn success" onclick="saveP11Reflection()">💾 Simpan Jurnal Refleksi Proyek (+75 XP)</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- Toast Notification -->
+<div class="toast-notice" id="toastNotice">Teks berhasil disalin ke clipboard!</div>
+
+<script>
+// Web Audio API Synthesis
+let audioCtx = null;
+let isAudioMuted = false;
+
+function initAudio() {
+  if (!audioCtx && typeof window !== 'undefined') {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (AudioContextClass) audioCtx = new AudioContextClass();
+  }
+}
+
+function playSfx(type) {
+  if (isAudioMuted) return;
+  initAudio();
+  if (!audioCtx) return;
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+
+  const now = audioCtx.currentTime;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+
+  if (type === 'click') {
+    osc.frequency.setValueAtTime(600, now);
+    osc.frequency.exponentialRampToValueAtTime(800, now + 0.05);
+    gain.gain.setValueAtTime(0.08, now);
+    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+    osc.start(now);
+    osc.stop(now + 0.05);
+  } else if (type === 'correct') {
+    osc.frequency.setValueAtTime(523.25, now);
+    osc.frequency.setValueAtTime(659.25, now + 0.08);
+    osc.frequency.setValueAtTime(783.99, now + 0.16);
+    gain.gain.setValueAtTime(0.12, now);
+    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.28);
+    osc.start(now);
+    osc.stop(now + 0.28);
+  } else if (type === 'wrong') {
+    osc.frequency.setValueAtTime(320, now);
+    osc.frequency.setValueAtTime(240, now + 0.1);
+    gain.gain.setValueAtTime(0.12, now);
+    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.22);
+    osc.start(now);
+    osc.stop(now + 0.22);
+  } else if (type === 'fanfare') {
+    const notes = [523.25, 659.25, 783.99, 1046.50];
+    notes.forEach((freq, idx) => {
+      const o = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      o.connect(g);
+      g.connect(audioCtx.destination);
+      o.frequency.value = freq;
+      g.gain.setValueAtTime(0.12, now + idx * 0.1);
+      g.gain.exponentialRampToValueAtTime(0.01, now + idx * 0.1 + 0.25);
+      o.start(now + idx * 0.1);
+      o.stop(now + idx * 0.1 + 0.25);
+    });
+  }
+}
+
+function toggleSound() {
+  isAudioMuted = !isAudioMuted;
+  const btn = document.getElementById('soundToggleBtn');
+  btn.textContent = isAudioMuted ? '🔇' : '🔊';
+  btn.title = isAudioMuted ? 'Suara Dinonaktifkan' : 'Suara Aktif';
+  showToast(isAudioMuted ? 'Suara dinonaktifkan' : 'Suara diaktifkan');
+}
+
+// Game State Management
+const projectState = {
+  xp: 0,
+  studentName: "Siswa Kelas 7",
+  selectedClass: "7A",
+  avatarIndex: 0,
+  visualChoice: "ppt",
+  tasks: {
+    xl1: false, xl2: false, xl3: false, xl4: false,
+    ai1: false, ai2: false, ai3: false,
+    wd1: false, wd2: false, wd3: false, wd4: false, wd5: false,
+    vis1: false, vis2: false, vis3: false,
+    em1: false, em2: false, em3: false, em4: false
+  },
+  rewards: {},
+  reflection: {}
+};
+
+const avatars = ["🧑‍🎓", "📊", "✍️", "🎨", "🚀", "🏆"];
+const stageTitles = [
+  "",
+  "Hero & Brief Proyek — Kenali Misi Digitalmu",
+  "Brief Kasus — Kenali Tugasmu & Rencana Kerja",
+  "Step 1 — Olah Data Jadwal di Microsoft Excel",
+  "Step 2 — Bantuan Asisten AI untuk Kerangka",
+  "Step 3 — Menulis Makalah Rapi di Microsoft Word",
+  "Step 4 — Visual Studio: Pilih PowerPoint atau Canva",
+  "Step 5 — Pengiriman Tugas Sekolah Melalui Email",
+  "Master Final Checklist — Pusat Kendali Proyek",
+  "Final Quiz Arena — Uji Pemahaman 5 Soal",
+  "Completion & Sertifikat Kelulusan Resmi P11 🏆"
+];
+
+function loadProjectState() {
+  try {
+    const saved = localStorage.getItem('p11_digital_student_state');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      Object.assign(projectState, parsed);
+    }
+  } catch (e) {}
+
+  document.getElementById('xpDisplay').textContent = projectState.xp;
+  document.getElementById('studentNameInput').value = projectState.studentName;
+  document.getElementById('m1NameInput').value = projectState.studentName;
+  document.getElementById('m1ClassSelect').value = projectState.selectedClass || "7A";
+  document.getElementById('avatarDisplayBtn').textContent = avatars[projectState.avatarIndex] || "🧑‍🎓";
+
+  syncAllLabels();
+  setVisualChoice(projectState.visualChoice || "ppt", true);
+  updateAllChecklistUI();
+  updateRankTitle();
+}
+
+function saveProjectState() {
+  try {
+    localStorage.setItem('p11_digital_student_state', JSON.stringify(projectState));
+  } catch (e) {}
+}
+
+function addXP(amount, key) {
+  if (key && projectState.rewards[key]) return;
+  if (key) projectState.rewards[key] = true;
+  projectState.xp += amount;
+  document.getElementById('xpDisplay').textContent = projectState.xp;
+  updateRankTitle();
+  saveProjectState();
+}
+
+function updateRankTitle() {
+  let rank = "Digital Explorer";
+  if (projectState.xp >= 300) rank = "Project Apprentice";
+  if (projectState.xp >= 600) rank = "Digital Creator";
+  if (projectState.xp >= 900) rank = "Digital Student Master";
+  document.getElementById('rankTitle').textContent = rank;
+}
+
+// Navigasi Page Stepper
+function switchPage(pageNum) {
+  playSfx('click');
+  for (let i = 1; i <= 10; i++) {
+    const page = document.getElementById('page' + i);
+    const navBtn = document.getElementById('navBtn' + i);
+    if (page) page.classList.toggle('active-page', i === pageNum);
+    if (navBtn) navBtn.classList.toggle('active', i === pageNum);
+  }
+  document.getElementById('stepperBadge').textContent = `TAHAP ${pageNum < 10 ? '0' + pageNum : pageNum} / 10`;
+  document.getElementById('stepperTitle').textContent = stageTitles[pageNum] || "";
+  window.scrollTo({ top: 60, behavior: 'smooth' });
+  document.getElementById('globalProgressFill').style.width = Math.round((pageNum / 10) * 100) + '%';
+  saveProjectState();
+}
+
+// Identity Syncing
+function cycleAvatar() {
+  playSfx('click');
+  projectState.avatarIndex = (projectState.avatarIndex + 1) % avatars.length;
+  document.getElementById('avatarDisplayBtn').textContent = avatars[projectState.avatarIndex];
+  updateAvatarSelectionGrid(projectState.avatarIndex);
+  saveProjectState();
+}
+
+function pickAvatarIndex(idx, cardEl) {
+  playSfx('click');
+  projectState.avatarIndex = idx;
+  document.getElementById('avatarDisplayBtn').textContent = avatars[idx];
+  updateAvatarSelectionGrid(idx);
+  saveProjectState();
+}
+
+function updateAvatarSelectionGrid(idx) {
+  document.querySelectorAll('.avatar-choice-card').forEach((c, i) => {
+    c.classList.toggle('selected', i === idx);
+  });
+}
+
+function syncStudentNameFromM1(val) {
+  const clean = val.trim() || "Siswa Kelas 7";
+  projectState.studentName = clean;
+  document.getElementById('studentNameInput').value = val;
+  syncAllLabels();
+  saveProjectState();
+}
+
+function handleNameChange(val) {
+  const clean = val.trim() || "Siswa Kelas 7";
+  projectState.studentName = clean;
+  document.getElementById('m1NameInput').value = val;
+  syncAllLabels();
+  saveProjectState();
+}
+
+function syncClassFromM1(val) {
+  projectState.selectedClass = val;
+  syncAllLabels();
+  saveProjectState();
+}
+
+function syncAllLabels() {
+  const name = projectState.studentName || "Siswa Kelas 7";
+  const safeName = name.replace(/\s+/g, '_');
+  const cls = projectState.selectedClass || "7A";
+
+  document.querySelectorAll('.syncStudentSpan').forEach(el => el.textContent = name);
+  document.querySelectorAll('.syncClassSpan').forEach(el => el.textContent = `Kelas ${cls}`);
+
+  const certSlot = document.getElementById('certNameSlotP11');
+  if (certSlot) certSlot.textContent = name;
+
+  const xlName = document.getElementById('excelFileNameDisplay');
+  if (xlName) xlName.textContent = `Data_Jadwal_${safeName}.xlsx`;
+
+  const wdName = document.getElementById('wordFileNameDisplay');
+  if (wdName) wdName.textContent = `Makalah_${safeName}.docx`;
+
+  const pptName = document.getElementById('pptFileNameDisplay');
+  if (pptName) pptName.textContent = `Presentasi_${safeName}.pptx`;
+
+  const canvaName = document.getElementById('canvaFileNameDisplay');
+  if (canvaName) canvaName.textContent = `Infografik_${safeName}.png`;
+
+  const emailSub = document.getElementById('emailSubjectSlot');
+  if (emailSub) emailSub.textContent = `Pengumpulan Tugas P11 — ${name} (${cls})`;
+
+  const emailBody = document.getElementById('emailBodyText');
+  if (emailBody) {
+    emailBody.textContent = `Yth. Bapak/Ibu Guru,\n\nSaya mengirimkan tugas proyek akhir Pertemuan 11 (Digital Student Project) bertema "Cara Mengatur Waktu Belajar dan Bermain bagi Siswa SMP".\n\nBersama email ini, saya lampirkan 3 berkas tugas:\n1. Makalah_${safeName}.docx (Makalah Word)\n2. Data_Jadwal_${safeName}.xlsx (Pengolahan Data Excel)\n3. Karya Visual pendukung (Presentasi PowerPoint / Infografik Canva)\n\nTerima kasih atas bimbingan Bapak/Ibu Guru selama pembelajaran komputer.\n\nHormat saya,\n${name} — Kelas ${cls}`;
+  }
+}
+
+// Copy Helpers
+function copyTableText() {
+  playSfx('click');
+  const tableText = "Hari\tBelajar (menit)\tBermain (menit)\nSenin\t30\t120\nSelasa\t45\t90\nRabu\t30\t120\nKamis\t60\t60\nJumat\t45\t90";
+  copyTextToClipboard(tableText);
+  showToast('Data tabel berhasil disalin!');
+  addXP(20, 'copyTableP11');
+}
+
+function copyAiPromptP11() {
+  playSfx('click');
+  const text = document.getElementById('aiPromptBoxP11').textContent;
+  copyTextToClipboard(text);
+  showToast('Prompt AI berhasil disalin!');
+  addXP(20, 'copyAiPromptP11');
+  toggleTaskCheck('ai1', true);
+}
+
+function copyDraftParagraph() {
+  playSfx('click');
+  const text = document.getElementById('sampleDraftParagraph').textContent.trim();
+  copyTextToClipboard(text);
+  showToast('Contoh paragraf disalin!');
+  addXP(20, 'copyDraftParaP11');
+}
+
+function copyEmailDraft() {
+  playSfx('click');
+  const body = document.getElementById('emailBodyText').textContent;
+  copyTextToClipboard(body);
+  showToast('Draf email disalin!');
+  addXP(20, 'copyEmailDraftP11');
+}
+
+// Step 1: Excel Key Toggle
+function toggleExcelKey() {
+  playSfx('click');
+  const p = document.getElementById('excelKeyPanel');
+  if (!p) return;
+  const isHidden = p.style.display === 'none';
+  p.style.display = isHidden ? 'block' : 'none';
+  if (isHidden) addXP(30, 'viewExcelKeyP11');
+}
+
+// Step 4: Visual Studio Switcher
+function setVisualChoice(choice, silent) {
+  if (!silent) playSfx('click');
+  projectState.visualChoice = choice;
+
+  const btnPpt = document.getElementById('btnChoicePpt');
+  const btnCanva = document.getElementById('btnChoiceCanva');
+  const contentPpt = document.getElementById('visualContentPpt');
+  const contentCanva = document.getElementById('visualContentCanva');
+  const checkLabel1 = document.getElementById('visCheckLabel1');
+
+  if (choice === 'ppt') {
+    if (btnPpt) btnPpt.classList.add('active');
+    if (btnCanva) btnCanva.classList.remove('active');
+    if (contentPpt) contentPpt.style.display = 'block';
+    if (contentCanva) contentCanva.style.display = 'none';
+    if (checkLabel1) checkLabel1.textContent = "Pilihan Aktif: Membuat 3 Slide Presentasi PowerPoint (.pptx).";
+  } else {
+    if (btnCanva) btnCanva.classList.add('active');
+    if (btnPpt) btnPpt.classList.remove('active');
+    if (contentCanva) contentCanva.style.display = 'block';
+    if (contentPpt) contentPpt.style.display = 'none';
+    if (checkLabel1) checkLabel1.textContent = "Pilihan Aktif: Membuat 1 Infografik Poster Canva (.png/.pdf).";
+  }
+  toggleTaskCheck('vis1', true);
+  saveProjectState();
+}
+
+// Checklist Handling
+function toggleTaskCheck(taskId, forceTrue) {
+  playSfx('click');
+  if (forceTrue) {
+    projectState.tasks[taskId] = true;
+  } else {
+    projectState.tasks[taskId] = !projectState.tasks[taskId];
+  }
+  updateAllChecklistUI();
+  saveProjectState();
+}
+
+function updateAllChecklistUI() {
+  const taskKeys = Object.keys(projectState.tasks);
+  let doneCount = 0;
+
+  taskKeys.forEach(k => {
+    const isDone = projectState.tasks[k];
+    if (isDone) doneCount++;
+
+    // Single step items
+    const el1 = document.getElementById('chk_' + k);
+    if (el1) {
+      el1.textContent = isDone ? '✓' : '';
+      el1.parentElement.classList.toggle('done', isDone);
+    }
+
+    // Master page items
+    const el2 = document.getElementById('chk2_' + k);
+    if (el2) {
+      el2.textContent = isDone ? '✓' : '';
+      el2.parentElement.classList.toggle('done', isDone);
+    }
+  });
+
+  const percent = Math.round((doneCount / taskKeys.length) * 100);
+  const pText = document.getElementById('masterChecklistPercent');
+  const pBar = document.getElementById('masterChecklistBar');
+  if (pText) pText.textContent = `${percent}%`;
+  if (pBar) pBar.style.width = `${percent}%`;
+
+  if (doneCount === taskKeys.length) {
+    addXP(100, 'masterChecklistCompleteP11');
+  }
+}
+
+// Section 9 Final Quiz (5 Soal)
+let currentP11QuizStage = 1;
+const p11QuizQuestionsState = { q1: false, q2: false, q3: false, q4: false, q5: false };
+const p11StageNames = [
+  "",
+  "Soal 1 dari 5: Fungsi SUM di Excel",
+  "Soal 2 dari 5: Fungsi AVERAGE di Excel",
+  "Soal 3 dari 5: Fungsi AI dalam Menyusun Kerangka",
+  "Soal 4 dari 5: Tujuan Format Rapi di Word",
+  "Soal 5 dari 5: Pemeriksaan Email Sebelum Kirim"
+];
+
+const p11Explanations = {
+  1: { correct: "✅ <strong>TEPAT SEKALI! (+30 XP)</strong> Rumus =SUM(B2:B6) menjumlahkan seluruh nilai angka pada rentang sel tersebut.", wrong: "❌ <strong>KURANG TEPAT!</strong> Rumus =SUM digunakan khusus untuk penjumlahan." },
+  2: { correct: "✅ <strong>BENAR! (+30 XP)</strong> Rumus =AVERAGE digunakan untuk menghitung nilai rata-rata aritmetika dari kumpulan angka.", wrong: "❌ <strong>KURANG TEPAT!</strong> Nilai rata-rata dihitung menggunakan rumus =AVERAGE." },
+  3: { correct: "✅ <strong>SEMPURNA! (+30 XP)</strong> AI bertindak sebagai asisten pencari ide & kerangka; naskah tetap dikembangkan dengan pemahaman siswa.", wrong: "❌ <strong>KURANG TEPAT!</strong> Jangan menyuruh AI menulis seluruh tugas tanpa memahaminya." },
+  4: { correct: "✅ <strong>MANTAP! (+30 XP)</strong> Tata letak dan jarak spasi yang rapi memudahkan pembaca dan guru memahami isi makalah.", wrong: "❌ <strong>KURANG TEPAT!</strong> Kerapian dokumen bertujuan agar tulisan nyaman dan jelas dibaca." },
+  5: { correct: "✅ <strong>TANGKAS! (+30 XP)</strong> Selalu periksa alamat guru, format subjek, sapaan sopan, dan pastikan file terlampir!", wrong: "❌ <strong>KURANG TEPAT!</strong> Memeriksa lampiran dan subjek adalah langkah wajib sebelum mengirim email." }
+};
+
+function jumpP11Quiz(num) {
+  playSfx('click');
+  currentP11QuizStage = num;
+  for (let i = 1; i <= 5; i++) {
+    const stage = document.getElementById('p11Stage' + i);
+    const dot = document.getElementById('p11Dot' + i);
+    if (stage) stage.classList.toggle('active-stage', i === num);
+    if (dot) dot.classList.toggle('active', i === num);
+  }
+  document.getElementById('p11QuizIndicator').textContent = p11StageNames[num] || "";
+}
+
+function submitP11Quiz(qNum, cardEl, isCorrect) {
+  const stage = document.getElementById('p11Stage' + qNum);
+  stage.querySelectorAll('.quiz-option-card').forEach(c => c.style.pointerEvents = 'none');
+  const expl = document.getElementById('p11Expl' + qNum);
+  expl.style.display = 'block';
+
+  if (isCorrect) {
+    cardEl.classList.add('correct');
+    expl.style.background = 'rgba(16, 185, 129, 0.12)';
+    expl.style.border = '1px solid #10B981';
+    expl.style.color = '#34D399';
+    expl.innerHTML = p11Explanations[qNum].correct;
+    playSfx('correct');
+    p11QuizQuestionsState['q' + qNum] = true;
+    addXP(30, 'p11QuizQ' + qNum);
+  } else {
+    cardEl.classList.add('wrong');
+    expl.style.background = 'rgba(239, 68, 68, 0.12)';
+    expl.style.border = '1px solid #EF4444';
+    expl.style.color = '#FCA5A5';
+    expl.innerHTML = p11Explanations[qNum].wrong;
+    playSfx('wrong');
+  }
+
+  const dot = document.getElementById('p11Dot' + qNum);
+  if (dot) {
+    dot.classList.add('solved');
+    dot.textContent = isCorrect ? '✓' : '✗';
+  }
+
+  const solvedCount = Object.values(p11QuizQuestionsState).filter(Boolean).length;
+  document.getElementById('p11ScoreDisplay').textContent = solvedCount;
+
+  setTimeout(() => {
+    if (qNum < 5) {
+      jumpP11Quiz(qNum + 1);
+    } else {
+      document.getElementById('p11QuizVictory').style.display = 'block';
+      for (let i = 1; i <= 5; i++) {
+        const s = document.getElementById('p11Stage' + i);
+        if (s) s.style.display = 'none';
+      }
+      playSfx('fanfare');
+      addXP(50, 'p11QuizComplete');
+    }
+  }, 1500);
+}
+
+// Reflection Slider & Save P11
+function updateP11Slider(val) {
+  const emojis = ["1 😟", "2 😐", "3 🙂", "4 😊 🌟", "5 👑 👑"];
+  document.getElementById('sliderValDisplayP11').textContent = emojis[val - 1] || val;
+}
+
+function saveP11Reflection() {
+  playSfx('correct');
+  const q1 = document.getElementById('refP11_Q1').value.trim();
+  const q2 = document.getElementById('refP11_Q2').value.trim();
+  const slider = document.getElementById('refP11_Slider').value;
+
+  projectState.reflection = { q1, q2, confidence: slider };
+  document.getElementById('refSaveStatusP11').textContent = '✅ Tersimpan di Jurnal Tugas Siswa!';
+  showToast('Jurnal Refleksi disimpan (+75 XP)!');
+  addXP(75, 'refSavedP11');
+  saveProjectState();
+}
+
+// Utility: Clipboard Helper
+function copyTextToClipboard(text) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).catch(() => fallbackCopyText(text));
+  } else {
+    fallbackCopyText(text);
+  }
+}
+
+function fallbackCopyText(text) {
+  const textArea = document.createElement("textarea");
+  textArea.value = text;
+  textArea.style.position = "fixed";
+  textArea.style.top = "0";
+  textArea.style.left = "0";
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+  try {
+    document.execCommand('copy');
+  } catch (err) {}
+  document.body.removeChild(textArea);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toastNotice');
+  if (!t) return;
+  t.textContent = msg;
+  t.style.display = 'block';
+  setTimeout(() => { t.style.display = 'none'; }, 2400);
+}
+
+// Bootstrapping
+window.addEventListener('DOMContentLoaded', () => {
+  loadProjectState();
+  const d = new Date();
+  const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+  const certDate = `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+  const dateSlot = document.getElementById('certDateSlotP11');
+  if (dateSlot) dateSlot.textContent = certDate;
+});
+</script>
+</body>
+</html>
