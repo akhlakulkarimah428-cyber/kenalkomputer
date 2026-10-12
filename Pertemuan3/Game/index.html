@@ -258,7 +258,7 @@
           <button id="btn-save" class="btn-icon" title="Simpan Game (Ctrl+S)">💾</button>
           <button id="btn-audio" class="btn-icon" title="Nyalakan/Matikan Suara">🔊</button>
           <button id="btn-settings" class="btn-icon" title="Pengaturan & Bantuan">⚙️</button>
-          <a href="/world2.html" class="btn-icon" title="Masuk ke Dunia 2 (Hutan Font)">🌲</a>
+          <a href="world2.html" class="btn-icon" title="Masuk ke Dunia 2 (Hutan Font)">🌲</a>
         </div>
       </header>
 
@@ -1796,7 +1796,7 @@
           document.getElementById('victory-modal').style.display = 'none';
           this.game.saveGame();
           this.showToast('🚀 Berpindah ke Dunia 2: Hutan Font...');
-          setTimeout(() => { window.location.href = '/world2.html'; }, 400);
+          setTimeout(() => { window.location.href = 'world2.html'; }, 400);
         };
         document.getElementById('skill-slot-bold').onclick = () => this.game.player.useSkill('bold_blast');
         document.getElementById('skill-slot-italic').onclick = () => this.game.player.useSkill('italic_dash');
