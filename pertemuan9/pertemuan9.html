@@ -291,17 +291,530 @@ body {
   margin-top: 14px; font-size: 13px; line-height: 1.55; display: none; animation: pageFadeIn 0.25s ease;
 }
 
-/* Certificate */
+
+/* Premium Certificate — Kenal Komputer P9 */
 .cert-wrapper {
-  background: linear-gradient(135deg, #14141C, #0B0B10); border: 2px solid var(--yellow);
-  border-radius: var(--radius-lg); padding: 30px 18px; text-align: center; position: relative;
-  box-shadow: 0 16px 36px rgba(0,0,0,0.6);
+  --cert-ink: #24213c;
+  --cert-muted: #687086;
+  --cert-purple: #5b36a8;
+  --cert-gold: #c59b3d;
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  width: 100%;
+  max-width: 1000px;
+  min-height: 610px;
+  margin: 0 auto;
+  padding: 42px 54px 34px;
+  color: var(--cert-ink);
+  text-align: center;
+
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(6, 182, 212, 0.10),
+      transparent 27%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(124, 58, 237, 0.09),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #fffef9 0%,
+      #f8f6ff 48%,
+      #fffdf5 100%
+    );
+
+  border: 2px solid #d8c17a;
+  border-radius: 20px;
+  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.25);
 }
-.cert-wrapper::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, #7C3AED, #06B6D4, #FDE047); }
-.cert-name-text { font-size: 25px; font-weight: 900; color: #fff; border-bottom: 2px dashed rgba(255, 255, 255, 0.25); display: inline-block; padding: 2px 20px; margin: 8px 0; }
-.cert-p { font-size: 13px; color: var(--text-muted); max-width: 580px; margin: 0 auto 14px; }
-.cert-stamps { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
-.cert-stamp-badge { border: 2px solid var(--purple); color: var(--violet); font-size: 10px; font-weight: 900; padding: 4px 10px; border-radius: var(--radius-sm); }
+
+/* Bingkai elegan */
+.cert-wrapper::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 12px;
+  border: 1px solid rgba(197, 155, 61, 0.72);
+  border-radius: 11px;
+  pointer-events: none;
+}
+
+.cert-wrapper::after {
+  content: "✦";
+  position: absolute;
+  z-index: 0;
+  top: 28px;
+  right: 42px;
+  color: rgba(197, 155, 61, 0.25);
+  font-size: 74px;
+  transform: rotate(12deg);
+  pointer-events: none;
+}
+
+.cert-brandline,
+.cert-kicker,
+.cert-main-title,
+.cert-subtitle,
+.cert-divider,
+.cert-recipient-label,
+.cert-name-text,
+.cert-p,
+.cert-skills,
+.cert-bottom-row {
+  position: relative;
+  z-index: 1;
+}
+
+/* Identitas brand */
+.cert-brandline {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 25px;
+  color: #596078;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.cert-brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #6236b4, #0c9db9);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 900;
+  box-shadow: 0 4px 10px rgba(91, 54, 168, 0.22);
+}
+
+/* Judul sertifikat */
+.cert-kicker {
+  color: var(--cert-purple);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+.cert-main-title {
+  margin: 5px 0 0;
+  color: #24213c;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(34px, 5vw, 49px);
+  font-weight: 700;
+  letter-spacing: 5px;
+  line-height: 1.15;
+}
+
+.cert-subtitle {
+  margin-top: 8px;
+  color: var(--cert-purple);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* Ornamen pemisah */
+.cert-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  max-width: 360px;
+  margin: 18px auto 17px;
+  color: var(--cert-gold);
+  font-size: 18px;
+}
+
+.cert-divider::before,
+.cert-divider::after {
+  content: "";
+  width: 100%;
+  max-width: 140px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--cert-gold)
+  );
+}
+
+.cert-divider::after {
+  transform: scaleX(-1);
+}
+
+/* Nama penerima */
+.cert-recipient-label {
+  margin-bottom: 2px;
+  color: var(--cert-muted);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 15px;
+  font-style: italic;
+}
+
+.cert-name-text {
+  display: inline-block;
+  max-width: 100%;
+  margin: 3px 0 0;
+  padding: 0 24px 7px;
+  color: #302052;
+  border-bottom: 2px solid var(--cert-gold);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(26px, 4vw, 35px);
+  font-weight: 700;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+/* Deskripsi kelulusan */
+.cert-p {
+  max-width: 740px;
+  margin: 18px auto 15px;
+  color: #50566b;
+  font-size: 12.5px;
+  line-height: 1.8;
+}
+
+.cert-p strong {
+  color: #302052;
+}
+
+/* Kompetensi yang dipelajari */
+.cert-skills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 7px;
+  max-width: 760px;
+  margin: 0 auto 22px;
+}
+
+.cert-skill-chip {
+  padding: 5px 10px;
+  border: 1px solid #ded5f0;
+  border-radius: 999px;
+  background: rgba(124, 58, 237, 0.055);
+  color: #554078;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+}
+
+/* Bagian bawah sertifikat */
+.cert-bottom-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: end;
+  gap: 16px;
+  max-width: 760px;
+  margin: 0 auto;
+  padding-top: 15px;
+  border-top: 1px solid rgba(197, 155, 61, 0.35);
+}
+
+.cert-sign-block,
+.cert-issue-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.cert-sign-block {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.cert-issue-block {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.cert-mini-label {
+  color: #73798b;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+
+.cert-sign-title {
+  color: #302052;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.cert-sign-rule {
+  width: 145px;
+  max-width: 100%;
+  margin-top: 10px;
+  border-top: 1px solid #c7b16c;
+}
+
+.cert-small-note {
+  color: #73798b;
+  font-size: 9px;
+}
+
+/* Medali Creative Designer */
+.cert-seal {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 78px;
+  height: 78px;
+  border: 2px solid #c59b3d;
+  border-radius: 50%;
+  outline: 1px solid rgba(197, 155, 61, 0.55);
+  outline-offset: 4px;
+  background: radial-gradient(
+    circle,
+    #fff9de 0%,
+    #f4e4a8 100%
+  );
+  color: #7b5b16;
+}
+
+.cert-seal-mark {
+  font-size: 17px;
+  line-height: 1;
+}
+
+.cert-seal strong {
+  margin-top: 4px;
+  font-size: 8px;
+  letter-spacing: 1px;
+}
+
+.cert-seal small {
+  font-size: 7px;
+  font-weight: 900;
+  letter-spacing: 1.2px;
+}
+
+.cert-seal-star {
+  position: absolute;
+  top: -3px;
+  right: -4px;
+  color: var(--cert-purple);
+  font-size: 17px;
+}
+
+/* Tampilan HP */
+@media (max-width: 650px) {
+  .cert-wrapper {
+    min-height: auto;
+    padding: 34px 24px 26px;
+  }
+
+  .cert-wrapper::after {
+    top: 24px;
+    right: 23px;
+    font-size: 48px;
+  }
+
+  .cert-brandline {
+    font-size: 8px;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+  }
+
+  .cert-main-title {
+    letter-spacing: 3px;
+  }
+
+  .cert-subtitle {
+    font-size: 9px;
+    letter-spacing: 1px;
+  }
+
+  .cert-bottom-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 18px 12px;
+  }
+
+  .cert-seal {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    justify-self: center;
+    width: 70px;
+    height: 70px;
+  }
+
+  .cert-sign-block {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .cert-issue-block {
+    grid-column: 2;
+    grid-row: 2;
+  }
+}
+
+
+/* FINAL PRINT FIX — SERTIFIKAT A4 LANDSCAPE */
+@page {
+  size: A4 landscape;
+  margin: 5mm;
+}
+
+@media print {
+  html,
+  body {
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #fff !important;
+    overflow: visible !important;
+  }
+
+  body {
+    padding-bottom: 0 !important;
+  }
+
+  /* Hilangkan navigasi dan halaman selain sertifikat */
+  body > .top-nav,
+  .page-stepper-bar,
+  .mission-page:not(#page11) {
+    display: none !important;
+  }
+
+  /* Gunakan seluruh area cetak */
+  main.container {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  #page11 {
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    animation: none !important;
+  }
+
+  #page11 .card-mission {
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+  }
+
+  /* Sembunyikan seluruh isi Misi 11 */
+  #page11 .card-mission > * {
+    display: none !important;
+  }
+
+  /* Tampilkan area sertifikat saja */
+  #page11 .card-mission > #certSectionAnchor {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  #certSectionAnchor > *:not(#certArea) {
+    display: none !important;
+  }
+
+  /* Ukuran sertifikat mengikuti halaman A4 */
+  #certArea {
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    align-items: stretch !important;
+
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: none !important;
+
+    height: 185mm !important;
+    min-height: 185mm !important;
+
+    margin: 0 auto !important;
+    padding: 9mm 15mm !important;
+
+    zoom: 1 !important;
+    transform: none !important;
+
+    border-radius: 10px !important;
+    box-shadow: none !important;
+
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Pertahankan garis dekoratif di bawah nama */
+  #certArea .cert-name-text {
+    align-self: center !important;
+  }
+
+  /* Proporsi teks dan jarak saat dicetak */
+  #certArea .cert-brandline {
+    margin-bottom: 10px !important;
+  }
+
+  #certArea .cert-divider {
+    margin: 10px auto !important;
+  }
+
+  #certArea .cert-p {
+    margin: 8px auto !important;
+    font-size: 12px !important;
+    line-height: 1.6 !important;
+  }
+
+  #certArea .cert-skills {
+    margin: 0 auto !important;
+  }
+
+  #certArea .cert-bottom-row {
+    width: 100% !important;
+    margin: 8px auto 0 !important;
+  }
+
+  /* Pastikan hanya sertifikat yang terlihat */
+  body * {
+    visibility: hidden !important;
+  }
+
+  #certArea,
+  #certArea * {
+    visibility: visible !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+
 
 /* Checklist Item */
 .check-item {
@@ -317,16 +830,7 @@ body {
 }
 .check-item.done .check-box-icon { background: var(--green); border-color: var(--green); color: #022c22; }
 
-/* Print */
-@media print {
-  body * { visibility: hidden; }
-  #certArea, #certArea * { visibility: visible; }
-  #certArea {
-    position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 30px;
-    border: 2px solid #000; background: #fff !important; color: #000 !important;
-  }
-  .cert-name-text { color: #000 !important; }
-}
+
 /* PowerPoint vs Canva Comparison */
 .compare-box {
   background: linear-gradient(135deg, rgba(27, 27, 37, 0.95), rgba(20, 20, 28, 0.98));
@@ -543,7 +1047,7 @@ body {
         <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px; margin-bottom:14px;">
           <div>
             <span style="background:rgba(253, 224, 71, 0.15); color:var(--yellow); border:1px solid rgba(253, 224, 71, 0.3); font-size:10.5px; font-weight:800; padding:3px 8px; border-radius:4px; text-transform:uppercase; display:inline-block; margin-bottom:6px;">⚡ TANYA JAWAB KRUSIAL KELAS 7</span>
-            <h3 style="font-size:16px; font-weight:800; color:#fff;">"Pak Guru, Kemarin Sudah Belajar PowerPoint (P8), Kenapa Sekarang Belajar Canva (P9)?"</h3>
+            <h3 style="font-size:16px; font-weight:800; color:#fff;">"Kemarin Sudah Belajar PowerPoint (P8), Kenapa Sekarang Belajar Canva (P9)?"</h3>
           </div>
           <span style="font-size:11px; color:var(--cyan); font-weight:700; background:rgba(6, 182, 212, 0.1); border:1px solid rgba(6, 182, 212, 0.25); padding:4px 9px; border-radius:999px;">💡 Pertemuan 8 vs Pertemuan 9</span>
         </div>
@@ -1160,7 +1664,7 @@ body {
       <div class="grid-3">
         <!-- Template A -->
         <div style="background:var(--bg-surface); padding:14px; border-radius:var(--radius-md); border:1px solid var(--border); text-align:center;">
-          <div style="font-size:11px; font-weight:800; color:var(--red); margin-bottom:6px;">TEMPLATE A: TERLALU RAMAI</div>
+          <div style="font-size:11px; font-weight:800; color:var(--text-muted); margin-bottom:6px;">TEMPLATE A</div>
           <div style="background:#FCE7F3; height:180px; border-radius:8px; display:flex; flex-direction:column; justify-content:center; padding:10px; color:#831843;">
             <div style="font-size:10px;">🌸 🎀 BANYAK BUNGA-BUNGA 🎀 🌸</div>
             <div style="font-size:13px; font-weight:900;">Party Ulang Tahun</div>
@@ -1171,20 +1675,20 @@ body {
         </div>
 
         <!-- Template B -->
-        <div style="background:var(--bg-surface); padding:14px; border-radius:var(--radius-md); border:2px solid var(--purple); text-align:center;">
-          <div style="font-size:11px; font-weight:800; color:var(--green); margin-bottom:6px;">TEMPLATE B: RAPI & EDUKATIF</div>
+        <div style="background:var(--bg-surface); padding:14px; border-radius:var(--radius-md); border:1px solid var(--border); text-align:center;">
+          <div style="font-size:11px; font-weight:800; color:var(--text-muted); margin-bottom:6px;">TEMPLATE B</div>
           <div style="background:#0F172A; height:180px; border-radius:8px; display:flex; flex-direction:column; justify-content:center; padding:10px; color:#F8FAFC;">
             <div style="font-size:13px; font-weight:900; color:#38BDF8;">TIPS AMAN DI INTERNET</div>
             <div style="font-size:24px; margin:4px 0;">🛡️🔐</div>
             <div style="font-size:9.5px; color:#CBD5E1;">• Ada 3 slot poin tips jelas<br>• Judul tegas & kontras</div>
           </div>
-          <button class="btn primary" style="width:100%; margin-top:10px; justify-content:center;" onclick="pickTemplateChoice('B', this)">Pilih Template B</button>
+          <button class="btn" style="width:100%; margin-top:10px; justify-content:center;" onclick="pickTemplateChoice('B', this)">Pilih Template B</button>
           <div id="templFbB" style="font-size:11.5px; margin-top:6px; display:none;"></div>
         </div>
 
         <!-- Template C -->
         <div style="background:var(--bg-surface); padding:14px; border-radius:var(--radius-md); border:1px solid var(--border); text-align:center;">
-          <div style="font-size:11px; font-weight:800; color:var(--yellow); margin-bottom:6px;">TEMPLATE C: MAKALAH KECIL</div>
+          <div style="font-size:11px; font-weight:800; color:var(--text-muted); margin-bottom:6px;">TEMPLATE C</div>
           <div style="background:#FFFFFF; height:180px; border-radius:8px; display:flex; flex-direction:column; justify-content:center; padding:8px; color:#333;">
             <div style="font-size:8px; line-height:1.2;">
               Paragraf teks panjang 50 baris dengan font ukuran 6 pt tanpa gambar sama sekali seperti fotokopi kertas ujian...
@@ -1222,7 +1726,7 @@ body {
         <p style="font-size:13px; color:#fff; margin:6px 0;">Manakah versi judul poster yang paling kuat dan memikat pembaca?</p>
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
           <button class="btn" onclick="submitLabTask(1, this, false)">"Tata Cara Serta Prosedur Aman Ketika Berselancar di Dunia Maya Bagi Siswa"</button>
-          <button class="btn primary" onclick="submitLabTask(1, this, true)">"BIJAK MENGGUNAKAN INTERNET" ✨</button>
+          <button class="btn" onclick="submitLabTask(1, this, true)">"BIJAK MENGGUNAKAN INTERNET" ✨</button>
         </div>
         <div id="labFb1" style="font-size:12px; margin-top:6px; display:none;"></div>
       </div>
@@ -1235,7 +1739,7 @@ body {
         </div>
         <p style="font-size:13px; color:#fff; margin:6px 0;">Untuk poster "Keamanan Data Pribadi di Internet", ikon mana yang paling tepat?</p>
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
-          <button class="btn primary" onclick="submitLabTask(2, this, true)">🔐 Ikon Gembok Digital & Perisai</button>
+          <button class="btn" onclick="submitLabTask(2, this, true)">🔐 Ikon Gembok Digital & Perisai</button>
           <button class="btn" onclick="submitLabTask(2, this, false)">🍕 Foto Pizza Keju Mozarella</button>
           <button class="btn" onclick="submitLabTask(2, this, false)">🚲 Foto Sepeda Gunung</button>
         </div>
@@ -1250,7 +1754,7 @@ body {
         </div>
         <p style="font-size:13px; color:#fff; margin:6px 0;">Jika poster terlihat sangat sempit dan membuat pusing, apa tindakan penyelamatan pertamamu?</p>
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
-          <button class="btn primary" onclick="submitLabTask(3, this, true)">Ringkas teksnya menjadi poin inti dan beri ruang napas (*margin*)</button>
+          <button class="btn" onclick="submitLabTask(3, this, true)">Ringkas teksnya menjadi poin inti dan beri ruang napas (*margin*)</button>
           <button class="btn" onclick="submitLabTask(3, this, false)">Perkecil semua tulisan sampai ukuran 6 pt agar muat</button>
         </div>
         <div id="labFb3" style="font-size:12px; margin-top:6px; display:none;"></div>
@@ -1639,19 +2143,81 @@ body {
       <div style="margin-top:28px;" id="certSectionAnchor">
         <canvas id="confettiCanvas" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:999; display:none;"></canvas>
 
-        <div class="cert-wrapper" id="certArea">
-          <div style="font-size:11px; font-weight:900; letter-spacing:2px; color:var(--yellow); text-transform:uppercase;">SERTIFIKAT KELULUSAN RESMI</div>
-          <p style="font-size:11px; color:var(--text-muted); text-transform:uppercase; margin-top:4px;">Diberikan dengan bangga kepada:</p>
-          <div class="cert-name-text" id="certNameSlot">Siswa Kelas 7</div>
-          <p class="cert-p">
-            Telah berhasil menyelesaikan seluruh materi dan proyek <strong>Pertemuan 9: Canva Dasar — Desain Digital Kreatif</strong>: menguasai tata letak template, hierarki visual, pemilihan warna kontras, tipografi font, keseimbangan spasi, serta berhasil merancang karya poster edukasi digital <em>"Bijak Menggunakan Internet"</em>.
-          </p>
-          <div class="cert-stamps">
-            <div class="cert-stamp-badge">Verified: Canva Foundation</div>
-            <div class="cert-stamp-badge" style="border-color:var(--green); color:var(--green);">SMP Kelas 7 Certified</div>
-            <div class="cert-stamp-badge" style="border-color:var(--yellow); color:var(--yellow);">Creative Designer P9</div>
+    
+          <div class="cert-wrapper" id="certArea">
+            <div class="cert-brandline">
+              <span class="cert-brand-mark">K</span>
+              <span>
+                Kenal Komputer
+                <span aria-hidden="true">•</span>
+                Ruang Belajarmu
+              </span>
+            </div>
+
+            <div class="cert-kicker">
+              Apresiasi Pembelajaran Digital
+            </div>
+
+            <h2 class="cert-main-title">SERTIFIKAT</h2>
+
+            <div class="cert-subtitle">
+              Canva Dasar · Desain Digital Kreatif
+            </div>
+
+            <div class="cert-divider" aria-hidden="true">✦</div>
+
+            <p class="cert-recipient-label">
+              Diberikan dengan bangga kepada
+            </p>
+
+            <div class="cert-name-text" id="certNameSlot">
+              Siswa Kelas 7
+            </div>
+
+            <p class="cert-p">
+              Atas keberhasilannya menyelesaikan pembelajaran
+              <strong>Pertemuan 9: Canva Dasar — Desain Digital Kreatif</strong>
+              serta mempelajari prinsip tata letak, hierarki visual,
+              warna dan kontras, tipografi, serta keseimbangan spasi
+              dalam pembuatan poster edukasi digital
+              <em>“Bijak Menggunakan Internet”</em>.
+            </p>
+
+            <div class="cert-skills" aria-label="Kompetensi yang dipelajari">
+              <span class="cert-skill-chip">Template & Tata Letak</span>
+              <span class="cert-skill-chip">Hierarki Visual</span>
+              <span class="cert-skill-chip">Warna & Kontras</span>
+              <span class="cert-skill-chip">Tipografi</span>
+              <span class="cert-skill-chip">Spasi & Keseimbangan</span>
+            </div>
+
+            <div class="cert-bottom-row">
+              <div class="cert-sign-block">
+                <span class="cert-mini-label">Apresiasi dari</span>
+                <strong class="cert-sign-title">Kenal Komputer</strong>
+                <span class="cert-sign-rule" aria-hidden="true"></span>
+                <span class="cert-small-note">
+                  Ruang Belajarmu · Pembelajaran Digital
+                </span>
+              </div>
+
+              <div class="cert-seal" aria-label="Creative Designer">
+                <span class="cert-seal-mark">✦</span>
+                <strong>CREATIVE</strong>
+                <small>DESIGNER</small>
+                <span class="cert-seal-star" aria-hidden="true">★</span>
+              </div>
+
+              <div class="cert-issue-block">
+                <span class="cert-mini-label">Program pembelajaran</span>
+                <strong class="cert-sign-title">Pertemuan 09</strong>
+                <span class="cert-small-note">Canva Dasar</span>
+                <span class="cert-sign-rule" aria-hidden="true"></span>
+                <span class="cert-small-note">Digital Creativity</span>
+              </div>
+            </div>
           </div>
-        </div>
+
 
         <div style="display:flex; justify-content:center; gap:12px; margin-top:16px;">
           <button class="btn primary" onclick="window.print()">🖨️ Cetak / Simpan Sertifikat (PDF)</button>
@@ -2033,51 +2599,60 @@ function testFontChoice(mode) {
   }
 }
 
-// Misi 8 Template Detective
+// Misi 8 Template Detective — tampilkan validasi setelah siswa memilih.
+let templateDetectSolved = false;
 function pickTemplateChoice(choice, btn) {
+  if (templateDetectSolved) return;
   playSfx('click');
-  const fbA = document.getElementById('templFbA');
-  const fbB = document.getElementById('templFbB');
-  const fbC = document.getElementById('templFbC');
-  fbA.style.display = fbB.style.display = fbC.style.display = 'none';
+  const feedback = {
+    A: document.getElementById('templFbA'),
+    B: document.getElementById('templFbB'),
+    C: document.getElementById('templFbC')
+  };
+  Object.values(feedback).forEach(el => { el.style.display = 'none'; });
+
+  const fb = feedback[choice];
+  if (!fb) return;
+  fb.style.display = 'block';
 
   if (choice === 'B') {
-    fbB.style.display = 'block';
-    fbB.style.color = 'var(--green)';
-    fbB.innerHTML = '🎉 <strong>Tepat Sekali! (+50 XP)</strong> Template B memiliki slot judul besar, ruang 3 tips rapi, dan warna yang cocok untuk poster edukasi!';
+    fb.style.color = 'var(--green)';
+    fb.innerHTML = '✅ <strong>Jawaban benar!</strong> Template ini relevan untuk poster keamanan internet, dengan judul yang jelas dan ruang untuk poin-poin tips.';
+    templateDetectSolved = true;
+    document.querySelectorAll('#page8 button[onclick^="pickTemplateChoice"]').forEach(b => b.disabled = true);
     playSfx('correct');
     addXP(50, 'tempDet');
   } else if (choice === 'A') {
-    fbA.style.display = 'block';
-    fbA.style.color = 'var(--red)';
-    fbA.innerHTML = '❌ Kurang tepat. Template A terlalu ramai dengan dekorasi pesta ulang tahun yang tidak nyambung dengan edukasi internet.';
+    fb.style.color = 'var(--red)';
+    fb.textContent = 'Belum tepat. Perhatikan apakah tema visualnya sesuai dengan edukasi keamanan internet.';
     playSfx('wrong');
   } else {
-    fbC.style.display = 'block';
-    fbC.style.color = 'var(--red)';
-    fbC.innerHTML = '❌ Kurang tepat. Template C isinya teks kecil padat seperti makalah, bukan format poster yang memikat.';
+    fb.style.color = 'var(--red)';
+    fb.textContent = 'Belum tepat. Poster perlu mudah dipindai, bukan dipenuhi paragraf kecil yang panjang.';
     playSfx('wrong');
   }
 }
 
-// Misi 9 Canva Skill Lab
+// Misi 9 Canva Skill Lab — opsi tidak diberi tanda khusus sebelum dipilih.
 const labTasksDone = [false, false, false];
 function submitLabTask(num, btn, isCorrect) {
+  if (labTasksDone[num - 1]) return;
   const fb = document.getElementById('labFb' + num);
+  if (!fb) return;
   fb.style.display = 'block';
-  btn.parentElement.querySelectorAll('button').forEach(b => b.disabled = true);
 
   if (isCorrect) {
-    btn.classList.add('primary');
     fb.style.color = 'var(--green)';
-    fb.innerHTML = '✅ <strong>Pilihan Tepat!</strong> Keputusan desainmu sangat cerdas!';
+    fb.innerHTML = '✅ <strong>Jawaban benar!</strong> Pilihanmu sesuai dengan prinsip desain yang baik.';
     document.getElementById('lab' + num + 'Status').textContent = 'Selesai ✓';
     labTasksDone[num - 1] = true;
+    // Kunci opsi hanya setelah jawaban benar; jika salah, siswa masih bisa mencoba lagi.
+    btn.parentElement.querySelectorAll('button').forEach(b => b.disabled = true);
     playSfx('correct');
     addXP(30, 'labTask' + num);
   } else {
     fb.style.color = 'var(--red)';
-    fb.innerHTML = '❌ Kurang tepat. Coba pikirkan mana yang paling ringkas dan jelas bagi pembaca!';
+    fb.textContent = 'Belum tepat. Coba lagi dan perhatikan prinsip desain yang sedang diuji.';
     playSfx('wrong');
   }
 }
