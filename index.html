@@ -2,3424 +2,1218 @@
 <html lang="id">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Kenal Komputer - Ruang Belajarmu</title>
-  <meta name="description" content="Ruang belajar komputer dari nol dengan materi interaktif, video, dan game." />
-  <meta property="og:title" content="Kenal Komputer - Ruang Belajarmu" />
-  <meta property="og:description" content="Ruang belajar komputer dari nol dengan materi interaktif, video, dan game." />
-  <meta property="og:type" content="website" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Kenal Komputer - Kuasai Komputer</title>
+  <meta name="description" content="Ruang belajar komputer dari nol dengan materi interaktif, video, dan game.">
+  <meta name="theme-color" content="#05060A">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Goldman:wght@400;700&family=Montserrat:wght@300;400;500;600;700;800&display=swap"
-    rel="stylesheet" />
+    href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet">
   <style>
-    /* ════════════════════════════════════════════
-   TOKENS
-════════════════════════════════════════════ */
     :root {
-      --navy: #080D1A;
-      --navy-2: #0D1326;
-      --navy-3: #131929;
-      --indigo: #4F1FD4;
-      --indigo-lt: #7C4FF6;
-      --mint: #00E5A0;
-      --mint-dim: rgba(0, 229, 160, 0.12);
-      --mint-glow: rgba(0, 229, 160, 0.25);
-      --amber: #F59E0B;
-      --amber-dim: rgba(245, 158, 11, 0.14);
-      --ivory: #F5F1EB;
-      --ivory-2: #EDE8DF;
-      --white: #FFFFFF;
-      --ink: #0A0E1A;
-      --text-p: rgba(255, 255, 255, 0.72);
-      --text-d: rgba(255, 255, 255, 0.38);
-      --border: rgba(255, 255, 255, 0.07);
-      --border-lt: rgba(255, 255, 255, 0.12);
-      --r-s: 8px;
-      --r-m: 14px;
-      --r-l: 22px;
-      --r-xl: 32px;
-      --ease: cubic-bezier(.25, .1, .25, 1);
-      --spring: cubic-bezier(.34, 1.56, .64, 1);
+      --bg: #05060A;
+      --panel: #0B0D14;
+      --red: #FF1E3C;
+      --red2: #B3122A;
+      --cy: #19D3FF;
+      --tx: #EDEFF7;
+      --mu: #8B90A8;
+      --ln: rgba(255, 30, 60, .28);
+      --cut: 14px
     }
 
-    *,
-    *::before,
-    *::after {
+    * {
       box-sizing: border-box;
       margin: 0;
       padding: 0
     }
 
     html {
-      font-size: 16px;
-      scroll-behavior: smooth
+      scroll-behavior: smooth;
+      scroll-padding-top: 80px
     }
 
     body {
-      font-family: 'Montserrat', system-ui, sans-serif;
-      background: var(--navy);
-      color: var(--white);
-      overflow-x: hidden;
+      background: var(--bg);
+      color: var(--tx);
+      font-family: Inter, system-ui, sans-serif;
       line-height: 1.6;
-    }
-
-    a {
-      text-decoration: none;
-      color: inherit
-    }
-
-    ul,
-    ol {
-      list-style: none
-    }
-
-    button {
-      font-family: inherit;
-      cursor: pointer;
-      border: none;
-      background: none
-    }
-
-    img {
-      max-width: 100%;
-      display: block
-    }
-
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap
-    }
-
-    .wrap {
-      width: 100%;
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 28px
+      overflow-x: hidden
     }
 
     h1,
     h2,
     h3,
-    .display {
-      font-family: 'Goldman', sans-serif;
-      letter-spacing: -0.01em
+    .rj {
+      font-family: Rajdhani, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .02em;
+      line-height: 1.05
     }
 
-    a:focus-visible,
-    button:focus-visible {
-      outline: 2px solid var(--mint);
-      outline-offset: 3px;
-      border-radius: 4px
+    a {
+      color: inherit;
+      text-decoration: none
     }
 
-    /* ════════════════════════════════════════════
-   NOISE TEXTURE OVERLAY
-════════════════════════════════════════════ */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-      opacity: 0.35;
+    button {
+      font: inherit;
+      color: inherit;
+      background: none;
+      border: 0;
+      cursor: pointer
     }
 
-    /* ════════════════════════════════════════════
-   NAVBAR
-════════════════════════════════════════════ */
+    :focus-visible {
+      outline: 2px solid var(--cy);
+      outline-offset: 3px
+    }
+
+    .wrap {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 24px
+    }
+
+    .cut {
+      clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut))
+    }
+
+    .panel {
+      position: relative;
+      background: var(--panel);
+      border: 1px solid var(--ln);
+      border-radius: 4px;
+      transition: border-color .2s, box-shadow .2s, transform .2s
+    }
+
+    .panel:hover {
+      border-color: var(--red);
+      box-shadow: 0 0 28px rgba(255, 30, 60, .22)
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: Rajdhani;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-size: .9rem;
+      padding: 13px 24px;
+      border-radius: 3px;
+      transition: .2s
+    }
+
+    .b-red {
+      background: linear-gradient(180deg, var(--red), var(--red2));
+      box-shadow: 0 0 0 rgba(255, 30, 60, 0)
+    }
+
+    .b-red:hover {
+      box-shadow: 0 0 30px rgba(255, 30, 60, .6);
+      transform: translateY(-2px)
+    }
+
+    .b-ghost {
+      border: 1px solid rgba(255, 255, 255, .2);
+      background: rgba(255, 255, 255, .03)
+    }
+
+    .b-ghost:hover {
+      border-color: var(--cy);
+      color: var(--cy)
+    }
+
+    .b-line {
+      border: 1px solid var(--red);
+      color: var(--red);
+      padding: 10px 20px
+    }
+
+    .b-line:hover {
+      background: var(--red);
+      color: #fff
+    }
+
+    /* nav */
     .nav {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 900;
-      height: 60px;
-      transition: background .3s var(--ease);
+      inset: 0 0 auto;
+      z-index: 50;
+      transition: .25s;
+      padding-top: env(safe-area-inset-top, 0)
     }
 
-    .nav-inner {
-      width: 100%;
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 28px;
-      height: 100%;
+    .nav.st {
+      background: rgba(5, 6, 10, .9);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--ln)
+    }
+
+    .nav .wrap {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      height: 68px;
+      gap: 16px
     }
 
-    .nav.stuck {
-      background: rgba(8, 13, 26, 0.90);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .nav-logo {
+    .logo {
       display: flex;
       align-items: center;
       gap: 10px;
-      font-family: 'Goldman', sans-serif;
-      font-weight: 800;
-      font-size: 0.95rem;
-      letter-spacing: -0.01em;
-    }
-
-    .logo-gem {
-      width: 34px;
-      height: 34px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, var(--indigo), var(--indigo-lt));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 0 18px rgba(79, 31, 212, 0.55);
-      flex-shrink: 0;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 4px
-    }
-
-    .nav-a {
-      font-size: 0.82rem;
-      font-weight: 500;
-      color: var(--text-p);
-      padding: 6px 12px;
-      border-radius: var(--r-s);
-      transition: color .18s, background .18s;
-    }
-
-    .nav-a:hover {
-      color: var(--white);
-      background: rgba(255, 255, 255, 0.06)
-    }
-
-    .nav-cta {
-      font-size: 0.80rem;
+      font-family: Rajdhani;
       font-weight: 700;
-      background: var(--mint);
-      color: var(--ink);
-      padding: 7px 18px;
-      border-radius: 100px;
-      transition: box-shadow .2s, transform .2s;
+      font-size: 1.45rem;
+      letter-spacing: .04em
     }
 
-    .nav-cta:hover {
-      box-shadow: 0 0 24px var(--mint-glow);
-      transform: translateY(-1px)
+    .logo svg {
+      filter: drop-shadow(0 0 8px var(--red))
     }
 
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      padding: 8px;
-      border-radius: var(--r-s)
-    }
-
-    .hamburger span {
-      display: block;
-      width: 20px;
-      height: 2px;
-      background: var(--white);
-      border-radius: 2px;
-      transition: transform .22s, opacity .22s
-    }
-
-    .hamburger[aria-expanded="true"] span:nth-child(1) {
-      transform: translateY(7px) rotate(45deg)
-    }
-
-    .hamburger[aria-expanded="true"] span:nth-child(2) {
-      opacity: 0
-    }
-
-    .hamburger[aria-expanded="true"] span:nth-child(3) {
-      transform: translateY(-7px) rotate(-45deg)
-    }
-
-    .mob-menu {
-      display: none;
-      position: fixed;
-      top: 60px;
-      left: 0;
-      right: 0;
-      z-index: 899;
-      background: rgba(8, 13, 26, 0.97);
-      backdrop-filter: blur(24px);
-      padding: 12px 28px 24px;
-      border-bottom: 1px solid var(--border);
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .mob-menu.open {
-      display: flex
-    }
-
-    .mob-a {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--text-p);
-      padding: 11px 12px;
-      border-radius: var(--r-s);
-      transition: background .15s, color .15s
-    }
-
-    .mob-a:hover {
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--white)
-    }
-
-    /* ════════════════════════════════════════════
-   HERO (FULL SCREEN VIDEO)
-════════════════════════════════════════════ */
-    .hero {
-      min-height: 100svh;
-      height: 100svh;
-      width: 100%;
+    .links {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-end;
-      padding: 90px 24px 38px;
-      position: relative;
-      overflow: hidden;
-      text-align: center;
+      gap: 30px
     }
 
-    /* full page video background */
-    .hero-video-bg {
+    .links a {
+      font-family: Rajdhani;
+      font-weight: 600;
+      font-size: .88rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--tx);
+      padding: 6px 0;
+      border-bottom: 2px solid transparent
+    }
+
+    .links a:hover,
+    .links a.on {
+      border-color: var(--red);
+      color: #fff;
+      text-shadow: 0 0 12px var(--red)
+    }
+
+    .burger {
+      display: none;
+      font-size: 1.6rem;
+      padding: 4px 10px
+    }
+
+    /* hero */
+    .hero {
+      position: relative;
+      padding: 130px 0 56px;
+      min-height: 640px;
+      overflow: hidden
+    }
+
+    .hero video {
       position: absolute;
       inset: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      overflow: hidden;
-      background: var(--navy);
-    }
-
-    .hero-video {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      display: block;
+      opacity: .22;
+      mix-blend-mode: screen
     }
 
-    .hero-overlay {
+    .hero::before {
+      content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(
-        180deg,
-        rgba(8, 13, 26, 0.58) 0%,
-        rgba(8, 13, 26, 0.12) 35%,
-        rgba(8, 13, 26, 0.45) 70%,
-        rgba(8, 13, 26, 0.92) 100%
-      );
-      pointer-events: none;
-      z-index: 1;
+      background: radial-gradient(60% 70% at 72% 40%, rgba(255, 30, 60, .22), transparent 70%), radial-gradient(40% 50% at 62% 55%, rgba(25, 211, 255, .16), transparent 70%)
     }
 
-    .hero-inner {
+    .hero .wrap {
       position: relative;
-      z-index: 2;
-      max-width: 860px;
-      width: 100%;
-      margin-bottom: 8px;
-    }
-
-    .hero-btns {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 22px;
-    }
-
-    .btn-main {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--mint);
-      color: var(--ink);
-      font-family: 'Goldman', sans-serif;
-      font-weight: 700;
-      font-size: 0.92rem;
-      padding: 13px 28px;
-      border-radius: 100px;
-      box-shadow: 0 0 0 0 var(--mint-glow);
-      transition: box-shadow .25s, transform .25s;
-    }
-
-    .btn-main:hover {
-      box-shadow: 0 0 40px var(--mint-glow), 0 0 80px rgba(0, 229, 160, 0.12);
-      transform: translateY(-2px)
-    }
-
-    .btn-outline {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--white);
-      font-weight: 600;
-      font-size: 0.90rem;
-      padding: 13px 24px;
-      border-radius: 100px;
-      border: 1.5px solid var(--border-lt);
-      transition: border-color .2s, background .2s, transform .2s;
-    }
-
-    .btn-outline:hover {
-      border-color: rgba(255, 255, 255, 0.30);
-      background: rgba(255, 255, 255, 0.06);
-      transform: translateY(-1px)
-    }
-
-    /* hero stats strip */
-    .hero-stats {
-      display: flex;
-      justify-content: center;
-      gap: 0;
-      max-width: 380px;
-      margin: 0 auto;
-      border: 1px solid var(--border-lt);
-      border-radius: var(--r-l);
-      overflow: hidden;
-      background: rgba(8, 13, 26, 0.75);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-    }
-
-    .hs {
-      flex: 1;
-      padding: 20px 12px;
-      text-align: center;
-      border-right: 1px solid var(--border)
-    }
-
-    .hs:last-child {
-      border-right: none
-    }
-
-    .hs-n {
-      display: block;
-      font-family: 'Goldman', sans-serif;
-      font-size: 1.9rem;
-      font-weight: 800;
-      color: var(--white);
-      line-height: 1
-    }
-
-    .hs-n.mint {
-      color: var(--mint)
-    }
-
-    .hs-l {
-      display: block;
-      font-size: 0.69rem;
-      font-weight: 600;
-      color: var(--text-d);
-      margin-top: 5px
-    }
-
-    /* scroll cue */
-    .scroll-cue {
-      position: absolute;
-      bottom: 32px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      opacity: 0.45;
-      animation: fadeInUp 1s .8s both;
-    }
-
-    .scroll-cue span {
-      font-size: 0.68rem;
-      font-weight: 600;
-      color: var(--text-d);
-      letter-spacing: .05em
-    }
-
-    .scroll-mouse {
-      width: 22px;
-      height: 34px;
-      border: 1.5px solid rgba(255, 255, 255, 0.25);
-      border-radius: 11px;
-      display: flex;
-      justify-content: center;
-      padding-top: 6px;
-    }
-
-    .scroll-wheel {
-      width: 3px;
-      height: 7px;
-      background: var(--mint);
-      border-radius: 2px;
-      animation: scrollWheel 1.8s ease-in-out infinite
-    }
-
-    @keyframes scrollWheel {
-      0% {
-        transform: translateY(0);
-        opacity: 1
-      }
-
-      100% {
-        transform: translateY(10px);
-        opacity: 0
-      }
-    }
-
-    /* ════════════════════════════════════════════
-   PROGRESS BANNER
-════════════════════════════════════════════ */
-    .progress-sec {
-      padding: 72px 0 0;
-      position: relative;
-      z-index: 1
-    }
-
-    .pcard {
-      background: linear-gradient(135deg, var(--navy-3) 0%, rgba(79, 31, 212, 0.12) 100%);
-      border: 1px solid var(--border-lt);
-      border-radius: var(--r-xl);
-      padding: 40px 44px;
       display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 36px;
-      align-items: center;
-      position: relative;
-      overflow: hidden;
+      grid-template-columns: 1fr 1.05fr;
+      gap: 20px;
+      align-items: center
     }
 
-    .pcard::before {
-      content: '';
-      position: absolute;
-      top: -60px;
-      right: -60px;
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(79, 31, 212, 0.3), transparent 70%);
-      pointer-events: none;
-    }
-
-    .pcard-wave {
-      font-size: 2rem;
-      display: inline-block;
-      animation: wave 3s ease-in-out infinite
-    }
-
-    @keyframes wave {
-
-      0%,
-      60%,
-      100% {
-        transform: rotate(0)
-      }
-
-      10%,
-      30% {
-        transform: rotate(-14deg)
-      }
-
-      20% {
-        transform: rotate(12deg)
-      }
-
-      40% {
-        transform: rotate(-4deg)
-      }
-
-      50% {
-        transform: rotate(8deg)
-      }
-    }
-
-    .pcard-greet {
-      font-family: 'Goldman', sans-serif;
-      font-size: 1.7rem;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      margin: 8px 0 6px;
-    }
-
-    .pcard-name {
-      color: var(--mint)
-    }
-
-    .pcard-msg {
-      font-size: 0.88rem;
-      color: var(--text-p);
-      line-height: 1.65
-    }
-
-    .pcard-stats {
-      display: flex;
-      gap: 12px;
-      flex-shrink: 0
-    }
-
-    .pstat {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border);
-      border-radius: var(--r-m);
-      padding: 16px 22px;
-      text-align: center;
-      min-width: 80px;
-    }
-
-    .pstat.hi {
-      background: rgba(0, 229, 160, 0.08);
-      border-color: rgba(0, 229, 160, 0.18)
-    }
-
-    .pstat-n {
-      display: block;
-      font-family: 'Goldman', sans-serif;
-      font-size: 1.6rem;
-      font-weight: 800;
-      color: var(--white);
-      line-height: 1
-    }
-
-    .pstat.hi .pstat-n {
-      color: var(--mint)
-    }
-
-    .pstat-l {
-      font-size: 0.68rem;
+    .eyebrow {
+      color: var(--red);
+      font-family: Rajdhani;
       font-weight: 600;
-      color: var(--text-d);
-      margin-top: 4px;
+      letter-spacing: .14em;
+      font-size: .85rem;
+      margin-bottom: 18px;
+      text-transform: uppercase
+    }
+
+    .glitch {
+      font-size: clamp(3.2rem, 8vw, 6.4rem);
+      font-weight: 700;
+      position: relative;
       display: block
     }
 
-    /* xp bar */
-    .xp-wrap {
-      margin-top: 28px
+    .glitch.w {
+      color: #fff;
+      text-shadow: 3px 0 var(--cy), -3px 0 var(--red)
     }
 
-    .xp-head {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 10px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--text-p)
+    .glitch.r {
+      color: var(--red);
+      text-shadow: 0 0 30px rgba(255, 30, 60, .55)
     }
 
-    .xp-label-left {
-      display: flex;
-      align-items: center;
-      gap: 6px
+    .glitch.w {
+      animation: gl 5s infinite steps(1)
     }
 
-    .xp-tag {
-      background: rgba(0, 229, 160, 0.12);
-      border: 1px solid rgba(0, 229, 160, 0.20);
-      color: var(--mint);
-      font-size: 0.66rem;
-      font-weight: 700;
-      padding: 2px 8px;
-      border-radius: 100px;
-    }
-
-    .xp-track {
-      height: 10px;
-      background: rgba(255, 255, 255, 0.06);
-      border-radius: 100px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .xp-fill {
-      height: 100%;
-      width: 0%;
-      border-radius: 100px;
-      background: linear-gradient(90deg, var(--indigo-lt), var(--mint));
-      transition: width 1.2s cubic-bezier(.4, 0, .2, 1);
-      position: relative;
-    }
-
-    .xp-fill::after {
-      content: '';
-      position: absolute;
-      right: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: var(--mint);
-      border: 2px solid var(--navy);
-      box-shadow: 0 0 12px var(--mint-glow);
-    }
-
-    /* ════════════════════════════════════════════
-   SEARCH
-════════════════════════════════════════════ */
-    .search-sec {
-      padding: 36px 0 0
-    }
-
-    .search-box {
-      max-width: 440px;
-      margin: 0 auto;
-      position: relative
-    }
-
-    .search-ico {
-      position: absolute;
-      left: 17px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-d);
-      pointer-events: none
-    }
-
-    .search-inp {
-      width: 100%;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1.5px solid var(--border);
-      border-radius: 100px;
-      padding: 12px 44px 12px 48px;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 0.88rem;
-      color: var(--white);
-      outline: none;
-      transition: border-color .2s, background .2s, box-shadow .2s;
-    }
-
-    .search-inp::placeholder {
-      color: var(--text-d)
-    }
-
-    .search-inp:focus {
-      border-color: rgba(0, 229, 160, 0.45);
-      background: rgba(0, 229, 160, 0.04);
-      box-shadow: 0 0 0 4px rgba(0, 229, 160, 0.08)
-    }
-
-    .search-x {
-      position: absolute;
-      right: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-d);
-      padding: 4px;
-      border-radius: 50%;
-      transition: color .15s
-    }
-
-    .search-x:hover {
-      color: var(--white)
-    }
-
-    .search-hint {
-      text-align: center;
-      font-size: 0.78rem;
-      color: var(--text-d);
-      margin-top: 8px;
-      min-height: 18px
-    }
-
-    /* ════════════════════════════════════════════
-   FEATURED GAME
-════════════════════════════════════════════ */
-    .game-sec {
-      padding: 56px 0 0;
-      position: relative;
-      z-index: 1
-    }
-
-    .game-sec-label {
-      font-size: 0.72rem;
-      font-weight: 700;
-      color: var(--amber);
-      letter-spacing: .06em;
-      margin-bottom: 18px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .game-sec-label::before {
-      content: '';
-      width: 20px;
-      height: 1.5px;
-      background: var(--amber);
-      border-radius: 2px
-    }
-
-    .game-card {
-      border-radius: var(--r-xl);
-      overflow: hidden;
-      display: grid;
-      grid-template-columns: 1fr 320px;
-      border: 1px solid rgba(245, 158, 11, 0.18);
-      position: relative;
-      background: var(--navy-2);
-    }
-
-    .game-card-body {
-      padding: 48px 48px;
-      position: relative;
-      z-index: 1
-    }
-
-    .game-glow-bg {
-      position: absolute;
-      top: -80px;
-      left: -80px;
-      width: 380px;
-      height: 380px;
-      border-radius: 50%;
-      background: rgba(79, 31, 212, 0.4);
-      filter: blur(100px);
-      pointer-events: none;
-    }
-
-    .game-glow-bg-2 {
-      position: absolute;
-      bottom: -60px;
-      left: 200px;
-      width: 240px;
-      height: 240px;
-      border-radius: 50%;
-      background: rgba(245, 158, 11, 0.25);
-      filter: blur(80px);
-      pointer-events: none;
-    }
-
-    .game-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      background: rgba(245, 158, 11, 0.12);
-      border: 1px solid rgba(245, 158, 11, 0.25);
-      color: var(--amber);
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: .05em;
-      padding: 3px 11px;
-      border-radius: 100px;
-      margin-bottom: 18px;
-    }
-
-    .game-h {
-      font-family: 'Goldman', sans-serif;
-      font-size: 2.6rem;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      line-height: 1.03;
-      color: var(--white);
-      margin-bottom: 6px;
-    }
-
-    .game-sub {
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--indigo-lt);
-      margin-bottom: 16px
-    }
-
-    .game-desc {
-      font-size: 0.85rem;
-      color: var(--text-p);
-      line-height: 1.72;
-      max-width: 360px;
-      margin-bottom: 32px
-    }
-
-    .btn-play {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
-      background: var(--amber);
-      color: var(--ink);
-      font-family: 'Goldman', sans-serif;
-      font-weight: 800;
-      font-size: 0.90rem;
-      padding: 13px 26px;
-      border-radius: 100px;
-      box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.3);
-      transition: box-shadow .25s, transform .25s;
-    }
-
-    .btn-play:hover {
-      box-shadow: 0 0 32px rgba(245, 158, 11, 0.4);
-      transform: translateY(-2px)
-    }
-
-    /* right panel — game art */
-    .game-art {
-      background: linear-gradient(135deg, rgba(79, 31, 212, 0.15), rgba(0, 229, 160, 0.06));
-      border-left: 1px solid rgba(255, 255, 255, 0.06);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 32px;
-      gap: 24px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .game-art::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 50% 50%, rgba(79, 31, 212, 0.2), transparent 70%);
-    }
-
-    .game-art-icons {
-      font-size: 3.5rem;
-      display: flex;
-      gap: 16px;
-      position: relative;
-      z-index: 1;
-      filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.4))
-    }
-
-    .game-art-icons span {
-      display: block;
-      animation: floatIcon 3s ease-in-out infinite
-    }
-
-    .game-art-icons span:nth-child(2) {
-      animation-delay: .5s;
-      animation-duration: 3.5s
-    }
-
-    .game-art-icons span:nth-child(3) {
-      animation-delay: 1s;
-      animation-duration: 2.8s
-    }
-
-    @keyframes floatIcon {
+    @keyframes gl {
 
       0%,
+      92%,
       100% {
-        transform: translateY(0)
+        text-shadow: 3px 0 var(--cy), -3px 0 var(--red);
+        transform: none
       }
 
+      93% {
+        text-shadow: -7px 0 var(--cy), 7px 0 var(--red);
+        transform: translateX(3px) skewX(-4deg)
+      }
+
+      95% {
+        text-shadow: 6px 0 var(--cy), -6px 0 var(--red);
+        transform: translateX(-3px)
+      }
+
+      97% {
+        transform: none
+      }
+    }
+
+    .hero p.lead {
+      color: #C4C8DA;
+      max-width: 400px;
+      margin: 24px 0 30px;
+      font-size: .96rem
+    }
+
+    .cta {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap
+    }
+
+    .art {
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-height: 380px;
+      perspective: 900px
+    }
+
+    .art svg {
+      width: 100%;
+      max-width: 560px;
+      height: auto;
+      transition: transform .15s ease-out;
+      transform: rotateY(calc(var(--px, 0)*10deg)) rotateX(calc(var(--py, 0)*-8deg));
+      filter: drop-shadow(0 0 40px rgba(255, 30, 60, .35))
+    }
+
+    .float {
+      animation: fl 4s ease-in-out infinite
+    }
+
+    @keyframes fl {
       50% {
         transform: translateY(-10px)
       }
     }
 
-    .game-art-score {
-      position: relative;
-      z-index: 1;
-      background: rgba(0, 0, 0, 0.35);
-      border: 1px solid var(--border);
-      border-radius: var(--r-m);
-      padding: 14px 22px;
-      text-align: center;
-    }
-
-    .game-art-score-lbl {
-      font-size: 0.65rem;
+    .tools {
+      display: flex;
+      gap: 42px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: 48px;
+      color: #777C93;
+      font-family: Rajdhani;
       font-weight: 700;
-      color: var(--amber);
-      letter-spacing: .06em;
-      margin-bottom: 4px
+      font-size: 1.15rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      position: relative
     }
 
-    .game-art-score-n {
-      font-family: 'Goldman', sans-serif;
-      font-size: 1.8rem;
-      font-weight: 800;
-      color: var(--white)
-    }
-
-    /* ════════════════════════════════════════════
-   SESSIONS — LEVEL MAP LAYOUT
-════════════════════════════════════════════ */
-    .sessions-sec {
-      padding: 72px 0 0;
-      position: relative;
-      z-index: 1
-    }
-
-    .sessions-head {
-      margin-bottom: 44px
-    }
-
-    .sec-eyebrow {
-      font-size: 0.70rem;
-      font-weight: 700;
-      color: var(--mint);
-      letter-spacing: .07em;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .sec-eyebrow::before {
-      content: '';
-      width: 16px;
-      height: 1.5px;
-      background: var(--mint);
-      border-radius: 2px
-    }
-
-    .sec-h {
-      font-family: 'Goldman', sans-serif;
-      font-size: clamp(1.6rem, 3vw, 2.1rem);
-      font-weight: 800;
-      margin-bottom: 8px
-    }
-
-    .sec-p {
-      font-size: 0.88rem;
-      color: var(--text-p);
-      max-width: 480px;
-      line-height: 1.7
-    }
-
-    /* map track */
-    .level-map {
-      display: flex;
-      flex-direction: column;
-      gap: 0
-    }
-
-    .level-row {
-      display: grid;
-      grid-template-columns: 64px 1fr;
-      gap: 0;
-      align-items: stretch;
-    }
-
-    /* connector */
-    .level-connector {
-      display: flex;
-      flex-direction: column;
-      align-items: center
-    }
-
-    .level-node {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Goldman', sans-serif;
-      font-weight: 800;
-      font-size: 0.85rem;
-      flex-shrink: 0;
-      position: relative;
-      z-index: 2;
-      transition: transform .2s var(--spring);
-    }
-
-    .level-node.done {
-      background: var(--mint);
-      color: var(--ink);
-      box-shadow: 0 0 20px var(--mint-glow);
-    }
-
-    .level-node.active {
-      background: linear-gradient(135deg, var(--indigo), var(--indigo-lt));
-      color: var(--white);
-      box-shadow: 0 0 28px rgba(79, 31, 212, 0.55);
-      animation: nodePulse 2.5s ease-in-out infinite;
-    }
-
-    .level-node.locked {
-      background: rgba(255, 255, 255, 0.06);
-      color: var(--text-d);
-      border: 1.5px solid var(--border);
-    }
-
-    @keyframes nodePulse {
-
-      0%,
-      100% {
-        box-shadow: 0 0 28px rgba(79, 31, 212, 0.55)
-      }
-
-      50% {
-        box-shadow: 0 0 44px rgba(79, 31, 212, 0.80)
-      }
-    }
-
-    .level-line {
-      width: 2px;
-      flex: 1;
-      background: var(--border);
-      margin: 0 auto;
-      min-height: 24px
-    }
-
-    .level-line.done-line {
-      background: linear-gradient(180deg, var(--mint), var(--mint))
-    }
-
-    .level-card {
-      margin: 0 0 20px 16px;
-      background: var(--navy-2);
-      border: 1.5px solid var(--border);
-      border-radius: var(--r-l);
-      padding: 26px 28px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      transition: border-color .2s, transform .2s, box-shadow .2s;
-      cursor: default;
-      opacity: 0;
-      transform: translateX(-16px);
-    }
-
-    .level-card.reveal {
-      opacity: 1;
-      transform: translateX(0);
-      transition: opacity .4s var(--ease), transform .4s var(--ease), border-color .2s, box-shadow .2s
-    }
-
-    .level-card.st-done {
-      border-color: rgba(0, 229, 160, 0.20)
-    }
-
-    .level-card.st-done:hover {
-      border-color: rgba(0, 229, 160, 0.40);
-      transform: translateX(4px);
-      box-shadow: 0 8px 32px rgba(0, 229, 160, 0.08)
-    }
-
-    .level-card.st-active {
-      border-color: rgba(79, 31, 212, 0.35);
-      background: linear-gradient(135deg, rgba(79, 31, 212, 0.08), var(--navy-2))
-    }
-
-    .level-card.st-active:hover {
-      border-color: rgba(79, 31, 212, 0.55);
-      transform: translateX(4px);
-      box-shadow: 0 8px 32px rgba(79, 31, 212, 0.14)
-    }
-
-    .level-card.st-locked {
-      opacity: 0.45
-    }
-
-    .level-card.st-locked.reveal {
-      opacity: 0.45
-    }
-
-    .level-card:not(.st-locked):hover {
+    .tools span {
+      transition: .2s;
       cursor: default
     }
 
-    .lc-left {
-      flex: 1;
-      min-width: 0
+    .tools span:hover {
+      color: var(--cy);
+      text-shadow: 0 0 14px var(--cy)
     }
 
-    .lc-top {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 10px
+    /* banner */
+    .sec {
+      padding-top: 44px
     }
 
-    .lc-badge {
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: .04em;
-      padding: 3px 9px;
-      border-radius: 100px;
-    }
-
-    .badge-done {
-      background: rgba(0, 229, 160, 0.12);
-      color: var(--mint);
-      border: 1px solid rgba(0, 229, 160, 0.20)
-    }
-
-    .badge-active {
-      background: rgba(79, 31, 212, 0.20);
-      color: var(--indigo-lt);
-      border: 1px solid rgba(79, 31, 212, 0.30);
-      animation: badgePulse 2.5s ease-in-out infinite
-    }
-
-    @keyframes badgePulse {
-
-      0%,
-      100% {
-        box-shadow: 0 0 0 0 rgba(79, 31, 212, .2)
-      }
-
-      50% {
-        box-shadow: 0 0 0 4px transparent
-      }
-    }
-
-    .badge-locked {
-      background: rgba(255, 255, 255, 0.04);
-      color: var(--text-d);
-      border: 1px solid var(--border)
-    }
-
-    .lc-sesh {
-      font-size: 0.65rem;
-      font-weight: 600;
-      color: var(--text-d)
-    }
-
-    .lc-title {
-      font-family: 'Goldman', sans-serif;
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--white);
-      margin-bottom: 6px;
-      line-height: 1.3
-    }
-
-    .level-card.st-locked .lc-title {
-      color: var(--text-d)
-    }
-
-    .lc-desc {
-      font-size: 0.80rem;
-      color: var(--text-p);
-      line-height: 1.62
-    }
-
-    .level-card.st-locked .lc-desc {
-      color: var(--text-d)
-    }
-
-    .lc-right {
-      display: flex;
-      gap: 8px;
-      flex-shrink: 0;
-      align-items: center
-    }
-
-    .lc-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 8px 14px;
-      border-radius: var(--r-s);
-      transition: background .18s, transform .18s, box-shadow .18s;
-      white-space: nowrap;
-    }
-
-    .lc-btn-mat {
-      background: rgba(255, 255, 255, 0.07);
-      color: var(--white);
-      border: 1px solid var(--border)
-    }
-
-    .lc-btn-mat:hover {
-      background: rgba(255, 255, 255, 0.12);
-      border-color: var(--border-lt);
-      transform: translateY(-1px)
-    }
-
-    .lc-btn-game {
-      background: rgba(245, 158, 11, 0.12);
-      color: var(--amber);
-      border: 1px solid rgba(245, 158, 11, 0.22)
-    }
-
-    .lc-btn-game:hover {
-      background: rgba(245, 158, 11, 0.20);
-      border-color: rgba(245, 158, 11, 0.40);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.18)
-    }
-
-    .level-card.st-locked .lc-btn {
-      opacity: 0.35;
-      pointer-events: none
-    }
-
-    .no-results {
-      text-align: center;
-      padding: 60px 20px;
-      display: none;
-      color: var(--text-d);
-      font-size: 0.9rem;
-    }
-
-    .no-results em {
-      font-style: normal;
-      font-size: 2.5rem;
-      display: block;
-      margin-bottom: 12px
-    }
-
-    /* ════════════════════════════════════════════
-   ABOUT
-════════════════════════════════════════════ */
-    .about-sec {
-      padding: 80px 0 72px;
-      position: relative;
-      z-index: 1
-    }
-
-    .about-grid {
+    .banner {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 56px;
+      grid-template-columns: 1.1fr 2fr auto;
+      gap: 24px;
       align-items: center;
-      background: var(--navy-2);
-      border: 1px solid var(--border);
-      border-radius: var(--r-xl);
-      padding: 56px;
-      position: relative;
-      overflow: hidden;
+      padding: 26px 32px;
+      border-color: var(--red)
     }
 
-    .about-grid::before {
-      content: '';
-      position: absolute;
-      bottom: -100px;
-      right: -100px;
-      width: 300px;
-      height: 300px;
-      border-radius: 50%;
-      background: rgba(0, 229, 160, 0.06);
-      filter: blur(80px);
-      pointer-events: none;
-    }
-
-    .about-h {
-      font-family: 'Goldman', sans-serif;
-      font-size: 1.9rem;
-      font-weight: 800;
-      letter-spacing: -0.025em;
-      line-height: 1.2;
-      margin-bottom: 18px
-    }
-
-    .about-p {
-      font-size: 0.86rem;
-      color: var(--text-p);
-      line-height: 1.78;
-      margin-bottom: 14px
-    }
-
-    .about-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 24px
-    }
-
-    .about-tag {
-      font-size: 0.76rem;
+    .banner small {
+      color: var(--red);
+      font-family: Rajdhani;
+      letter-spacing: .14em;
       font-weight: 600;
-      color: var(--text-p);
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border);
-      padding: 6px 13px;
-      border-radius: 100px;
-      transition: border-color .18s, color .18s;
+      font-size: .8rem
     }
 
-    .about-tag:hover {
-      border-color: rgba(0, 229, 160, 0.3);
-      color: var(--mint)
+    .banner h2 {
+      font-size: clamp(1.5rem, 3vw, 2.1rem);
+      margin-top: 6px
     }
 
-    .about-feats {
+    .banner h2 b {
+      color: var(--red);
+      font-weight: 700
+    }
+
+    .cd {
       display: flex;
-      flex-direction: column;
+      justify-content: center
+    }
+
+    .cd div {
+      text-align: center;
+      padding: 0 22px;
+      border-left: 1px solid var(--ln)
+    }
+
+    .cd div:first-child {
+      border: 0
+    }
+
+    .cd b {
+      display: block;
+      font-family: Rajdhani;
+      font-size: 2.6rem;
+      font-weight: 600;
+      line-height: 1
+    }
+
+    .cd span {
+      font-size: .68rem;
+      color: var(--red);
+      letter-spacing: .14em;
+      font-family: Rajdhani;
+      font-weight: 600
+    }
+
+    .cd small {
+      display: block;
+      text-align: center;
+      color: var(--mu);
+      font-size: .7rem;
+      letter-spacing: .1em;
+      margin-bottom: 8px;
+      grid-column: 1/-1
+    }
+
+    /* headings */
+    .h {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+      font-size: 1.25rem;
+      font-weight: 700
+    }
+
+    .h::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      background: var(--red);
+      transform: rotate(45deg);
+      box-shadow: 0 0 10px var(--red)
+    }
+
+    .h::after {
+      content: "";
+      height: 1px;
+      width: 80px;
+      background: linear-gradient(90deg, var(--red), transparent)
+    }
+
+    .row2 {
+      display: grid;
+      grid-template-columns: 1.7fr 1fr;
+      gap: 26px
+    }
+
+    .games {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
       gap: 14px
     }
 
-    .afeat {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--border);
-      border-radius: var(--r-m);
-      padding: 20px 22px;
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-      transition: border-color .2s, background .2s;
-    }
-
-    .afeat:hover {
-      border-color: rgba(0, 229, 160, 0.20);
-      background: rgba(0, 229, 160, 0.03)
-    }
-
-    .afeat-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      background: rgba(0, 229, 160, 0.08);
-      border: 1px solid rgba(0, 229, 160, 0.14);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      flex-shrink: 0;
-    }
-
-    .afeat-title {
-      font-family: 'Goldman', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: var(--white);
-      margin-bottom: 4px
-    }
-
-    .afeat-desc {
-      font-size: 0.78rem;
-      color: var(--text-p);
-      line-height: 1.55
-    }
-    
-/* ════════════════════════════════════════════
-   FINAL EXAM — MINI PROJECT
-════════════════════════════════════════════ */
-.exam-sec {
-  padding: 76px 0 0;
-  position: relative;
-  z-index: 1;
-}
-
-.exam-shell {
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 285px;
-  border: 1px solid rgba(0, 229, 160, 0.25);
-  border-radius: var(--r-xl);
-  overflow: hidden;
-  background:
-    radial-gradient(circle at 0% 0%, rgba(79, 31, 212, 0.20), transparent 42%),
-    linear-gradient(135deg, var(--navy-2), #0A1820);
-}
-
-.exam-main {
-  min-width: 0;
-  padding: 42px;
-}
-
-.exam-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 5px 12px;
-  border: 1px solid rgba(0, 229, 160, 0.25);
-  border-radius: 100px;
-  color: var(--mint);
-  background: rgba(0, 229, 160, 0.08);
-  font-size: 0.68rem;
-  font-weight: 800;
-  letter-spacing: 0.07em;
-  margin-bottom: 20px;
-}
-
-.exam-title {
-  font-family: 'Goldman', sans-serif;
-  font-size: clamp(1.8rem, 3.4vw, 2.7rem);
-  line-height: 1.15;
-  letter-spacing: -0.035em;
-  margin-bottom: 14px;
-}
-
-.exam-title span {
-  display: block;
-  color: var(--mint);
-}
-
-.exam-desc {
-  max-width: 590px;
-  color: var(--text-p);
-  font-size: 0.88rem;
-  line-height: 1.8;
-  margin-bottom: 26px;
-}
-
-.exam-meta {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-  margin-bottom: 30px;
-}
-
-.exam-meta-item {
-  min-width: 0;
-  padding: 14px;
-  border: 1px solid var(--border);
-  border-radius: var(--r-m);
-  background: rgba(255, 255, 255, 0.035);
-}
-
-.exam-meta-icon {
-  display: block;
-  font-size: 1.2rem;
-  margin-bottom: 7px;
-}
-
-.exam-meta-label {
-  display: block;
-  color: var(--text-d);
-  font-size: 0.66rem;
-  font-weight: 600;
-  margin-bottom: 3px;
-}
-
-.exam-meta-value {
-  display: block;
-  color: var(--white);
-  font-size: 0.76rem;
-  font-weight: 700;
-  line-height: 1.5;
-  overflow-wrap: anywhere;
-}
-
-.exam-subheading {
-  font-family: 'Goldman', sans-serif;
-  font-size: 1.05rem;
-  margin-bottom: 15px;
-}
-
-.exam-steps {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  margin-bottom: 28px;
-}
-
-.exam-step {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 15px;
-  border: 1px solid var(--border);
-  border-radius: var(--r-m);
-  background: rgba(255, 255, 255, 0.025);
-  transition: background 0.2s, border-color 0.2s,
-    transform 0.2s;
-}
-
-.exam-step:hover {
-  background: rgba(0, 229, 160, 0.045);
-  border-color: rgba(0, 229, 160, 0.2);
-  transform: translateY(-2px);
-}
-
-.exam-step-num {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 30px;
-  height: 30px;
-  border-radius: 9px;
-  background: rgba(79, 31, 212, 0.24);
-  border: 1px solid rgba(124, 79, 246, 0.25);
-  color: #B9A1FF;
-  font-size: 0.77rem;
-  font-weight: 800;
-}
-
-.exam-step-title {
-  font-size: 0.8rem;
-  font-weight: 800;
-  color: var(--white);
-  margin-bottom: 4px;
-}
-
-.exam-step-desc {
-  color: var(--text-p);
-  font-size: 0.73rem;
-  line-height: 1.65;
-}
-
-.exam-deliverables {
-  padding: 20px;
-  border: 1px solid rgba(0, 229, 160, 0.17);
-  border-radius: var(--r-m);
-  background: rgba(0, 229, 160, 0.035);
-  margin-bottom: 27px;
-}
-
-.exam-deliverables-title {
-  font-size: 0.83rem;
-  font-weight: 800;
-  margin-bottom: 12px;
-}
-
-.exam-deliverable-list {
-  display: grid;
-  gap: 10px;
-}
-
-.exam-deliverable {
-  display: flex;
-  align-items: flex-start;
-  gap: 9px;
-  font-size: 0.77rem;
-  line-height: 1.65;
-  color: var(--text-p);
-}
-
-.exam-check {
-  flex-shrink: 0;
-  color: var(--mint);
-  font-weight: 800;
-}
-
-.exam-note {
-  color: var(--text-p);
-  font-size: 0.76rem;
-  line-height: 1.7;
-  padding-left: 13px;
-  border-left: 2px solid var(--amber);
-  margin-bottom: 27px;
-}
-
-.exam-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.exam-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-  min-height: 46px;
-  padding: 12px 21px;
-  border-radius: 100px;
-  font-size: 0.8rem;
-  font-weight: 800;
-  transition: transform 0.2s, box-shadow 0.2s,
-    background 0.2s;
-}
-
-.exam-btn-primary {
-  background: var(--mint);
-  color: var(--ink);
-}
-
-.exam-btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 28px var(--mint-glow);
-}
-
-.exam-btn-secondary {
-  color: var(--white);
-  border: 1px solid var(--border-lt);
-  background: rgba(255, 255, 255, 0.035);
-}
-
-.exam-btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.08);
-  transform: translateY(-2px);
-}
-
-/* Panel ilustrasi di sebelah kanan */
-.exam-aside {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 32px 24px;
-  border-left: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.018);
-  text-align: center;
-}
-
-.exam-art {
-  width: 142px;
-  height: 142px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 34px;
-  border: 1px solid rgba(0, 229, 160, 0.23);
-  background:
-    radial-gradient(circle, rgba(0, 229, 160, 0.13), transparent 72%),
-    rgba(255, 255, 255, 0.025);
-  box-shadow: 0 0 55px rgba(0, 229, 160, 0.06);
-  font-size: 4.2rem;
-  margin-bottom: 24px;
-  animation: examFloat 4s ease-in-out infinite;
-}
-
-@keyframes examFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
-.exam-aside-title {
-  font-family: 'Goldman', sans-serif;
-  font-size: 1.05rem;
-  margin-bottom: 9px;
-}
-
-.exam-aside-desc {
-  color: var(--text-p);
-  font-size: 0.77rem;
-  line-height: 1.7;
-  margin-bottom: 20px;
-}
-
-.exam-tools {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 7px;
-}
-
-.exam-tool {
-  padding: 6px 10px;
-  border-radius: 100px;
-  border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.04);
-  color: var(--text-p);
-  font-size: 0.68rem;
-  font-weight: 700;
-}
-
-/* Responsif */
-@media (max-width: 860px) {
-  .exam-shell {
-    grid-template-columns: 1fr;
-  }
-
-  .exam-main {
-    padding: 32px;
-  }
-
-  .exam-aside {
-    border-left: none;
-    border-top: 1px solid var(--border);
-    padding: 28px;
-  }
-
-  .exam-art {
-    width: 100px;
-    height: 100px;
-    font-size: 3rem;
-    border-radius: 25px;
-    margin-bottom: 15px;
-  }
-
-  .exam-aside-desc {
-    max-width: 340px;
-  }
-}
-
-@media (max-width: 600px) {
-  .exam-main {
-    padding: 25px 20px;
-  }
-
-  .exam-meta {
-    grid-template-columns: 1fr;
-  }
-
-  .exam-meta-item {
-    display: grid;
-    grid-template-columns: 34px 1fr;
-    column-gap: 10px;
-    align-items: center;
-    padding: 11px 13px;
-  }
-
-  .exam-meta-icon {
-    grid-row: span 2;
-    margin: 0;
-  }
-
-  .exam-steps {
-    grid-template-columns: 1fr;
-  }
-
-  .exam-actions {
-    flex-direction: column;
-  }
-
-  .exam-btn {
-    width: 100%;
-  }
-}
-/* Status Ujian Akhir */
-.exam-btn-locked {
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--text-d);
-  border: 1px solid var(--border);
-  box-shadow: none;
-  cursor: not-allowed;
-}
-
-.exam-btn-locked:hover {
-  transform: none;
-  box-shadow: none;
-}
-
-#exam-lock-message {
-  margin-top: 14px;
-  color: var(--amber);
-  font-size: 0.76rem;
-  line-height: 1.7;
-}
-
-#exam-lock-message.exam-unlocked-message {
-  color: var(--mint);
-}
-
-    /* ════════════════════════════════════════════
-   FOOTER
-════════════════════════════════════════════ */
-    .footer {
-      background: var(--navy-2);
-      border-top: 1px solid var(--border);
-      padding: 48px 0 28px;
-    }
-
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr 0.7fr;
-      gap: 48px;
-      padding-bottom: 44px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 28px;
-    }
-
-    .footer-logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 12px
-    }
-
-    .footer-logo-mark {
-      width: 38px;
-      height: 38px;
-      border-radius: 11px;
-      background: linear-gradient(135deg, var(--indigo), var(--indigo-lt));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 0 16px rgba(79, 31, 212, 0.40);
-    }
-
-    .footer-logo-name {
-      font-family: 'Goldman', sans-serif;
-      font-weight: 800;
-      font-size: 0.95rem
-    }
-
-    .footer-tagline {
-      font-size: 0.78rem;
-      color: var(--text-d);
-      font-style: italic;
-      margin-bottom: 16px
-    }
-
-    .footer-desc {
-      font-size: 0.80rem;
-      color: var(--text-p);
-      line-height: 1.72
-    }
-
-    .footer-col-h {
-      font-family: 'Goldman', sans-serif;
-      font-size: 0.80rem;
-      font-weight: 700;
-      color: var(--white);
-      margin-bottom: 14px
-    }
-
-    .footer-links-col {
+    .g {
       display: flex;
       flex-direction: column;
-      gap: 8px
+      overflow: hidden;
+      cursor: pointer
     }
 
-    .footer-link {
-      font-size: 0.80rem;
-      color: var(--text-d);
-      transition: color .15s
+    .g .img {
+      height: 130px;
+      display: grid;
+      place-items: center;
+      font-size: 3rem;
+      background: linear-gradient(135deg, #1A0A12, #0A1420);
+      position: relative;
+      overflow: hidden
     }
 
-    .footer-link:hover {
-      color: var(--mint)
+    .g:nth-child(2) .img {
+      background: linear-gradient(135deg, #14161C, #1c1f2b)
     }
 
-    .footer-bottom {
+    .g:nth-child(3) .img {
+      background: linear-gradient(135deg, #150A2A, #0A1030)
+    }
+
+    .g .img::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 120%, rgba(255, 30, 60, .3), transparent 60%)
+    }
+
+    .g .img span {
+      position: relative;
+      z-index: 1;
+      transition: transform .3s
+    }
+
+    .g:hover .img span {
+      transform: scale(1.2) rotate(-6deg)
+    }
+
+    .g .b {
+      padding: 14px 16px;
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px
+      align-items: center
     }
 
-    .footer-copy {
-      font-size: 0.75rem;
-      color: var(--text-d)
+    .g h3 {
+      font-size: 1.05rem
     }
 
-    .footer-status {
+    .g small {
+      color: var(--mu);
+      font-size: .72rem
+    }
+
+    .g .ar {
+      color: var(--red)
+    }
+
+    .g.act {
+      border-color: var(--red);
+      box-shadow: 0 0 0 1px var(--red), 0 0 24px rgba(255, 30, 60, .3)
+    }
+
+    .more {
+      display: inline-flex;
+      gap: 10px;
+      margin-top: 16px;
+      color: var(--red);
+      font-family: Rajdhani;
+      font-weight: 700;
+      letter-spacing: .1em;
+      font-size: .85rem;
+      text-transform: uppercase
+    }
+
+    .prize {
+      padding: 22px;
+      text-align: center;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 7px;
-      font-size: 0.73rem;
-      color: var(--text-d)
+      gap: 8px;
+      background: radial-gradient(70% 60% at 50% 60%, rgba(255, 30, 60, .18), transparent), var(--panel)
     }
 
-    .status-dot {
-      width: 6px;
-      height: 6px;
+    .prize .big {
+      font-family: Rajdhani;
+      font-weight: 700;
+      font-size: 3.6rem;
+      color: var(--red);
+      text-shadow: 0 0 28px rgba(255, 30, 60, .6);
+      line-height: 1
+    }
+
+    .prize small {
+      color: var(--cy);
+      font-family: Rajdhani;
+      letter-spacing: .14em;
+      font-weight: 600;
+      font-size: .85rem
+    }
+
+    .prize .tr {
+      font-size: 4rem;
+      filter: drop-shadow(0 0 20px var(--red));
+      animation: fl 4s ease-in-out infinite
+    }
+
+    .prize h3 {
+      align-self: flex-start;
+      font-size: 1.05rem
+    }
+
+    /* skills */
+    .skills {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px
+    }
+
+    .sk {
+      text-align: center;
+      padding: 26px 12px 20px;
+      cursor: pointer
+    }
+
+    .sk i {
+      display: grid;
+      place-items: center;
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 14px;
+      font-style: normal;
+      font-size: 1.9rem;
       border-radius: 50%;
-      background: var(--mint);
-      box-shadow: 0 0 8px var(--mint-glow);
-      animation: blink 1.6s ease-in-out infinite
+      border: 1px solid var(--c);
+      color: var(--c);
+      box-shadow: 0 0 20px color-mix(in srgb, var(--c) 40%, transparent), inset 0 0 14px color-mix(in srgb, var(--c) 25%, transparent);
+      transition: .25s
     }
 
-    /* ════════════════════════════════════════════
-   ANIMATIONS & UTILITIES
-════════════════════════════════════════════ */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(16px)
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0)
-      }
+    .sk:hover i {
+      transform: scale(1.12) rotate(8deg)
     }
 
-    .fade-up {
-      animation: fadeInUp .7s var(--ease) both
+    .sk h3 {
+      font-size: .98rem
     }
 
-    .d1 {
-      animation-delay: .1s
+    .sk small {
+      color: var(--mu);
+      font-size: .72rem;
+      letter-spacing: .06em
     }
 
-    .d2 {
-      animation-delay: .22s
+    /* all sessions */
+    .tools2 {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 20px
     }
 
-    .d3 {
-      animation-delay: .34s
+    .tools2 input {
+      flex: 1 1 240px;
+      max-width: 340px;
+      background: var(--panel);
+      border: 1px solid var(--ln);
+      color: var(--tx);
+      padding: 11px 16px;
+      border-radius: 3px;
+      font: inherit
     }
 
-    .d4 {
-      animation-delay: .46s
+    .tools2 input:focus {
+      border-color: var(--cy);
+      outline: 0;
+      box-shadow: 0 0 16px rgba(25, 211, 255, .25)
     }
 
-    /* ════════════════════════════════════════════
-   RESPONSIVE
-════════════════════════════════════════════ */
-    @media(max-width:860px) {
+    .tab {
+      padding: 9px 16px;
+      border: 1px solid var(--ln);
+      border-radius: 3px;
+      font-family: Rajdhani;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-size: .82rem
+    }
 
-      .nav-links,
-      .nav-cta {
+    .tab[aria-pressed=true] {
+      background: var(--red);
+      border-color: var(--red)
+    }
+
+    .list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+      gap: 16px
+    }
+
+    .s {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      cursor: pointer
+    }
+
+    .s .t {
+      display: flex;
+      justify-content: space-between;
+      color: var(--mu);
+      font-size: .72rem;
+      font-family: Rajdhani;
+      font-weight: 600;
+      letter-spacing: .1em
+    }
+
+    .s .t b {
+      color: var(--cy)
+    }
+
+    .s h3 {
+      font-size: 1.15rem
+    }
+
+    .s p {
+      color: var(--mu);
+      font-size: .84rem;
+      flex: 1
+    }
+
+    .s .act {
+      display: flex;
+      gap: 8px;
+      margin-top: 6px
+    }
+
+    .mini {
+      flex: 1;
+      text-align: center;
+      padding: 9px;
+      border: 1px solid var(--ln);
+      border-radius: 3px;
+      font-family: Rajdhani;
+      font-weight: 700;
+      letter-spacing: .08em;
+      font-size: .82rem;
+      text-transform: uppercase;
+      transition: .2s
+    }
+
+    .mini:hover {
+      border-color: var(--cy);
+      color: var(--cy)
+    }
+
+    .mini.soon {
+      opacity: .55;
+      border-style: dashed
+    }
+
+    .none {
+      display: none;
+      text-align: center;
+      padding: 40px;
+      color: var(--mu)
+    }
+
+    /* news + exam */
+    .row3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr) 1.05fr;
+      gap: 16px
+    }
+
+    .n {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden
+    }
+
+    .n .img {
+      height: 96px;
+      background: linear-gradient(135deg, #25091A, #0A1830);
+      display: grid;
+      place-items: center;
+      font-size: 2.2rem
+    }
+
+    .n .b {
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1
+    }
+
+    .n .m {
+      display: flex;
+      justify-content: space-between;
+      font-size: .68rem;
+      color: var(--mu)
+    }
+
+    .n .m b {
+      color: var(--cy)
+    }
+
+    .n h3 {
+      font-size: 1rem;
+      flex: 1
+    }
+
+    .n a {
+      color: var(--red);
+      font-family: Rajdhani;
+      font-weight: 700;
+      font-size: .78rem;
+      letter-spacing: .1em;
+      text-transform: uppercase
+    }
+
+    .ex {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px
+    }
+
+    .ex h3 {
+      font-size: 1.15rem
+    }
+
+    .ex p {
+      color: var(--mu);
+      font-size: .8rem
+    }
+
+    .chk {
+      display: flex;
+      gap: 9px;
+      align-items: flex-start;
+      font-size: .78rem;
+      color: #C4C8DA;
+      text-align: left;
+      width: 100%;
+      padding: 4px 0
+    }
+
+    .chk i {
+      flex: none;
+      width: 16px;
+      height: 16px;
+      border: 1px solid var(--red);
+      border-radius: 3px;
+      display: grid;
+      place-items: center;
+      font-size: .7rem;
+      font-style: normal;
+      margin-top: 2px
+    }
+
+    .chk[aria-pressed=true] i {
+      background: var(--red)
+    }
+
+    .lock {
+      opacity: .5;
+      cursor: not-allowed
+    }
+
+    #xm {
+      font-size: .76rem;
+      color: var(--cy)
+    }
+
+    footer {
+      margin-top: 70px;
+      border-top: 1px solid var(--ln);
+      padding: 34px 0
+    }
+
+    footer .wrap {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+      align-items: center;
+      color: var(--mu);
+      font-size: .82rem
+    }
+
+    dialog {
+      background: var(--panel);
+      color: var(--tx);
+      border: 1px solid var(--red);
+      border-radius: 6px;
+      max-width: 400px;
+      width: calc(100% - 40px);
+      margin: auto;
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 0 50px rgba(255, 30, 60, .35)
+    }
+
+    dialog::backdrop {
+      background: rgba(0, 0, 0, .75);
+      backdrop-filter: blur(5px)
+    }
+
+    dialog div {
+      font-size: 2.6rem
+    }
+
+    dialog h3 {
+      margin: 8px 0;
+      font-size: 1.3rem
+    }
+
+    dialog p {
+      color: var(--mu);
+      margin-bottom: 18px;
+      font-size: .9rem
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translate(-50%, 120px);
+      background: var(--red);
+      padding: 11px 22px;
+      border-radius: 3px;
+      z-index: 90;
+      transition: transform .3s;
+      font-family: Rajdhani;
+      font-weight: 700;
+      letter-spacing: .06em;
+      max-width: 92vw;
+      text-align: center
+    }
+
+    .toast.show {
+      transform: translate(-50%, 0)
+    }
+
+    @media(max-width:900px) {
+      .links {
         display: none
       }
 
-      .hamburger {
-        display: flex
+      .burger {
+        display: block
       }
 
-      .game-card {
+      .nav .btn {
+        display: none
+      }
+
+      .links.open {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 68px;
+        left: 0;
+        right: 0;
+        background: #07080D;
+        padding: 14px 24px 22px;
+        gap: 14px;
+        border-bottom: 1px solid var(--ln)
+      }
+
+      .hero .wrap,
+      .row2,
+      .banner {
         grid-template-columns: 1fr
       }
 
-      .game-art {
-        display: none
-      }
-
-      .about-grid {
-        grid-template-columns: 1fr;
-        gap: 36px;
-        padding: 36px 28px
-      }
-
-      .footer-grid {
-        grid-template-columns: 1fr;
-        gap: 32px
-      }
-
-      .pcard {
-        grid-template-columns: 1fr;
-        gap: 24px
-      }
-
-      .pcard-stats {
-        justify-content: flex-start
-      }
-    }
-
-    @media(max-width:600px) {
-      .wrap {
-        padding: 0 18px
-      }
-
       .hero {
-        padding: 76px 16px 28px;
+        padding-top: 104px
       }
 
-      .hero-btns {
-        flex-direction: column;
-        width: 100%
+      .art {
+        min-height: 260px
       }
 
-      .btn-main,
-      .btn-outline {
-        width: 100%;
-        justify-content: center
+      .skills {
+        grid-template-columns: repeat(2, 1fr)
       }
 
-      .level-row {
-        grid-template-columns: 50px 1fr
+      .games {
+        grid-template-columns: 1fr
       }
 
-      .level-node {
-        width: 40px;
-        height: 40px;
-        font-size: 0.78rem
+      .row3 {
+        grid-template-columns: 1fr 1fr
       }
 
-      .lc-right {
-        display: none
+      .cd div {
+        padding: 0 12px
       }
 
-      .game-card-body {
-        padding: 32px 24px
-      }
-
-      .game-h {
+      .cd b {
         font-size: 2rem
       }
     }
 
-    @media(prefers-reduced-motion:reduce) {
+    @media(max-width:560px) {
+      .row3 {
+        grid-template-columns: 1fr
+      }
+    }
 
-      *,
-      *::before,
-      *::after {
-        animation-duration: .01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: .1ms !important
+    @media(prefers-reduced-motion:reduce) {
+      * {
+        animation: none !important;
+        transition: none !important
       }
 
       html {
         scroll-behavior: auto
       }
-
-      .xp-fill {
-        transition: none
-      }
-    }
-
-    /* ════════════════════════════════════════════
-   COMING SOON POPUP
-════════════════════════════════════════════ */
-    .cs-backdrop {
-      position: fixed;
-      inset: 0;
-      z-index: 9998;
-      background: rgba(8, 13, 26, 0.72);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .25s var(--ease);
-    }
-
-    .cs-backdrop.open {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    .cs-box {
-      position: relative;
-      background: var(--navy-2);
-      border: 1px solid var(--border-lt);
-      border-radius: var(--r-xl);
-      padding: 40px 36px 36px;
-      max-width: 420px;
-      width: 100%;
-      text-align: center;
-      transform: translateY(18px) scale(0.97);
-      transition: transform .3s var(--spring), opacity .25s var(--ease);
-      opacity: 0;
-      overflow: hidden;
-    }
-
-    .cs-backdrop.open .cs-box {
-      transform: translateY(0) scale(1);
-      opacity: 1;
-    }
-
-    /* decorative glow blobs */
-    .cs-box::before {
-      content: '';
-      position: absolute;
-      top: -70px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 260px;
-      height: 200px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(79, 31, 212, 0.45) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .cs-box::after {
-      content: '';
-      position: absolute;
-      bottom: -50px;
-      right: -40px;
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(0, 229, 160, 0.15) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .cs-close {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.07);
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-d);
-      font-size: 1rem;
-      transition: background .15s, color .15s, transform .15s;
-      z-index: 1;
-    }
-
-    .cs-close:hover {
-      background: rgba(255, 255, 255, 0.13);
-      color: var(--white);
-      transform: scale(1.1);
-    }
-
-    .cs-icon-wrap {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 72px;
-      height: 72px;
-      border-radius: 50%;
-      margin: 0 auto 20px;
-      z-index: 1;
-    }
-
-    .cs-icon-wrap-mat {
-      background: rgba(79, 31, 212, 0.18);
-      border: 1.5px solid rgba(124, 79, 246, 0.35);
-      box-shadow: 0 0 28px rgba(79, 31, 212, 0.3);
-    }
-
-    .cs-icon-wrap-game {
-      background: rgba(245, 158, 11, 0.14);
-      border: 1.5px solid rgba(245, 158, 11, 0.30);
-      box-shadow: 0 0 28px rgba(245, 158, 11, 0.2);
-    }
-
-    .cs-icon {
-      font-size: 2.2rem;
-      animation: csBob 3s ease-in-out infinite;
-    }
-
-    @keyframes csBob {
-      0%, 100% { transform: translateY(0) rotate(-3deg); }
-      50% { transform: translateY(-6px) rotate(3deg); }
-    }
-
-    .cs-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: .06em;
-      padding: 4px 12px;
-      border-radius: 100px;
-      margin-bottom: 14px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .cs-badge-mat {
-      background: rgba(124, 79, 246, 0.15);
-      border: 1px solid rgba(124, 79, 246, 0.30);
-      color: var(--indigo-lt);
-    }
-
-    .cs-badge-game {
-      background: var(--amber-dim);
-      border: 1px solid rgba(245, 158, 11, 0.28);
-      color: var(--amber);
-    }
-
-    .cs-badge-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      animation: csPulse 1.5s ease-in-out infinite;
-    }
-
-    .cs-badge-mat .cs-badge-dot { background: var(--indigo-lt); }
-    .cs-badge-game .cs-badge-dot { background: var(--amber); }
-
-    @keyframes csPulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.7); }
-    }
-
-    .cs-title {
-      font-family: 'Goldman', sans-serif;
-      font-size: 1.35rem;
-      font-weight: 700;
-      letter-spacing: -0.01em;
-      margin-bottom: 10px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .cs-desc {
-      font-size: 0.85rem;
-      color: var(--text-p);
-      line-height: 1.65;
-      margin-bottom: 28px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .cs-session-info {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border);
-      border-radius: var(--r-m);
-      padding: 10px 18px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--text-p);
-      margin-bottom: 24px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .cs-session-info strong {
-      color: var(--white);
-    }
-
-    .cs-progress-dots {
-      display: flex;
-      justify-content: center;
-      gap: 6px;
-      margin-bottom: 28px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .cs-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.12);
-    }
-
-    .cs-dot.active {
-      width: 24px;
-      border-radius: 4px;
-    }
-
-    .cs-dot-mat.active { background: var(--indigo-lt); }
-    .cs-dot-game.active { background: var(--amber); }
-
-    .cs-btn-close {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      width: 100%;
-      padding: 13px 24px;
-      border-radius: 100px;
-      font-family: 'Goldman', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 700;
-      transition: box-shadow .2s, transform .2s, background .2s;
-      position: relative;
-      z-index: 1;
-    }
-
-    .cs-btn-close-mat {
-      background: linear-gradient(135deg, var(--indigo), var(--indigo-lt));
-      color: var(--white);
-      box-shadow: 0 4px 24px rgba(79, 31, 212, 0.35);
-    }
-
-    .cs-btn-close-mat:hover {
-      box-shadow: 0 4px 36px rgba(79, 31, 212, 0.55);
-      transform: translateY(-1px);
-    }
-
-    .cs-btn-close-game {
-      background: linear-gradient(135deg, #D97706, var(--amber));
-      color: var(--ink);
-      box-shadow: 0 4px 24px rgba(245, 158, 11, 0.3);
-    }
-
-    .cs-btn-close-game:hover {
-      box-shadow: 0 4px 36px rgba(245, 158, 11, 0.5);
-      transform: translateY(-1px);
-    }
-
-    /* star particles inside popup */
-    .cs-particles {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-      border-radius: var(--r-xl);
-    }
-
-    .cs-star {
-      position: absolute;
-      width: 3px;
-      height: 3px;
-      border-radius: 50%;
-      background: var(--mint);
-      opacity: 0;
-      animation: csStar 4s ease-in-out infinite;
-    }
-
-    @keyframes csStar {
-      0% { opacity: 0; transform: translateY(0) scale(0); }
-      30% { opacity: 0.8; transform: translateY(-20px) scale(1); }
-      100% { opacity: 0; transform: translateY(-60px) scale(0.5); }
     }
   </style>
 </head>
 
 <body>
-
-  <!-- ═══ NAV ═══ -->
   <nav class="nav" id="nav" aria-label="Navigasi utama">
-    <div class="nav-inner">
-      <a href="#hero" class="nav-logo">
-        <div class="logo-gem" aria-hidden="true">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M8 1.5L2 4.5V8C2 11.14 4.63 14.03 8 15C11.37 14.03 14 11.14 14 8V4.5L8 1.5Z" fill="white"
-              opacity=".25" />
-            <path d="M8 1.5L2 4.5V8C2 11.14 4.63 14.03 8 15C11.37 14.03 14 11.14 14 8V4.5L8 1.5Z" stroke="white"
-              stroke-width="1.2" stroke-linejoin="round" />
-            <path d="M5.5 8L7 9.5L10.5 6.5" stroke="#00E5A0" stroke-width="1.5" stroke-linecap="round"
-              stroke-linejoin="round" />
-          </svg>
-        </div>
-        Kenal Komputer
-      </a>
-      <ul class="nav-links" role="list">
-        <li><a href="#hero" class="nav-a">Beranda</a></li>
-        <li><a href="#sessions" class="nav-a">Pertemuan</a></li>
-        <li><a href="#exam" class="nav-a">Ujian Akhir</a></li>
-        <li><a href="#game-center" class="nav-a">Game</a></li>
-        <li><a href="#about" class="nav-a">Tentang</a></li>
-      </ul>
-      <a href="#sessions" class="nav-cta">Buka Pertemuan</a>
-      <button class="hamburger" id="hamburger" aria-label="Buka menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
+    <div class="wrap">
+      <a href="#hero" class="logo"><svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+          <path d="M15 2 4 8v8c0 6 5 10 11 12 6-2 11-6 11-12V8z" stroke="#FF1E3C" stroke-width="2.2" />
+          <path d="M10 15l4 4 7-8" stroke="#19D3FF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>KENAL KOMPUTER</a>
+      <div class="links" id="links"><a href="#hero" class="on">Beranda</a><a href="#sessions">Pertemuan</a><a
+          href="#games">Game</a><a href="#exam">Ujian</a><a href="#skills">Skill</a></div>
+      <a href="#sessions" class="btn b-red cut" style="--cut:8px">Mulai Belajar</a>
+      <button class="burger" id="burger" aria-label="Buka menu" aria-expanded="false">☰</button>
     </div>
   </nav>
-  <div class="mob-menu" id="mob-menu" aria-hidden="true">
-    <a href="#hero" class="mob-a">Beranda</a>
-    <a href="#sessions" class="mob-a">Pertemuan</a>
-    <a href="#exam" class="mob-a">Ujian Akhir</a>
-    <a href="#game-center" class="mob-a">Game</a>
-    <a href="#about" class="mob-a">Tentang</a>
-  </div>
 
-  <!-- ═══ HERO (FULL 1 HALAMAN VIDEO) ═══ -->
-  <section class="hero" id="hero" aria-label="Hero Video">
-    <div class="hero-video-bg">
-      <video class="hero-video" id="hero-video" autoplay loop muted playsinline preload="auto">
-        <source src="hero_section.mp4" type="video/mp4" />
-        Browser Anda tidak mendukung tag video.
-      </video>
-      <div class="hero-overlay" aria-hidden="true"></div>
-    </div>
-
-    <div class="hero-inner">
-      <div class="hero-btns fade-up d1">
-        <a href="#sessions" class="btn-main">
-          Lihat Pertemuanku
-          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
-            <path d="M7.5 3L12 7.5L7.5 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+  <header class="hero" id="hero">
+    <video autoplay loop muted playsinline preload="metadata" aria-hidden="true">
+      <source src="hero_section.mp4" type="video/mp4">
+    </video>
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">Petualangan belajarmu dimulai</p>
+        <h1><span class="glitch w">Kuasai</span><span class="glitch r">Komputer</span></h1>
+        <p class="lead">Dari nol sampai bisa membuat makalah sendiri. 10 pertemuan, 10 mini game, dan 1 ujian akhir
+          untuk membuktikan kemampuanmu.</p>
+        <div class="cta"><a href="#sessions" class="btn b-red cut" style="--cut:8px">Lihat Pertemuan →</a><a
+            href="#games" class="btn b-ghost">Coba Game ▶</a></div>
+      </div>
+      <div class="art" id="art" aria-hidden="true">
+        <svg viewBox="0 0 560 400" fill="none">
+          <defs>
+            <filter id="gw">
+              <feGaussianBlur stdDeviation="4" result="b" />
+              <feMerge>
+                <feMergeNode in="b" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+            <linearGradient id="sc" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#2A0712" />
+              <stop offset="1" stop-color="#06202E" />
+            </linearGradient>
+          </defs>
+          <g class="float" filter="url(#gw)">
+            <polygon points="180,40 380,40 480,110 480,300 90,300 90,110" stroke="#19D3FF" stroke-width="3"
+              opacity=".55" />
+            <path d="M130 80h300l22 24v170H108V104z" fill="url(#sc)" stroke="#FF1E3C" stroke-width="4" />
+            <path d="M150 112h120M150 134h200M150 156h90" stroke="#19D3FF" stroke-width="3" stroke-linecap="round"
+              opacity=".9" />
+            <rect x="150" y="190" width="110" height="60" rx="3" stroke="#FF1E3C" stroke-width="2.5" />
+            <path d="M165 235l24-26 20 14 28-30" stroke="#FF1E3C" stroke-width="3" stroke-linecap="round"
               stroke-linejoin="round" />
-            <line x1="3" y1="7.5" x2="12" y2="7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-          </svg>
-        </a>
-        <a href="#game-center" class="btn-outline">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-            <rect x="1" y="3.5" width="12" height="7.5" rx="2" stroke="currentColor" stroke-width="1.3" />
-            <line x1="4.5" y1="6.5" x2="4.5" y2="8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
-            <line x1="3.75" y1="7.25" x2="5.25" y2="7.25" stroke="currentColor" stroke-width="1.3"
+            <path d="M300 200h110M300 222h80M300 244h100" stroke="#fff" stroke-width="2.5" opacity=".5"
               stroke-linecap="round" />
-            <circle cx="8.75" cy="6.6" r=".7" fill="currentColor" />
-            <circle cx="10" cy="7.85" r=".7" fill="currentColor" />
-          </svg>
-          Coba Game Dulu
-        </a>
-      </div>
-
-      <div class="hero-stats" aria-label="Ringkasan program">
-        <div class="hs">
-          <span class="hs-n">10</span>
-          <span class="hs-l">Pertemuan</span>
-        </div>
-        <div class="hs">
-          <span class="hs-n">10</span>
-          <span class="hs-l">Mini Game</span>
-        </div>
-        <div class="hs">
-          <span class="hs-n mint" id="hero-pct">30%</span>
-          <span class="hs-l">Sudah Selesai</span>
-        </div>
+            <path d="M60 304h440l-34 36H94z" fill="#0B0D14" stroke="#19D3FF" stroke-width="3" />
+            <path d="M240 316h80" stroke="#FF1E3C" stroke-width="4" stroke-linecap="round" />
+          </g>
+        </svg>
       </div>
     </div>
+    <div class="wrap">
+      <div class="tools" style="grid-column:1/-1">
+        <span>Word</span><span>Excel</span><span>PowerPoint</span><span>Canva</span><span>Email</span><span>AI</span>
+      </div>
+    </div>
+  </header>
 
-
-  </section>
-
-  <!-- ═══ MAIN ═══ -->
   <main>
-
-    <!-- PROGRESS -->
-    <section class="progress-sec" aria-labelledby="prog-h">
+    <section class="sec">
       <div class="wrap">
-        <div class="pcard">
-          <div class="pcard-left">
-            <span class="pcard-wave" aria-hidden="true">👋</span>
-            <p class="pcard-greet" id="prog-h">Halo, <span class="pcard-name" id="pcard-name">Student</span>!</p>
-            <p class="pcard-msg">Lanjutkan di mana kamu berhenti kemarin.<br>Kamu sudah lebih jauh dari yang kamu kira!
-              🚀</p>
+        <div class="panel banner cut">
+          <div><small>MISI TERAKHIR</small>
+            <h2>Ujian Akhir <b>Makalah</b></h2>
           </div>
-          <div class="pcard-stats">
-            <div class="pstat">
-              <span class="pstat-n" id="stat-meetings">10</span>
-              <span class="pstat-l">Pertemuan</span>
-            </div>
-            <div class="pstat">
-              <span class="pstat-n" id="stat-games">10</span>
-              <span class="pstat-l">Game</span>
-            </div>
-            <div class="pstat hi">
-              <span class="pstat-n" id="stat-prog">30%</span>
-              <span class="pstat-l">Selesai</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="xp-wrap">
-          <div class="xp-head">
-            <span class="xp-label-left">
-              <span class="xp-tag">XP Progress</span>
-              Progress belajar
-            </span>
-            <span id="xp-text">3 / 10 selesai</span>
-          </div>
-          <div class="xp-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="xp-aria">
-            <div class="xp-fill" id="xp-fill"></div>
-          </div>
+          <div class="cd" id="cd" aria-label="Ringkasan progres"></div>
+          <a href="#exam" class="btn b-line">Lihat Detail</a>
         </div>
       </div>
     </section>
 
-    <!-- SEARCH -->
-    <section class="search-sec" aria-label="Cari materi">
-      <div class="wrap">
-        <div class="search-box">
-          <label for="search-inp" class="sr-only">Cari pertemuan atau materi</label>
-          <svg class="search-ico" width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
-            <circle cx="7.5" cy="7.5" r="5" stroke="currentColor" stroke-width="1.4" />
-            <path d="M11 11L15 15" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
-          </svg>
-          <input type="search" id="search-inp" class="search-inp" placeholder="Cari pertemuan, topik…"
-            autocomplete="off" />
-          <button class="search-x" id="search-x" aria-label="Hapus pencarian" hidden>
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-              <path d="M1 1L11 11M11 1L1 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
-            </svg>
-          </button>
+    <section class="sec" id="games">
+      <div class="wrap row2">
+        <div>
+          <h2 class="h rj">Game Unggulan</h2>
+          <div class="games" id="fgames"></div>
+          <a href="#sessions" class="more">Lihat semua pertemuan →</a>
         </div>
-        <p class="search-hint" id="search-hint" aria-live="polite"></p>
-      </div>
-    </section>
-
-<!-- GAME BANNER -->
-<section class="game-sec" id="game-center" aria-labelledby="game-h">
-  <div class="wrap">
-    <p class="game-sec-label">Game Center</p>
-
-    <div class="game-card">
-      <div class="game-glow-bg" aria-hidden="true"></div>
-      <div class="game-glow-bg-2" aria-hidden="true"></div>
-
-      <div class="game-card-body">
-        <div class="game-pill">★ Featured Game</div>
-
-        <h2 class="game-h" id="game-h">Word Shop</h2>
-
-        <p class="game-sub">The Print & Design Store</p>
-
-        <p class="game-desc">
-          Pelanggan datang dengan berbagai pesanan Word. Bantu mereka membuat
-          dokumen, tabel, dan desain yang rapi lewat tantangan seru yang terasa
-          seperti bekerja di toko sungguhan.
-        </p>
-
-        <a
-          href="https://kenalkomputer.vercel.app"
-          id="featured-game-btn"
-          class="btn-play"
-          rel="noopener noreferrer"
-        >
-          Main Sekarang
-          <svg
-            width="13"
-            height="13"
-            viewBox="0 0 13 13"
-            fill="none"
-            aria-hidden="true"
-          >
-            <polygon
-              points="3,1.5 11.5,6.5 3,11.5"
-              fill="currentColor"
-            />
-          </svg>
-        </a>
-      </div>
-
-      <div class="game-art" aria-hidden="true">
-        <div class="game-art-icons">
-          <span>📄</span>
-          <span>🖼️</span>
-          <span>⭐</span>
-        </div>
-
-        <div class="game-art-score">
-          <p class="game-art-score-lbl">CUSTOMERS SERVED</p>
-          <p class="game-art-score-n">3 / 3</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-    <!-- SESSIONS / LEVEL MAP -->
-    <section class="sessions-sec" id="sessions" aria-labelledby="sessions-h">
-      <div class="wrap">
-        <div class="sessions-head">
-          <p class="sec-eyebrow">Perjalanan Belajar</p>
-          <h2 class="sec-h" id="sessions-h">10 Pertemuan, 1 Ujian Akhir</h2>
-          <p class="sec-p">
-              Kuasai materi dari pertemuan pertama hingga kesepuluh.
-              Setelah itu, tunjukkan kemampuanmu melalui Ujian Akhir
-              berupa Mini Project Makalah Sekolah.
-            </p>
-        </div>
-
-        <div class="level-map" id="level-map" role="list">
-          <!-- rendered by JS -->
-        </div>
-        <div class="no-results" id="no-results" role="alert">
-          <em>🔍</em>Tidak ada hasil yang cocok.
+        <div class="panel prize cut">
+          <h3>Progres Belajar</h3>
+          <div class="big" id="pbig">0%</div><small>TOTAL PERTEMUAN SELESAI</small>
+          <div class="tr">🏆</div><a href="#exam" class="btn b-line" style="font-size:.8rem">Rincian Ujian</a>
         </div>
       </div>
     </section>
 
-
-
-    <!-- ABOUT -->
-     
-<!-- ═══ UJIAN AKHIR — PERTEMUAN 11 ═══ -->
-<section class="exam-sec" id="exam" aria-labelledby="exam-title">
-  <div class="wrap">
-    <div class="exam-shell">
-
-      <div class="exam-main">
-        <p class="exam-eyebrow">🏆 PENILAIAN AKHIR · PERTEMUAN 11</p>
-
-        <h2 class="exam-title" id="exam-title">
-          Mini Project
-          <span>Makalah Sekolah</span>
-        </h2>
-
-        <p class="exam-desc">
-          Saatnya membuktikan kemampuanmu! Gabungkan keterampilan
-          Microsoft Word, Excel, desain digital, AI, dan email untuk
-          menyelesaikan satu tugas sekolah sederhana dari awal sampai
-          siap dikumpulkan.
-        </p>
-
-        <div class="exam-meta">
-          <div class="exam-meta-item">
-            <span class="exam-meta-icon">🎯</span>
-            <span class="exam-meta-label">Jenis kegiatan</span>
-            <span class="exam-meta-value">Ujian praktik</span>
-          </div>
-
-          <div class="exam-meta-item">
-            <span class="exam-meta-icon">📁</span>
-            <span class="exam-meta-label">Hasil akhir</span>
-            <span class="exam-meta-value">Makalah dan file pendukung</span>
-          </div>
-
-          <div class="exam-meta-item">
-            <span class="exam-meta-icon">💡</span>
-            <span class="exam-meta-label">Cara mengerjakan</span>
-            <span class="exam-meta-value">Mandiri dan kreatif</span>
-          </div>
-        </div>
-
-        <h3 class="exam-subheading">Misi yang harus diselesaikan</h3>
-
-        <div class="exam-steps">
-          <article class="exam-step">
-            <span class="exam-step-num">01</span>
-            <div>
-              <h4 class="exam-step-title">Susun Makalah di Word</h4>
-              <p class="exam-step-desc">
-                Buat makalah dengan judul, pendahuluan, pembahasan,
-                penutup, serta format tulisan yang rapi.
-              </p>
-            </div>
-          </article>
-
-          <article class="exam-step">
-            <span class="exam-step-num">02</span>
-            <div>
-              <h4 class="exam-step-title">Olah Data dengan Excel</h4>
-              <p class="exam-step-desc">
-                Buat tabel data yang sesuai dengan topik makalah.
-                Gunakan rumus sederhana yang sudah dipelajari.
-              </p>
-            </div>
-          </article>
-
-          <article class="exam-step">
-            <span class="exam-step-num">03</span>
-            <div>
-              <h4 class="exam-step-title">Buat Desain Pendukung</h4>
-              <p class="exam-step-desc">
-                Rancang sampul atau visual pendukung yang menarik,
-                selaras dengan isi makalah, dan mudah dibaca.
-              </p>
-            </div>
-          </article>
-
-          <article class="exam-step">
-            <span class="exam-step-num">04</span>
-            <div>
-              <h4 class="exam-step-title">Manfaatkan AI dengan Bijak</h4>
-              <p class="exam-step-desc">
-                Gunakan AI untuk mencari ide atau menyusun kerangka.
-                Periksa kebenaran informasi dan tulis ulang dengan
-                pemahamanmu sendiri.
-              </p>
-            </div>
-          </article>
-
-          <article class="exam-step">
-            <span class="exam-step-num">05</span>
-            <div>
-              <h4 class="exam-step-title">Rapikan Hasil Pekerjaan</h4>
-              <p class="exam-step-desc">
-                Periksa ejaan, format halaman, tabel, desain,
-                dan kesesuaian seluruh isi sebelum dikumpulkan.
-              </p>
-            </div>
-          </article>
-
-          <article class="exam-step">
-            <span class="exam-step-num">06</span>
-            <div>
-              <h4 class="exam-step-title">Kirim Melalui Email</h4>
-              <p class="exam-step-desc">
-                Tulis subjek dan pesan email yang sopan, lampirkan
-                berkas yang diperlukan, lalu kirim kepada pengajar.
-              </p>
-            </div>
-          </article>
-        </div>
-
-        <div class="exam-deliverables">
-          <h3 class="exam-deliverables-title">
-            📦 Berkas yang harus dikumpulkan
-          </h3>
-
-          <div class="exam-deliverable-list">
-            <div class="exam-deliverable">
-              <span class="exam-check">✓</span>
-              <span>
-                <strong>Makalah (.docx)</strong> — dokumen utama
-                dengan susunan dan format yang rapi.
-              </span>
-            </div>
-
-            <div class="exam-deliverable">
-              <span class="exam-check">✓</span>
-              <span>
-                <strong>Data Excel (.xlsx)</strong> — tabel dan
-                perhitungan sederhana yang mendukung topik.
-              </span>
-            </div>
-
-            <div class="exam-deliverable">
-              <span class="exam-check">✓</span>
-              <span>
-                <strong>Desain pendukung</strong> — sampul atau
-                visual yang dimasukkan ke dalam makalah.
-              </span>
-            </div>
-
-            <div class="exam-deliverable">
-              <span class="exam-check">✓</span>
-              <span>
-                <strong>Pengiriman melalui email</strong> — semua
-                berkas dilampirkan sesuai instruksi pengajar.
-              </span>
-            </div>
-          </div>
-        </div>
-
-      
-        <p class="exam-note">
-          <strong>Ingat:</strong> AI adalah alat bantu, bukan pengganti
-          pemikiranmu. Pastikan isi makalah kamu pahami, datanya masuk
-          akal, dan hasil akhirnya merupakan pekerjaanmu sendiri.
-        </p>
-
-        <!-- TOMBOL UJIAN -->
-        <div class="exam-actions">
-          <a
-            href="#exam"
-            id="exam-start-btn"
-            class="exam-btn exam-btn-primary exam-btn-locked"
-            aria-disabled="true"
-          >
-            Ujian Terkunci 🔒
-          </a>
-
-          <a href="#sessions" class="exam-btn exam-btn-secondary">
-            Ulangi Materi
-          </a>
-        </div>
-
-        <!-- PESAN STATUS -->
-        <p id="exam-lock-message" aria-live="polite">
-          🔒 Selesaikan seluruh 10 pertemuan untuk membuka Ujian Akhir.
-        </p>
-
-      </div><!-- Penutup exam-main -->
-
-      <!-- PANEL ILUSTRASI -->
-      <aside class="exam-aside" aria-label="Ringkasan proyek akhir">
-        <div class="exam-art" aria-hidden="true">🎓</div>
-
-        <h3 class="exam-aside-title">Final Challenge</h3>
-
-        <p class="exam-aside-desc">
-          Satu proyek untuk menunjukkan bahwa kamu bukan hanya
-          mengenal komputer, tetapi juga mampu menggunakannya
-          untuk menyelesaikan tugas nyata.
-        </p>
-
-        <div class="exam-tools">
-          <span class="exam-tool">📄 Word</span>
-          <span class="exam-tool">📊 Excel</span>
-          <span class="exam-tool">🎨 Desain</span>
-          <span class="exam-tool">🤖 AI</span>
-          <span class="exam-tool">📧 Email</span>
-        </div>
-      </aside>
-
-    </div><!-- Penutup exam-shell -->
-  </div><!-- Penutup wrap -->
-</section>
-
-
-    <section class="about-sec" id="about" aria-labelledby="about-h">
+    <section class="sec" id="skills">
       <div class="wrap">
-        <div class="about-grid">
-          <div>
-            <p class="sec-eyebrow">Tentang Program</p>
-            <h2 class="about-h" id="about-h">Belajar komputer, dengan cara yang paling mudah!</h2>
-            <p class="about-p">Kenal Komputer bukan sekadar kursus. Ini ruang belajar yang dirancang agar kamu
-              benar-benar paham, bukan cuma hafal tombol-tombolnya.</p>
-            <p class="about-p">Mulai dari mengenal perangkat, mengetik, mengolah dokumen, kirim email, sampai
-              memanfaatkan AI. Pelan tapi pasti, satu sesi demi satu sesi.</p>
-            <div class="about-tags">
-              <span class="about-tag">💻 Dasar Komputer</span>
-              <span class="about-tag">⌨️ Mengetik 10 Jari</span>
-              <span class="about-tag">📄 Microsoft Word</span>
-              <span class="about-tag">📊 Microsoft Excel</span>
-              <span class="about-tag">🎨 PowerPoint</span>
-              <span class="about-tag">📧 Email</span>
-              <span class="about-tag">🤖 AI Tools</span>
-              <span class="about-tag">💡 Coding Dasar</span>
-            </div>
-          </div>
-          <div class="about-feats">
-            <div class="afeat">
-              <div class="afeat-icon">📝</div>
-              <div>
-                <p class="afeat-title">Materi yang jelas dan ringkas</p>
-                <p class="afeat-desc">Setiap topik disajikan tanpa basa-basi dan langsung ke intinya agar mudah dicerna.
-                </p>
-              </div>
-            </div>
-            <div class="afeat">
-              <div class="afeat-icon">🎮</div>
-              <div>
-                <p class="afeat-title">Belajar lewat game</p>
-                <p class="afeat-desc">Game bukan sekadar hadiah, tapi cara belajar yang lebih efektif dari menghafal.
-                </p>
-              </div>
-            </div>
-            <div class="afeat">
-              <div class="afeat-icon">🗂️</div>
-              <div>
-                <p class="afeat-title">Semua tersimpan rapi</p>
-                <p class="afeat-desc">Materi dan game tiap pertemuan bisa kamu buka ulang kapan saja, tanpa batas.</p>
-              </div>
-            </div>
-          </div>
-        </div>
+        <h2 class="h rj">Skill yang Kamu Dapat</h2>
+        <div class="skills" id="sk"></div>
       </div>
     </section>
 
+    <section class="sec" id="sessions">
+      <div class="wrap">
+        <h2 class="h rj">Semua Pertemuan</h2>
+        <div class="tools2"><label class="sr" for="q" style="position:absolute;left:-9999px">Cari</label><input id="q"
+            type="search" placeholder="Cari topik, mis. Excel" autocomplete="off"><span id="tabs"
+            style="display:flex;gap:8px;flex-wrap:wrap"></span></div>
+        <div class="list" id="list"></div>
+        <div class="none" id="none">Tidak ada pertemuan yang cocok. Coba kata kunci lain.</div>
+      </div>
+    </section>
+
+    <section class="sec" id="exam">
+      <div class="wrap">
+        <h2 class="h rj">Terbaru &amp; Ujian Akhir</h2>
+        <div class="row3" id="row3"></div>
+      </div>
+    </section>
   </main>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="wrap">
-      <div class="footer-grid">
-        <div>
-          <div class="footer-logo">
-            <div class="footer-logo-mark" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                <path d="M9 2L3 5.25V9.4C3 12.82 5.84 16.03 9 17C12.16 16.03 15 12.82 15 9.4V5.25L9 2Z" fill="white"
-                  opacity=".15" />
-                <path d="M9 2L3 5.25V9.4C3 12.82 5.84 16.03 9 17C12.16 16.03 15 12.82 15 9.4V5.25L9 2Z" stroke="white"
-                  stroke-width="1.3" stroke-linejoin="round" />
-                <path d="M6 9.5L8 11.5L12 7.5" stroke="#00E5A0" stroke-width="1.6" stroke-linecap="round"
-                  stroke-linejoin="round" />
-              </svg>
-            </div>
-            <span class="footer-logo-name">Kenal Komputer</span>
-          </div>
-          <p class="footer-tagline">Belajar. Bermain. Jadi Bisa.</p>
-          <p class="footer-desc">Ruang belajar pribadi untuk mengenal komputer dan berkembang sedikit demi sedikit
-            melalui pengalaman belajar yang seru.</p>
-        </div>
-        <div>
-          <p class="footer-col-h">Jelajahi</p>
-          <div class="footer-links-col">
-            <a href="#about" class="footer-link">Tentang Program</a>
-            <a href="#sessions" class="footer-link">Semua Pertemuan</a>
-            <a href="#game-center" class="footer-link">Game Center</a>
-          </div>
-        </div>
-        <div>
-          <p class="footer-col-h">Topik</p>
-          <div class="footer-links-col">
-            <a href="#" class="footer-link">Dasar Komputer</a>
-            <a href="#" class="footer-link">Microsoft Office</a>
-            <a href="#" class="footer-link">AI Tools</a>
-            <a href="#" class="footer-link">Coding Dasar</a>
-          </div>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p class="footer-copy">© 2026 <strong>Kenal Komputer</strong>. Dibuat untuk menemanimu dalam perjalanan belajar.
-        </p>
-        <div class="footer-status">
-          <span class="status-dot" aria-hidden="true"></span>
-          <span>Keep learning, keep exploring.</span>
-        </div>
-      </div>
-    </div>
+  <footer>
+    <div class="wrap"><a href="#hero" class="logo">KENAL KOMPUTER</a><span>Belajar. Bermain. Jadi bisa.</span><span>©
+        2026 Kenal Komputer.</span></div>
   </footer>
 
-  <!-- COMING SOON POPUP -->
-  <div class="cs-backdrop" id="cs-backdrop" role="dialog" aria-modal="true" aria-labelledby="cs-title-text">
-    <div class="cs-box" id="cs-box">
-      <button class="cs-close" id="cs-close-btn" aria-label="Tutup">✕</button>
-
-      <!-- particles -->
-      <div class="cs-particles" aria-hidden="true">
-        <div class="cs-star" style="left:15%;top:70%;animation-delay:0s"></div>
-        <div class="cs-star" style="left:30%;top:80%;animation-delay:.8s;background:var(--indigo-lt)"></div>
-        <div class="cs-star" style="left:55%;top:75%;animation-delay:1.5s"></div>
-        <div class="cs-star" style="left:70%;top:65%;animation-delay:.4s;background:var(--amber)"></div>
-        <div class="cs-star" style="left:85%;top:78%;animation-delay:2.1s"></div>
-        <div class="cs-star" style="left:45%;top:82%;animation-delay:1.1s;background:var(--indigo-lt)"></div>
-      </div>
-
-      <div class="cs-icon-wrap cs-icon-wrap-mat" id="cs-icon-wrap" aria-hidden="true">
-        <span class="cs-icon" id="cs-icon">📄</span>
-      </div>
-
-      <div class="cs-badge cs-badge-mat" id="cs-badge">
-        <span class="cs-badge-dot"></span>
-        <span id="cs-badge-text">MATERI</span>
-      </div>
-
-      <h2 class="cs-title" id="cs-title-text">Sedang Disiapkan</h2>
-      <p class="cs-desc" id="cs-desc">
-        Materi untuk sesi ini sedang dirancang dengan sepenuh hati.<br>
-        Nantikan dan terus semangat! 🚀
-      </p>
-
-      <div class="cs-session-info" id="cs-session-info">
-        📚 <span>Sesi <strong id="cs-session-num">—</strong>: <span id="cs-session-name">—</span></span>
-      </div>
-
-      <div class="cs-progress-dots" aria-hidden="true">
-        <div class="cs-dot cs-dot-mat active" id="cs-d1"></div>
-        <div class="cs-dot cs-dot-mat" id="cs-d2"></div>
-        <div class="cs-dot cs-dot-mat" id="cs-d3"></div>
-      </div>
-
-      <button class="cs-btn-close cs-btn-close-mat" id="cs-action-btn">
-        Oke, Aku Tunggu! 👍
-      </button>
-    </div>
-  </div>
+  <dialog id="dlg">
+    <div id="dic">📄</div>
+    <h3 id="dt"></h3>
+    <p id="dd"></p><button class="btn b-red cut" style="--cut:8px" id="dx">Oke, Aku Tunggu</button>
+  </dialog>
+  <div class="toast" id="toast" role="status"></div>
 
   <script>
-    /* ── CONFIG ── */
-    const STUDENT = "Student";
-    const FEATURED_GAME_URL = "https://game-pertemuan4.vercel.app/";
-    const meetings = [
-      {
-        n: 1, title: "Kenalan dengan Laptop",
-        desc: "Kenali komponen laptop dan cara kerjanya. Latihan: klik, scroll, dan ketik pertamamu.",
-        matUrl: "https://kenalkomputer1.vercel.app", gameUrl: "https://game-pertemuan1.vercel.app", status: "completed"
-      },
-      {
-        n: 2, title: "Desktop, File Explorer & Mengetik 10 Jari",
-        desc: "Buat folder, simpan file, dan mulai latihan mengetik dengan cara yang benar.",
-        matUrl: "https://kenalkomputer2.vercel.app", gameUrl: "https://game-pertemuan2.vercel.app", status: "completed"
-      },
-      {
-        n: 3, title: "Microsoft Word — Dasar",
-        desc: "Ketik, format, dan simpan dokumenmu sendiri. Kenali bold, italic, dan pengaturan teks.",
-        matUrl: "Pertemuan3/Materi/pertemuan3.html", gameUrl: "Pertemuan3/Game/index.html", status: "completed"
-      },
-      {
-        n: 4, title: "Microsoft Word — Lanjutan",
-        desc: "Masukkan gambar, buat tabel, dan hasilkan dokumen yang siap cetak.",
-        matUrl: "Pertemuan4/pertemuan4.html", gameUrl: "Pertemuan4/game-pertemuan4.html", status: "completed"
-      },
-      {
-        n: 5, title: "Microsoft Excel — Dasar",
-        desc: "Kenalan dengan Excel, pahami cell, row, dan column, lalu buat tabel data yang rapi.",
-        matUrl: "pertemuan5/pertemuan5.html", gameUrl: "", status: "completed"
-      },
-      {
-        n: 6, title: "Microsoft Excel — Lanjutan",
-        desc: "Belajar formula sederhana, menggunakan SUM dan AVERAGE, lalu membuat Excel menghitung data untukmu.",
-        matUrl: "pertemuan6/pertemuan6.html", gameUrl: "", status: "completed"
-      },
-      {
-        n: 7, title: "Data & Komunikasi Digital",
-        desc: "Dari Angka sampai Email, Belajar Memahami dan Menyampaikan Informasi.",
-        matUrl: "pertemuan7/pertemuan7.html", gameUrl: "", status: "completed"
-      },
-      {
-        n: 8, title: "Microsoft PowerPoint Dasar",
-        desc: "Bikin Ide Jadi Presentasi.",
-        matUrl: "pertemuan8/pertemuan8.html", gameUrl: "#", status: "completed"
-      },
-      {
-        n: 9, title: "Canva Dasar — Desain Digital Kreatif",
-        desc: "Belajar membuat poster, memilih template, mengatur warna, font, gambar, dan komposisi desain.",
-        matUrl: "pertemuan9/pertemuan9.html", gameUrl: "#", status: "completed"
-      },
-      {
-        n: 10, title: "AI & Digital Productivity",
-        desc: "Memanfaatkan AI untuk mencari ide, menyusun kerangka tulisan, dan membantu menyelesaikan tugas sekolah secara bertanggung jawab.",
-        matUrl: "pertemuan10/pertemuan10.html", gameUrl: "#", status: "completed"
-      }
-    ];
+    const STUDENT = "Student", FEATURED_GAME_URL = "https://game-pertemuan4.vercel.app/";
+    const M = [
+      { n: 1, t: "Kenalan dengan Laptop", d: "Kenali komponen laptop dan cara kerjanya. Latihan: klik, scroll, dan ketik pertamamu.", c: "Dasar", mat: "https://kenalkomputer1.vercel.app", game: "https://game-pertemuan1.vercel.app", s: "completed" },
+      { n: 2, t: "Desktop, File Explorer & Mengetik 10 Jari", d: "Buat folder, simpan file, dan mulai latihan mengetik dengan cara yang benar.", c: "Dasar", mat: "https://kenalkomputer2.vercel.app", game: "https://game-pertemuan2.vercel.app", s: "completed" },
+      { n: 3, t: "Microsoft Word — Dasar", d: "Ketik, format, dan simpan dokumenmu sendiri. Kenali bold, italic, dan pengaturan teks.", c: "Office", mat: "Pertemuan3/Materi/pertemuan3.html", game: "Pertemuan3/Game/index.html", s: "completed" },
+      { n: 4, t: "Microsoft Word — Lanjutan", d: "Masukkan gambar, buat tabel, dan hasilkan dokumen yang siap cetak.", c: "Office", mat: "Pertemuan4/pertemuan4.html", game: "Pertemuan4/game-pertemuan4.html", s: "completed" },
+      { n: 5, t: "Microsoft Excel — Dasar", d: "Kenalan dengan Excel, pahami cell, row, dan column, lalu buat tabel data yang rapi.", c: "Office", mat: "pertemuan5/pertemuan5.html", game: "", s: "completed" },
+      { n: 6, t: "Microsoft Excel — Lanjutan", d: "Belajar formula sederhana, SUM dan AVERAGE, lalu biarkan Excel menghitung datamu.", c: "Office", mat: "pertemuan6/pertemuan6.html", game: "", s: "completed" },
+      { n: 7, t: "Data & Komunikasi Digital", d: "Dari angka sampai email, belajar memahami dan menyampaikan informasi.", c: "Digital", mat: "pertemuan7/pertemuan7.html", game: "", s: "completed" },
+      { n: 8, t: "Microsoft PowerPoint Dasar", d: "Bikin ide jadi presentasi.", c: "Office", mat: "pertemuan8/pertemuan8.html", game: "#", s: "completed" },
+      { n: 9, t: "Canva Dasar — Desain Digital Kreatif", d: "Membuat poster, memilih template, mengatur warna, font, gambar, dan komposisi.", c: "Digital", mat: "pertemuan9/pertemuan9.html", game: "#", s: "completed" },
+      { n: 10, t: "AI & Digital Productivity", d: "Memakai AI untuk mencari ide, menyusun kerangka tulisan, dan membantu tugas sekolah secara bertanggung jawab.", c: "Digital", mat: "pertemuan10/pertemuan10.html", game: "#", s: "completed" }];
+    const $ = id => document.getElementById(id), empty = u => !u || u.trim() === "" || u.trim() === "#";
+    const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+    const done = M.filter(m => m.s === "completed").length, pct = Math.round(done / M.length * 100);
+    let cat = "Semua", query = "", tt;
+    function toast(m) { const t = $("toast"); t.textContent = m; t.classList.add("show"); clearTimeout(tt); tt = setTimeout(() => t.classList.remove("show"), 2600) }
+    function countUp(el, to, suf = "") { const s = performance.now(); (function f(n) { const p = Math.min((n - s) / 1200, 1); el.textContent = Math.round(to * (1 - Math.pow(1 - p, 3))) + suf; if (p < 1) requestAnimationFrame(f) })(s) }
 
-  /* ── BOOT ── */
-document.addEventListener("DOMContentLoaded", () => {
-  setStudentName();
-  renderProgress();
-  renderLevelMap(meetings);
-  initSearch();
-  initNav();
-  initMobMenu();
-  initTyping();
-  initHeroVideoObserver();
-  initPopup();
-
-  // Periksa apakah Ujian Akhir sudah boleh dibuka
-  updateExamAccess();
-});
-
-    /* ── HERO VIDEO AUTOPLAY ON INTERSECTION ── */
-    function initHeroVideoObserver() {
-      const vid = document.getElementById("hero-video");
-      const heroSec = document.getElementById("hero");
-      if (!vid || !heroSec) return;
-
-      // Pastikan muted agar kebijakan autoplay browser selalu mengizinkan play otomatis
-      vid.muted = true;
-
-      const playVideo = () => {
-        if (vid.paused) {
-          const prom = vid.play();
-          if (prom && typeof prom.catch === "function") {
-            prom.catch(() => {});
-          }
-        }
-      };
-
-      const pauseVideo = () => {
-        if (!vid.paused) {
-          vid.pause();
-        }
-      };
-
-      if ("IntersectionObserver" in window) {
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            // Jika section hero terlihat atau mulai mendekati layar
-            if (entry.isIntersecting) {
-              playVideo();
-            } else {
-              // Jika sudah tidak termuat di viewport (scrolled away)
-              pauseVideo();
-            }
-          });
-        }, {
-          root: null,
-          rootMargin: "100px 0px 100px 0px", // Trigger saat mendekati atau di dalam viewport
-          threshold: [0, 0.05, 0.2]
-        });
-
-        observer.observe(heroSec);
-      } else {
-        // Fallback untuk browser tanpa IntersectionObserver
-        const checkScroll = () => {
-          const rect = heroSec.getBoundingClientRect();
-          const inView = (rect.bottom > -100 && rect.top < window.innerHeight + 100);
-          if (inView) {
-            playVideo();
-          } else {
-            pauseVideo();
-          }
-        };
-        window.addEventListener("scroll", checkScroll, { passive: true });
-        checkScroll();
-      }
-
-      // Jeda jika tab browser diminimalkan / tidak aktif
-      document.addEventListener("visibilitychange", () => {
-        if (document.hidden) {
-          pauseVideo();
-        } else {
-          const rect = heroSec.getBoundingClientRect();
-          if (rect.bottom > 0 && rect.top < window.innerHeight) {
-            playVideo();
-          }
-        }
-      });
-    }
-
-    /* ── TYPING EFFECT (Safe Guard) ── */
-    function initTyping() {
-      const el = document.getElementById("typing-text");
-      if (!el) return;
-      const msgs = ["Les Privat Komputer Dasar", "Belajar dari Nol ✓", "10 Sesi · 10 Game"];
-      let mi = 0, ci = 0, del = false;
-      function tick() {
-        const m = msgs[mi];
-        if (!del) {
-          ci++;
-          el.textContent = m.slice(0, ci);
-          if (ci === m.length) { del = true; setTimeout(tick, 1800); return; }
-        } else {
-          ci--;
-          el.textContent = m.slice(0, ci);
-          if (ci === 0) { del = false; mi = (mi + 1) % msgs.length; }
-        }
-        setTimeout(tick, del ? 45 : 65);
-      }
-      tick();
-    }
-
-    /* ── STUDENT NAME ── */
-    function setStudentName() {
-      const el = document.getElementById("pcard-name");
-      if (el) el.textContent = STUDENT;
-      const btn = document.getElementById("featured-game-btn");
-      if (btn) btn.href = FEATURED_GAME_URL;
-    }
-
-    /* ── PROGRESS ── */
-    function renderProgress() {
-      const total = meetings.length;
-      const done = meetings.filter(m => m.status === "completed").length;
-      const pct = total > 0 ? Math.round((done / total) * 100) : 0;
-      set("stat-prog", pct + "%");
-      set("hero-pct", pct + "%");
-      set("xp-text", `${done} / ${total} selesai`);
-      const aria = document.getElementById("xp-aria");
-      if (aria) aria.setAttribute("aria-valuenow", pct);
-      requestAnimationFrame(() => setTimeout(() => {
-        const fill = document.getElementById("xp-fill");
-        if (fill) fill.style.width = pct + "%";
-      }, 300));
-    }
-
-    /* ── FINAL EXAM ACCESS ── */
-function updateExamAccess() {
-  const btn = document.getElementById("exam-start-btn");
-  const message = document.getElementById("exam-lock-message");
-
-  if (!btn) return;
-
-  // Ujian hanya terbuka jika tepat 10 pertemuan
-  // tersedia dan semuanya berstatus completed.
-  const completedCount = meetings.filter(
-    meeting => meeting.status === "completed"
-  ).length;
-
-  const allCompleted =
-    meetings.length === 10 &&
-    completedCount === 10;
-
-  if (allCompleted) {
-    // Buka akses ujian
-    btn.href = "pertemuan11/pertemuan11.html";
-    btn.setAttribute("aria-disabled", "false");
-    btn.classList.remove("exam-btn-locked");
-
-    btn.innerHTML = `
-      Mulai Ujian Akhir
-      <span aria-hidden="true">→</span>
-    `;
-
-    if (message) {
-      message.textContent =
-        "✅ Semua pertemuan selesai. Ujian Akhir sudah terbuka!";
-      message.classList.add("exam-unlocked-message");
-    }
-  } else {
-    // Kunci akses ujian
-    btn.href = "#exam";
-    btn.setAttribute("aria-disabled", "true");
-    btn.classList.add("exam-btn-locked");
-
-    btn.textContent = "Ujian Terkunci 🔒";
-
-    if (message) {
-      message.textContent =
-        `🔒 Ujian terkunci. Progress: ${completedCount}/10 pertemuan selesai. Selesaikan semua pertemuan terlebih dahulu.`;
-      message.classList.remove("exam-unlocked-message");
-    }
-  }
-
-  // Cegah navigasi ketika ujian masih terkunci
-  if (!btn.dataset.gateAttached) {
-    btn.addEventListener("click", event => {
-      if (btn.getAttribute("aria-disabled") === "true") {
-        event.preventDefault();
-
-        alert(
-          "Ujian Akhir masih terkunci. " +
-          "Selesaikan seluruh 10 pertemuan terlebih dahulu!"
-        );
-      }
+    /* nav */
+    addEventListener("scroll", () => $("nav").classList.toggle("st", scrollY > 20), { passive: true });
+    $("burger").onclick = () => { const o = $("links").classList.toggle("open"); $("burger").setAttribute("aria-expanded", o) };
+    $("links").onclick = e => { if (e.target.tagName === "A") $("links").classList.remove("open") };
+    /* hero parallax */
+    $("hero").addEventListener("pointermove", e => {
+      const r = $("art").getBoundingClientRect(), s = $("art").firstElementChild;
+      s.style.setProperty("--px", ((e.clientX - r.left) / r.width - .5).toFixed(2)); s.style.setProperty("--py", ((e.clientY - r.top) / r.height - .5).toFixed(2))
     });
 
-    btn.dataset.gateAttached = "true";
-  }
-}
-    function set(id, v) { const el = document.getElementById(id); if (el) el.textContent = v; }
+    /* banner stats */
+    $("cd").innerHTML = [[M.length, "PERTEMUAN"], [M.length, "MINI GAME"], [pct, "% SELESAI"], [6, "MISI"]].map(x => `<div><b data-to="${x[0]}">0</b><span>${x[1]}</span></div>`).join("");
+    new IntersectionObserver((es, o) => es.forEach(e => { if (e.isIntersecting) { e.target.querySelectorAll("b").forEach(b => countUp(b, +b.dataset.to)); o.disconnect() } })).observe($("cd"));
+    countUp($("pbig"), pct, "%");
 
-    /* ── HELPERS: detect empty/placeholder URL ── */
-    function isEmptyUrl(url) {
-      return !url || url.trim() === "" || url.trim() === "#" || url.trim() === "javascript:void(0)";
+    /* featured games */
+    const FG = [{ n: "Word Shop", s: "Pertemuan 3–4 · Word", i: "📄", u: FEATURED_GAME_URL }, ...M.filter(m => !empty(m.game)).slice(0, 2).map(m => ({ n: m.t.replace(/ —.*|&.*/, ""), s: "Pertemuan " + m.n + " · Game", i: m.n === 1 ? "💻" : "⌨️", u: m.game }))];
+    $("fgames").innerHTML = FG.map((g, i) => `<a class="panel g ${i ? "" : "act"}" href="${g.u}" target="_blank" rel="noopener noreferrer"><div class="img"><span>${g.i}</span></div><div class="b"><div><h3>${esc(g.n)}</h3><small>${esc(g.s)}</small></div><span class="ar">→</span></div></a>`).join("");
+
+    /* skills */
+    const SK = [["💻", "Dasar Komputer", "PERTEMUAN 1–2", "#19D3FF", "Dasar"], ["📄", "Microsoft Word", "PERTEMUAN 3–4", "#FF1E3C", "Word"], ["📊", "Microsoft Excel", "PERTEMUAN 5–6", "#2BE0A0", "Excel"], ["🎨", "Desain & Slide", "PERTEMUAN 8–9", "#FFB020", "Canva"], ["🤖", "AI & Email", "PERTEMUAN 7, 10", "#B07CFF", "AI"]];
+    $("sk").innerHTML = SK.map(s => `<button class="panel sk" style="--c:${s[3]}" data-q="${s[4]}"><i>${s[0]}</i><h3>${s[1]}</h3><small>${s[2]}</small></button>`).join("");
+    $("sk").onclick = e => { const b = e.target.closest("[data-q]"); if (!b) return; $("q").value = b.dataset.q; query = b.dataset.q.toLowerCase(); cat = "Semua"; tabs(); render(); $("sessions").scrollIntoView() };
+
+    /* sessions */
+    function tabs() { $("tabs").innerHTML = ["Semua", "Dasar", "Office", "Digital"].map(c => `<button class="tab" aria-pressed="${c === cat}" data-c="${c}">${c}</button>`).join("") }
+    $("tabs").onclick = e => { const b = e.target.closest("[data-c]"); if (!b) return; cat = b.dataset.c; tabs(); render() };
+    $("q").oninput = e => { query = e.target.value.trim().toLowerCase(); render() };
+    function render() {
+      const L = M.filter(m => (cat === "Semua" || m.c === cat) && (!query || (m.t + m.d + m.c).toLowerCase().includes(query) || String(m.n) === query));
+      $("none").style.display = L.length ? "none" : "block";
+      $("list").innerHTML = L.map(m => {
+        const lk = (u, l, t) => empty(u) ? `<button class="mini soon" data-soon="${t}" data-n="${m.n}">${l} segera</button>` : `<a class="mini" href="${u}" target="_blank" rel="noopener noreferrer">${l}</a>`;
+        return `<article class="panel s" data-open="${m.mat}"><div class="t"><span>SESI ${String(m.n).padStart(2, "0")}</span><b>${m.s === "completed" ? "✓ SELESAI" : "TERKUNCI"}</b></div><h3>${esc(m.t)}</h3><p>${esc(m.d)}</p><div class="act">${lk(m.mat, "Materi", "mat")}${lk(m.game, "Game", "game")}</div></article>`
+      }).join("");
     }
+    $("list").onclick = e => {
+      const s = e.target.closest("[data-soon]");
+      if (s) { e.stopPropagation(); const m = M.find(x => x.n == s.dataset.n), g = s.dataset.soon === "game"; $("dic").textContent = g ? "🎮" : "📄"; $("dt").textContent = (g ? "Game" : "Materi") + " pertemuan " + m.n + " segera hadir"; $("dd").textContent = m.t + " sedang disiapkan. Nantikan ya!"; $("dlg").showModal(); return }
+      if (e.target.closest("a")) return; const c = e.target.closest("[data-open]"); if (c && !empty(c.dataset.open)) open(c.dataset.open, "_blank", "noopener")
+    };
+    $("dx").onclick = () => $("dlg").close(); $("dlg").onclick = e => { if (e.target === $("dlg")) $("dlg").close() };
 
-    /* ── COMING SOON POPUP ── */
-    function openComingSoon(type, sessionNum, sessionTitle) {
-      const backdrop = document.getElementById("cs-backdrop");
-      const iconWrap = document.getElementById("cs-icon-wrap");
-      const icon = document.getElementById("cs-icon");
-      const badge = document.getElementById("cs-badge");
-      const badgeText = document.getElementById("cs-badge-text");
-      const d1 = document.getElementById("cs-d1");
-      const d2 = document.getElementById("cs-d2");
-      const d3 = document.getElementById("cs-d3");
-      const desc = document.getElementById("cs-desc");
-      const actionBtn = document.getElementById("cs-action-btn");
-      const sessionNum_el = document.getElementById("cs-session-num");
-      const sessionName_el = document.getElementById("cs-session-name");
+    /* news + exam */
+    const T = ["Susun makalah di Word", "Olah data di Excel", "Buat desain pendukung", "Pakai AI dengan bijak", "Rapikan hasil", "Kirim lewat email"];
+    const ok = M.length === 10 && M.every(m => m.s === "completed"), ic = ["📽️", "🎨", "🤖"];
+    $("row3").innerHTML = M.slice(-3).map((m, i) => `<article class="panel n"><div class="img">${ic[i]}</div><div class="b"><div class="m"><span>SESI ${m.n}</span><b>${m.c.toUpperCase()}</b></div><h3>${esc(m.t)}</h3>${empty(m.mat) ? "" : `<a href="${m.mat}" target="_blank" rel="noopener noreferrer">Buka materi →</a>`}</div></article>`).join("") +
+      `<aside class="panel ex cut"><h3>Ujian Akhir</h3><p>Mini Project Makalah Sekolah. Centang misimu:</p>${T.map((t, i) => `<button class="chk" aria-pressed="false"><i></i>${t}</button>`).join("")}
+<a id="xb" class="btn b-red cut ${ok ? "" : "lock"}" style="--cut:8px;justify-content:center" href="${ok ? "pertemuan11/pertemuan11.html" : "#exam"}" aria-disabled="${!ok}">${ok ? "Mulai Ujian →" : "Ujian Terkunci 🔒"}</a><p id="xm" aria-live="polite">${ok ? "Semua pertemuan selesai. Ujian terbuka!" : "Selesaikan 10 pertemuan untuk membuka ujian."}</p></aside>`;
+    $("row3").onclick = e => {
+      const b = e.target.closest(".chk"); if (!b) return; const on = b.getAttribute("aria-pressed") !== "true"; b.setAttribute("aria-pressed", on); b.firstChild.textContent = on ? "✓" : "";
+      const n = $("row3").querySelectorAll('.chk[aria-pressed=true]').length; toast(n === T.length ? "Semua misi siap. Kamu hebat!" : n + " / " + T.length + " misi dicentang")
+    };
+    if (!ok) $("xb").onclick = e => { e.preventDefault(); toast("Ujian masih terkunci") };
 
-      if (type === "mat") {
-        iconWrap.className = "cs-icon-wrap cs-icon-wrap-mat";
-        icon.textContent = "📄";
-        badge.className = "cs-badge cs-badge-mat";
-        badgeText.textContent = "MATERI";
-        [d1, d2, d3].forEach(d => { d.className = "cs-dot cs-dot-mat"; });
-        d1.classList.add("active");
-        desc.innerHTML = "Materi untuk sesi ini masih sedang disiapkan dengan penuh semangat.<br>Sabar sebentar, ya! 🚀";
-        actionBtn.className = "cs-btn-close cs-btn-close-mat";
-        actionBtn.textContent = "Oke, Aku Tunggu! 👍";
-      } else {
-        iconWrap.className = "cs-icon-wrap cs-icon-wrap-game";
-        icon.textContent = "🎮";
-        badge.className = "cs-badge cs-badge-game";
-        badgeText.textContent = "GAME";
-        [d1, d2, d3].forEach(d => { d.className = "cs-dot cs-dot-game"; });
-        d1.classList.add("active");
-        desc.innerHTML = "Game seru untuk sesi ini sedang dibangun!<br>Akan segera hadir, siap-siap ya! 🕹️✨";
-        actionBtn.className = "cs-btn-close cs-btn-close-game";
-        actionBtn.textContent = "Siap, Aku Tunggu! 🎯";
-      }
-
-      if (sessionNum_el) sessionNum_el.textContent = sessionNum;
-      if (sessionName_el) sessionName_el.textContent = sessionTitle;
-
-      backdrop.classList.add("open");
-      document.body.style.overflow = "hidden";
-
-      // Focus trap: focus the close button
-      setTimeout(() => {
-        const closeBtn = document.getElementById("cs-close-btn");
-        if (closeBtn) closeBtn.focus();
-      }, 50);
-    }
-
-    function closeComingSoon() {
-      const backdrop = document.getElementById("cs-backdrop");
-      backdrop.classList.remove("open");
-      document.body.style.overflow = "";
-    }
-
-    function initPopup() {
-      const backdrop = document.getElementById("cs-backdrop");
-      const closeBtn = document.getElementById("cs-close-btn");
-      const actionBtn = document.getElementById("cs-action-btn");
-
-      if (closeBtn) closeBtn.addEventListener("click", closeComingSoon);
-      if (actionBtn) actionBtn.addEventListener("click", closeComingSoon);
-
-      // Close on backdrop click
-      if (backdrop) {
-        backdrop.addEventListener("click", (e) => {
-          if (e.target === backdrop) closeComingSoon();
-        });
-      }
-
-      // Close on Escape
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && backdrop && backdrop.classList.contains("open")) {
-          closeComingSoon();
-        }
-      });
-    }
-
-    /* ── LEVEL MAP ── */
-    function renderLevelMap(data) {
-      const map = document.getElementById("level-map");
-      const none = document.getElementById("no-results");
-      if (!map) return;
-      map.innerHTML = "";
-      if (!data.length) { if (none) none.style.display = "block"; return; }
-      if (none) none.style.display = "none";
-
-      data.forEach((m, i) => {
-        const isLast = i === data.length - 1;
-        const statCls = m.status === "completed" ? "done" : m.status === "current" ? "active" : "locked";
-        const cardCls = m.status === "completed" ? "st-done" : m.status === "current" ? "st-active" : "st-locked";
-        const badgeCls = m.status === "completed" ? "badge-done" : m.status === "current" ? "badge-active" : "badge-locked";
-        const badgeTxt = m.status === "completed" ? "✓ Selesai" : m.status === "current" ? "◉ Sedang Dipelajari" : "🔒 Belum Dibuka";
-        const locked = m.status === "locked";
-        const nodeInner = m.status === "completed" ? "✓" : m.status === "current" ?
-          `<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polygon points="3,1 11,7 3,13" fill="white"/></svg>` : m.n;
-        const lineCls = m.status === "completed" ? "level-line done-line" : "level-line";
-        const dis = `aria-disabled="true" tabindex="-1"`;
-
-        // Determine link behavior for mat and game
-        const matEmpty = isEmptyUrl(m.matUrl);
-        const gameEmpty = isEmptyUrl(m.gameUrl);
-
-        const row = document.createElement("div");
-        row.className = "level-row";
-        row.setAttribute("role", "listitem");
-
-        row.innerHTML = `
-      <div class="level-connector" aria-hidden="true">
-        <div class="level-node ${statCls}">${nodeInner}</div>
-        ${isLast ? "" : `<div class="${lineCls}"></div>`}
-      </div>
-      <div class="level-card ${cardCls}" style="transition-delay:${i * 60}ms">
-        <div class="lc-left">
-          <div class="lc-top">
-            <span class="lc-badge ${badgeCls}">${badgeTxt}</span>
-            <span class="lc-sesh">Sesi ${m.n}</span>
-          </div>
-          <h3 class="lc-title">${esc(m.title)}</h3>
-          <p class="lc-desc">${esc(m.desc)}</p>
-        </div>
-        <div class="lc-right">
-          ${locked
-            ? `<span class="lc-btn lc-btn-mat" style="opacity:.38;cursor:not-allowed" aria-disabled="true" tabindex="-1">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 1.5H8.5L10 3.5V10.5H2V1.5Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><line x1="4" y1="5.5" x2="8" y2="5.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><line x1="4" y1="7.5" x2="6.5" y2="7.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
-                Materi</span>`
-            : matEmpty
-            ? `<button class="lc-btn lc-btn-mat cs-trigger-btn" data-type="mat" data-n="${m.n}" data-title="${esc(m.title)}" aria-label="Lihat info materi ${esc(m.title)}">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 1.5H8.5L10 3.5V10.5H2V1.5Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><line x1="4" y1="5.5" x2="8" y2="5.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><line x1="4" y1="7.5" x2="6.5" y2="7.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
-                Materi</button>`
-            : `<a href="${m.matUrl}" target="_blank" rel="noopener noreferrer" class="lc-btn lc-btn-mat" aria-label="Buka materi ${esc(m.title)}">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 1.5H8.5L10 3.5V10.5H2V1.5Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><line x1="4" y1="5.5" x2="8" y2="5.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><line x1="4" y1="7.5" x2="6.5" y2="7.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
-                Materi</a>`
-          }
-          ${locked
-            ? `<span class="lc-btn lc-btn-game" style="opacity:.38;cursor:not-allowed" aria-disabled="true" tabindex="-1">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><rect x="1" y="3" width="10" height="6.5" rx="2" stroke="currentColor" stroke-width="1.2"/><line x1="3.8" y1="5.8" x2="3.8" y2="7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="3.2" y1="6.4" x2="4.4" y2="6.4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="7.8" cy="5.8" r=".55" fill="currentColor"/><circle cx="8.8" cy="6.8" r=".55" fill="currentColor"/></svg>
-                Game</span>`
-            : gameEmpty
-            ? `<button class="lc-btn lc-btn-game cs-trigger-btn" data-type="game" data-n="${m.n}" data-title="${esc(m.title)}" aria-label="Lihat info game ${esc(m.title)}">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><rect x="1" y="3" width="10" height="6.5" rx="2" stroke="currentColor" stroke-width="1.2"/><line x1="3.8" y1="5.8" x2="3.8" y2="7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="3.2" y1="6.4" x2="4.4" y2="6.4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="7.8" cy="5.8" r=".55" fill="currentColor"/><circle cx="8.8" cy="6.8" r=".55" fill="currentColor"/></svg>
-                Game</button>`
-            : `<a href="${m.gameUrl}" target="_blank" rel="noopener noreferrer" class="lc-btn lc-btn-game" aria-label="Main game ${esc(m.title)}">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><rect x="1" y="3" width="10" height="6.5" rx="2" stroke="currentColor" stroke-width="1.2"/><line x1="3.8" y1="5.8" x2="3.8" y2="7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="3.2" y1="6.4" x2="4.4" y2="6.4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="7.8" cy="5.8" r=".55" fill="currentColor"/><circle cx="8.8" cy="6.8" r=".55" fill="currentColor"/></svg>
-                Game</a>`
-          }
-        </div>
-      </div>
-    `;
-        map.appendChild(row);
-      });
-
-      // Attach popup triggers (event delegation on the map)
-      map.querySelectorAll(".cs-trigger-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
-          openComingSoon(btn.dataset.type, btn.dataset.n, btn.dataset.title);
-        });
-      });
-
-      // reveal on scroll
-      const cards = map.querySelectorAll(".level-card");
-      if (window.matchMedia("(prefers-reduced-motion:reduce)").matches) {
-        cards.forEach(c => c.classList.add("reveal")); return;
-      }
-      const obs = new IntersectionObserver(entries => {
-        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("reveal"); obs.unobserve(e.target); } });
-      }, { threshold: 0.05, rootMargin: "0px 0px -20px 0px" });
-      cards.forEach(c => obs.observe(c));
-    }
-
-    /* ── SEARCH ── */
-    function initSearch() {
-      const inp = document.getElementById("search-inp");
-      const clr = document.getElementById("search-x");
-      const hint = document.getElementById("search-hint");
-      if (!inp) return;
-      inp.addEventListener("input", () => {
-        const q = inp.value.trim().toLowerCase();
-        if (clr) clr.hidden = !q;
-        if (!q) { if (hint) hint.textContent = ""; renderLevelMap(meetings); return; }
-        const res = meetings.filter(m =>
-          m.title.toLowerCase().includes(q) ||
-          m.desc.toLowerCase().includes(q) ||
-          String(m.n).includes(q)
-        );
-        if (hint) {
-          hint.textContent = res.length
-            ? `${res.length} pertemuan ditemukan`
-            : `Tidak ada hasil untuk "${inp.value}"`;
-        }
-        renderLevelMap(res);
-      });
-      if (clr) {
-        clr.addEventListener("click", () => {
-          inp.value = ""; clr.hidden = true; if (hint) hint.textContent = "";
-          renderLevelMap(meetings); inp.focus();
-        });
-      }
-    }
-
-    /* ── NAVBAR ── */
-    function initNav() {
-      const nav = document.getElementById("nav");
-      if (!nav) return;
-      window.addEventListener("scroll", () => nav.classList.toggle("stuck", window.scrollY > 32), { passive: true });
-    }
-
-    /* ── MOBILE MENU ── */
-    function initMobMenu() {
-      const btn = document.getElementById("hamburger");
-      const menu = document.getElementById("mob-menu");
-      if (!btn || !menu) return;
-      btn.addEventListener("click", () => {
-        const open = menu.classList.toggle("open");
-        btn.setAttribute("aria-expanded", open);
-        menu.setAttribute("aria-hidden", !open);
-      });
-      menu.querySelectorAll(".mob-a").forEach(a => a.addEventListener("click", close));
-      document.addEventListener("click", e => { if (!btn.contains(e.target) && !menu.contains(e.target)) close(); });
-      function close() { menu.classList.remove("open"); btn.setAttribute("aria-expanded", "false"); menu.setAttribute("aria-hidden", "true"); }
-    }
-
-    /* ── UTIL ── */
-    function esc(s) { const d = document.createElement("div"); d.appendChild(document.createTextNode(String(s))); return d.innerHTML; }
+    /* hero video pause off-screen */
+    const v = document.querySelector(".hero video");
+    if (v && "IntersectionObserver" in window) new IntersectionObserver(([e]) => e.isIntersecting ? v.play().catch(() => { }) : v.pause()).observe($("hero"));
+    tabs(); render();
   </script>
 </body>
 
