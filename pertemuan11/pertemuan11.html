@@ -281,17 +281,78 @@ body {
   margin-top: 14px; font-size: 13px; line-height: 1.55; display: none; animation: pageFadeIn 0.25s ease;
 }
 
-/* Certificate */
-.cert-wrapper {
-  background: linear-gradient(135deg, #14141C, #0B0B10); border: 2px solid var(--yellow);
-  border-radius: var(--radius-lg); padding: 32px 20px; text-align: center; position: relative;
-  box-shadow: 0 16px 36px rgba(0,0,0,0.6); margin-top: 24px;
+/* Certificate — colourful, student-friendly, and print-safe */
+.cert-edit-tools {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  background: var(--bg-surface); border: 1px solid var(--border); border-radius: 12px;
+  padding: 12px 14px; margin-top: 20px;
 }
-.cert-wrapper::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, #7C3AED, #06B6D4, #FDE047); }
-.cert-name-text { font-size: 26px; font-weight: 900; color: #fff; border-bottom: 2px dashed rgba(255, 255, 255, 0.25); display: inline-block; padding: 2px 24px; margin: 8px 0; }
-.cert-p { font-size: 13px; color: var(--text-muted); max-width: 600px; margin: 0 auto 16px; }
-.cert-stamps { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
-.cert-stamp-badge { border: 2px solid var(--purple); color: var(--violet); font-size: 10px; font-weight: 900; padding: 4px 10px; border-radius: var(--radius-sm); }
+.cert-edit-tools label { color: #E2E8F0; font-size: 12px; font-weight: 800; }
+.cert-edit-tools input {
+  min-width: 240px; max-width: 100%; flex: 1; background: var(--bg-body); color: #fff;
+  border: 1px solid #4F46E5; border-radius: 8px; padding: 10px 12px; font: inherit; font-size: 12.5px; outline: none;
+}
+.cert-edit-tools input:focus { border-color: #22D3EE; box-shadow: 0 0 0 3px rgba(34,211,238,.15); }
+.cert-edit-hint { color: var(--text-muted); font-size: 11px; }
+.cert-wrapper {
+  isolation: isolate; overflow: hidden; position: relative; text-align: center; margin-top: 14px;
+  padding: 30px 28px 24px; border: 4px solid #25336D; border-radius: 18px;
+  color: #18224C; background: linear-gradient(135deg, #F8FAFF 0%, #FFFFFF 52%, #F3F0FF 100%);
+  box-shadow: 0 16px 36px rgba(0,0,0,.28);
+}
+.cert-wrapper::before {
+  content: ""; position: absolute; inset: 8px; border: 1px solid rgba(37,51,109,.28);
+  border-radius: 10px; pointer-events: none; z-index: -1;
+}
+.cert-wrapper::after {
+  content: "✦"; position: absolute; top: 18px; right: 28px; font-size: 92px; line-height: 1;
+  color: rgba(124,58,237,.08); transform: rotate(12deg); pointer-events: none; z-index: -1;
+}
+.cert-topline { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; }
+.cert-brand-mark {
+  display: inline-flex; align-items: center; gap: 7px; padding: 6px 11px; border-radius: 999px;
+  background: #E8EAFE; color: #3730A3; font-size: 10px; font-weight: 900; letter-spacing: 1px;
+}
+.cert-code { color: #64709A; font-size: 9px; font-weight: 900; letter-spacing: 1.4px; }
+.cert-medal {
+  display: flex; align-items: center; justify-content: center; width: 58px; height: 58px; margin: 0 auto 8px;
+  border: 3px solid #F0B429; border-radius: 50%; background: linear-gradient(145deg, #FFF7C2, #FFD765);
+  box-shadow: 0 5px 0 #E8A91B, 0 8px 18px rgba(240,180,41,.23); font-size: 29px;
+}
+.cert-eyebrow { color: #6D28D9; font-size: 11px; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; }
+.cert-title-main { color: #172554; font-size: clamp(28px, 3.5vw, 38px); font-weight: 900; line-height: 1.08; letter-spacing: 1px; margin: 5px 0 2px; }
+.cert-subtitle { color: #0E7490; font-size: 13px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; }
+.cert-award-line { color: #59627E; font-size: 12px; margin-top: 15px; }
+.cert-name-text {
+  display: block; max-width: 100%; overflow-wrap: anywhere; color: #5B21B6; font-size: clamp(25px, 3.3vw, 36px);
+  font-weight: 900; line-height: 1.16; padding: 3px 14px 7px; margin: 3px auto 7px;
+  border-bottom: 2px solid #F0B429; width: fit-content; min-width: min(60%, 250px);
+}
+.cert-class-pill {
+  display: inline-block; align-self: center; width: fit-content; max-width: 100%; background: #DDF7F8; color: #155E75; border: 1px solid #8ADDE5;
+  border-radius: 999px; padding: 4px 13px; font-size: 11px; font-weight: 900;
+}
+.cert-p { color: #47516F; font-size: 12px; line-height: 1.65; max-width: 760px; margin: 12px auto 14px; }
+.cert-p strong { color: #25336D; }
+.cert-stamps { display: flex; align-items: center; justify-content: center; width: 100%; gap: 7px; flex-wrap: wrap; margin: 0 auto 17px; }
+.cert-stamp-badge {
+  border: 1px solid #C7D2FE; background: #EEF2FF; color: #3730A3; font-size: 9px;
+  font-weight: 900; padding: 6px 10px; border-radius: 7px; white-space: nowrap;
+}
+.cert-signatures { display: grid; grid-template-columns: 1fr 1fr; gap: 34px; width: 100%; max-width: 700px; margin: 2px auto 0; }
+.cert-signature { min-width: 0; text-align: center; color: #344064; }
+.cert-signature-label { font-size: 10px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; }
+.cert-signature-name {
+  display: block; margin: 20px auto 4px; padding: 0 5px 4px; border-bottom: 1px solid #8992B2;
+  color: #1E2A59; font-size: 12px; font-weight: 900; overflow-wrap: anywhere;
+}
+.cert-signature-caption { color: #6B7390; font-size: 9px; }
+.cert-footer {
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
+  border-top: 1px solid #DDE2F4; padding-top: 10px; margin-top: 15px; color: #65708F; font-size: 9px; font-weight: 800;
+  letter-spacing: .5px;
+}
+.cert-footer-motto { color: #6D28D9; }
 
 /* Buttons */
 .btn {
@@ -317,19 +378,60 @@ body {
   box-shadow: 0 4px 20px var(--purple-glow); z-index: 999; display: none; animation: pageFadeIn 0.2s ease;
 }
 
-/* Print */
+/* Print: only the certificate, fitted to one A4 landscape page */
+@page { size: A4 landscape; margin: 0; }
 @media print {
-  body * { visibility: hidden; }
-  #certArea, #certArea * { visibility: visible; }
+  @page { size: A4 landscape; margin: 0; }
+  html, body { width: 297mm !important; height: 210mm !important; margin: 0 !important; padding: 0 !important; background: #fff !important; }
+  body { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  /* Hide non-certificate content with display rules so no hidden UI reserves space. */
+  body > * { display: none !important; }
+  body > main.container { display: block !important; width: 297mm !important; max-width: none !important; margin: 0 !important; padding: 0 !important; }
+  main.container > * { display: none !important; }
+  main.container > #page10 { display: block !important; position: static !important; margin: 0 !important; padding: 0 !important; }
+  #page10 .card-mission { display: block !important; margin: 0 !important; padding: 0 !important; border: 0 !important; box-shadow: none !important; background: transparent !important; }
+  #page10 .card-mission > * { display: none !important; }
+  #page10 .card-mission > #certArea { display: flex !important; }
   #certArea {
-    position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 30px;
-    border: 2px solid #000; background: #fff !important; color: #000 !important;
+    display: flex !important; flex-direction: column !important; justify-content: space-between !important;
+    position: fixed !important; left: 7mm !important; top: 7mm !important;
+    width: 283mm !important; height: 196mm !important; min-height: 0 !important; max-height: 196mm !important;
+    margin: 0 !important; padding: 7mm 10mm 6mm !important; box-sizing: border-box !important;
+    border: 1.3mm solid #25336D !important; border-radius: 4mm !important; overflow: hidden !important;
+    box-shadow: none !important; background: linear-gradient(135deg, #F8FAFF 0%, #FFFFFF 52%, #F3F0FF 100%) !important;
+    page-break-inside: avoid !important; break-inside: avoid !important;
   }
-  .cert-name-text { color: #000 !important; }
+  .cert-edit-tools, .cert-no-print { display: none !important; }
+  .cert-topline { margin-bottom: 2mm !important; }
+  .cert-brand-mark { padding: 1.5mm 3mm !important; font-size: 7.5pt !important; }
+  .cert-code { font-size: 7pt !important; }
+  .cert-medal { width: 15mm !important; height: 15mm !important; font-size: 22pt !important; margin-bottom: 1mm !important; box-shadow: 0 2px 0 #E8A91B !important; }
+  .cert-eyebrow { font-size: 8pt !important; letter-spacing: 2pt !important; }
+  .cert-title-main { font-size: 27pt !important; line-height: 1.05 !important; margin: 1mm 0 !important; }
+  .cert-subtitle { font-size: 9pt !important; letter-spacing: 1.5pt !important; }
+  .cert-award-line { font-size: 9pt !important; margin-top: 3mm !important; }
+  .cert-name-text { font-size: 25pt !important; line-height: 1.05 !important; margin: 1mm auto 1.5mm !important; padding: 1mm 8mm 2mm !important; }
+  .cert-class-pill { font-size: 8pt !important; padding: 1mm 4mm !important; }
+  .cert-p { font-size: 9pt !important; line-height: 1.45 !important; max-width: 235mm !important; margin: 3mm auto !important; }
+  .cert-stamps { width: 100% !important; gap: 2mm !important; flex-wrap: nowrap !important; margin-bottom: 2mm !important; }
+  .cert-stamp-badge { font-size: 7pt !important; padding: 1.5mm 2mm !important; }
+  .cert-signatures { width: 100% !important; max-width: 190mm !important; gap: 24mm !important; }
+  .cert-class-pill { align-self: center !important; width: fit-content !important; }
+  .cert-signature-label { font-size: 7.5pt !important; }
+  .cert-signature-name { margin-top: 8mm !important; margin-bottom: 1mm !important; padding-bottom: 1mm !important; font-size: 9pt !important; }
+  .cert-signature-caption { font-size: 7pt !important; }
+  .cert-footer { margin-top: 2mm !important; padding-top: 2mm !important; font-size: 7pt !important; }
+  .cert-wrapper::after { font-size: 65pt !important; }
 }
 @media (max-width: 768px) {
   .grid-2 { grid-template-columns: 1fr; }
   .card-mission { padding: 16px; }
+  .cert-wrapper { padding: 24px 14px 18px; }
+  .cert-topline { align-items: flex-start; }
+  .cert-brand-mark { font-size: 8px; letter-spacing: .4px; }
+  .cert-code { font-size: 7px; }
+  .cert-signatures { gap: 14px; }
+  .cert-footer { justify-content: center; text-align: center; }
 }
 </style>
 </head>
@@ -1304,28 +1406,57 @@ Hormat saya,
         </div>
       </div>
 
-      <!-- Sertifikat Resmi P11 -->
+      <!-- Sertifikat Pencapaian P11 -->
+      <div class="cert-edit-tools cert-no-print">
+        <label for="certTeacherInput">👩‍🏫 Nama guru pendamping</label>
+        <input type="text" id="certTeacherInput" placeholder="Ketik nama guru pendamping..." oninput="syncCertificateTeacher(this.value)" autocomplete="name">
+        <span class="cert-edit-hint">Nama siswa dan kelas mengikuti identitas yang diisi di awal.</span>
+      </div>
+
       <div class="cert-wrapper" id="certArea">
-        <div style="font-size:11px; font-weight:900; color:var(--yellow); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:4px;">
-          SERTIFIKAT KELULUSAN PROYEK RESMI
+        <div class="cert-topline">
+          <span class="cert-brand-mark">💻 KENAL KOMPUTER · RUANG BELAJARMU</span>
+          <span class="cert-code">P11 · DIGITAL LEARNING QUEST</span>
         </div>
-        <h3 style="font-size:22px; font-weight:900; color:#fff; margin-bottom:10px;">
-          DIGITAL STUDENT MASTER — PENYELESAIAN TUGAS TERPADU
-        </h3>
-        <p style="font-size:12px; color:var(--text-muted);">Diberikan dengan bangga kepada:</p>
+
+        <div class="cert-medal" aria-hidden="true">🏆</div>
+        <div class="cert-eyebrow">Sertifikat Pencapaian</div>
+        <h3 class="cert-title-main">DIGITAL STUDENT</h3>
+        <div class="cert-subtitle">Mini Project · Misi Tugas Terpadu</div>
+
+        <p class="cert-award-line">Dengan bangga diberikan kepada</p>
         <div class="cert-name-text" id="certNameSlotP11">Siswa Kelas 7</div>
+        <span class="cert-class-pill" id="certClassSlotP11">Kelas 7A</span>
+
         <p class="cert-p">
-          Telah berhasil menyelesaikan panduan proyek akhir <strong>Kenal Komputer Pertemuan 11</strong> dengan kemampuan terpadu dalam <em>Pengolahan Data Excel, Perancangan Makalah Word, Pemanfaatan AI Bijak, Desain Visual Mandiri, dan Etika Surat Elektronik</em>.
+          Atas keberhasilan menyelesaikan <strong>Digital Student Project — Pertemuan 11</strong> dan menunjukkan semangat belajar dalam mengolah data dengan Excel, menyusun makalah di Word, menggunakan AI secara bijak, membuat karya visual, serta mengirim tugas melalui email dengan baik.
         </p>
-        <div class="cert-stamps">
-          <span class="cert-stamp-badge">📊 EXCEL ANALYST</span>
+
+        <div class="cert-stamps" aria-label="Keterampilan yang dipelajari">
+          <span class="cert-stamp-badge">📊 DATA EXPLORER</span>
           <span class="cert-stamp-badge">📝 WORD CREATOR</span>
-          <span class="cert-stamp-badge">🤖 AI ETHICAL USER</span>
+          <span class="cert-stamp-badge">🤖 AI SMART USER</span>
           <span class="cert-stamp-badge">🎨 VISUAL DESIGNER</span>
-          <span class="cert-stamp-badge">✉️ EMAIL COMMUNICATOR</span>
+          <span class="cert-stamp-badge">✉️ EMAIL HERO</span>
         </div>
-        <div style="margin-top:22px; font-size:11.5px; color:var(--text-dim);">
-          Kenal Komputer — Ruang Belajarmu • <span id="certDateSlotP11">Oktober 2026</span>
+
+        <div class="cert-signatures">
+          <div class="cert-signature">
+            <div class="cert-signature-label">Guru Pendamping</div>
+            <span class="cert-signature-name" id="certTeacherNameSlotP11">Nama Guru Pendamping</span>
+            <div class="cert-signature-caption">Pembimbing kegiatan</div>
+          </div>
+          <div class="cert-signature">
+            <div class="cert-signature-label">Siswa / Penerima</div>
+            <span class="cert-signature-name certStudentNameMirror">Siswa Kelas 7</span>
+            <div class="cert-signature-caption">Pelajar Digital · <span class="certStudentClassMirror">Kelas 7A</span></div>
+          </div>
+        </div>
+
+        <div class="cert-footer">
+          <span>Kenal Komputer · Ruang Belajarmu</span>
+          <span class="cert-footer-motto">✨ BERANI BELAJAR · KREATIF BERKARYA · JADI PELAJAR DIGITAL ✨</span>
+          <span id="certDateSlotP11">20 Oktober 2026</span>
         </div>
       </div>
 
@@ -1451,6 +1582,7 @@ const projectState = {
   xp: 0,
   studentName: "Siswa Kelas 7",
   selectedClass: "7A",
+  teacherName: "",
   avatarIndex: 0,
   visualChoice: "ppt",
   tasks: {
@@ -1493,6 +1625,9 @@ function loadProjectState() {
   document.getElementById('m1NameInput').value = projectState.studentName;
   document.getElementById('m1ClassSelect').value = projectState.selectedClass || "7A";
   document.getElementById('avatarDisplayBtn').textContent = avatars[projectState.avatarIndex] || "🧑‍🎓";
+  const teacherInput = document.getElementById('certTeacherInput');
+  if (teacherInput) teacherInput.value = projectState.teacherName || "";
+  syncCertificateTeacher(projectState.teacherName || "", false);
 
   syncAllLabels();
   setVisualChoice(projectState.visualChoice || "ppt", true);
@@ -1584,6 +1719,14 @@ function syncClassFromM1(val) {
   saveProjectState();
 }
 
+function syncCertificateTeacher(val, shouldSave = true) {
+  const clean = (val || "").trim();
+  projectState.teacherName = clean;
+  const slot = document.getElementById('certTeacherNameSlotP11');
+  if (slot) slot.textContent = clean || "Nama Guru Pendamping";
+  if (shouldSave) saveProjectState();
+}
+
 function syncAllLabels() {
   const name = projectState.studentName || "Siswa Kelas 7";
   const safeName = name.replace(/\s+/g, '_');
@@ -1594,6 +1737,10 @@ function syncAllLabels() {
 
   const certSlot = document.getElementById('certNameSlotP11');
   if (certSlot) certSlot.textContent = name;
+  document.querySelectorAll('.certStudentNameMirror').forEach(el => el.textContent = name);
+  document.querySelectorAll('.certStudentClassMirror').forEach(el => el.textContent = `Kelas ${cls}`);
+  const certClassSlot = document.getElementById('certClassSlotP11');
+  if (certClassSlot) certClassSlot.textContent = `Kelas ${cls}`;
 
   const xlName = document.getElementById('excelFileNameDisplay');
   if (xlName) xlName.textContent = `Data_Jadwal_${safeName}.xlsx`;
