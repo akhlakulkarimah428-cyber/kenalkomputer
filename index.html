@@ -1147,7 +1147,9 @@
       { n: 7, t: "Data & Komunikasi Digital", d: "Dari angka sampai email, belajar memahami dan menyampaikan informasi.", c: "Digital", mat: "pertemuan7/pertemuan7.html", game: "", s: "completed" },
       { n: 8, t: "Microsoft PowerPoint Dasar", d: "Bikin ide jadi presentasi.", c: "Office", mat: "pertemuan8/pertemuan8.html", game: "#", s: "completed" },
       { n: 9, t: "Canva Dasar — Desain Digital Kreatif", d: "Membuat poster, memilih template, mengatur warna, font, gambar, dan komposisi.", c: "Digital", mat: "pertemuan9/pertemuan9.html", game: "#", s: "completed" },
-      { n: 10, t: "AI & Digital Productivity", d: "Memakai AI untuk mencari ide, menyusun kerangka tulisan, dan membantu tugas sekolah secara bertanggung jawab.", c: "Digital", mat: "pertemuan10/pertemuan10.html", game: "#", s: "completed" }];
+      { n: 10, t: "AI & Digital Productivity", d: "Memakai AI untuk mencari ide, menyusun kerangka tulisan, dan membantu tugas sekolah secara bertanggung jawab.", c: "Digital", mat: "pertemuan10/pertemuan10.html", game: "#", s: "completed" },
+      { n: 12, t: "Google Meet & Online Presentation", d: "Belajar membuat dan bergabung ke rapat, mengatur kamera dan mikrofon, berbagi layar, serta melakukan presentasi online dengan percaya diri dan aman.", c: "Digital", mat: "pertemuan12/pertemuan12.html", game: "#", s: "current" }];
+
     const $ = id => document.getElementById(id), empty = u => !u || u.trim() === "" || u.trim() === "#";
     const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
     const done = M.filter(m => m.s === "completed").length, pct = Math.round(done / M.length * 100);
@@ -1188,7 +1190,7 @@
       $("none").style.display = L.length ? "none" : "block";
       $("list").innerHTML = L.map(m => {
         const lk = (u, l, t) => empty(u) ? `<button class="mini soon" data-soon="${t}" data-n="${m.n}">${l} segera</button>` : `<a class="mini" href="${u}" target="_blank" rel="noopener noreferrer">${l}</a>`;
-        return `<article class="panel s" data-open="${m.mat}"><div class="t"><span>SESI ${String(m.n).padStart(2, "0")}</span><b>${m.s === "completed" ? "✓ SELESAI" : "TERKUNCI"}</b></div><h3>${esc(m.t)}</h3><p>${esc(m.d)}</p><div class="act">${lk(m.mat, "Materi", "mat")}${lk(m.game, "Game", "game")}</div></article>`
+        return `<article class="panel s" data-open="${m.mat}"><div class="t"><span>SESI ${String(m.n).padStart(2, "0")}</span><b>${m.s === "completed" ? "✓ SELESAI" : "BERLANGSUNG"}</b></div><h3>${esc(m.t)}</h3><p>${esc(m.d)}</p><div class="act">${lk(m.mat, "Materi", "mat")}${lk(m.game, "Game", "game")}</div></article>`
       }).join("");
     }
     $("list").onclick = e => {

@@ -1,0 +1,4073 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kenal Komputer P12: Meet & Present! — Google Meet & Presentasi Online</title>
+  <meta name="description"
+    content="Bahan ajar interaktif Google Meet untuk siswa SMP Kelas 7: membuat & bergabung rapat, kontrol kamera/mikrofon, simulasi berbagi layar (Tab vs Jendela vs Seluruh Layar), etika & keamanan, rumus presentasi percaya diri, tantangan praktik online, dan kuis 8 soal.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg-body: #0B0B10;
+      --bg-card: #14141C;
+      --bg-card-hover: #191924;
+      --bg-surface: #1B1B25;
+      --bg-surface-2: #222230;
+      --border: #2A2A36;
+      --border-light: rgba(255, 255, 255, 0.08);
+      --purple: #7C3AED;
+      --purple-glow: rgba(124, 58, 237, 0.35);
+      --violet: #8B5CF6;
+      --cyan: #06B6D4;
+      --cyan-glow: rgba(6, 182, 212, 0.35);
+      --yellow: #FDE047;
+      --green: #10B981;
+      --red: #EF4444;
+      --text-main: #F5F5F5;
+      --text-muted: #A1A1AA;
+      --text-dim: #71717A;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+      --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      padding-bottom: 90px;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Sticky Top Navigation Bar */
+    .top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(11, 11, 16, 0.96);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 8px 0;
+    }
+
+    .nav-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-badge {
+      background: linear-gradient(135deg, #7C3AED, #06B6D4);
+      color: #fff;
+      font-weight: 900;
+      font-size: 13px;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 14px var(--purple-glow);
+    }
+
+    .brand-text h1 {
+      font-size: 15px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.2;
+    }
+
+    .brand-text p {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .meeting-nav-row {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 3px 6px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+    }
+
+    .meeting-tab {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-dim);
+      padding: 4px 9px;
+      border-radius: 999px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .meeting-tab:hover {
+      color: #fff;
+    }
+
+    .meeting-tab.active {
+      background: var(--purple);
+      color: #fff;
+      font-weight: 800;
+      box-shadow: 0 2px 8px var(--purple-glow);
+    }
+
+    .user-panel {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 4px 12px;
+      border-radius: 999px;
+    }
+
+    .avatar-btn {
+      font-size: 18px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .name-input {
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-weight: 700;
+      font-size: 13px;
+      outline: none;
+      width: 125px;
+    }
+
+    .xp-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(253, 224, 71, 0.12);
+      color: var(--yellow);
+      border: 1px solid rgba(253, 224, 71, 0.3);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 999px;
+    }
+
+    .sound-toggle-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Stepper Subnav */
+    .subnav-stages {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      overflow-x: auto;
+      padding: 8px 0 2px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      margin-top: 6px;
+      scrollbar-width: none;
+    }
+
+    .subnav-stages::-webkit-scrollbar {
+      display: none;
+    }
+
+    .stage-step-btn {
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 5px 11px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .stage-step-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .stage-step-btn.active {
+      background: linear-gradient(135deg, var(--purple), var(--cyan));
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 2px 10px var(--purple-glow);
+    }
+
+    .stage-step-btn.done {
+      border-color: rgba(16, 185, 129, 0.4);
+      color: var(--green);
+    }
+
+    .global-progress-wrap {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      height: 3px;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+    }
+
+    .global-progress-fill {
+      height: 100%;
+      width: 8%;
+      background: linear-gradient(90deg, #7C3AED, #06B6D4, #10B981);
+      transition: width 0.35s ease;
+    }
+
+    .page-stepper-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border);
+      padding: 10px 18px;
+      border-radius: var(--radius-md);
+      margin-top: 18px;
+      font-size: 13px;
+    }
+
+    .page-counter-badge {
+      background: rgba(124, 58, 237, 0.18);
+      color: var(--violet);
+      font-weight: 900;
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+    }
+
+    /* Page Container */
+    .mission-page {
+      display: none;
+      animation: pageFadeIn 0.3s ease;
+      margin-top: 16px;
+    }
+
+    .mission-page.active-page {
+      display: block;
+    }
+
+    @keyframes pageFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Cards & Layout */
+    .card-mission {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 26px;
+      position: relative;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      margin-bottom: 20px;
+    }
+
+    .mission-hero-header {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .mission-title-group h2 {
+      font-size: 23px;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.25;
+    }
+
+    .mission-title-group p {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .mission-xp-badge {
+      background: rgba(253, 224, 71, 0.12);
+      color: var(--yellow);
+      border: 1px solid rgba(253, 224, 71, 0.3);
+      font-size: 12px;
+      font-weight: 800;
+      padding: 5px 12px;
+      border-radius: 999px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 14px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 16px;
+    }
+
+    .box-info {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      transition: all 0.2s;
+    }
+
+    .box-info.accent {
+      border-color: var(--purple);
+      box-shadow: 0 0 16px var(--purple-glow);
+    }
+
+    .box-info.accent-cyan {
+      border-color: var(--cyan);
+      box-shadow: 0 0 16px var(--cyan-glow);
+    }
+
+    .box-icon {
+      font-size: 26px;
+      margin-bottom: 8px;
+    }
+
+    .box-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .box-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    .notice-box {
+      display: flex;
+      gap: 12px;
+      background: rgba(124, 58, 237, 0.1);
+      border-left: 4px solid var(--purple);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      margin: 14px 0;
+      font-size: 13px;
+      color: #DDD6FE;
+    }
+
+    .notice-box.cyan {
+      background: rgba(6, 182, 212, 0.1);
+      border-left-color: var(--cyan);
+      color: #CFFAFE;
+    }
+
+    .notice-box.yellow {
+      background: rgba(253, 224, 71, 0.1);
+      border-left-color: var(--yellow);
+      color: #FEF08A;
+    }
+
+    .notice-box.green {
+      background: rgba(16, 185, 129, 0.1);
+      border-left-color: var(--green);
+      color: #A7F3D0;
+    }
+
+    .notice-icon {
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    /* Student Identity & Character Card */
+    .identity-card {
+      background: linear-gradient(135deg, rgba(27, 27, 37, 0.8), rgba(20, 20, 28, 0.95));
+      border: 1.5px solid rgba(124, 58, 237, 0.35);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin-bottom: 22px;
+    }
+
+    .identity-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .identity-tag {
+      background: linear-gradient(135deg, var(--purple), var(--cyan));
+      color: #fff;
+      font-size: 11px;
+      font-weight: 900;
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+    }
+
+    .avatar-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(95px, 1fr));
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .avatar-choice-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 8px 6px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .avatar-choice-card:hover {
+      border-color: var(--violet);
+    }
+
+    .avatar-choice-card.selected {
+      border-color: var(--cyan);
+      background: rgba(6, 182, 212, 0.18);
+      box-shadow: 0 0 12px var(--cyan-glow);
+    }
+
+    .avatar-choice-emoji {
+      font-size: 22px;
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .avatar-choice-name {
+      font-size: 11px;
+      font-weight: 700;
+      color: #cbd5e1;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--purple), var(--violet));
+      color: #fff;
+      border: none;
+      padding: 10px 18px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .btn:hover {
+      filter: brightness(1.15);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px var(--purple-glow);
+    }
+
+    .btn.cyan {
+      background: linear-gradient(135deg, #0284C7, #06B6D4);
+      box-shadow: 0 4px 14px var(--cyan-glow);
+    }
+
+    .btn.cyan:hover {
+      box-shadow: 0 6px 20px var(--cyan-glow);
+    }
+
+    .btn.secondary {
+      background: var(--bg-surface-2);
+      color: var(--text-main);
+      border: 1px solid var(--border);
+    }
+
+    .btn.secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+      box-shadow: none;
+    }
+
+    .btn.green {
+      background: linear-gradient(135deg, #059669, #10B981);
+    }
+
+    .btn.danger {
+      background: linear-gradient(135deg, #DC2626, #EF4444);
+    }
+
+    .btn.sm {
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+
+    /* Interactive Checklists */
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      padding: 12px 14px;
+      border-radius: var(--radius-md);
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      user-select: none;
+    }
+
+    .checklist-item:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .checklist-item.checked {
+      background: rgba(16, 185, 129, 0.08);
+      border-color: rgba(16, 185, 129, 0.4);
+    }
+
+    .custom-check-box {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 900;
+      color: transparent;
+      flex-shrink: 0;
+      margin-top: 2px;
+      transition: all 0.2s;
+    }
+
+    .checklist-item.checked .custom-check-box {
+      background: var(--green);
+      border-color: var(--green);
+      color: #fff;
+    }
+
+    .checklist-text {
+      font-size: 13.5px;
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .checklist-sub {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin-top: 2px;
+    }
+
+    /* Interactive Simulator: Meet Room / Lobby */
+    .meet-lobby-sim {
+      background: #000;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin: 16px 0;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+    }
+
+    .meet-cam-screen {
+      height: 240px;
+      background: #18191D;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .meet-cam-avatar {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--purple), var(--cyan));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 42px;
+      box-shadow: 0 0 24px rgba(6, 182, 212, 0.4);
+      border: 3px solid #fff;
+    }
+
+    .meet-cam-watermark {
+      position: absolute;
+      bottom: 12px;
+      left: 16px;
+      font-size: 12px;
+      font-weight: 700;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(6px);
+      padding: 4px 10px;
+      border-radius: 6px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .meet-control-bar {
+      background: #14141C;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .meet-round-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .meet-round-btn.active-btn {
+      background: #3C4043;
+      color: #fff;
+    }
+
+    .meet-round-btn.muted-btn {
+      background: #EA4335;
+      color: #fff;
+    }
+
+    .meet-round-btn:hover {
+      transform: scale(1.08);
+      filter: brightness(1.15);
+    }
+
+    /* Audio wave animation */
+    .audio-wave-bar {
+      display: inline-flex;
+      align-items: flex-end;
+      gap: 3px;
+      height: 18px;
+    }
+
+    .audio-wave-bar span {
+      width: 3px;
+      background: var(--green);
+      border-radius: 2px;
+      height: 4px;
+      transition: height 0.15s;
+    }
+
+    .audio-wave-bar.speaking span:nth-child(1) {
+      height: 16px;
+      animation: wave 0.4s infinite alternate;
+    }
+
+    .audio-wave-bar.speaking span:nth-child(2) {
+      height: 12px;
+      animation: wave 0.3s infinite alternate 0.1s;
+    }
+
+    .audio-wave-bar.speaking span:nth-child(3) {
+      height: 18px;
+      animation: wave 0.5s infinite alternate 0.2s;
+    }
+
+    @keyframes wave {
+      from {
+        height: 4px;
+      }
+
+      to {
+        height: 18px;
+      }
+    }
+
+    /* Screen share modal simulator */
+    .share-picker-box {
+      background: var(--bg-surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin: 14px 0;
+    }
+
+    .share-tabs-nav {
+      display: flex;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+
+    .share-tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .share-tab-btn.active {
+      background: var(--purple);
+      color: #fff;
+    }
+
+    .share-item-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: left;
+    }
+
+    .share-item-card:hover {
+      border-color: var(--cyan);
+      background: rgba(6, 182, 212, 0.06);
+    }
+
+    .share-item-card.selected {
+      border-color: var(--cyan);
+      background: rgba(6, 182, 212, 0.15);
+      box-shadow: 0 0 12px var(--cyan-glow);
+    }
+
+    /* Table styling */
+    .custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+      font-size: 13px;
+    }
+
+    .custom-table th {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-main);
+      font-weight: 800;
+      text-align: left;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+    }
+
+    .custom-table td {
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      color: #D1D5DB;
+    }
+
+    .custom-table tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.015);
+    }
+
+    /* Interactive Checkpoint Quiz */
+    .session-quiz {
+      background: linear-gradient(135deg, rgba(27, 27, 37, 0.95), rgba(20, 20, 28, 0.98));
+      border: 1.5px solid rgba(124, 58, 237, 0.4);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      margin: 20px 0;
+    }
+
+    .session-quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .session-quiz-tag {
+      background: var(--purple);
+      color: #fff;
+      font-size: 10.5px;
+      font-weight: 900;
+      padding: 4px 10px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    .opt-btn {
+      width: 100%;
+      text-align: left;
+      background: var(--bg-surface);
+      border: 1.5px solid var(--border);
+      color: var(--text-main);
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .opt-btn:hover {
+      border-color: var(--violet);
+      background: rgba(139, 92, 246, 0.1);
+    }
+
+    .opt-btn.correct {
+      background: rgba(16, 185, 129, 0.2) !important;
+      border-color: var(--green) !important;
+      color: #fff;
+    }
+
+    .opt-btn.wrong {
+      background: rgba(239, 68, 68, 0.2) !important;
+      border-color: var(--red) !important;
+      color: #fff;
+    }
+
+    /* Final Quiz HUD */
+    .quiz-hud-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      padding: 12px 18px;
+      border-radius: var(--radius-md);
+      margin-bottom: 16px;
+    }
+
+    .q-dots-row {
+      display: flex;
+      gap: 6px;
+    }
+
+    .q-dot {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--bg-surface-2);
+      border: 1px solid var(--border);
+      font-size: 11px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .q-dot.active {
+      border-color: var(--cyan);
+      color: #fff;
+      background: rgba(6, 182, 212, 0.2);
+    }
+
+    .q-dot.correct-dot {
+      background: var(--green);
+      border-color: var(--green);
+      color: #fff;
+    }
+
+    .q-dot.wrong-dot {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff;
+    }
+
+    /* Certificate styling */
+    .cert-container {
+      background: linear-gradient(135deg, #14141E 0%, #1A1A28 50%, #0E0E17 100%);
+      border: 3px solid #7C3AED;
+      border-radius: var(--radius-lg);
+      padding: 36px 30px;
+      position: relative;
+      box-shadow: 0 0 35px rgba(124, 58, 237, 0.35);
+      text-align: center;
+      margin: 24px 0;
+      overflow: hidden;
+    }
+
+    .cert-container::before {
+      content: "";
+      position: absolute;
+      inset: 6px;
+      border: 1px dashed rgba(253, 224, 71, 0.4);
+      border-radius: calc(var(--radius-lg) - 6px);
+      pointer-events: none;
+    }
+
+    .cert-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #FDE047, #F59E0B);
+      color: #111;
+      font-weight: 900;
+      font-size: 12px;
+      padding: 5px 16px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+
+    .cert-title {
+      font-size: 26px;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 0.5px;
+    }
+
+    .cert-subtitle {
+      font-size: 13.5px;
+      color: var(--cyan);
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
+    .cert-recipient-name {
+      font-size: 32px;
+      font-weight: 900;
+      color: #FDE047;
+      margin: 18px 0 6px;
+      text-shadow: 0 0 18px rgba(253, 224, 71, 0.4);
+      font-family: var(--font-sans);
+    }
+
+    .cert-body-text {
+      font-size: 13.5px;
+      color: #D1D5DB;
+      max-width: 650px;
+      margin: 0 auto 20px;
+      line-height: 1.6;
+    }
+
+    .cert-stamp-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1.5px solid #10B981;
+      color: #34D399;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .cert-footer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: 28px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
+    /* Toast */
+    #toastNotice {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      background: rgba(20, 20, 28, 0.95);
+      border: 1.5px solid var(--purple);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: var(--radius-md);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+      font-size: 13px;
+      font-weight: 700;
+      display: none;
+      animation: toastIn 0.3s ease;
+    }
+
+    @keyframes toastIn {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    /* Print styles */
+    @media print {
+      body {
+        background: #fff !important;
+        color: #000 !important;
+      }
+
+      .top-nav,
+      .page-stepper-bar,
+      .subnav-stages,
+      .btn,
+      .footer-zone,
+      .session-quiz,
+      #toastNotice {
+        display: none !important;
+      }
+
+      .cert-container {
+        border: 2px solid #000 !important;
+        background: #fff !important;
+        color: #000 !important;
+        box-shadow: none !important;
+      }
+
+      .cert-recipient-name {
+        color: #000 !important;
+        text-shadow: none !important;
+      }
+
+      .cert-subtitle,
+      .cert-body-text {
+        color: #333 !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-wrap {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .grid-2,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .cert-recipient-name {
+        font-size: 24px;
+      }
+
+      .cert-footer-row {
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Toast Notification -->
+  <div id="toastNotice">✅ Informasi Tersimpan!</div>
+
+  <!-- Top Sticky Navigation -->
+  <header class="top-nav">
+    <div class="container">
+      <div class="nav-wrap">
+        <!-- Left: Brand -->
+        <div class="brand-group">
+          <div class="brand-badge">
+            <span>🎥</span>
+            <span>QUEST P12</span>
+          </div>
+          <div class="brand-text">
+            <h1>Kenal Komputer — Ruang Belajarmu</h1>
+            <p>Pertemuan 12: Meet & Present! (Google Meet & Presentasi Online)</p>
+          </div>
+        </div>
+
+        <!-- Center: Switcher Meetings -->
+        <div class="meeting-nav-row">
+          <a href="pertemuan9.html" class="meeting-tab">P9 Canva</a>
+          <a href="pertemuan10.html" class="meeting-tab">P10 AI</a>
+          <a href="pertemuan11.html" class="meeting-tab">P11 Project</a>
+          <a href="index.html" class="meeting-tab active">P12 Meet 🎥</a>
+        </div>
+
+        <!-- Right: User Identity & XP -->
+        <div class="user-panel">
+          <button class="avatar-btn" id="avatarBtnTop" onclick="cycleAvatar()" title="Ganti Avatar Siswa">🧑‍💻</button>
+          <input type="text" id="topStudentName" class="name-input" value="Bintang Pratama" placeholder="Nama Siswa"
+            onchange="syncStudentName(this.value)">
+          <div class="xp-pill" id="globalXpPill">
+            <span>⚡</span>
+            <span id="globalXpVal">0</span>
+            <span>XP</span>
+          </div>
+          <button class="sound-toggle-btn" id="soundToggleBtn" onclick="toggleAudio()"
+            title="Aktif/Nonaktif Suara">🔊</button>
+        </div>
+      </div>
+
+      <!-- Stepper Subnavigation -->
+      <div class="subnav-stages" id="subnavStagesContainer">
+        <button class="stage-step-btn active" onclick="jumpToPage(0)">00. Beranda</button>
+        <button class="stage-step-btn" onclick="jumpToPage(1)">M01. Kenal Meet</button>
+        <button class="stage-step-btn" onclick="jumpToPage(2)">M02. Persiapan (0/7)</button>
+        <button class="stage-step-btn" onclick="jumpToPage(3)">M03. Buat Rapat</button>
+        <button class="stage-step-btn" onclick="jumpToPage(4)">M04. Gabung Rapat</button>
+        <button class="stage-step-btn" onclick="jumpToPage(5)">M05. Audio & Kamera</button>
+        <button class="stage-step-btn" onclick="jumpToPage(6)">M06. Tombol Meet</button>
+        <button class="stage-step-btn" onclick="jumpToPage(7)">M07. Share Screen</button>
+        <button class="stage-step-btn" onclick="jumpToPage(8)">M08. Presenter Pro</button>
+        <button class="stage-step-btn" onclick="jumpToPage(9)">M09. Atasi Masalah</button>
+        <button class="stage-step-btn" onclick="jumpToPage(10)">M10. Etika & Aman</button>
+        <button class="stage-step-btn" onclick="jumpToPage(11)">🎯 Misi Akhir (0/6)</button>
+        <button class="stage-step-btn" onclick="jumpToPage(12)">🏆 Kuis & Sertifikat</button>
+      </div>
+    </div>
+    <div class="global-progress-wrap">
+      <div class="global-progress-fill" id="globalProgressBar"></div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Sub Navigation Bar / Stepper Controller -->
+    <div class="page-stepper-bar">
+      <button class="btn secondary sm" id="prevPageBtn" onclick="changePage(-1)">← Sebelumnya</button>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span class="page-counter-badge" id="pageCounterText">Halaman 1 dari 13</span>
+        <span style="font-size:12px; color:var(--text-muted);" id="pageTitlePreview">Beranda Proyek</span>
+      </div>
+      <button class="btn sm" id="nextPageBtn" onclick="changePage(1)">Lanjut →</button>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- PAGE 0: HERO & OVERVIEW                    -->
+    <!-- ========================================== -->
+    <section class="mission-page active-page" id="page0">
+      <div class="card-mission" style="margin-top:16px;">
+        <div class="mission-hero-header">
+          <div class="mission-title-group">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+              <span
+                style="background:var(--purple); color:#fff; font-size:11px; font-weight:900; padding:3px 9px; border-radius:4px;">PERTEMUAN
+                12</span>
+              <span
+                style="background:rgba(6, 182, 212, 0.15); color:var(--cyan); font-size:11px; font-weight:800; padding:3px 9px; border-radius:4px;">90
+                MENIT • PRAKTIK LANGSUNG</span>
+            </div>
+            <h2>MISSION 12: MEET & PRESENT!</h2>
+            <p>Google Meet — Dari Bergabung hingga Presentasi Online dengan Percaya Diri</p>
+          </div>
+          <div class="mission-xp-badge">Target: 350+ XP 🌟</div>
+        </div>
+
+        <!-- Student Profile Card -->
+        <div class="identity-card">
+          <div class="identity-header">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span class="identity-tag">KARTU PESERTA DIDIK</span>
+              <span style="font-size:12.5px; font-weight:700; color:#cbd5e1;">SMP Kelas 7 • Fase D</span>
+            </div>
+            <div style="font-size:12px; color:var(--cyan); font-weight:800;" id="rankDisplayLabel">Pangkat: Meet Rookie
+              🥉</div>
+          </div>
+
+          <div
+            style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:14px; align-items:center;">
+            <div>
+              <label
+                style="font-size:11.5px; color:var(--text-muted); font-weight:700; display:block; margin-bottom:4px;">Nama
+                Lengkap Siswa:</label>
+              <input type="text" id="heroNameInput" value="Bintang Pratama" oninput="syncStudentName(this.value)"
+                style="width:100%; background:var(--bg-surface); border:1.5px solid var(--border); border-radius:var(--radius-sm); color:#fff; font-size:14px; font-weight:700; padding:8px 12px; outline:none;">
+            </div>
+            <div>
+              <label
+                style="font-size:11.5px; color:var(--text-muted); font-weight:700; display:block; margin-bottom:4px;">Kelas
+                & Sekolah:</label>
+              <input type="text" id="heroClassInput" value="Kelas 7-B • SMP Negeri 1"
+                oninput="syncStudentClass(this.value)"
+                style="width:100%; background:var(--bg-surface); border:1.5px solid var(--border); border-radius:var(--radius-sm); color:#fff; font-size:14px; font-weight:700; padding:8px 12px; outline:none;">
+            </div>
+          </div>
+
+          <div style="margin-top:14px;">
+            <div style="font-size:11.5px; color:var(--text-muted); font-weight:700; margin-bottom:6px;">Pilih Avatar
+              Karaktermu:</div>
+            <div class="avatar-grid">
+              <div class="avatar-choice-card selected" onclick="selectAvatar('🧑‍💻', 'Arkan', this)">
+                <span class="avatar-choice-emoji">🧑‍💻</span>
+                <span class="avatar-choice-name">Arkan</span>
+              </div>
+              <div class="avatar-choice-card" onclick="selectAvatar('👩‍💻', 'Nabila', this)">
+                <span class="avatar-choice-emoji">👩‍💻</span>
+                <span class="avatar-choice-name">Nabila</span>
+              </div>
+              <div class="avatar-choice-card" onclick="selectAvatar('🚀', 'Bintang', this)">
+                <span class="avatar-choice-emoji">🚀</span>
+                <span class="avatar-choice-name">Bintang</span>
+              </div>
+              <div class="avatar-choice-card" onclick="selectAvatar('🎯', 'Maya', this)">
+                <span class="avatar-choice-emoji">🎯</span>
+                <span class="avatar-choice-name">Maya</span>
+              </div>
+              <div class="avatar-choice-card" onclick="selectAvatar('🦊', 'Fikri', this)">
+                <span class="avatar-choice-emoji">🦊</span>
+                <span class="avatar-choice-name">Fikri</span>
+              </div>
+              <div class="avatar-choice-card" onclick="selectAvatar('🌟', 'Zahra', this)">
+                <span class="avatar-choice-emoji">🌟</span>
+                <span class="avatar-choice-name">Zahra</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6 Capaian Pembelajaran -->
+        <div style="margin-bottom:20px;">
+          <h3
+            style="font-size:16px; font-weight:800; color:#fff; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+            <span>🎯</span> Apa yang Akan Kamu Kuasai Hari Ini?
+          </h3>
+          <div class="grid-3">
+            <div class="box-info">
+              <div class="box-icon">🌐</div>
+              <div class="box-title">1. Fungsi Google Meet</div>
+              <div class="box-desc">Memahami fungsi panggilan video untuk belajar, diskusi kelompok, dan presentasi
+                online.</div>
+            </div>
+            <div class="box-info">
+              <div class="box-icon">🔗</div>
+              <div class="box-title">2. Buat & Gabung Rapat</div>
+              <div class="box-desc">Membuat tautan rapat instan serta bergabung melalui link dan kode rapat 10 huruf.
+              </div>
+            </div>
+            <div class="box-info">
+              <div class="box-icon">🎙️</div>
+              <div class="box-title">3. Atur Audio & Kamera</div>
+              <div class="box-desc">Menguasai mic (mute/unmute), webcam pratinjau, speaker, dan tombol di ruang rapat.
+              </div>
+            </div>
+            <div class="box-info">
+              <div class="box-icon">🖥️</div>
+              <div class="box-title">4. Berbagi Layar (Share)</div>
+              <div class="box-desc">Memilih antara Tab browser, Jendela aplikasi, atau Seluruh layar dengan aman.</div>
+            </div>
+            <div class="box-info">
+              <div class="box-icon">🗣️</div>
+              <div class="box-title">5. Presenter Percaya Diri</div>
+              <div class="box-desc">Menerapkan rumus 3 bagian (Pembukaan, Isi, Penutup) dengan runtut dan santun.</div>
+            </div>
+            <div class="box-info">
+              <div class="box-icon">🛡️</div>
+              <div class="box-title">6. Etika & Keamanan</div>
+              <div class="box-desc">Menjaga privasi data, melindungi tautan rapat, dan mengatasi masalah teknis tanpa
+                panik.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Button -->
+        <div style="text-align:center; padding:18px 0 6px;">
+          <button class="btn" style="font-size:15px; padding:12px 30px;" onclick="jumpToPage(1)">
+            🚀 Mulai Misi 01: Mengenal Google Meet
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- PAGE 1: MISI 01 - MENGENAL GOOGLE MEET     -->
+    <!-- ========================================== -->
+    <section class="mission-page" id="page1">
+      <div class="card-mission">
+        <div class="mission-hero-header">
+          <div class="mission-title-group">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+              <span
+                style="background:var(--purple); color:#fff; font-size:11px; font-weight:900; padding:3px 9px; border-radius:4px;">MISI
+                01</span>
+              <span style="color:var(--text-muted); font-size:12px;">Fondasi Komunikasi Digital</span>
+            </div>
+            <h2>Mengenal Google Meet</h2>
+            <p>Layanan pertemuan virtual untuk berdiskusi, belajar, dan membagikan karyamu.</p>
+          </div>
+          <div class="mission-xp-badge">+25 XP</div>
+        </div>
+
+        <div class="notice-box cyan">
+          <span class="notice-icon">💡</span>
+          <div>
+            <strong>Apa itu Google Meet?</strong><br>
+            Google Meet adalah layanan untuk melakukan pertemuan melalui internet. Kita dapat berbicara, melihat peserta
+            lain, dan membagikan layar tanpa harus berada di tempat yang sama!
+          </div>
+        </div>
+
+        <!-- 4 Penggunaan Utama -->
+        <h3 style="font-size:15px; font-weight:800; color:#fff; margin:18px 0 10px;">🌟 4 Contoh Penggunaan Google Meet
+          untuk Pelajar SMP:</h3>
+        <div class="grid-2">
+          <div class="box-info">
+            <div class="box-icon">🏠</div>
+            <div class="box-title">1. Belajar Bersama Guru dari Rumah</div>
+            <div class="box-desc">Mengikuti kelas saat pembelajaran jarak jauh, bimbingan tugas, atau konsultasi materi
+              sekolah.</div>
+          </div>
+          <div class="box-info">
+            <div class="box-icon">👥</div>
+            <div class="box-title">2. Diskusi Tugas Kelompok</div>
+            <div class="box-desc">Membahas pembagian tugas kelompok bersama teman tanpa harus bepergian keluar rumah.
+            </div>
+          </div>
+          <div class="box-info">
+            <div class="box-icon">📅</div>
+            <div class="box-title">3. Mengikuti Rapat OSIS / Ekskul</div>
+            <div class="box-desc">Koordinasi kegiatan sekolah, latihan pidato, atau pertemuan club komputer secara
+              online.</div>
+          </div>
+          <div class="box-info">
+            <div class="box-icon">📊</div>
+            <div class="box-title">4. Menjelaskan Tugas Presentasi</div>
+            <div class="box-desc">Menampilkan slide PowerPoint, Canva, atau Word ke layar peserta lain dan
+              menerangkannya.</div>
+          </div>
+        </div>
+
+        <!-- 3 Istilah Kunci Table -->
+        <div style="margin-top:22px;">
+          <h3 style="font-size:15px; font-weight:800; color:#fff; margin-bottom:10px;">📖 3 Istilah Penting yang Wajib
+            Kamu Pahami:</h3>
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th style="width:25%;">Istilah</th>
+                <th style="width:40%;">Artinya</th>
+                <th style="width:35%;">Contoh dalam Pertemuan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong style="color:var(--cyan);">Meeting</strong></td>
+                <td>Pertemuan atau rapat online yang terhubung melalui internet.</td>
+                <td>"Guru mengadakan <em>meeting</em> pukul 09.00 pagi."</td>
+              </tr>
+              <tr>
+                <td><strong style="color:var(--yellow);">Participant</strong></td>
+                <td>Orang yang mengikuti dan hadir di dalam rapat.</td>
+                <td>"Jumlah <em>participants</em> di kelas 7B ada 32 siswa."</td>
+              </tr>
+              <tr>
+                <td><strong style="color:var(--green);">Screen Sharing</strong></td>
+                <td>Membagikan tampilan layar komputer kepada peserta lain.</td>
+                <td>"Arkan melakukan <em>screen sharing</em> slide tugasnya."</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Interactive Cek Pemahaman -->
+        <div class="session-quiz">
+          <div class="session-quiz-header">
+            <span class="session-quiz-tag">CEK PEMAHAMAN MISI 01</span>
+            <span style="font-size:11px; color:var(--yellow); font-weight:700;">+15 XP</span>
+          </div>
+          <p style="font-size:13px; font-weight:700; color:#fff; margin-bottom:10px;">
+            Menurutmu, dalam kondisi apa Google Meet jauh lebih menguntungkan dan praktis dibanding bertemu langsung di
+            sekolah?
+          </p>
+          <button class="opt-btn" onclick="checkMisiQuiz(1, false, this)">
+            <span>A. Saat ingin bermain bola bersama di lapangan sekolah</span>
+            <span class="res-icon"></span>
+          </button>
+          <button class="opt-btn" onclick="checkMisiQuiz(1, true, this)">
+            <span>B. Saat hari libur atau hujan lebat tetapi kelompok harus segera mendiskusikan tugas</span>
+            <span class="res-icon"></span>
+          </button>
+          <button class="opt-btn" onclick="checkMisiQuiz(1, false, this)">
+            <span>C. Saat ingin meminjam pensil teman di meja sebelah</span>
+            <span class="res-icon"></span>
+          </button>
+          <div id="misiFb1" style="font-size:12px; margin-top:8px; display:none; padding:8px 12px; border-radius:6px;">
+          </div>
+        </div>
+
+        <!-- Action Navigation -->
+        <div style="display:flex; justify-content:space-between; margin-top:20px;">
+          <button class="btn secondary" onclick="jumpToPage(0)">← Beranda</button>
+          <button class="btn" onclick="jumpToPage(2)">Lanjut ke Misi 02: Persiapan Rapat →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- PAGE 2: MISI 02 - PERSIAPAN SEBELUM RAPAT  -->
+    <!-- ========================================== -->
+    <section class="mission-page" id="page2">
+      <div class="card-mission">
+        <div class="mission-hero-header">
+          <div class="mission-title-group">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+              <span
+                style="background:var(--purple); color:#fff; font-size:11px; font-weight:900; padding:3px 9px; border-radius:4px;">MISI
+                02</span>
+              <span style="color:var(--text-muted); font-size:12px;">Kesiapan Teknis & Lingkungan</span>
+            </div>
+            <h2>Persiapan Sebelum Rapat</h2>
+            <p>Persiapan yang baik membuat rapat berjalan lancar tanpa hambatan teknis yang membuang waktu.</p>
+          </div>
+          <div class="mission-xp-badge">+35 XP</div>
+        </div>
+
+        <div class="notice-box yellow">
+          <span class="notice-icon">⚠️</span>
+          <div>
+            <strong>Ingat Pesan Emas Ini:</strong><br>
+            Persiapan yang baik membuat rapat berjalan lebih lancar. Jangan sampai waktu presentasimu habis hanya karena
+            file belum dibuka atau mikrofon belum berfungsi!
+          </div>
+        </div>
+
+        <!-- Interactive 7 Checklist Items -->
+        <div style="margin:20px 0;">
+          <div
+            style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+            <h3 style="font-size:15.5px; font-weight:800; color:#fff;">📋 Checklist Kesiapan Sebelum Mulai (Klik Setiap
+              Kotak):</h3>
+            <span
+              style="background:rgba(124, 58, 237, 0.2); color:var(--violet); font-size:12px; font-weight:900; padding:4px 10px; border-radius:999px;"
+              id="chkCountLabel">
+              Terselesaikan: 0/7
+            </span>
+          </div>
+
+          <div id="checklistGroup">
+            <div class="checklist-item" onclick="toggleCheckItem(1, this)">
+              <div class="custom-check-box">✓</div>
+              <div>
+                <div class="checklist-text">1. Laptop atau komputer siap digunakan</div>
+                <div class="checklist-sub">Baterai terisi penuh atau terhubung ke charger agar laptop tidak tiba-tiba
+                  mati saat rapat.</div>
+              </div>
+            </div>
+
+            <div class="checklist-item" onclick="toggleCheckItem(2, this)">
+              <div class="custom-check-box">✓</div>
+              <div>
+                <div class="checklist-text">2. Internet tersambung dengan baik</div>
+                <div class="checklist-sub">Uji coba membuka halaman web untuk memastikan koneksi stabil dan lancar.
+                </div>
+              </div>
+            </div>
+
+            <div class="checklist-item" onclick="toggleCheckItem(3, this)">
+              <div class="custom-check-box">✓</div>
+              <div>
+                <div class="checklist-text">3. Browser dapat membuka Google Meet</div>
+                <div class="checklist-sub">Gunakan browser modern seperti Google Chrome, Microsoft Edge, atau Mozilla
+                  Firefox.</div>
+              </div>
+            </div>
+
+            <div class="checklist-item" onclick="toggleCheckItem(4, this)">
+              <div class="custom-check-box">✓</div>
+              <div>
+                <div class="checklist-text">4. Kamera dan mikrofon tersedia jika diperlukan</div>
+                <div class="checklist-sub">Pastikan webcam tidak tertutup stiker dan mikrofon internal/headset
+                  berfungsi.</div>
+              </div>
+            </div>
+
+            <div class="checklist-item" onclick="toggleCheckItem(5, this)">
+              <div class="custom-check-box">✓</div>
+              <div>
+                <div class="checklist-text">5. Tempat belajar cukup tenang dan terang</div>
+                <div class="checklist-sub">Cari sudut meja yang tidak berisik dari suara TV/kendaraan, dan lampu
+                  menyinari wajah (bukan backlight).</div>
+              </div>
+            </div>
+
+            <div class="checklist-item" onclick="toggleCheckItem(6, this)">
+              <div class="custom-check-box">✓</div>
+              <div>
+                <div class="checklist-text">6. File presentasi sudah disiapkan dan dibuka</div>
+                <div class="checklist-sub">Buka terlebih dahulu slide PowerPoint, Google Slides, atau Canva di jendela
+                  terpisah sebelum rapat dimulai.</div>
+              </div>
+            </div>
+
+            <div class="checklist-item" onclick="toggleCheckItem(7, this)">
+              <div class="custom-check-box">✓</div>
+              <div>
+                <div class="checklist-text">7. Tab dan aplikasi pribadi yang tidak diperlukan sudah ditutup</div>
+                <div class="checklist-sub">Tutup WhatsApp Web, game, media sosial, atau tab yang memuat password agar
+                  privasimu tetap aman terjaga.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="checkCompleteNotice" style="display:none;" class="notice-box green">
+          <span class="notice-icon">🎉</span>
+          <div>
+            <strong>Luar Biasa! Semua 7 Persiapan Telah Terpenuhi (+35 XP)!</strong><br>
+            Kamu sudah siap memasuki ruang rapat digital seperti presenter profesional!
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; margin-top:20px;">
+          <button class="btn secondary" onclick="jumpToPage(1)">← Misi 01</button>
+          <button class="btn" onclick="jumpToPage(3)">Lanjut ke Misi 03: Membuat Rapat →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- PAGE 3: MISI 03 - MEMBUAT RAPAT MEET       -->
+    <!-- ========================================== -->
+    <section class="mission-page" id="page3">
+      <div class="card-mission">
+        <div class="mission-hero-header">
+          <div class="mission-title-group">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+              <span
+                style="background:var(--purple); color:#fff; font-size:11px; font-weight:900; padding:3px 9px; border-radius:4px;">MISI
+                03</span>
+              <span style="color:var(--text-muted); font-size:12px;">Menjadi Host Rapat</span>
+            </div>
+            <h2>Membuat Rapat Google Meet</h2>
+            <p>Belajar membuat ruang rapat sendiri dan membagikan link ke teman kelompok atau tutor.</p>
+          </div>
+          <div class="mission-xp-badge">+30 XP</div>
+        </div>
+
+        <!-- 3 Langkah Pembuatan -->
+        <div class="grid-3" style="margin-bottom:20px;">
+          <div class="box-info accent">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <span class="box-icon" style="margin:0;">1️⃣</span>
+              <span style="font-size:11px; font-weight:800; color:var(--violet);">LANGKAH 1</span>
+            </div>
+            <div class="box-title">Buka meet.google.com</div>
+            <div class="box-desc">
+              Buka browser favoritmu, ketik <strong>meet.google.com</strong> pada address bar. Pastikan kamu sudah masuk
+              (sign in) menggunakan akun Google pribadimu atau akun belajar.id sekolah.
+            </div>
+          </div>
+
+          <div class="box-info accent-cyan">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <span class="box-icon" style="margin:0;">2️⃣</span>
+              <span style="font-size:11px; font-weight:800; color:var(--cyan);">LANGKAH 2</span>
+            </div>
+            <div class="box-title">Klik "Rapat Baru" (New Meeting)</div>
+            <div class="box-desc">
+              Kamu akan melihat tombol biru besar <strong>"Rapat baru"</strong>. Klik tombol ini untuk memilih tipe
+              rapat yang ingin kamu buat.
+            </div>
+          </div>
+
+          <div class="box-info accent">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <span class="box-icon" style="margin:0;">3️⃣</span>
+              <span style="font-size:11px; font-weight:800; color:var(--green);">LANGKAH 3</span>
+            </div>
+            <div class="box-title">Bagikan Link Secara Privat</div>
+            <div class="box-desc">
+              Salin tautan rapat (misal: <em>meet.google.com/abc-defg-hij</em>) lalu kirim hanya kepada orang yang
+              diundang lewat pesan privat.
+            </div>
+          </div>
+        </div>
+
+        <!-- Detail 3 Opsi di Tombol Rapat Baru -->
+        <h3 style="font-size:15px; font-weight:800; color:#fff; margin-bottom:12px;">🔍 3 Opsi Pilihan Saat Klik "Rapat
+          Baru":</h3>
+        <div class="grid-3" style="margin-bottom:20px;">
+          <div style="background:var(--bg-surface); border:1px solid var(--border); border-radius:10px; padding:14px;">
+            <strong style="color:var(--yellow); font-size:13.5px;">⏳ Buat rapat untuk nanti</strong>
+            <p style="font-size:12px; color:var(--text-muted); margin-top:6px;">
+              Sistem membuatkan link rapat yang bisa kamu simpan dan bagikan terlebih dahulu, untuk digunakan beberapa
+              jam atau hari kemudian.
+            </p>
+          </div>
+          <div style="background:var(--bg-surface); border:1px solid var(--border); border-radius:10px; padding:14px;">
+            <strong style="color:var(--green); font-size:13.5px;">⚡ Mulai rapat instan</strong>
+            <p style="font-size:12px; color:var(--text-muted); margin-top:6px;">
+              Langsung membuka ruangan rapat saat itu juga dalam hitungan detik. Cocok saat kamu dan kelompok ingin
+              langsung praktik sekarang.
+            </p>
+          </div>
+          <div style="background:var(--bg-surface); border:1px solid var(--border); border-radius:10px; padding:14px;">
+            <strong style="color:var(--cyan); font-size:13.5px;">📅 Jadwalkan di Google Kalender</strong>
+            <p style="font-size:12px; color:var(--text-muted); margin-top:6px;">
+              Mengatur tanggal, jam rapat, dan mengirim undangan otomatis ke email teman kelompokmu lewat kalender
+              Google.
+            </p>
+          </div>
+        </div>
+
+        <!-- Interactive Generator Simulasi -->
+        <div
+          style="background:rgba(20,20,28,0.9); border:1.5px solid var(--border); border-radius:var(--radius-md); padding:18px; margin-bottom:18px;">
+          <div
+            style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+            <h4 style="font-size:14px; font-weight:800; color:#fff;">🎮 Simulator Pembuatan Link Rapat:</h4>
+            <span style="font-size:11.5px; color:var(--cyan); font-weight:700;">Simulasi Praktis Tanpa Harus Buka Tab
+              Lain</span>
+          </div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:12px;">
+            <button class="btn sm" onclick="simulateCreateMeeting('instant')">⚡ Klik: Mulai Rapat Instan</button>
+            <button class="btn secondary sm" onclick="simulateCreateMeeting('later')">⏳ Klik: Buat Rapat untuk
+              Nanti</button>
+          </div>
+          <div id="simMeetingResult"
+            style="display:none; background:var(--bg-surface); border:1px dashed var(--cyan); border-radius:8px; padding:12px; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+            <div>
+              <div style="font-size:11px; color:var(--text-muted); font-weight:700;">Link Rapat Dibuat:</div>
+              <code id="simLinkText"
+                style="font-size:14px; color:var(--yellow); font-weight:800;">meet.google.com/xyz-qwer-vbn</code>
+            </div>
+            <button class="btn cyan sm" onclick="copySimulatedMeetLink()">📋 Salin Link Rapat</button>
+          </div>
+        </div>
+
+        <div class="notice-box">
+          <span class="notice-icon">🔒</span>
+          <div>
+            <strong>Catatan Keamanan Penting:</strong> Link rapat tidak perlu disebarkan ke media sosial atau forum
+            publik. Bagikan hanya kepada orang yang memang perlu bergabung agar tidak ada orang asing yang masuk dan
+            mengganggu jalannya rapat!
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; margin-top:20px;">
+          <button class="btn secondary" onclick="jumpToPage(2)">← Misi 02</button>
+          <button class="btn" onclick="jumpToPage(4)">Lanjut ke Misi 04: Bergabung ke Rapat →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- PAGE 4: MISI 04 - BERGABUNG KE RAPAT       -->
+    <!-- ========================================== -->
+    <section class="mission-page" id="page4">
+      <div class="card-mission">
+        <div class="mission-hero-header">
+          <div class="mission-title-group">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+              <span
+                style="background:var(--purple); color:#fff; font-size:11px; font-weight:900; padding:3px 9px; border-radius:4px;">MISI
+                04</span>
+              <span style="color:var(--text-muted); font-size:12px;">Menjadi Peserta Rapat</span>
+            </div>
+            <h2>Bergabung ke Rapat (Join Meeting)</h2>
+            <p>Dua cara mudah bergabung saat guru atau teman mengirimkan undangan rapat.</p>
+          </div>
+          <div class="mission-xp-badge">+25 XP</div>
+        </div>
+
+        <div class="grid-2" style="margin-bottom:20px;">
+          <!-- Cara 1 -->
+          <div class="box-info">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+              <span
+                style="background:var(--purple); color:#fff; font-size:12px; font-weight:900; padding:2px 8px; border-radius:4px;">CARA
+                1</span>
+              <strong style="font-size:14px; color:#fff;">Menggunakan Link Langsung</strong>
+            </div>
+            <ol style="font-size:12.5px; color:#CBD5E1; padding-left:18px; line-height:1.6;">
+              <li>Buka pesan di WhatsApp Web, Google Classroom, atau email yang memuat link rapat.</li>
+              <li>Klik link tersebut (misal: <em>https://meet.google.com/abc-defg-hij</em>).</li>
+              <li>Browser akan membuka halaman ruang tunggu pratinjau (Lobby).</li>
+              <li>Periksa tampilan kamera dan mikrofon.</li>
+              <li>Klik tombol hijau <strong>"Gabung sekarang" (Join now)</strong>.</li>
+              <li>Jika ada izin masuk, tunggu penyelenggara (host) mengeklik <em>"Admit" / "Izinkan"</em>.</li>
+            </ol>
+          </div>
+
+          <!-- Cara 2 -->
+          <div class="box-info">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+              <span
+                style="background:var(--cyan); color:#fff; font-size:12px; font-weight:900; padding:2px 8px; border-radius:4px;">CARA
+                2</span>
+              <strong style="font-size:14px; color:#fff;">Menggunakan Kode Rapat</strong>
+            </div>
+            <ol style="font-size:12.5px; color:#CBD5E1; padding-left:18px; line-height:1.6;">
+              <li>Buka situs <strong>meet.google.com</strong>.</li>
+              <li>Di samping tombol "Rapat baru", terdapat kotak teks <em>"Masukkan kode atau link"</em>.</li>
+              <li>Ketik 10 huruf kode rapat (contoh: <code>abc-defg-hij</code>). Tanda strip (-) boleh diketik atau
+                otomatis.</li>
+              <li>Klik tombol <strong>"Gabung"</strong> di sebelahnya.</li>
+              <li>Kamu akan diarahkan ke ruang persiapan sebelum bergabung.</li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- Interactive Lobby Simulator -->
+        <div class="meet-lobby-sim">
+          <div
+            style="background:#202124; padding:10px 16px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #333;">
+            <span style="font-size:12px; font-weight:800; color:#fff; display:flex; align-items:center; gap:6px;">
+              <span>🟢</span> Google Meet — Ruang Persiapan (Green Room)
+            </span>
+            <span style="font-size:11px; color:#9AA0A6;" id="simRoomCodeText">Kode: smp-hebat-p12</span>
+          </div>
+
+          <div class="meet-cam-screen" id="simCamScreen">
+            <div class="meet-cam-avatar" id="simCamAvatar">🧑‍💻</div>
+            <div id="simCamOffLabel" style="display:none; color:#9AA0A6; font-size:13px; font-weight:700;">Kamera Sedang
+              Dinonaktifkan</div>
+            <div class="meet-cam-watermark">
+              <span id="simWatermarkName">Bintang Pratama</span>
+              <span class="audio-wave-bar" id="simAudioWave">
+                <span></span><span></span><span></span>
+              </span>
+            </div>
+          </div>
+
+          <div class="meet-control-bar">
+            <div style="display:flex; gap:10px;">
+              <button class="meet-round-btn active-btn" id="btnToggleSimMic" onclick="toggleSimMic()"
+                title="Aktif/Mute Mikrofon">🎙️</button>
+              <button class="meet-round-btn active-btn" id="btnToggleSimCam" onclick="toggleSimCam()"
+                title="Aktif/Matikan Kamera">📷</button>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <button class="btn green sm" id="btnJoinSimRoom" onclick="joinSimulatedRoom()">
+                🚀 Gabung Sekarang (Join Now)
+              </button>
+            </div>
+          </div>
+        </div>
+        <div id="joinStatusAlert" style="display:none; font-size:12.5px; margin-top:8px;" class="notice-box green">
+          <span class="notice-icon">✅</span>
+          <div id="joinStatusText">Host (Tutor) telah mengizinkanmu masuk ke ruang rapat! Selamat datang!</div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; margin-top:20px;">
+          <button class="btn secondary" onclick="jumpToPage(3)">← Misi 03</button>
+          <button class="btn" onclick="jumpToPage(5)">Lanjut ke Misi 05: Audio & Kamera →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- PAGE 5: MISI 05 - AUDIO, KAMERA, SPEAKER   -->
+    <!-- ========================================== -->
+    <section class="mission-page" id="page5">
+      <div class="card-mission">
+        <div class="mission-hero-header">
+          <div class="mission-title-group">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+              <span
+                style="background:var(--purple); color:#fff; font-size:11px; font-weight:900; padding:3px 9px; border-radius:4px;">MISI
+                05</span>
+              <span style="color:var(--text-muted); font-size:12px;">Peralatan Suara & Video</span>
+            </div>
+            <h2>Menguasai Kamera, Mikrofon, dan Speaker</h2>
+            <p>Tiga perangkat pokok agar suara terdengar jernih, video terlihat rapi, dan suara peserta terdengar jelas.
+            </p>
+          </div>
+          <div class="mission-xp-badge">+30 XP</div>
+        </div>
+
+        <!-- 3 Perangkat -->
+        <div class="grid-3" style="margin-bottom:20px;">
+          <div class="box-info accent">
+            <div class="box-icon">🎙️</div>
+            <div class="box-title">Mikrofon (Mic)</div>
+            <div class="box-desc">
+              Digunakan untuk berbicara. Saat tombol mikrofon menunjukkan kondisi nonaktif atau tercoret merah (Mute),
+              suara kita tidak akan terdengar oleh peserta lain.
+            </div>
+          </div>
+
+          <div class="box-info accent-cyan">
+            <div class="box-icon">📷</div>
+            <div class="box-title">Kamera (Webcam)</div>
+            <div class="box-desc">
+              Digunakan untuk menampilkan wajah kita. Kamera bisa dimatikan sementara saat internet sedang lemot atau
+              saat kamu sedang tidak berbicara.
+            </div>
+          </div>
+
+          <div class="box-info accent">
+            <div class="box-icon">🔊</div>
+            <div class="box-title">Speaker / Headset</div>
+            <div class="box-desc">
+              Digunakan untuk mendengar suara peserta lain atau penjelasan guru. Pastikan volume komputer tidak dalam
+              keadaan bisu (0%).
+            </div>
+          </div>
+        </div>
+
+        <!-- 5 Langkah Pemeriksaan Audio/Video -->
+        <div
+          style="background:var(--bg-surface); border:1px solid var(--border); border-radius:var(--radius-md); padding:18px; margin-bottom:20px;">
+          <h3 style="font-size:15px; font-weight:800; color:#fff; margin-bottom:10px;">🛠️ 5 Langkah Pemeriksaan Sebelum
+            Menekan Gabung:</h3>
+          <ol style="font-size:13px; color:#D1D5DB; padding-left:20px; line-height:1.65;">
+            <li><strong>Lihat pratinjau kamera:</strong> Apakah wajahmu berada di tengah dan pencahayaan cukup terang?
+            </li>
+            <li><strong>Ucapkan beberapa kata:</strong> Perhatikan apakah lingkaran atau indikator titik mikrofon
+              bergerak naik-turun merespons suaramu.</li>
+            <li><strong>Uji speaker laptop:</strong> Klik menu setelan audio jika ragu untuk memutar bunyi tes.</li>
+            <li><strong>Pilih perangkat yang tepat:</strong> Jika kamu menggunakan headset, pastikan Meet memilih
+              mikrofon headset, bukan mic internal laptop yang jauh.</li>
+            <li><strong>Klik gabung</strong> dengan percaya diri setelah semua perangkat terkonfirmasi aktif dan siap.
+            </li>
+          </ol>
+        </div>
+
+        <!-- Interactive Hardware Test Box -->
+        <div class="grid-2" style="margin-bottom:20px;">
+          <!-- Tes Mic -->
+          <div
+            style="background:rgba(20,20,28,0.9); border:1.5px solid var(--border); border-radius:10px; padding:16px;">
+            <h4 style="font-size:14px; font-weight:800; color:#fff; margin-bottom:8px;">🎙️ Uji Coba Mikrofon Virtual:
+            </h4>
+            <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Klik tombol di bawah untuk simulasi
+              berbicara dan melihat respons gelombang suara:</p>
+            <div style="display:flex; align-items:center; gap:12px; margin-bottom:10px;">
+              <button class="btn sm cyan" id="btnTestMic" onclick="testMicSimulator()">🎤 Uji Suara Mic</button>
+              <div id="micTestWave" class="audio-wave-bar" style="height:24px;">
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+            </div>
+            <div id="micTestResult" style="font-size:11.5px; color:var(--text-dim);">Status: Menunggu uji coba...</div>
+          </div>
+
+          <!-- Tes Speaker -->
+          <div
+            style="background:rgba(20,20,28,0.9); border:1.5px solid var(--border); border-radius:10px; padding:16px;">
+            <h4 style="font-size:14px; font-weight:800; color:#fff; margin-bottom:8px;">🔊 Uji Coba Bunyi Speaker:</h4>
+            <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Klik tombol di bawah untuk memutar
+              nada uji coba audio berfrekuensi jernih:</p>
+            <div style="display:flex; align-items:center; gap:12px; margin-bottom:10px;">
+              <button class="btn sm secondary" onclick="testSpeakerSound()">🔔 Putar Nada Uji Speaker</button>
+            </div>
+            <div id="speakerTestResult" style="font-size:11.5px; color:var(--text-dim);">Status: Klik tombol untuk
+              menguji suara.</div>
+          </div>
+        </div>
+
+        <!-- Latihan 30 Detik Box -->
+        <div class="notice-box green">
+          <span class="notice-icon">⏱️</span>
+          <div>
+            <strong>Latihan Berbicara 30 Detik:</strong><br>
+            Coba lafalkan kalimat pembuka ini dengan lantang dan percaya diri di depan komputermu:<br>
+            <em style="color:#fff; font-weight:700; display:block; margin-top:4px;">
+              "Halo semuanya! Nama saya <span class="sync-name">Bintang Pratama</span>, dan hari ini saya belajar
+              menggunakan Google Meet dengan lancar."
+            </em>
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; margin-top:20px;">
+          <button class="btn secondary" onclick="jumpToPage(4)">← Misi 04</button>
+          <button class="btn" onclick="jumpToPage(6)">Lanjut ke Misi 06: Bilah Tombol Meet →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- PAGE 6: MISI 06 - TOMBOL PENTING DI MEET   -->
+    <!-- ========================================== -->
+    <section class="mission-page" id="page6">
+      <div class="card-mission">
+        <div class="mission-hero-header">
+          <div class="mission-title-group">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+              <span
+                style="background:var(--purple); color:#fff; font-size:11px; font-weight:900; padding:3px 9px; border-radius:4px;">MISI
+                06</span>
+              <span style="color:var(--text-muted); font-size:12px;">Bilah Kontrol Utama</span>
+            </div>
+            <h2>Mengenal Tombol Penting di Ruang Rapat</h2>
+            <p>Kuasai fungsi setiap tombol di bagian bawah Google Meet agar kamu bisa berinteraksi secara aktif dan
+              sopan.</p>
+          </div>
+          <div class="mission-xp-badge">+35 XP</div>
+        </div>
+
+        <!-- Interactive Toolbar Bar Simulator -->
+        <div
+          style="background:#18191D; border:2px solid var(--border); border-radius:var(--radius-md); padding:16px; margin-bottom:20px; text-align:center;">
+          <div style="font-size:11.5px; color:var(--text-muted); margin-bottom:12px; font-weight:700;">
+            🎮 KLIK SETIAP TOMBOL DI BAWAH UNTUK MELIHAT FUNGSI DAN EFEK NYATANYA:
+          </div>
+
+          <div
+            style="display:inline-flex; align-items:center; gap:10px; background:#101014; padding:10px 18px; border-radius:999px; border:1px solid #333; flex-wrap:wrap; justify-content:center;">
+            <button class="meet-round-btn active-btn" id="tbMicBtn" onclick="inspectToolbarBtn('mic')"
+              title="Mikrofon">🎙️</button>
+            <button class="meet-round-btn active-btn" id="tbCamBtn" onclick="inspectToolbarBtn('cam')"
+              title="Kamera">📷</button>
+            <button class="meet-round-btn active-btn" id="tbHandBtn" onclick="inspectToolbarBtn('hand')"
+              title="Angkat Tangan">✋</button>
+            <button class="meet-round-btn active-btn" id="tbShareBtn" onclick="inspectToolbarBtn('share')"
+              title="Presentasikan Sekarang">📤</button>
+            <button class="meet-round-btn active-btn" id="tbChatBtn" onclick="inspectToolbarBtn('chat')"
+              title="Chat / Pesan">💬</button>
+            <button class="meet-round-btn active-btn" id="tbPeopleBtn" onclick="inspectToolbarBtn('people')"
+              title="Daftar Peserta">👥</button>
+            <button class="meet-round-btn muted-btn" id="tbLeaveBtn" onclick="inspectToolbarBtn('leave')"
+              title="Keluar Panggilan">📞</button>
+          </div>
+
+          <div id="toolbarInspectorCard"
+            style="margin-top:14px; background:var(--bg-surface); border:1px solid var(--cyan); border-radius:8px; padding:12px; font-size:13px; text-align:left;">
+            <strong id="tbInsTitle" style="color:var(--cyan);">🎙️ Tombol Mikrofon:</strong>
+            <span id="tbInsDesc" style="color:#D1D5DB; margin-left:6px;">Mengaktifkan atau membisukan suaramu. Selalu
+              bisukan (mute) saat orang lain sedang menjelaskan materi.</span>
+          </div>
+        </div>
+
+        <!-- Tabel Ringkasan Fitur Lengkap -->
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th style="width:28%;">Tombol / Fitur</th>
+              <th style="width:42%;">Kegunaan Utama</th>
+              <th style="width:30%;">Etika & Aturan Penggunaan</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>🎙️ Mikrofon (Mic)</strong></td>
+              <td>Mengaktifkan atau membisukan suara kamu.</td>
+              <td>Mute jika bukan giliranmu berbicara.</td>
+            </tr>
+            <tr>
+              <td><strong>📷 Kamera (Webcam)</strong></td>
+              <td>Mengaktifkan atau mematikan tampilan video.</td>
+              <td>Nyalakan saat guru meminta atau saat sedang presentasi.</td>
+            </tr>
+            <tr>
+              <td><strong>💬 Chat / Pesan</strong></td>
+              <td>Mengirim pesan tertulis ke seluruh peserta rapat.</td>
+              <td>Gunakan untuk pertanyaan singkat tanpa memotong suara.</td>
+            </tr>
+            <tr>
+              <td><strong>👥 Peserta (People)</strong></td>
+              <td>Melihat siapa saja yang telah bergabung.</td>
+              <td>Mengecek apakah guru dan teman kelompok sudah hadir.</td>
+            </tr>
+            <tr>
+              <td><strong>✋ Angkat Tangan (Raise Hand)</strong></td>
+              <td>Memberi tanda visual bahwa kamu ingin bertanya atau berpendapat.</td>
+              <td>Tunggu hingga dipersilakan oleh pembicara/guru.</td>
+            </tr>
+            <tr>
+              <td><strong>📤 Presentasikan Sekarang</strong></td>
+              <td>Membagikan materi slide, dokumen, atau layarmu.</td>
+              <td>Pastikan file sudah terbuka dan materi siap.</td>
+            </tr>
+            <tr>
+              <td><strong>📞 Keluar Panggilan (Leave)</strong></td>
+              <td>Meninggalkan ruang rapat Google Meet.</td>
+              <td>Ucapkan pamit atau terima kasih sebelum keluar.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Mini Latihan Pemahaman -->
+        <div class="session-quiz">
+          <div class="session-quiz-header">
+            <span class="session-quiz-tag">KUIS KILAT MISI 06</span>
+            <span style="font-size:11px; color:var(--yellow); font-weight:700;">+15 XP</span>
+          </div>
+          <p style="font-size:13px; font-weight:700; color:#fff; margin-bottom:10px;">
+            Situasi: Guru sedang menjelaskan materi dan kamu memiliki pertanyaan mendesak, tetapi tidak ingin memotong
+            penjelasan guru secara tiba-tiba. Tombol apa yang paling tepat kamu gunakan?
+          </p>
+          <button class="opt-btn" onclick="checkMisiQuiz(6, false, this)">
+            <span>A. Menyalakan mikrofon dan berteriak "Bu guru mau tanya!"</span>
+            <span class="res-icon"></span>
+          </button>
+          <button class="opt-btn" onclick="checkMisiQuiz(6, true, this)">
+            <span>B. Menekan tombol Angkat Tangan (✋) atau mengetik pertanyaan di kolom Chat (💬)</span>
+            <span class="res-icon"></span>
+          </button>
+          <button class="opt-btn" onclick="checkMisiQuiz(6, false, this)">
+            <span>C. Langsung menekan tombol Keluar Panggilan (📞)</span>
+            <span class="res-icon"></span>
+          </button>
+          <div id="misiFb6" style="font-size:12px; margin-top:8px; display:none; padding:8px 12px; border-radius:6px;">
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; margin-top:20px;">
+          <button class="btn secondary" onclick="jumpToPage(5)">← Misi 05</button>
+          <button class="btn" onclick="jumpToPage(7)">Lanjut ke Misi 07: Rahasia Share Screen →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- PAGE 7: MISI 07 - RAHASIA BERBAGI LAYAR    -->
+    <!-- ========================================== -->
+    <section class="mission-page" id="page7">
+      <div class="card-mission">
+        <div class="mission-hero-header">
+          <div class="mission-title-group">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+              <span
+                style="background:var(--purple); color:#fff; font-size:11px; font-weight:900; padding:3px 9px; border-radius:4px;">MISI
+                07</span>
+              <span style="color:var(--text-muted); font-size:12px;">Kemampuan Utama Presenter</span>
+            </div>
+            <h2>Rahasia Berbagi Layar (Screen Sharing)</h2>
+            <p>Fitur untuk menampilkan isi layar komputermu kepada seluruh peserta rapat.</p>
+          </div>
+          <div class="mission-xp-badge">+40 XP</div>
+        </div>
+
+        <div class="notice-box cyan">
+          <span class="notice-icon">💡</span>
+          <div>
+            <strong>Apa itu Screen Sharing?</strong><br>
+            Screen sharing adalah fitur untuk menampilkan isi layarmu kepada orang lain dalam rapat. Misalnya, saat
+            ingin menjelaskan file PowerPoint, Google Slides, dokumen Word, atau sebuah video.
+          </div>
+        </div>
+
+        <!-- 3 Pilihan Share Screen -->
+        <h3 style="font-size:15.5px; font-weight:800; color:#fff; margin:18px 0 10px;">📊 3 Pilihan Penting yang Wajib
+          Kamu Kenali:</h3>
+        <div class="grid-3" style="margin-bottom:20px;">
+          <div class="box-info accent">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <strong style="color:var(--yellow); font-size:14px;">1. Tab Browser</strong>
+              <span
+                style="font-size:10.5px; background:rgba(253,224,71,0.15); color:var(--yellow); padding:2px 6px; border-radius:4px; font-weight:800;">Paling
+                Aman</span>
+            </div>
+            <div class="box-desc">
+              Berbagi satu tab di browser (misalnya Google Slides atau Canva yang dibuka di Chrome).
+              <div style="margin-top:8px; color:#A7F3D0; font-size:11.5px; font-weight:700;">
+                ✨ Keunggulan: Mendukung berbagi audio dari tab (misal saat memutar video materi) & tab lain tidak
+                terlihat!
+              </div>
+            </div>
+          </div>
+
+          <div class="box-info accent-cyan">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <strong style="color:var(--cyan); font-size:14px;">2. Jendela Aplikasi</strong>
+              <span
+                style="font-size:10.5px; background:rgba(6,182,212,0.15); color:var(--cyan); padding:2px 6px; border-radius:4px; font-weight:800;">Fokus
+                Aplikasi</span>
+            </div>
+            <div class="box-desc">
+              Berbagi satu jendela aplikasi saja, misalnya jendela Microsoft PowerPoint atau Word.
+              <div style="margin-top:8px; color:#CFFAFE; font-size:11.5px; font-weight:700;">
+                ✨ Keunggulan: Aplikasi lain yang kamu buka di laptop tidak akan terlihat oleh teman-temanmu.
+              </div>
+            </div>
+          </div>
+
+          <div class="box-info">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <strong style="color:#F87171; font-size:14px;">3. Seluruh Layar</strong>
+              <span
+                style="font-size:10.5px; background:rgba(239,68,68,0.15); color:#F87171; padding:2px 6px; border-radius:4px; font-weight:800;">Hati-hati
+                Privasi</span>
+            </div>
+            <div class="box-desc">
+              Berbagi seluruh apa pun yang terlihat di monitor komputer.
+              <div style="margin-top:8px; color:#FECACA; font-size:11.5px; font-weight:700;">
+                ⚠️ Perhatian: Jika ada notifikasi chat WA masuk atau membuka file pribadi, semuanya akan terlihat!
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5 Langkah Share Screen -->
+        <div
+          style="background:var(--bg-surface); border:1px solid var(--border); border-radius:var(--radius-md); padding:18px; margin-bottom:20px;">
+          <h3 style="font-size:15px; font-weight:800; color:#fff; margin-bottom:12px;">🚀 5 Langkah Membagikan Layar
+            dengan Rapi:</h3>
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:12px;">
+            <div
+              style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:8px; padding:12px;">
+              <div style="font-size:18px; font-weight:900; color:var(--violet); margin-bottom:4px;">01</div>
+              <strong style="font-size:12.5px; color:#fff;">Klik Presentasikan Sekarang</strong>
+              <p style="font-size:11.5px; color:var(--text-muted); margin-top:4px;">Cari tombol kotak berpanah ke atas
+                di bilah bawah Meet.</p>
+            </div>
+            <div
+              style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:8px; padding:12px;">
+              <div style="font-size:18px; font-weight:900; color:var(--cyan); margin-bottom:4px;">02</div>
+              <strong style="font-size:12.5px; color:#fff;">Pilih Jenis Tampilan</strong>
+              <p style="font-size:11.5px; color:var(--text-muted); margin-top:4px;">Pilih antara Tab browser, Jendela,
+                atau Seluruh layar.</p>
+            </div>
+            <div
+              style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:8px; padding:12px;">
+              <div style="font-size:18px; font-weight:900; color:var(--green); margin-bottom:4px;">03</div>
+              <strong style="font-size:12.5px; color:#fff;">Pilih File & Klik Bagikan</strong>
+              <p style="font-size:11.5px; color:var(--text-muted); margin-top:4px;">Pastikan kamu mengeklik thumbnail
+                slide yang benar lalu klik 'Share'.</p>
+            </div>
+            <div
+              style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:8px; padding:12px;">
+              <div style="font-size:18px; font-weight:900; color:var(--yellow); margin-bottom:4px;">04</div>
+              <strong style="font-size:12.5px; color:#fff;">Konfirmasi ke Peserta</strong>
+              <p style="font-size:11.5px; color:var(--text-muted); margin-top:4px;">Tanyakan: <em>"Apakah tampilan slide
+                  saya sudah terlihat jelas?"</em></p>
+            </div>
+            <div
+              style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:8px; padding:12px;">
+              <div style="font-size:18px; font-weight:900; color:#EF4444; margin-bottom:4px;">05</div>
+              <strong style="font-size:12.5px; color:#fff;">Hentikan Presentasi</strong>
+              <p style="font-size:11.5px; color:var(--text-muted); margin-top:4px;">Setelah selesai, klik tombol biru
+                <strong>'Stop Presenting'</strong>.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Simulator Pemilihan Layar -->
+        <div class="share-picker-box">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <h4 style="font-size:14px; font-weight:800; color:#fff;">🎮 Simulasi Jendela Dialog "Pilih yang Ingin
+              Dibagikan":</h4>
+            <span style="font-size:11px; color:var(--cyan); font-weight:700;">Latihan Memilih yang Tepat</span>
+          </div>
+
+          <div class="share-tabs-nav">
+            <button class="share-tab-btn active" id="stTab1" onclick="switchShareTab('tab', this)">Tab Chrome
+              (Direkomendasikan)</button>
+            <button class="share-tab-btn" id="stTab2" onclick="switchShareTab('window', this)">Jendela Aplikasi</button>
+            <button class="share-tab-btn" id="stTab3" onclick="switchShareTab('screen', this)">Seluruh Layar</button>
+          </div>
+
+          <div id="shareTabContent">
+            <!-- Content Tab -->
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:10px;">
+              <div class="share-item-card selected" onclick="selectShareItem(this, 'Google Slides — Internet Aman')">
+                <div style="font-size:12px; font-weight:800; color:var(--yellow); margin-bottom:3px;">📑 Google Slides
+                </div>
+                <div style="font-size:11.5px; color:#fff;">Slide Presentasi — 3 Cara Internet Aman.pptx</div>
+                <div style="font-size:10.5px; color:var(--green); margin-top:6px;">✓ Paling tepat untuk presentasi tugas
+                </div>
+              </div>
+              <div class="share-item-card" onclick="selectShareItem(this, 'Tab Ruang Rapat Google Meet Sendiri')">
+                <div style="font-size:12px; font-weight:800; color:#EF4444; margin-bottom:3px;">📹 Google Meet</div>
+                <div style="font-size:11.5px; color:#fff;">Tab Ruang Rapat Sendiri (Infinity Mirror)</div>
+                <div style="font-size:10.5px; color:#F87171; margin-top:6px;">⚠️ Hindari! Akan menimbulkan efek cermin
+                  lorong</div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            style="display:flex; justify-content:space-between; align-items:center; margin-top:14px; padding-top:10px; border-top:1px solid var(--border);">
+            <div style="font-size:12px; color:var(--text-muted);" id="simShareChoiceText">Pilihan terpilih:
+              <strong>Google Slides — Internet Aman</strong></div>
+            <button class="btn green sm" onclick="confirmSimShare()">📤 Bagikan (Share)</button>
+          </div>
+        </div>
+        <div id="shareConfirmNotice" style="display:none; font-size:12.5px; margin-top:8px;" class="notice-box green">
+          <span class="notice-icon">🎉</span>
+          <div>Layar berhasil dibagikan! Peserta sekarang dapat melihat slide materi yang kamu tunjukkan!</div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; margin-top:20px;">
+          <button class="btn secondary" onclick="jumpToPage(6)">← Misi 06</button>
+          <button class="btn" onclick="jumpToPage(8)">Lanjut ke Misi 08: Presenter Percaya Diri →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- PAGE 8: MISI 08 - PRESENTER PERCAYA DIRI   -->
+    <!-- ========================================== -->
+    <section class="mission-page" id="page8">
+      <div class="card-mission">
+        <div class="mission-hero-header">
+          <div class="mission-title-group">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+              <span
+                style="background:var(--purple); color:#fff; font-size:11px; font-weight:900; padding:3px 9px; border-radius:4px;">MISI
+                08</span>
+              <span style="color:var(--text-muted); font-size:12px;">Seni Berbicara & Menyampaikan Ide</span>
+            </div>
+            <h2>Menjadi Presenter yang Percaya Diri</h2>
+            <p>Setelah bisa membagikan layar, sekarang saatnya belajar menjelaskan materimu dengan runtut dan santun.
+            </p>
+          </div>
+          <div class="mission-xp-badge">+35 XP</div>
+        </div>
+
+        <!-- Rumus 3 Bagian -->
+        <h3 style="font-size:16px; font-weight:800; color:#fff; margin-bottom:12px;">🧩 Rumus Presentasi 3 Bagian:</h3>
+        <div class="grid-3" style="margin-bottom:20px;">
+          <div class="box-info accent">
+            <div style="font-size:22px; margin-bottom:6px;">1️⃣</div>
+            <div class="box-title">1. Pembukaan (Opening)</div>
+            <div class="box-desc">
+              Sapa peserta, sebutkan namamu, dan jelaskan topik apa yang akan dibahas.<br><br>
+              <div
+                style="background:rgba(255,255,255,0.04); border-left:3px solid var(--violet); padding:8px 10px; border-radius:4px; font-size:12px; color:#E0E7FF;">
+                <em>"Halo teman-teman dan bapak/ibu guru. Nama saya <span class="sync-name">Bintang Pratama</span>. Hari
+                  ini saya akan membahas tiga cara menggunakan internet dengan aman."</em>
+              </div>
+            </div>
+          </div>
+
+          <div class="box-info accent-cyan">
+            <div style="font-size:22px; margin-bottom:6px;">2️⃣</div>
+            <div class="box-title">2. Isi Materi (Body)</div>
+            <div class="box-desc">
+              Jelaskan poin utama secara berurutan. Beri contoh nyata dan arahkan peserta ke bagian slide yang
+              relevan.<br><br>
+              <div
+                style="background:rgba(255,255,255,0.04); border-left:3px solid var(--cyan); padding:8px 10px; border-radius:4px; font-size:12px; color:#CFFAFE;">
+                <em>"Poin pertama adalah menjaga kerahasiaan password. Jangan pernah membagikan password akun game atau
+                  media sosial kepada siapapun..."</em>
+              </div>
+            </div>
+          </div>
+
+          <div class="box-info accent">
+            <div style="font-size:22px; margin-bottom:6px;">3️⃣</div>
+            <div class="box-title">3. Penutup (Closing)</div>
+            <div class="box-desc">
+              Simpulkan intisari materi, buka sesi tanya jawab singkat, lalu sampaikan terima kasih.<br><br>
+              <div
+                style="background:rgba(255,255,255,0.04); border-left:3px solid var(--green); padding:8px 10px; border-radius:4px; font-size:12px; color:#D1FAE5;">
+                <em>"Itulah tiga cara aman berinternet. Semoga bermanfaat bagi kita semua. Apakah ada tanggapan atau
+                  pertanyaan? Terima kasih sudah mendengarkan."</em>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5 Tips Presentasi Online -->
+        <div
+          style="background:var(--bg-surface); border:1px solid var(--border); border-radius:var(--radius-md); padding:18px; margin-bottom:20px;">
+          <h3 style="font-size:15px; font-weight:800; color:#fff; margin-bottom:12px;">🌟 5 Tips Emas Presentasi Online:
+          </h3>
+          <div class="grid-2">
+            <div style="font-size:12.5px; color:#D1D5DB; line-height:1.6;">
+              <strong>1. Posisi wajah dan cahaya:</strong> Posisikan kamera sejajar mata dan pastikan lampu menerangi
+              wajah dari depan.<br><br>
+              <strong>2. Nada bicara jelas & teratur:</strong> Jangan berbicara terburu-buru seperti dikejar waktu. Beri
+              jeda 1 detik di setiap perpindahan poin.
+            </div>
+            <div style="font-size:12.5px; color:#D1D5DB; line-height:1.6;">
+              <strong>3. Jangan sekadar membaca teks slide:</strong> Slide hanya berisi poin pokok; gunakan kata-katamu
+              sendiri untuk menerangkannya.<br><br>
+              <strong>4. Pastikan share screen masih aktif:</strong> Lirik layar sesekali untuk memastikan slide tidak
+              macet atau tertutup jendela lain.
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Script Practice Generator -->
+        <div
+          style="background:rgba(20,20,28,0.95); border:1.5px solid var(--purple); border-radius:var(--radius-md); padding:18px; margin-bottom:18px;">
+          <div
+            style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+            <h4 style="font-size:14.5px; font-weight:800; color:#fff;">🎙️ Alat Bantu Latihan Naskah Presentasi 30
+              Detik:</h4>
+            <span style="font-size:11px; color:var(--yellow); font-weight:700;">Siap Dibaca Langsung!</span>
+          </div>
+          <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">
+            Sesuaikan pembukaan di bawah, lalu klik <strong>"Mulai Stopwatch Latihan 30 Detik"</strong> untuk membacanya
+            dengan santai:
+          </p>
+
+          <div id="practiceScriptBox"
+            style="background:var(--bg-surface); border:1px solid var(--border); border-radius:8px; padding:14px; font-size:13.5px; color:#fff; line-height:1.65; margin-bottom:12px;">
+            "Halo semuanya, selamat pagi bapak/ibu guru dan teman-teman. Perkenalkan nama saya <strong
+              style="color:var(--yellow);"><span class="sync-name">Bintang Pratama</span></strong> dari <strong
+              style="color:var(--cyan);"><span id="scriptClassSpan">Kelas 7-B</span></strong>. Pada kesempatan kali ini,
+            saya akan mempresentasikan <strong style="color:#A7F3D0;">3 Cara Menggunakan Internet dengan Aman</strong>.
+            Mari kita mulai dari poin pertama..."
+          </div>
+
+          <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+            <button class="btn sm" id="btnStartStopwatch" onclick="startPracticeTimer()">⏱️ Mulai Stopwatch Latihan 30
+              Detik</button>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:12px; color:var(--text-muted);">Sisa Waktu:</span>
+              <span id="practiceTimerVal"
+                style="font-size:18px; font-weight:900; color:var(--yellow); font-family:monospace;">00:30</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; margin-top:20px;">
+          <button class="btn secondary" onclick="jumpToPage(7)">← Misi 07</button>
+          <button class="btn" onclick="jumpToPage(9)">Lanjut ke Misi 09: Mengatasi Masalah →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- PAGE 9: MISI 09 - MENGATASI MASALAH        -->
+    <!-- ========================================== -->
+    <section class="mission-page" id="page9">
+      <div class="card-mission">
+        <div class="mission-hero-header">
+          <div class="mission-title-group">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+              <span
+                style="background:var(--purple); color:#fff; font-size:11px; font-weight:900; padding:3px 9px; border-radius:4px;">MISI
+                09</span>
+              <span style="color:var(--text-muted); font-size:12px;">Troubleshooting Cerdas</span>
+            </div>
+            <h2>Mengatasi Masalah Saat Google Meet</h2>
+            <p>Masalah teknis wajar terjadi. Jangan panik, periksa satu per satu dengan langkah yang tepat.</p>
+          </div>
+          <div class="mission-xp-badge">+30 XP</div>
+        </div>
+
+        <div class="notice-box yellow">
+          <span class="notice-icon">🩺</span>
+          <div>
+            <strong>Kunci Ketenangan Presenter:</strong><br>
+            Jika terjadi kendala (misal suaramu tidak terdengar), jangan panik atau langsung mematikan laptop. Ucapkan
+            di chat: <em>"Mohon tunggu sebentar, saya sedang memeriksa sambungan mikrofon saya."</em>
+          </div>
+        </div>
+
+        <!-- Tabel 6 Masalah Teknis & Solusi -->
+        <h3 style="font-size:15.5px; font-weight:800; color:#fff; margin:18px 0 10px;">📋 Panduan Cepat 6 Kendala Teknis
+          yang Sering Terjadi:</h3>
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th style="width:30%;">Kendala yang Terjadi</th>
+              <th style="width:50%;">Langkah Penyelesaian Cepat</th>
+              <th style="width:20%;">Tindakan Tambahan</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>🎙️ Suara kita tidak terdengar</strong></td>
+              <td>Periksa apakah tombol mic sedang dibisukan (merah). Pastikan izin mikrofon di browser sudah
+                <em>"Allow" / "Izinkan"</em>, bukan <em>"Block"</em>.</td>
+              <td>Cabut-pasang headset jika menggunakan kabel.</td>
+            </tr>
+            <tr>
+              <td><strong>🔇 Tidak mendengar suara peserta</strong></td>
+              <td>Naikkan volume laptop/speaker. Periksa apakah audio Meet salah diarahkan ke perangkat Bluetooth lain.
+              </td>
+              <td>Uji putar audio di YouTube untuk memastikan speaker aktif.</td>
+            </tr>
+            <tr>
+              <td><strong>📷 Kamera tidak terlihat / hitam</strong></td>
+              <td>Pastikan izin kamera di browser sudah aktif. Tutup aplikasi lain (seperti Zoom atau Camera bawaan)
+                yang sedang memakai webcam.</td>
+              <td>Periksa apakah tuas penutup fisik kamera sedang tertutup.</td>
+            </tr>
+            <tr>
+              <td><strong>📤 Tidak bisa membagikan layar</strong></td>
+              <td>Periksa izin berbagi layar di pengaturan browser atau tanyakan ke host apakah fitur share screen
+                sedang dibatasi untuk peserta.</td>
+              <td>Minta izin ke host untuk dijadikan presenter.</td>
+            </tr>
+            <tr>
+              <td><strong>🔗 Link rapat tidak bisa dibuka</strong></td>
+              <td>Periksa apakah ada huruf link atau kode yang kurang. Pastikan kamu sudah login akun Google yang tepat.
+              </td>
+              <td>Minta pengundang mengirimkan ulang link terbaru.</td>
+            </tr>
+            <tr>
+              <td><strong>🐢 Suara / video tersendat (lag)</strong></td>
+              <td>Matikan video kamera sementara agar koneksi fokus ke audio. Hentikan unduhan (download) game atau
+                video lain yang sedang berjalan.</td>
+              <td>Dekatkan posisi laptop ke router WiFi.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Interactive Symptom Solver -->
+        <div
+          style="background:var(--bg-surface); border:1.5px solid var(--border); border-radius:var(--radius-md); padding:18px; margin:20px 0;">
+          <h4 style="font-size:14px; font-weight:800; color:#fff; margin-bottom:10px;">🎮 Latihan Diagnostik Cepat:</h4>
+          <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Pilih salah satu kendala di bawah
+            untuk melihat solusi langkah demi langkahnya:</p>
+          <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;">
+            <button class="btn secondary sm" onclick="diagnoseIssue('mic')">Mic Bisu</button>
+            <button class="btn secondary sm" onclick="diagnoseIssue('cam')">Kamera Gelap</button>
+            <button class="btn secondary sm" onclick="diagnoseIssue('share')">Gagal Share Screen</button>
+            <button class="btn secondary sm" onclick="diagnoseIssue('lag')">Suara Putus-putus</button>
+          </div>
+          <div id="diagnoseBox"
+            style="display:none; background:rgba(0,0,0,0.4); border-left:4px solid var(--cyan); padding:12px 14px; border-radius:6px; font-size:12.5px; color:#CFFAFE;">
+            <!-- Injected dynamically -->
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; margin-top:20px;">
+          <button class="btn secondary" onclick="jumpToPage(8)">← Misi 08</button>
+          <button class="btn" onclick="jumpToPage(10)">Lanjut ke Misi 10: Etika & Keamanan →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- PAGE 10: MISI 10 - ETIKA DAN KEAMANAN      -->
+    <!-- ========================================== -->
+    <section class="mission-page" id="page10">
+      <div class="card-mission">
+        <div class="mission-hero-header">
+          <div class="mission-title-group">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+              <span
+                style="background:var(--purple); color:#fff; font-size:11px; font-weight:900; padding:3px 9px; border-radius:4px;">MISI
+                10</span>
+              <span style="color:var(--text-muted); font-size:12px;">Adab & Keamanan Siber Siswa</span>
+            </div>
+            <h2>Etika dan Keamanan Rapat Online</h2>
+            <p>Teknologi harus digunakan dengan santun, penuh tanggung jawab, dan saling menghormati.</p>
+          </div>
+          <div class="mission-xp-badge">+30 XP</div>
+        </div>
+
+        <!-- 3 Pilar: Lakukan, Jaga Privasi, Hindari -->
+        <div class="grid-3" style="margin-bottom:20px;">
+          <!-- LAKUKAN -->
+          <div class="box-info" style="border-top:4px solid var(--green);">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+              <span style="font-size:20px;">🟢</span>
+              <strong style="color:var(--green); font-size:15px;">LAKUKAN (Do's)</strong>
+            </div>
+            <ul style="font-size:12.5px; color:#D1D5DB; padding-left:18px; line-height:1.6;">
+              <li>Gunakan nama asli yang sopan (jangan memakai nama samaran aneh).</li>
+              <li>Hadir tepat waktu sebelum rapat dimulai.</li>
+              <li>Matikan mikrofon saat orang lain sedang menjelaskan.</li>
+              <li>Beri reaksi santun atau gunakan tombol angkat tangan sebelum berbicara.</li>
+              <li>Hormati guru dan teman yang sedang presentasi.</li>
+            </ul>
+          </div>
+
+          <!-- JAGA PRIVASI -->
+          <div class="box-info" style="border-top:4px solid var(--cyan);">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+              <span style="font-size:20px;">🔵</span>
+              <strong style="color:var(--cyan); font-size:15px;">JAGA PRIVASI</strong>
+            </div>
+            <ul style="font-size:12.5px; color:#D1D5DB; padding-left:18px; line-height:1.6;">
+              <li>Bagikan link hanya kepada orang yang memang diundang secara resmi.</li>
+              <li>Tutup semua tab pesan pribadi sebelum melakukan share screen.</li>
+              <li>Wajib meminta izin sebelum merekam rapat atau membagikan screenshot ke media sosial.</li>
+              <li>Hapus URL link rapat dari tangkapan layar jika ingin dijadikan dokumentasi.</li>
+            </ul>
+          </div>
+
+          <!-- HINDARI -->
+          <div class="box-info" style="border-top:4px solid var(--red);">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+              <span style="font-size:20px;">🔴</span>
+              <strong style="color:var(--red); font-size:15px;">HINDARI (Don'ts)</strong>
+            </div>
+            <ul style="font-size:12.5px; color:#D1D5DB; padding-left:18px; line-height:1.6;">
+              <li>Menyebarkan link rapat ke grup medsos publik tanpa izin host.</li>
+              <li>Mengganggu (spam chat) atau mengeluarkan suara berisik saat orang lain berbicara.</li>
+              <li>Memperlihatkan kata sandi akun atau file pribadi di layar presentasi.</li>
+              <li>Memotong pembicaraan orang lain secara kasar.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Interactive Aman vs Bahaya Mini-Game -->
+        <div class="session-quiz">
+          <div class="session-quiz-header">
+            <span class="session-quiz-tag">MINI GAME SIBER: AMAN ATAU BAHAYA?</span>
+            <span style="font-size:11px; color:var(--yellow); font-weight:700;">+20 XP</span>
+          </div>
+          <p style="font-size:13px; font-weight:700; color:#fff; margin-bottom:10px;">
+            Tindakan mana di bawah ini yang paling aman dan patut dicontoh saat mengikuti rapat Google Meet?
+          </p>
+          <button class="opt-btn" onclick="checkMisiQuiz(10, true, this)">
+            <span>A. Membagikan link rapat hanya secara privat ke teman kelompok dan menutup tab WA sebelum share
+              screen</span>
+            <span class="res-icon"></span>
+          </button>
+          <button class="opt-btn" onclick="checkMisiQuiz(10, false, this)">
+            <span>B. Mengunggah screenshot ruang rapat lengkap beserta link URL-nya ke status Instagram tanpa izin
+              guru</span>
+            <span class="res-icon"></span>
+          </button>
+          <button class="opt-btn" onclick="checkMisiQuiz(10, false, this)">
+            <span>C. Memilih share 'Seluruh Layar' saat tab WhatsApp Web dan email sedang terbuka lebar</span>
+            <span class="res-icon"></span>
+          </button>
+          <div id="misiFb10" style="font-size:12px; margin-top:8px; display:none; padding:8px 12px; border-radius:6px;">
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; margin-top:20px;">
+          <button class="btn secondary" onclick="jumpToPage(9)">← Misi 09</button>
+          <button class="btn" style="background:linear-gradient(135deg, #059669, #10B981);" onclick="jumpToPage(11)">
+            🎯 Lanjut ke Tantangan Utama (Misi Akhir) →
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- PAGE 11: TANTANGAN UTAMA - PRESENT PRO     -->
+    <!-- ========================================== -->
+    <section class="mission-page" id="page11">
+      <div class="card-mission">
+        <div class="mission-hero-header">
+          <div class="mission-title-group">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+              <span
+                style="background:linear-gradient(135deg, #059669, #10B981); color:#fff; font-size:11px; font-weight:900; padding:3px 9px; border-radius:4px;">TANTANGAN
+                UTAMA</span>
+              <span style="color:var(--yellow); font-size:12px; font-weight:700;">WAKTU: 20–25 MENIT</span>
+            </div>
+            <h2>🎯 MISSION: PRESENT LIKE A PRO!</h2>
+            <p>Mempraktikkan seluruh ilmu Google Meet dalam sebuah presentasi online nyata di depan tutor/teman.</p>
+          </div>
+          <div class="mission-xp-badge">+60 XP</div>
+        </div>
+
+        <!-- Cerita Misi -->
+        <div class="notice-box green">
+          <span class="notice-icon">🏆</span>
+          <div>
+            <strong>Cerita Misi Praktikmu:</strong><br>
+            Kamu diminta menjadi presenter dalam sebuah pertemuan online. Tutor atau rekan belajarmu akan menjadi
+            peserta yang mendengarkan penjelasanmu.<br>
+            <strong style="color:#fff;">Topik Presentasi: "3 Cara Menggunakan Internet dengan Aman"</strong> (Boleh
+            memakai slide PowerPoint, Canva, atau Google Slides dari pertemuan sebelumnya).
+          </div>
+        </div>
+
+        <!-- 6 Tahapan Misi Praktik -->
+        <div style="margin:20px 0;">
+          <div
+            style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+            <h3 style="font-size:15.5px; font-weight:800; color:#fff;">📋 Checklist 6 Tahapan Misi Akhir:</h3>
+            <span
+              style="background:rgba(16, 185, 129, 0.2); color:var(--green); font-size:12px; font-weight:900; padding:4px 10px; border-radius:999px;"
+              id="finalMissionCountLabel">
+              Progress Misi: 0/6
+            </span>
+          </div>
+
+          <div id="finalMissionGroup">
+            <div class="checklist-item" onclick="toggleFinalMissionItem(1, this)">
+              <div class="custom-check-box">✓</div>
+              <div>
+                <div class="checklist-text">1. Buat ruang rapat baru di Google Meet</div>
+                <div class="checklist-sub">Buka meet.google.com di tab terpisah dan klik "Mulai rapat instan".</div>
+              </div>
+            </div>
+
+            <div class="checklist-item" onclick="toggleFinalMissionItem(2, this)">
+              <div class="custom-check-box">✓</div>
+              <div>
+                <div class="checklist-text">2. Undang tutor bergabung</div>
+                <div class="checklist-sub">Salin link rapat dan bagikan kepada tutor melalui jalur pesan pribadi secara
+                  sopan.</div>
+              </div>
+            </div>
+
+            <div class="checklist-item" onclick="toggleFinalMissionItem(3, this)">
+              <div class="custom-check-box">✓</div>
+              <div>
+                <div class="checklist-text">3. Cek kamera, mic, dan speaker sebelum mulai</div>
+                <div class="checklist-sub">Pastikan wajah terlihat jelas dan suaramu terdengar bersih saat menyapa
+                  tutor.</div>
+              </div>
+            </div>
+
+            <div class="checklist-item" onclick="toggleFinalMissionItem(4, this)">
+              <div class="custom-check-box">✓</div>
+              <div>
+                <div class="checklist-text">4. Bagikan layar presentasi (Share Screen)</div>
+                <div class="checklist-sub">Pilih opsi Tab browser atau Jendela aplikasi berisi materi slide, lalu
+                  konfirmasi tampilannya.</div>
+              </div>
+            </div>
+
+            <div class="checklist-item" onclick="toggleFinalMissionItem(5, this)">
+              <div class="custom-check-box">✓</div>
+              <div>
+                <div class="checklist-text">5. Presentasikan materi selama 1–2 menit</div>
+                <div class="checklist-sub">Gunakan rumus 3 bagian (Pembukaan, Isi 3 cara internet aman, dan Penutup).
+                </div>
+              </div>
+            </div>
+
+            <div class="checklist-item" onclick="toggleFinalMissionItem(6, this)">
+              <div class="custom-check-box">✓</div>
+              <div>
+                <div class="checklist-text">6. Akhiri dengan sopan dan keluar rapat</div>
+                <div class="checklist-sub">Hentikan share screen (Stop Presenting), jawab 1 pertanyaan tutor, ucapkan
+                  salam penutup, lalu tinggalkan rapat.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rubrik Penilaian Mandiri / Tutor -->
+        <div
+          style="background:var(--bg-surface); border:1.5px solid var(--border); border-radius:var(--radius-md); padding:18px; margin-bottom:20px;">
+          <div
+            style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+            <h3 style="font-size:15px; font-weight:800; color:#fff;">📊 Rubrik Penilaian Kinerja Praktik (Total Skor
+              16):</h3>
+            <span style="font-size:12px; color:var(--yellow); font-weight:800;" id="rubricScoreLiveLabel">Skor: 16 / 16
+              (Nilai: 100)</span>
+          </div>
+          <p style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">
+            Pilih tingkat kemandirian pada setiap aspek (Skor 4 = Mandiri, 3 = Sedikit arahan, 2 = Butuh bantuan, 1 =
+            Belum selesai):
+          </p>
+
+          <div class="grid-2">
+            <!-- Aspek 1 -->
+            <div
+              style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:8px; padding:12px;">
+              <div style="font-size:12.5px; font-weight:800; color:#fff; margin-bottom:4px;">1. Membuat & Bergabung
+                Rapat</div>
+              <div style="font-size:11.5px; color:var(--text-muted); margin-bottom:8px;">Dapat membuka rapat atau
+                bergabung melalui link dengan lancar.</div>
+              <select id="rubric1" onchange="calculateRubricScore()"
+                style="width:100%; background:var(--bg-card); color:#fff; border:1px solid var(--border); border-radius:6px; padding:6px; font-size:12px;">
+                <option value="4" selected>4 - Mampu secara mandiri tanpa bantuan</option>
+                <option value="3">3 - Mampu dengan sedikit arahan tutor</option>
+                <option value="2">2 - Membutuhkan bantuan pada langkah copy link</option>
+                <option value="1">1 - Belum mampu menyelesaikan langkah</option>
+              </select>
+            </div>
+
+            <!-- Aspek 2 -->
+            <div
+              style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:8px; padding:12px;">
+              <div style="font-size:12.5px; font-weight:800; color:#fff; margin-bottom:4px;">2. Mengatur Perangkat (Mic
+                & Cam)</div>
+              <div style="font-size:11.5px; color:var(--text-muted); margin-bottom:8px;">Dapat memeriksa mikrofon,
+                kamera, dan speaker dengan benar.</div>
+              <select id="rubric2" onchange="calculateRubricScore()"
+                style="width:100%; background:var(--bg-card); color:#fff; border:1px solid var(--border); border-radius:6px; padding:6px; font-size:12px;">
+                <option value="4" selected>4 - Mampu secara mandiri tanpa bantuan</option>
+                <option value="3">3 - Mampu dengan sedikit arahan tutor</option>
+                <option value="2">2 - Membutuhkan bantuan saat tes mic</option>
+                <option value="1">1 - Belum mampu mengatur perangkat</option>
+              </select>
+            </div>
+
+            <!-- Aspek 3 -->
+            <div
+              style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:8px; padding:12px;">
+              <div style="font-size:12.5px; font-weight:800; color:#fff; margin-bottom:4px;">3. Berbagi Layar (Screen
+                Sharing)</div>
+              <div style="font-size:11.5px; color:var(--text-muted); margin-bottom:8px;">Dapat memilih tab/jendela
+                materi yang tepat & menghentikannya.</div>
+              <select id="rubric3" onchange="calculateRubricScore()"
+                style="width:100%; background:var(--bg-card); color:#fff; border:1px solid var(--border); border-radius:6px; padding:6px; font-size:12px;">
+                <option value="4" selected>4 - Mampu secara mandiri tanpa bantuan</option>
+                <option value="3">3 - Mampu dengan sedikit arahan tutor</option>
+                <option value="2">2 - Membutuhkan bantuan saat memilih tab</option>
+                <option value="1">1 - Belum mampu membagikan layar</option>
+              </select>
+            </div>
+
+            <!-- Aspek 4 -->
+            <div
+              style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:8px; padding:12px;">
+              <div style="font-size:12.5px; font-weight:800; color:#fff; margin-bottom:4px;">4. Presentasi & Etika
+                Komunikasi</div>
+              <div style="font-size:11.5px; color:var(--text-muted); margin-bottom:8px;">Berbicara runtut, santun,
+                menjaga privasi, dan percaya diri.</div>
+              <select id="rubric4" onchange="calculateRubricScore()"
+                style="width:100%; background:var(--bg-card); color:#fff; border:1px solid var(--border); border-radius:6px; padding:6px; font-size:12px;">
+                <option value="4" selected>4 - Sangat percaya diri, santun, dan runtut</option>
+                <option value="3">3 - Cukup percaya diri dengan sedikit bimbingan</option>
+                <option value="2">2 - Masih ragu-ragu dan membaca seluruh slide</option>
+                <option value="1">1 - Belum berani menyampaikan materi</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top:14px; text-align:right;">
+            <span style="font-size:12px; color:var(--text-muted);">Rumus Penilaian:
+              <code>Nilai = (Total Skor / 16) × 100</code></span>
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; margin-top:20px;">
+          <button class="btn secondary" onclick="jumpToPage(10)">← Misi 10</button>
+          <button class="btn" style="background:linear-gradient(135deg, #7C3AED, #06B6D4);" onclick="jumpToPage(12)">
+            🏆 Lanjut ke Kuis Pemahaman & Sertifikat →
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- PAGE 12: KUIS 8 SOAL, SERTIFIKAT & REFLEKSI -->
+    <!-- ========================================== -->
+    <section class="mission-page" id="page12">
+      <!-- Kuis Section Anchor -->
+      <div class="card-mission" id="quizCardSection">
+        <div class="mission-hero-header">
+          <div class="mission-title-group">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+              <span
+                style="background:var(--purple); color:#fff; font-size:11px; font-weight:900; padding:3px 9px; border-radius:4px;">KUIS
+                PEMAHAMAN</span>
+              <span style="color:var(--yellow); font-size:12px; font-weight:700;">8 SOAL PILIHAN GANDA RESMI</span>
+            </div>
+            <h2>Uji Kemampuanmu: Google Meet & Presentasi</h2>
+            <p>Pilih jawaban yang paling tepat untuk menguji pemahamanmu sebelum menerima sertifikat resmi!</p>
+          </div>
+          <div class="mission-xp-badge">+120 XP</div>
+        </div>
+
+        <!-- Quiz HUD -->
+        <div class="quiz-hud-bar">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span style="font-size:13px; font-weight:800; color:#fff;" id="quizStageIndicator">Soal 1 dari 8</span>
+            <span style="font-size:11.5px; color:var(--green); font-weight:700;" id="quizScoreHUD">Skor Benar: 0 /
+              8</span>
+          </div>
+          <div class="q-dots-row">
+            <div class="q-dot active" id="qDot1" onclick="jumpQuizStage(1)">1</div>
+            <div class="q-dot" id="qDot2" onclick="jumpQuizStage(2)">2</div>
+            <div class="q-dot" id="qDot3" onclick="jumpQuizStage(3)">3</div>
+            <div class="q-dot" id="qDot4" onclick="jumpQuizStage(4)">4</div>
+            <div class="q-dot" id="qDot5" onclick="jumpQuizStage(5)">5</div>
+            <div class="q-dot" id="qDot6" onclick="jumpQuizStage(6)">6</div>
+            <div class="q-dot" id="qDot7" onclick="jumpQuizStage(7)">7</div>
+            <div class="q-dot" id="qDot8" onclick="jumpQuizStage(8)">8</div>
+          </div>
+        </div>
+
+        <!-- Container Soal 1-8 -->
+        <div id="quizContainerBox">
+          <!-- SOAL 1 -->
+          <div class="quiz-single-stage" id="qStage1">
+            <div style="font-size:15px; font-weight:800; color:#fff; margin-bottom:14px;">
+              1. Apa kegunaan utama Google Meet?
+            </div>
+            <button class="opt-btn" onclick="submitFinalQuiz(1, 'A', false, this)">
+              <span>A. Membuat desain poster saja</span>
+              <span class="res-icon"></span>
+            </button>
+            <button class="opt-btn" onclick="submitFinalQuiz(1, 'B', true, this)">
+              <span>B. Melakukan pertemuan melalui internet</span>
+              <span class="res-icon"></span>
+            </button>
+            <button class="opt-btn" onclick="submitFinalQuiz(1, 'C', false, this)">
+              <span>C. Menghapus file komputer</span>
+              <span class="res-icon"></span>
+            </button>
+            <button class="opt-btn" onclick="submitFinalQuiz(1, 'D', false, this)">
+              <span>D. Mengedit video secara offline</span>
+              <span class="res-icon"></span>
+            </button>
+            <div id="qExpl1" style="display:none; margin-top:10px; padding:10px; border-radius:6px; font-size:12px;">
+            </div>
+          </div>
+
+          <!-- SOAL 2 -->
+          <div class="quiz-single-stage" id="qStage2" style="display:none;">
+            <div style="font-size:15px; font-weight:800; color:#fff; margin-bottom:14px;">
+              2. Apa yang dibutuhkan agar bisa membuat rapat Google Meet?
+            </div>
+            <button class="opt-btn" onclick="submitFinalQuiz(2, 'A', true, this)">
+              <span>A. Akun Google dan akses internet</span>
+              <span class="res-icon"></span>
+            </button>
+            <button class="opt-btn" onclick="submitFinalQuiz(2, 'B', false, this)">
+              <span>B. Printer dan scanner</span>
+              <span class="res-icon"></span>
+            </button>
+            <button class="opt-btn" onclick="submitFinalQuiz(2, 'C', false, this)">
+              <span>C. Akun game</span>
+              <span class="res-icon"></span>
+            </button>
+            <button class="opt-btn" onclick="submitFinalQuiz(2, 'D', false, this)">
+              <span>D. Flashdisk saja</span>
+              <span class="res-icon"></span>
+            </button>
+            <div id="qExpl2" style="display:none; margin-top:10px; padding:10px; border-radius:6px; font-size:12px;">
+            </div>
+          </div>
+
+          <!-- SOAL 3 -->
+          <div class="quiz-single-stage" id="qStage3" style="display:none;">
+            <div style="font-size:15px; font-weight:800; color:#fff; margin-bottom:14px;">
+              3. Link rapat diberikan oleh guru. Apa yang harus kamu lakukan?
+            </div>
+            <button class="opt-btn" onclick="submitFinalQuiz(3, 'A', false, this)">
+              <span>A. Mengirimkannya ke forum publik</span>
+              <span class="res-icon"></span>
+            </button>
+            <button class="opt-btn" onclick="submitFinalQuiz(3, 'B', false, this)">
+              <span>B. Mengabaikannya</span>
+              <span class="res-icon"></span>
+            </button>
+            <button class="opt-btn" onclick="submitFinalQuiz(3, 'C', true, this)">
+              <span>C. Membuka link dan bergabung</span>
+              <span class="res-icon"></span>
+            </button>
+            <button class="opt-btn" onclick="submitFinalQuiz(3, 'D', false, this)">
+              <span>D. Membuat akun game baru</span>
+              <span class="res-icon"></span>
+            </button>
+            <div id="qExpl3" style="display:none; margin-top:10px; padding:10px; border-radius:6px; font-size:12px;">
+            </div>
+          </div>
+
+          <!-- SOAL 4 -->
+          <div class="quiz-single-stage" id="qStage4" style="display:none;">
+            <div style="font-size:15px; font-weight:800; color:#fff; margin-bottom:14px;">
+              4. Apa fungsi mikrofon?
+            </div>
+            <button class="opt-btn" onclick="submitFinalQuiz(4, 'A', false, this)">
+              <span>A. Menampilkan wajah</span>
+              <span class="res-icon"></span>
+            </button>
+            <button class="opt-btn" onclick="submitFinalQuiz(4, 'B', false, this)">
+              <span>B. Mengatur kecerahan</span>
+              <span class="res-icon"></span>
+            </button>
+            <button class="opt-btn" onclick="submitFinalQuiz(4, 'C', false, this)">
+              <span>C. Merekam layar</span>
+              <span class="res-icon"></span>
+            </button>
+            <button class="opt-btn" onclick="submitFinalQuiz(4, 'D', true, this)">
+              <span>D. Mengirim suara kita ke rapat</span>
+              <span class="res-icon"></span>
+            </button>
+            <div id="qExpl4" style="display:none; margin-top:10px; padding:10px; border-radius:6px; font-size:12px;">
+            </div>
+          </div>
+
+          <!-- SOAL 5 -->
+          <div class="quiz-single-stage" id="qStage5" style="display:none;">
+            <div style="font-size:15px; font-weight:800; color:#fff; margin-bottom:14px;">
+              5. Kamu ingin menampilkan Google Slides yang dibuka di browser. Pilihan mana yang cocok?
+            </div>
+            <button class="opt-btn" onclick="submitFinalQuiz(5, 'A', false, this)">
+              <span>A. Keluar dari rapat</span>
+              <span class="res-icon"></span>
+            </button>
+            <button class="opt-btn" onclick="submitFinalQuiz(5, 'B', true, this)">
+              <span>B. Memilih tab browser yang berisi Slides</span>
+              <span class="res-icon"></span>
+            </button>
+            <button class="opt-btn" onclick="submitFinalQuiz(5, 'C', false, this)">
+              <span>C. Mematikan komputer</span>
+              <span class="res-icon"></span>
+            </button>
+            <button class="opt-btn" onclick="submitFinalQuiz(5, 'D', false, this)">
+              <span>D. Mengaktifkan mikrofon saja</span>
+              <span class="res-icon"></span>
+            </button>
+            <div id="qExpl5" style="display:none; margin-top:10px; padding:10px; border-radius:6px; font-size:12px;">
+            </div>
+          </div>
+
+          <!-- SOAL 6 -->
+          <div class="quiz-single-stage" id="qStage6" style="display:none;">
+            <div style="font-size:15px; font-weight:800; color:#fff; margin-bottom:14px;">
+              6. Setelah selesai presentasi, tindakan yang tepat adalah ...
+            </div>
+            <button class="opt-btn" onclick="submitFinalQuiz(6, 'A', false, this)">
+              <span>A. Membiarkan layar terus dibagikan</span>
+              <span class="res-icon"></span>
+            </button>
+            <button class="opt-btn" onclick="submitFinalQuiz(6, 'B', false, this)">
+              <span>B. Menutup semua file teman</span>
+              <span class="res-icon"></span>
+            </button>
+            <button class="opt-btn" onclick="submitFinalQuiz(6, 'C', true, this)">
+              <span>C. Menghentikan presentasi dan menutup rapat dengan sopan</span>
+              <span class="res-icon"></span>
+            </button>
+            <button class="opt-btn" onclick="submitFinalQuiz(6, 'D', false, this)">
+              <span>D. Menyebarkan link rapat</span>
+              <span class="res-icon"></span>
+            </button>
+            <div id="qExpl6" style="display:none; margin-top:10px; padding:10px; border-radius:6px; font-size:12px;">
+            </div>
+          </div>
+
+          <!-- SOAL 7 -->
+          <div class="quiz-single-stage" id="qStage7" style="display:none;">
+            <div style="font-size:15px; font-weight:800; color:#fff; margin-bottom:14px;">
+              7. Mikrofonmu tidak terdengar. Apa yang sebaiknya diperiksa pertama kali?
+            </div>
+            <button class="opt-btn" onclick="submitFinalQuiz(7, 'A', false, this)">
+              <span>A. Warna wallpaper</span>
+              <span class="res-icon"></span>
+            </button>
+            <button class="opt-btn" onclick="submitFinalQuiz(7, 'B', false, this)">
+              <span>B. Nama folder</span>
+              <span class="res-icon"></span>
+            </button>
+            <button class="opt-btn" onclick="submitFinalQuiz(7, 'C', false, this)">
+              <span>C. Ukuran ikon</span>
+              <span class="res-icon"></span>
+            </button>
+            <button class="opt-btn" onclick="submitFinalQuiz(7, 'D', true, this)">
+              <span>D. Apakah mikrofon dibisukan dan perangkatnya sudah benar</span>
+              <span class="res-icon"></span>
+            </button>
+            <div id="qExpl7" style="display:none; margin-top:10px; padding:10px; border-radius:6px; font-size:12px;">
+            </div>
+          </div>
+
+          <!-- SOAL 8 -->
+          <div class="quiz-single-stage" id="qStage8" style="display:none;">
+            <div style="font-size:15px; font-weight:800; color:#fff; margin-bottom:14px;">
+              8. Manakah tindakan yang paling aman?
+            </div>
+            <button class="opt-btn" onclick="submitFinalQuiz(8, 'A', true, this)">
+              <span>A. Membagikan link rapat hanya kepada peserta yang dituju</span>
+              <span class="res-icon"></span>
+            </button>
+            <button class="opt-btn" onclick="submitFinalQuiz(8, 'B', false, this)">
+              <span>B. Menampilkan kata sandi di layar</span>
+              <span class="res-icon"></span>
+            </button>
+            <button class="opt-btn" onclick="submitFinalQuiz(8, 'C', false, this)">
+              <span>C. Mengirim rekaman rapat tanpa izin</span>
+              <span class="res-icon"></span>
+            </button>
+            <button class="opt-btn" onclick="submitFinalQuiz(8, 'D', false, this)">
+              <span>D. Membuka informasi pribadi saat berbagi layar</span>
+              <span class="res-icon"></span>
+            </button>
+            <div id="qExpl8" style="display:none; margin-top:10px; padding:10px; border-radius:6px; font-size:12px;">
+            </div>
+          </div>
+        </div>
+
+        <!-- Kartu Kemenangan Kuis -->
+        <div id="quizVictoryCard"
+          style="display:none; margin-top:20px; text-align:center; background:linear-gradient(135deg, rgba(16,185,129,0.15), rgba(6,182,212,0.15)); border:2px solid var(--green); border-radius:var(--radius-md); padding:24px;">
+          <div style="font-size:42px; margin-bottom:8px;">🎉 🏆 🌟</div>
+          <h3 style="font-size:22px; font-weight:900; color:#fff;">KUIS SELESAI DENGAN GEMILANG!</h3>
+          <p style="font-size:14px; color:#D1FAE5; margin-top:6px;">
+            Kamu berhasil menjawab benar <span id="finalScoreVal"
+              style="font-weight:900; color:var(--yellow); font-size:18px;">8</span> dari 8 soal pemahaman Google Meet!
+          </p>
+          <div style="margin-top:14px;">
+            <button class="btn green" onclick="scrollToCert()">📜 Lihat & Cetak Sertifikat Kelulusan Resmi →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Canvas Confetti -->
+      <canvas id="confettiCanvas"
+        style="position:fixed; top:0; left:0; width:100vw; height:100vh; pointer-events:none; z-index:9999; display:none;"></canvas>
+
+      <!-- Sertifikat Resmi Kelulusan -->
+      <div class="cert-container" id="certSectionAnchor">
+        <div class="cert-badge">KENAL KOMPUTER • SERTIFIKAT KOMPETENSI RESMI</div>
+        <div class="cert-title">GOOGLE MEET BEGINNER TO PRESENTER</div>
+        <div class="cert-subtitle">Pertemuan 12: Meet & Present! — Komunikasi & Kolaborasi Digital</div>
+
+        <div style="font-size:13px; color:var(--text-muted); margin-top:18px;">Diberikan dengan bangga dan apresiasi
+          tinggi kepada:</div>
+        <div class="cert-recipient-name" id="certRecipientName">Bintang Pratama</div>
+        <div style="font-size:13.5px; color:var(--cyan); font-weight:700;" id="certRecipientClass">Kelas 7-B • SMP
+          Negeri 1</div>
+
+        <p class="cert-body-text">
+          Telah sukses menyelesaikan 10 misi pembelajaran praktik Google Meet, menguasai persiapan ruang rapat,
+          pengaturan audio dan kamera, teknik berbagi layar (Tab, Jendela, Seluruh Layar), etika komunikasi siber, rumus
+          presentasi percaya diri 3 bagian, serta menyelesaikan tantangan praktik online secara mandiri dan bertanggung
+          jawab.
+        </p>
+
+        <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap; margin:16px 0;">
+          <div class="cert-stamp-badge">
+            <span>🏅</span> PREDIKAT: SANGAT MANDIRI & KOMPETEN
+          </div>
+          <div class="cert-stamp-badge"
+            style="border-color:var(--yellow); color:var(--yellow); background:rgba(253,224,71,0.12);">
+            <span>⭐</span> 8/8 KUIS PEMAHAMAN TERVERIFIKASI
+          </div>
+        </div>
+
+        <div class="cert-footer-row">
+          <div style="text-align:left;">
+            <div>No. Sertifikat: <strong>KK-P12-MEET-2026-0887</strong></div>
+            <div>Tanggal Terbit: <strong id="certDateSlot">28 Oktober 2026</strong></div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-family:cursive; font-size:18px; color:var(--violet);">Tim Instruktur Kenal Komputer</div>
+            <div style="border-top:1px solid #777; width:180px; margin:4px auto; padding-top:2px;">Ruang Belajarmu
+              Indonesia</div>
+          </div>
+          <div style="text-align:right;">
+            <div>Status Verifikasi: <strong style="color:var(--green);">Resmi & Terakreditasi</strong></div>
+            <div>Fase D • SMP Kelas 7</div>
+          </div>
+        </div>
+
+        <div style="margin-top:22px;">
+          <button class="btn secondary sm" onclick="window.print()">🖨️ Cetak / Simpan Sertifikat (PDF)</button>
+        </div>
+      </div>
+
+      <!-- Jurnal Refleksi Siswa -->
+      <div class="card-mission" style="margin-top:20px;">
+        <div
+          style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:20px;">📝</span>
+            <h3 style="font-size:16px; font-weight:800; color:#fff;">Jurnal Refleksi Penutup Siswa</h3>
+          </div>
+          <span style="font-size:11px; color:var(--cyan); font-weight:800;">Tersimpan Otomatis di Browser</span>
+        </div>
+        <p style="font-size:12.5px; color:var(--text-muted); margin-bottom:14px;">
+          Sebelum mengakhiri sesi belajarmu, jawablah 3 pertanyaan refleksi jujur di bawah ini untuk mengukur
+          kemajuanmu:
+        </p>
+
+        <div style="margin-bottom:14px;">
+          <label style="font-size:12.5px; font-weight:700; color:#fff; display:block; margin-bottom:4px;">
+            1. Apa yang paling mudah dan menyenangkan kamu lakukan hari ini?
+          </label>
+          <input type="text" id="refQ1"
+            value="Saya sudah bisa bergabung ke rapat dan mengaktifkan mikrofon serta kamera sendiri."
+            style="width:100%; background:var(--bg-surface); border:1px solid var(--border); border-radius:var(--radius-sm); color:#fff; padding:8px 12px; font-size:13px; outline:none;">
+        </div>
+
+        <div style="margin-bottom:14px;">
+          <label style="font-size:12.5px; font-weight:700; color:#fff; display:block; margin-bottom:4px;">
+            2. Bagian mana yang awalnya masih membuatmu bingung atau butuh latihan lagi?
+          </label>
+          <input type="text" id="refQ2"
+            value="Saya masih perlu berhati-hati saat membedakan antara Tab browser dengan Seluruh layar agar privasi aman."
+            style="width:100%; background:var(--bg-surface); border:1px solid var(--border); border-radius:var(--radius-sm); color:#fff; padding:8px 12px; font-size:13px; outline:none;">
+        </div>
+
+        <div style="margin-bottom:14px;">
+          <label style="font-size:12.5px; font-weight:700; color:#fff; display:block; margin-bottom:4px;">
+            3. Dalam kegiatan apa kamu berencana menggunakan Google Meet setelah ini?
+          </label>
+          <input type="text" id="refQ3"
+            value="Untuk kerja kelompok tugas sekolah dan belajar bersama teman-teman dari rumah."
+            style="width:100%; background:var(--bg-surface); border:1px solid var(--border); border-radius:var(--radius-sm); color:#fff; padding:8px 12px; font-size:13px; outline:none;">
+        </div>
+
+        <!-- Slider Keyakinan -->
+        <div
+          style="background:var(--bg-surface); border:1px solid var(--border); border-radius:8px; padding:12px; margin-bottom:14px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <span style="font-size:12.5px; font-weight:700; color:#fff;">Tingkat Rasa Percaya Diri Mempresentasikan
+              Materi Online:</span>
+            <span id="sliderValDisplay" style="font-size:14px; font-weight:900; color:var(--yellow);">5 👑 👑 (Sangat
+              Percaya Diri)</span>
+          </div>
+          <input type="range" id="refSlider" min="1" max="5" value="5" oninput="updateRefSlider(this.value)"
+            style="width:100%; accent-color:var(--purple); cursor:pointer;">
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <button class="btn green sm" onclick="saveReflection()">💾 Simpan Jurnal Refleksi (+75 XP)</button>
+          <span id="refSaveStatus" style="font-size:12px; color:var(--green); font-weight:700;"></span>
+        </div>
+      </div>
+
+      <!-- Panduan Tutor 90 Menit (Collapsible) -->
+      <div class="card-mission" style="margin-top:20px;">
+        <details>
+          <summary
+            style="font-size:14.5px; font-weight:800; color:var(--cyan); cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center;">
+            <span>🧑‍🏫 Panduan Pelaksanaan Tutor & Alokasi Waktu (90 Menit)</span>
+            <span style="font-size:12px; color:var(--text-muted);">Klik untuk Buka/Tutup ▾</span>
+          </summary>
+          <div style="margin-top:14px; font-size:12.5px; color:#D1D5DB; line-height:1.65;">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th style="width:20%;">Alokasi Waktu</th>
+                  <th style="width:50%;">Kegiatan Tutor & Siswa</th>
+                  <th style="width:30%;">Fokus Pembelajaran</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>5 menit</strong></td>
+                  <td>Pembukaan, obrolan santai, dan pengenalan tujuan pertemuan.</td>
+                  <td>Membangun rasa nyaman siswa.</td>
+                </tr>
+                <tr>
+                  <td><strong>10 menit</strong></td>
+                  <td>Menjelaskan fungsi Google Meet dan 7 checklist sebelum rapat.</td>
+                  <td>Misi 01 & Misi 02.</td>
+                </tr>
+                <tr>
+                  <td><strong>10 menit</strong></td>
+                  <td>Mendemonstrasikan cara membuat link dan bergabung ke ruang rapat.</td>
+                  <td>Misi 03 & Misi 04.</td>
+                </tr>
+                <tr>
+                  <td><strong>10 menit</strong></td>
+                  <td>Praktik mandiri mikrofon, kamera, speaker, dan bilah tombol Meet.</td>
+                  <td>Misi 05 & Misi 06.</td>
+                </tr>
+                <tr>
+                  <td><strong>10 menit</strong></td>
+                  <td>Simulasi memilih Tab, Jendela, atau Seluruh layar untuk presentasi.</td>
+                  <td>Misi 07 (Screen Sharing).</td>
+                </tr>
+                <tr>
+                  <td><strong>10 menit</strong></td>
+                  <td>Latihan terbimbing rumus 3 bagian dan penanganan kendala teknis.</td>
+                  <td>Misi 08, 09, dan 10.</td>
+                </tr>
+                <tr>
+                  <td><strong>25 menit</strong></td>
+                  <td><strong>Tantangan Utama:</strong> Siswa memulai rapat, share screen, dan presentasi 1–2 menit.
+                  </td>
+                  <td>Misi Akhir Praktik Nyata.</td>
+                </tr>
+                <tr>
+                  <td><strong>5 menit</strong></td>
+                  <td>Menyelesaikan kuis pemahaman 8 soal.</td>
+                  <td>Verifikasi pemahaman.</td>
+                </tr>
+                <tr>
+                  <td><strong>5 menit</strong></td>
+                  <td>Refleksi akhir siswa, pengisian jurnal, dan penyerahan sertifikat.</td>
+                  <td>Penutupan & apresiasi.</td>
+                </tr>
+              </tbody>
+            </table>
+            <div
+              style="background:rgba(255,255,255,0.03); border-left:3px solid var(--yellow); padding:10px; border-radius:4px; margin-top:10px;">
+              <strong>Catatan Pedagogi Tutor:</strong> Karena ini adalah kelas praktik setelah ujian, biarkan siswa yang
+              memegang kontrol mouse dan mengoperasikan laptopnya sendiri. Tutor berperan sebagai pemandu yang
+              mendampingi dan memberikan umpan balik positif.
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <!-- Tombol Navigasi Akhir -->
+      <div style="display:flex; justify-content:space-between; margin-top:20px;">
+        <button class="btn secondary" onclick="jumpToPage(11)">← Misi Akhir</button>
+        <button class="btn" onclick="jumpToPage(0)">Kembali ke Beranda Proyek 🏠</button>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // State Management
+    let currentPage = 0;
+    const totalPages = 13;
+
+    const gameState = {
+      studentName: "Bintang Pratama",
+      studentClass: "Kelas 7-B • SMP Negeri 1",
+      studentAvatar: "🧑‍💻",
+      xp: 120,
+      soundEnabled: true,
+      checklistItems: {},
+      finalMissionItems: {},
+      quizAnswers: {},
+      quizScores: 0,
+      rubricScore: 16,
+      reflection: { q1: "", q2: "", q3: "", confidence: 5 },
+      completedPages: new Set([0])
+    };
+
+    // Web Audio API Sound Synthesizer
+    let audioCtx = null;
+    function getAudioContext() {
+      if (!audioCtx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) audioCtx = new AudioContextClass();
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    function playSfx(type) {
+      if (!gameState.soundEnabled) return;
+      try {
+        const ctx = getAudioContext();
+        if (!ctx) return;
+        const now = ctx.currentTime;
+
+        if (type === 'click') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(480, now);
+          osc.frequency.exponentialRampToValueAtTime(820, now + 0.05);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.05);
+        } else if (type === 'correct') {
+          const osc1 = ctx.createOscillator();
+          const osc2 = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc1.type = 'triangle';
+          osc2.type = 'sine';
+          osc1.frequency.setValueAtTime(523.25, now); // C5
+          osc1.frequency.setValueAtTime(659.25, now + 0.08); // E5
+          osc2.frequency.setValueAtTime(1046.50, now + 0.16); // C6
+          gain.gain.setValueAtTime(0.18, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.32);
+          osc1.connect(gain);
+          osc2.connect(gain);
+          gain.connect(ctx.destination);
+          osc1.start(now);
+          osc1.stop(now + 0.32);
+          osc2.start(now + 0.16);
+          osc2.stop(now + 0.32);
+        } else if (type === 'wrong') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(240, now);
+          osc.frequency.linearRampToValueAtTime(140, now + 0.22);
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.22);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.22);
+        } else if (type === 'fanfare') {
+          const notes = [523.25, 659.25, 783.99, 1046.50];
+          notes.forEach((freq, idx) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, now + idx * 0.1);
+            gain.gain.setValueAtTime(0.15, now + idx * 0.1);
+            gain.gain.exponentialRampToValueAtTime(0.01, now + idx * 0.1 + 0.25);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now + idx * 0.1);
+            osc.stop(now + idx * 0.1 + 0.25);
+          });
+        } else if (type === 'chime') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(880, now);
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.6);
+        }
+      } catch (e) { }
+    }
+
+    function toggleAudio() {
+      gameState.soundEnabled = !gameState.soundEnabled;
+      const btn = document.getElementById('soundToggleBtn');
+      if (btn) btn.textContent = gameState.soundEnabled ? '🔊' : '🔇';
+      showToast(gameState.soundEnabled ? 'Suara diaktifkan' : 'Suara dibisukan');
+    }
+
+    // Navigation between Pages
+    const pageTitles = [
+      "Beranda & Profil Siswa",
+      "Misi 01: Mengenal Google Meet",
+      "Misi 02: Persiapan Sebelum Rapat",
+      "Misi 03: Membuat Rapat Google Meet",
+      "Misi 04: Bergabung ke Rapat",
+      "Misi 05: Audio, Kamera & Speaker",
+      "Misi 06: Bilah Tombol Meet",
+      "Misi 07: Rahasia Berbagi Layar",
+      "Misi 08: Menjadi Presenter Percaya Diri",
+      "Misi 09: Mengatasi Masalah (Troubleshoot)",
+      "Misi 10: Etika dan Keamanan Online",
+      "Tantangan Utama: Present Like a Pro!",
+      "Kuis Pemahaman, Sertifikat & Refleksi"
+    ];
+
+    function jumpToPage(pageIndex) {
+      playSfx('click');
+      if (pageIndex < 0 || pageIndex >= totalPages) return;
+      document.querySelectorAll('.mission-page').forEach((p, idx) => {
+        p.classList.toggle('active-page', idx === pageIndex);
+      });
+      currentPage = pageIndex;
+      gameState.completedPages.add(pageIndex);
+
+      // Update Stepper buttons
+      const stageBtns = document.querySelectorAll('.stage-step-btn');
+      stageBtns.forEach((btn, idx) => {
+        btn.classList.toggle('active', idx === pageIndex);
+        if (gameState.completedPages.has(idx)) {
+          btn.classList.add('done');
+        }
+      });
+
+      // Progress Bar
+      const progressPercent = Math.min(100, Math.round(((pageIndex + 1) / totalPages) * 100));
+      const progFill = document.getElementById('globalProgressBar');
+      if (progFill) progFill.style.width = progressPercent + '%';
+
+      // Stepper Header Label
+      const pCount = document.getElementById('pageCounterText');
+      const pTitle = document.getElementById('pageTitlePreview');
+      if (pCount) pCount.textContent = `Halaman ${pageIndex + 1} dari ${totalPages}`;
+      if (pTitle) pTitle.textContent = pageTitles[pageIndex] || "";
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function changePage(delta) {
+      jumpToPage(currentPage + delta);
+    }
+
+    // XP & Rank Management
+    function addXP(amount, reasonKey) {
+      if (reasonKey && gameState[reasonKey]) return; // award once
+      if (reasonKey) gameState[reasonKey] = true;
+      gameState.xp += amount;
+      const pill = document.getElementById('globalXpVal');
+      if (pill) pill.textContent = gameState.xp;
+
+      // Update Rank
+      updateRankTitle();
+    }
+
+    function updateRankTitle() {
+      const lbl = document.getElementById('rankDisplayLabel');
+      if (!lbl) return;
+      const xp = gameState.xp;
+      let title = "Meet Rookie 🥉";
+      if (xp >= 380) {
+        title = "Meet Master Pro 🏆";
+      } else if (xp >= 280) {
+        title = "Online Presenter 🌟";
+      } else if (xp >= 190) {
+        title = "Screen Sharer 🥈";
+      } else if (xp >= 100) {
+        title = "Audio & Cam Ready 🎙️";
+      }
+      lbl.textContent = `Pangkat: ${title}`;
+    }
+
+    // Student Name & Avatar Synchronization
+    function syncStudentName(val) {
+      const clean = val.trim() || "Siswa Teladan";
+      gameState.studentName = clean;
+      document.getElementById('topStudentName').value = clean;
+      document.getElementById('heroNameInput').value = clean;
+      document.getElementById('certRecipientName').textContent = clean;
+      document.getElementById('simWatermarkName').textContent = clean;
+      document.querySelectorAll('.sync-name').forEach(el => el.textContent = clean);
+      saveProgress();
+    }
+
+    function syncStudentClass(val) {
+      const clean = val.trim() || "Kelas 7 SMP";
+      gameState.studentClass = clean;
+      document.getElementById('heroClassInput').value = clean;
+      document.getElementById('certRecipientClass').textContent = clean;
+      const scSpan = document.getElementById('scriptClassSpan');
+      if (scSpan) scSpan.textContent = clean;
+      saveProgress();
+    }
+
+    const avatars = [
+      { emoji: '🧑‍💻', name: 'Arkan' },
+      { emoji: '👩‍💻', name: 'Nabila' },
+      { emoji: '🚀', name: 'Bintang' },
+      { emoji: '🎯', name: 'Maya' },
+      { emoji: '🦊', name: 'Fikri' },
+      { emoji: '🌟', name: 'Zahra' }
+    ];
+
+    function selectAvatar(emoji, name, element) {
+      playSfx('click');
+      gameState.studentAvatar = emoji;
+      document.getElementById('avatarBtnTop').textContent = emoji;
+      const simAv = document.getElementById('simCamAvatar');
+      if (simAv) simAv.textContent = emoji;
+
+      document.querySelectorAll('.avatar-choice-card').forEach(c => c.classList.remove('selected'));
+      if (element) element.classList.add('selected');
+      saveProgress();
+    }
+
+    function cycleAvatar() {
+      playSfx('click');
+      const currentIdx = avatars.findIndex(a => a.emoji === gameState.studentAvatar);
+      const nextIdx = (currentIdx + 1) % avatars.length;
+      const nextAv = avatars[nextIdx];
+      selectAvatar(nextAv.emoji, nextAv.name, null);
+
+      // sync grid selection
+      const cards = document.querySelectorAll('.avatar-choice-card');
+      if (cards[nextIdx]) {
+        cards.forEach(c => c.classList.remove('selected'));
+        cards[nextIdx].classList.add('selected');
+      }
+    }
+
+    // MISI 02: Checklist 7 Items
+    function toggleCheckItem(id, el) {
+      playSfx('click');
+      const isChecked = el.classList.toggle('checked');
+      gameState.checklistItems[id] = isChecked;
+
+      const total = 7;
+      const done = Object.values(gameState.checklistItems).filter(Boolean).length;
+      document.getElementById('chkCountLabel').textContent = `Terselesaikan: ${done}/${total}`;
+
+      if (done === total) {
+        document.getElementById('checkCompleteNotice').style.display = 'flex';
+        playSfx('fanfare');
+        addXP(35, 'misi2ChecklistComplete');
+      }
+    }
+
+    // MISI 03: Simulator Buat Link Meet
+    function simulateCreateMeeting(type) {
+      playSfx('click');
+      const codes = ['abc-defg-hij', 'smp-hebat-p12', 'meet-siswa-7b', 'ruang-belajar-456'];
+      const randCode = codes[Math.floor(Math.random() * codes.length)];
+      const fullLink = `meet.google.com/${randCode}`;
+
+      const resBox = document.getElementById('simMeetingResult');
+      const linkText = document.getElementById('simLinkText');
+      resBox.style.display = 'flex';
+      linkText.textContent = fullLink;
+
+      addXP(15, 'simCreatedMeeting');
+      showToast('Link rapat Google Meet siap digunakan!');
+    }
+
+    function copySimulatedMeetLink() {
+      const text = document.getElementById('simLinkText').textContent;
+      copyTextToClipboard(text);
+      playSfx('correct');
+      showToast('✅ Link rapat berhasil disalin ke clipboard!');
+      addXP(15, 'simCopiedMeeting');
+    }
+
+    // MISI 04: Simulator Lobby / Green Room
+    let isSimMicMuted = false;
+    let isSimCamOff = false;
+
+    function toggleSimMic() {
+      isSimMicMuted = !isSimMicMuted;
+      playSfx('click');
+      const btn = document.getElementById('btnToggleSimMic');
+      const wave = document.getElementById('simAudioWave');
+      if (isSimMicMuted) {
+        btn.className = 'meet-round-btn muted-btn';
+        btn.textContent = '❌';
+        wave.classList.remove('speaking');
+      } else {
+        btn.className = 'meet-round-btn active-btn';
+        btn.textContent = '🎙️';
+        wave.classList.add('speaking');
+      }
+    }
+
+    function toggleSimCam() {
+      isSimCamOff = !isSimCamOff;
+      playSfx('click');
+      const btn = document.getElementById('btnToggleSimCam');
+      const avatar = document.getElementById('simCamAvatar');
+      const label = document.getElementById('simCamOffLabel');
+      if (isSimCamOff) {
+        btn.className = 'meet-round-btn muted-btn';
+        btn.textContent = '❌';
+        avatar.style.display = 'none';
+        label.style.display = 'block';
+      } else {
+        btn.className = 'meet-round-btn active-btn';
+        btn.textContent = '📷';
+        avatar.style.display = 'flex';
+        label.style.display = 'none';
+      }
+    }
+
+    function joinSimulatedRoom() {
+      playSfx('correct');
+      const alertBox = document.getElementById('joinStatusAlert');
+      alertBox.style.display = 'flex';
+      addXP(25, 'joinedSimRoom');
+      showToast('Tutor mengizinkanmu masuk ke ruang rapat!');
+    }
+
+    // MISI 05: Audio & Speaker Test
+    function testMicSimulator() {
+      playSfx('click');
+      const wave = document.getElementById('micTestWave');
+      const res = document.getElementById('micTestResult');
+      wave.classList.add('speaking');
+      res.textContent = "🎙️ Suara terdeteksi! Indikator audio bergerak dengan baik (Optimal: 44.1 kHz).";
+      res.style.color = "var(--green)";
+      setTimeout(() => {
+        wave.classList.remove('speaking');
+      }, 2200);
+      addXP(15, 'testedMic');
+    }
+
+    function testSpeakerSound() {
+      playSfx('chime');
+      const res = document.getElementById('speakerTestResult');
+      res.textContent = "🔊 Nada uji coba berhasil diputar melalui speaker Anda!";
+      res.style.color = "var(--cyan)";
+      addXP(15, 'testedSpeaker');
+    }
+
+    // MISI 06: Bilah Tombol Inspector
+    const toolbarDetails = {
+      mic: {
+        title: "🎙️ Tombol Mikrofon (Mic)",
+        desc: "Mengaktifkan atau membisukan suaramu. Selalu bisukan (mute) saat orang lain sedang menjelaskan materi agar tidak ada suara bising latar belakang."
+      },
+      cam: {
+        title: "📷 Tombol Kamera (Webcam)",
+        desc: "Menyalakan atau mematikan tampilan videomu. Nyalakan kamera saat menyapa guru atau saat giliranmu mempresentasikan tugas kelompok."
+      },
+      hand: {
+        title: "✋ Tombol Angkat Tangan (Raise Hand)",
+        desc: "Memberikan sinyal visual santun kepada pembicara bahwa kamu ingin menyampaikan pertanyaan atau menanggapi tanpa memotong suara di tengah jalan."
+      },
+      share: {
+        title: "📤 Tombol Presentasikan Sekarang (Share Screen)",
+        desc: "Membagikan materi slide tugas, dokumen, atau browser ke layar teman-teman rapat. Pilih antara Tab, Jendela, atau Seluruh layar."
+      },
+      chat: {
+        title: "💬 Tombol Chat / Pesan Rapat",
+        desc: "Mengirimkan pesan teks atau tautan file tugas kepada seluruh peserta rapat tanpa perlu mengaktifkan mikrofon."
+      },
+      people: {
+        title: "👥 Tombol Daftar Peserta (People)",
+        desc: "Melihat siapa saja yang telah hadir di ruang rapat, mengecek apakah bapak/ibu guru dan rekan sekelompokmu sudah masuk."
+      },
+      leave: {
+        title: "📞 Tombol Keluar dari Panggilan (Leave Call)",
+        desc: "Meninggalkan ruang rapat Google Meet setelah sesi belajar selesai. Jangan lupa ucapkan salam penutup atau terima kasih sebelum mengekliknya!"
+      }
+    };
+
+    function inspectToolbarBtn(type) {
+      playSfx('click');
+      const d = toolbarDetails[type];
+      if (!d) return;
+      document.getElementById('tbInsTitle').textContent = d.title;
+      document.getElementById('tbInsDesc').textContent = d.desc;
+
+      if (type === 'hand') {
+        playSfx('correct');
+        showToast('✋ Kamu mengangkat tangan di ruang rapat!');
+      } else if (type === 'mic') {
+        const btn = document.getElementById('tbMicBtn');
+        btn.classList.toggle('muted-btn');
+      } else if (type === 'cam') {
+        const btn = document.getElementById('tbCamBtn');
+        btn.classList.toggle('muted-btn');
+      }
+      addXP(10, 'inspectedTb_' + type);
+    }
+
+    // MISI 07: Share Screen Dialog Simulator
+    function switchShareTab(tabType, btn) {
+      playSfx('click');
+      document.querySelectorAll('.share-tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const content = document.getElementById('shareTabContent');
+      if (tabType === 'tab') {
+        content.innerHTML = `
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:10px;">
+        <div class="share-item-card selected" onclick="selectShareItem(this, 'Google Slides — Internet Aman')">
+          <div style="font-size:12px; font-weight:800; color:var(--yellow); margin-bottom:3px;">📑 Google Slides</div>
+          <div style="font-size:11.5px; color:#fff;">Slide Presentasi — 3 Cara Internet Aman.pptx</div>
+          <div style="font-size:10.5px; color:var(--green); margin-top:6px;">✓ Paling tepat untuk presentasi tugas</div>
+        </div>
+        <div class="share-item-card" onclick="selectShareItem(this, 'Tab Ruang Rapat Google Meet Sendiri')">
+          <div style="font-size:12px; font-weight:800; color:#EF4444; margin-bottom:3px;">📹 Google Meet</div>
+          <div style="font-size:11.5px; color:#fff;">Tab Ruang Rapat Sendiri (Infinity Mirror)</div>
+          <div style="font-size:10.5px; color:#F87171; margin-top:6px;">⚠️ Hindari! Akan menimbulkan efek cermin lorong</div>
+        </div>
+      </div>
+    `;
+      } else if (tabType === 'window') {
+        content.innerHTML = `
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:10px;">
+        <div class="share-item-card selected" onclick="selectShareItem(this, 'Microsoft PowerPoint — Slide Tugas.pptx')">
+          <div style="font-size:12px; font-weight:800; color:var(--cyan); margin-bottom:3px;">📊 Microsoft PowerPoint</div>
+          <div style="font-size:11.5px; color:#fff;">PowerPoint [Slide Show] — Internet Aman</div>
+          <div style="font-size:10.5px; color:var(--green); margin-top:6px;">✓ Aman, aplikasi lain tertutup rapi</div>
+        </div>
+      </div>
+    `;
+      } else {
+        content.innerHTML = `
+      <div style="display:grid; grid-template-columns: 1fr; gap:10px;">
+        <div class="share-item-card" onclick="selectShareItem(this, 'Layar 1 — Monitor Utama')">
+          <div style="font-size:12px; font-weight:800; color:#F87171; margin-bottom:3px;">🖥️ Layar 1 (Monitor Komputer Lengkap)</div>
+          <div style="font-size:11.5px; color:#fff;">Semua desktop dan jendela yang dibuka terlihat</div>
+          <div style="font-size:10.5px; color:#FCA5A5; margin-top:6px;">⚠️ Pastikan WhatsApp dan email pribadi sudah ditutup</div>
+        </div>
+      </div>
+    `;
+      }
+    }
+
+    function selectShareItem(el, title) {
+      playSfx('click');
+      document.querySelectorAll('.share-item-card').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+      document.getElementById('simShareChoiceText').innerHTML = `Pilihan terpilih: <strong>${title}</strong>`;
+    }
+
+    function confirmSimShare() {
+      playSfx('correct');
+      document.getElementById('shareConfirmNotice').style.display = 'flex';
+      addXP(25, 'simConfirmedShare');
+      showToast('Layar berhasil dibagikan ke peserta rapat!');
+    }
+
+    // MISI 08: 30-Second Practice Stopwatch
+    let practiceInterval = null;
+    function startPracticeTimer() {
+      playSfx('click');
+      const btn = document.getElementById('btnStartStopwatch');
+      const timerDisplay = document.getElementById('practiceTimerVal');
+      if (practiceInterval) clearInterval(practiceInterval);
+
+      let seconds = 30;
+      btn.disabled = true;
+      btn.textContent = "⏱️ Berbicara Sekarang...";
+
+      practiceInterval = setInterval(() => {
+        seconds--;
+        timerDisplay.textContent = `00:${seconds < 10 ? '0' : ''}${seconds}`;
+        if (seconds <= 0) {
+          clearInterval(practiceInterval);
+          btn.disabled = false;
+          btn.textContent = "⏱️ Ulangi Latihan 30 Detik";
+          playSfx('fanfare');
+          showToast('Waktu 30 detik selesai! Penjelasanmu mantap!');
+          addXP(30, 'practiceTimerDone');
+        }
+      }, 1000);
+    }
+
+    // MISI 09: Diagnostics
+    const diagnosticData = {
+      mic: `<strong>Solusi Masalah Mikrofon:</strong><br>
+  1. Klik ikon gembok 🔒 di sebelah kiri address bar browser Anda.<br>
+  2. Pastikan izin <strong>Mikrofon</strong> dalam kondisi <strong>Izinkan (Allow)</strong>.<br>
+  3. Di Google Meet, buka menu titik tiga (⋮) → Setelan → Audio → Pilih perangkat mikrofon yang benar.`,
+      cam: `<strong>Solusi Masalah Kamera Gelap:</strong><br>
+  1. Periksa izin kamera pada ikon gembok browser 🔒.<br>
+  2. Tutup aplikasi lain (Zoom, Skype, atau Camera) yang mungkin sedang memonopoli webcam Anda.<br>
+  3. Periksa penutup fisik (shutter slider) di atas lensa laptop.`,
+      share: `<strong>Solusi Gagal Berbagi Layar:</strong><br>
+  1. Di browser Chrome, pastikan Anda mengeklik thumbnail slide terlebih dahulu sebelum tombol 'Bagikan' menyala biru.<br>
+  2. Tanyakan kepada guru/host apakah fitur share screen sedang dinonaktifkan untuk peserta umum.`,
+      lag: `<strong>Solusi Koneksi Tersendat:</strong><br>
+  1. Matikan kamera sementara agar bandwidth internet difokuskan untuk transmisi suara yang jernih.<br>
+  2. Tutup aplikasi download atau game online yang berjalan di latar belakang.`
+    };
+
+    function diagnoseIssue(key) {
+      playSfx('click');
+      const box = document.getElementById('diagnoseBox');
+      box.style.display = 'block';
+      box.innerHTML = diagnosticData[key] || "";
+      addXP(15, 'diagnosed_' + key);
+    }
+
+    // Checkpoint Mini Quizzes
+    function checkMisiQuiz(misiNum, isCorrect, btn) {
+      const parent = btn.parentElement;
+      parent.querySelectorAll('.opt-btn').forEach(b => {
+        b.disabled = true;
+      });
+
+      const fb = document.getElementById(`misiFb${misiNum}`);
+      if (isCorrect) {
+        btn.classList.add('correct');
+        playSfx('correct');
+        fb.style.display = 'block';
+        fb.style.background = 'rgba(16, 185, 129, 0.15)';
+        fb.style.border = '1px solid var(--green)';
+        fb.style.color = '#A7F3D0';
+        fb.innerHTML = '🎉 <strong>Tepat sekali!</strong> Pemahamanmu sangat matang!';
+        addXP(20, 'misiQuiz_' + misiNum);
+      } else {
+        btn.classList.add('wrong');
+        playSfx('wrong');
+        fb.style.display = 'block';
+        fb.style.background = 'rgba(239, 68, 68, 0.15)';
+        fb.style.border = '1px solid var(--red)';
+        fb.style.color = '#FCA5A5';
+        fb.innerHTML = '⚠️ <strong>Kurang tepat.</strong> Perhatikan opsi jawaban yang paling aman dan solutif.';
+      }
+    }
+
+    // Tantangan Utama: Final Mission 6 Checkpoints
+    function toggleFinalMissionItem(id, el) {
+      playSfx('click');
+      const isChecked = el.classList.toggle('checked');
+      gameState.finalMissionItems[id] = isChecked;
+
+      const total = 6;
+      const done = Object.values(gameState.finalMissionItems).filter(Boolean).length;
+      document.getElementById('finalMissionCountLabel').textContent = `Progress Misi: ${done}/${total}`;
+
+      if (done === total) {
+        playSfx('fanfare');
+        triggerConfetti();
+        addXP(60, 'finalMissionDone');
+        showToast('Selamat! Seluruh 6 tahapan misi presentasi berhasil diselesaikan!');
+      }
+    }
+
+    // Rubrik Penilaian
+    function calculateRubricScore() {
+      playSfx('click');
+      const r1 = parseInt(document.getElementById('rubric1').value) || 0;
+      const r2 = parseInt(document.getElementById('rubric2').value) || 0;
+      const r3 = parseInt(document.getElementById('rubric3').value) || 0;
+      const r4 = parseInt(document.getElementById('rubric4').value) || 0;
+
+      const total = r1 + r2 + r3 + r4;
+      const score100 = Math.round((total / 16) * 100);
+      gameState.rubricScore = score100;
+
+      document.getElementById('rubricScoreLiveLabel').textContent = `Skor: ${total} / 16 (Nilai: ${score100})`;
+      addXP(15, 'rubricCalculated');
+    }
+
+    // 8 Soal Kuis Pemahaman Resmi
+    const quizExplanations = {
+      1: {
+        correct: "✅ Tepat! Google Meet digunakan untuk melakukan pertemuan dan rapat online melalui internet.",
+        wrong: "❌ Kurang tepat. Google Meet adalah platform rapat video online, bukan untuk mendesain poster atau edit video."
+      },
+      2: {
+        correct: "✅ Benar! Untuk membuat rapat Google Meet, kamu memerlukan akun Google dan koneksi internet yang aktif.",
+        wrong: "❌ Kurang tepat. Yang dibutuhkan adalah akun Google dan koneksi internet."
+      },
+      3: {
+        correct: "✅ Tepat! Jika guru memberikan link rapat, klik link tersebut untuk bergabung ke kelas.",
+        wrong: "❌ Kurang tepat. Link rapat harus dibuka untuk mengikuti kegiatan kelas, jangan disebar ke forum publik!"
+      },
+      4: {
+        correct: "✅ Benar! Mikrofon berfungsi menangkap dan mengirimkan suaramu ke ruang rapat.",
+        wrong: "❌ Kurang tepat. Mikrofon digunakan untuk suara, sedangkan kamera digunakan untuk video wajah."
+      },
+      5: {
+        correct: "✅ Benar! Memilih 'Tab browser' yang berisi Google Slides adalah cara terbaik dan mendukung berbagi audio.",
+        wrong: "❌ Kurang tepat. Pilihlah opsi tab browser yang memuat slide materi tersebut."
+      },
+      6: {
+        correct: "✅ Tepat! Setelah selesai presentasi, segera hentikan presentasi (Stop Presenting) dan pamit dengan sopan.",
+        wrong: "❌ Kurang tepat. Jangan biarkan layar terus dibagikan setelah materi selesai dijelaskan."
+      },
+      7: {
+        correct: "✅ Benar! Periksa terlebih dahulu apakah tombol mic sedang dibisukan (mute) dan perangkat mic terpilih dengan benar.",
+        wrong: "❌ Kurang tepat. Wallpaper atau nama folder tidak berpengaruh pada mikrofon!"
+      },
+      8: {
+        correct: "✅ Tepat! Tindakan paling aman adalah membagikan link hanya kepada peserta yang berhak dan tidak menyebarkannya sembarangan.",
+        wrong: "❌ Kurang tepat. Membuka password atau membagikan rekaman tanpa izin sangat berbahaya bagi privasi."
+      }
+    };
+
+    function jumpQuizStage(stageNum) {
+      playSfx('click');
+      for (let i = 1; i <= 8; i++) {
+        const el = document.getElementById(`qStage${i}`);
+        if (el) el.style.display = (i === stageNum) ? 'block' : 'none';
+        const dot = document.getElementById(`qDot${i}`);
+        if (dot) dot.classList.toggle('active', i === stageNum);
+      }
+      document.getElementById('quizStageIndicator').textContent = `Soal ${stageNum} dari 8`;
+    }
+
+    function submitFinalQuiz(qNum, choice, isCorrect, btn) {
+      if (gameState.quizAnswers[qNum]) return; // answered already
+      gameState.quizAnswers[qNum] = { choice, isCorrect };
+
+      const stageEl = document.getElementById(`qStage${qNum}`);
+      stageEl.querySelectorAll('.opt-btn').forEach(b => b.disabled = true);
+
+      const expl = document.getElementById(`qExpl${qNum}`);
+      expl.style.display = 'block';
+
+      const dot = document.getElementById(`qDot${qNum}`);
+
+      if (isCorrect) {
+        btn.classList.add('correct');
+        expl.style.background = 'rgba(16, 185, 129, 0.15)';
+        expl.style.border = '1px solid var(--green)';
+        expl.style.color = '#A7F3D0';
+        expl.innerHTML = quizExplanations[qNum].correct;
+        if (dot) dot.className = 'q-dot correct-dot';
+        playSfx('correct');
+        gameState.quizScores++;
+        addXP(15, 'quizQ_' + qNum);
+      } else {
+        btn.classList.add('wrong');
+        expl.style.background = 'rgba(239, 68, 68, 0.15)';
+        expl.style.border = '1px solid var(--red)';
+        expl.style.color = '#FCA5A5';
+        expl.innerHTML = quizExplanations[qNum].wrong;
+        if (dot) dot.className = 'q-dot wrong-dot';
+        playSfx('wrong');
+      }
+
+      document.getElementById('quizScoreHUD').textContent = `Skor Benar: ${gameState.quizScores} / 8`;
+
+      setTimeout(() => {
+        if (qNum < 8) {
+          jumpQuizStage(qNum + 1);
+        } else {
+          // Quiz Complete
+          document.getElementById('quizVictoryCard').style.display = 'block';
+          document.getElementById('finalScoreVal').textContent = gameState.quizScores;
+          for (let i = 1; i <= 8; i++) {
+            const s = document.getElementById(`qStage${i}`);
+            if (s) s.style.display = 'none';
+          }
+          playSfx('fanfare');
+          triggerConfetti();
+          addXP(60, 'quizAllComplete');
+        }
+      }, 1400);
+    }
+
+    function scrollToCert() {
+      playSfx('click');
+      const cert = document.getElementById('certSectionAnchor');
+      if (cert) cert.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Confetti Effect
+    function triggerConfetti() {
+      const canvas = document.getElementById('confettiCanvas');
+      if (!canvas) return;
+      canvas.style.display = 'block';
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const pieces = [];
+      const colors = ['#7C3AED', '#06B6D4', '#FDE047', '#10B981', '#EC4899', '#8B5CF6'];
+
+      for (let i = 0; i < 110; i++) {
+        pieces.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height - canvas.height,
+          size: Math.random() * 8 + 4,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          speedY: Math.random() * 3 + 2,
+          speedX: Math.random() * 2 - 1,
+          rotation: Math.random() * 360
+        });
+      }
+
+      let animFrame;
+      let timer = 0;
+      function render() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        pieces.forEach(p => {
+          p.y += p.speedY;
+          p.x += p.speedX;
+          p.rotation += 2;
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate((p.rotation * Math.PI) / 180);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+          ctx.restore();
+        });
+        timer++;
+        if (timer < 200) {
+          animFrame = requestAnimationFrame(render);
+        } else {
+          cancelAnimationFrame(animFrame);
+          canvas.style.display = 'none';
+        }
+      }
+      render();
+    }
+
+    // Reflection Slider & Save
+    function updateRefSlider(val) {
+      const emojis = [
+        "1 😟 (Perlu Banyak Latihan)",
+        "2 😐 (Cukup Ragu)",
+        "3 🙂 (Bisa dengan Bimbingan)",
+        "4 😊 🌟 (Percaya Diri)",
+        "5 👑 👑 (Sangat Percaya Diri & Mandiri)"
+      ];
+      document.getElementById('sliderValDisplay').textContent = emojis[val - 1] || val;
+    }
+
+    function saveReflection() {
+      playSfx('correct');
+      const q1 = document.getElementById('refQ1').value.trim();
+      const q2 = document.getElementById('refQ2').value.trim();
+      const q3 = document.getElementById('refQ3').value.trim();
+      const slider = document.getElementById('refSlider').value;
+
+      gameState.reflection = { q1, q2, q3, confidence: slider };
+      document.getElementById('refSaveStatus').textContent = '✅ Jurnal Refleksi Berhasil Disimpan!';
+      showToast('Jurnal Refleksi tersimpan (+75 XP)!');
+      addXP(75, 'refSavedP12');
+      saveProgress();
+    }
+
+    // Clipboard Fallback Helper
+    function copyTextToClipboard(text) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).catch(() => fallbackCopyText(text));
+      } else {
+        fallbackCopyText(text);
+      }
+    }
+
+    function fallbackCopyText(text) {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed";
+      textArea.style.top = "0";
+      textArea.style.left = "0";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+      } catch (err) { }
+      document.body.removeChild(textArea);
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toastNotice');
+      if (!t) return;
+      t.textContent = msg;
+      t.style.display = 'block';
+      setTimeout(() => { t.style.display = 'none'; }, 2400);
+    }
+
+    // LocalStorage Persistence
+    function saveProgress() {
+      try {
+        localStorage.setItem('kk_p12_state', JSON.stringify({
+          studentName: gameState.studentName,
+          studentClass: gameState.studentClass,
+          studentAvatar: gameState.studentAvatar,
+          xp: gameState.xp,
+          reflection: gameState.reflection
+        }));
+      } catch (e) { }
+    }
+
+    function loadProgress() {
+      try {
+        const raw = localStorage.getItem('kk_p12_state');
+        if (raw) {
+          const data = JSON.parse(raw);
+          if (data.studentName) syncStudentName(data.studentName);
+          if (data.studentClass) syncStudentClass(data.studentClass);
+          if (data.studentAvatar) selectAvatar(data.studentAvatar, '', null);
+          if (data.xp) {
+            gameState.xp = data.xp;
+            document.getElementById('globalXpVal').textContent = data.xp;
+            updateRankTitle();
+          }
+          if (data.reflection) {
+            if (data.reflection.q1) document.getElementById('refQ1').value = data.reflection.q1;
+            if (data.reflection.q2) document.getElementById('refQ2').value = data.reflection.q2;
+            if (data.reflection.q3) document.getElementById('refQ3').value = data.reflection.q3;
+          }
+        }
+      } catch (e) { }
+    }
+
+    // Initial Boot
+    window.addEventListener('DOMContentLoaded', () => {
+      loadProgress();
+      const d = new Date();
+      const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+      const certDate = `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+      const dateSlot = document.getElementById('certDateSlot');
+      if (dateSlot) dateSlot.textContent = certDate;
+    });
+  </script>
+</body>
+
+</html>
